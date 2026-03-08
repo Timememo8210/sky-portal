@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sky Portal ☁️ — 晓波的数字空间</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-hover: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.08);
+    --text: #e8e8ed;
+    --text-dim: #8888a0;
+    --accent: #6c8aff;
+    --accent-glow: rgba(108,138,255,0.15);
+    --green: #4ade80;
+    --orange: #fb923c;
+    --pink: #f472b6;
+    --cyan: #22d3ee;
+    --purple: #a78bfa;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero h1 {
+    font-size: 2.8em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 .cloud { font-size: 1.2em; }
+
+  .hero p {
+    color: var(--text-dim);
+    font-size: 1.1em;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  .section-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title .emoji { font-size: 1.2em; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    background: var(--card-hover);
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(108,138,255,0.1);
+  }
+
+  .card .icon {
+    font-size: 2em;
+    margin-bottom: 4px;
+  }
+
+  .card .title {
+    font-size: 1.15em;
+    font-weight: 600;
+  }
+
+  .card .desc {
+    color: var(--text-dim);
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+
+  .card .meta {
+    color: var(--text-dim);
+    font-size: 0.78em;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.72em;
+    font-weight: 500;
+  }
+
+  .badge-latest {
+    background: rgba(74,222,128,0.15);
+    color: var(--green);
+  }
+
+  .badge-archive {
+    background: rgba(136,136,160,0.15);
+    color: var(--text-dim);
+  }
+
+  .version-list {
+    margin-top: 8px;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .version-list li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .version-list li:last-child { border-bottom: none; }
+
+  .version-list a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .version-list a:hover { text-decoration: underline; }
+
+  .version-date {
+    color: var(--text-dim);
+    font-size: 0.85em;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-dim);
+    font-size: 0.85em;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer a { color: var(--accent); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2em; }
+    .cards { grid-template-columns: 1fr; }
+    .hero { padding: 40px 20px 30px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1><span class="cloud">☁️</span> Sky Portal</h1>
+  <p>晓波的数字空间 — 所有项目，一站入口</p>
+</div>
+
+<div class="container">
+
+  <!-- 个人 -->
+  <div class="section-title"><span class="emoji">👤</span> 个人</div>
+  <div class="cards">
+    <a class="card" href="https://timememo8210.github.io/xiaobo-homepage/" target="_blank">
+      <div class="icon">🏠</div>
+      <div class="title">个人主页</div>
+      <div class="desc">陈晓波的个人简介页面 — 20年半导体行业经验、康奈尔MBA、南京大学物理学士</div>
+      <div class="meta">
+        <span>创建 2026-02-16</span>
+        <span class="badge badge-latest">在线</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- 旅行计划 -->
+  <div class="section-title"><span class="emoji">✈️</span> 旅行计划</div>
+  <div class="cards">
+    <a class="card" href="https://timememo8210.github.io/travel-plan-2026-v5/" target="_blank">
+      <div class="icon">🌍</div>
+      <div class="title">2026 暑假欧洲行 v5</div>
+      <div class="desc">基于实际机票的确定版 — 瑞士6天→巴黎5天→纽约3天，4人$1,486机票</div>
+      <div class="meta">
+        <span>更新 2026-03-05</span>
+        <span class="badge badge-latest">最新版</span>
+      </div>
+    </a>
+    <a class="card" href="https://timememo8210.github.io/travel-plan-2026/" target="_blank">
+      <div class="icon">📋</div>
+      <div class="title">2026 暑假欧洲行 v1-v3</div>
+      <div class="desc">早期方案（双方案Tab对比版）— 含意大利/瑞士/法国多种组合</div>
+      <div class="meta">
+        <span>创建 2026-02-17 · 更新 2026-03-03</span>
+        <span class="badge badge-archive">存档</span>
+      </div>
+    </a>
+    <a class="card" href="https://timememo8210.github.io/travelsnap/" target="_blank">
+      <div class="icon">📸</div>
+      <div class="title">TravelSnap</div>
+      <div class="desc">旅行照片/记录工具</div>
+      <div class="meta">
+        <span>创建 2026-02-18</span>
+        <span class="badge badge-latest">在线</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- 工具 & 应用 -->
+  <div class="section-title"><span class="emoji">🛠️</span> 工具 & 应用</div>
+  <div class="cards">
+    <a class="card" href="https://timememo8210.github.io/moji-journal/" target="_blank">
+      <div class="icon">📝</div>
+      <div class="title">墨记 (Moji Journal)</div>
+      <div class="desc">极简个人日记 — 黑白卡片式时间线、搜索筛选、图片上传、JSON导出</div>
+      <div class="meta">
+        <span>创建 2026-03-01</span>
+        <span class="badge badge-latest">在线</span>
+      </div>
+    </a>
+    <a class="card" href="https://timememo8210.github.io/polyclaw/" target="_blank">
+      <div class="icon">📊</div>
+      <div class="title">PolyClaw 仪表盘</div>
+      <div class="desc">Polymarket 模拟交易平台 — $10,000 模拟盘，信息差交易策略</div>
+      <div class="meta">
+        <span>创建 2026-02-17 · 持续更新</span>
+        <span class="badge badge-latest">活跃</span>
+      </div>
+    </a>
+    <a class="card" href="https://timememo8210.github.io/app-ideas/" target="_blank">
+      <div class="icon">💡</div>
+      <div class="title">App Ideas</div>
+      <div class="desc">应用创意收集与展示</div>
+      <div class="meta">
+        <span>创建 2026-02-17</span>
+        <span class="badge badge-latest">在线</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- 研究 & 报告 -->
+  <div class="section-title"><span class="emoji">🔬</span> 研究 & 报告</div>
+  <div class="cards">
+    <a class="card" href="https://timememo8210.github.io/intel-report/" target="_blank">
+      <div class="icon">🏭</div>
+      <div class="title">Intel 行业报告</div>
+      <div class="desc">半导体行业分析报告</div>
+      <div class="meta">
+        <span>创建 2026-02-18</span>
+        <span class="badge badge-latest">在线</span>
+      </div>
+    </a>
+    <a class="card" href="https://timememo8210.github.io/zam-research/" target="_blank">
+      <div class="icon">🔍</div>
+      <div class="title">ZAM Research</div>
+      <div class="desc">研究项目页面</div>
+      <div class="meta">
+        <span>创建 2026-02-18</span>
+        <span class="badge badge-latest">在线</span>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>☁️ Powered by Sky · Built with ❤️ for 晓波</p>
+  <p style="margin-top:8px;">
+    <a href="https://github.com/Timememo8210">GitHub</a> ·
+    最后更新 2026-03-08
+  </p>
+</div>
+
+</body>
+</html>
