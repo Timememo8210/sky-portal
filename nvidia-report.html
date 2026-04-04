@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NVIDIA Foundry Research Report v2.1 · 英伟达代工深度研究报告</title>
+<title>NVIDIA Foundry Research Report v2.2 · 英伟达代工深度研究报告</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   :root {
@@ -156,7 +156,7 @@
 <div class="hero">
   <div class="hero-top">
     <div>
-      <div class="label-tag">▶ Deep Research Report · v2.1 · 2026 Q2</div>
+      <div class="label-tag">▶ Deep Research Report · v2.2 · 2026 Q2</div>
       <h1>
         <span class="zh-only">英伟达代工深度研究报告<br>消费级GPU主战场版</span>
         <span class="en-only">NVIDIA Foundry Research Report<br>Consumer GPU: Primary Battlefield</span>
@@ -166,8 +166,8 @@
         <span class="en-only">For Foundry Partners · Product Roadmap · Wafer Demand Forecast · Opportunity Window Analysis</span>
       </div>
       <div class="version-note">
-        <span class="zh-only">⟳ v2.1 新增：TSV/HBM技术闭环分析 — 消费级主战场的根本原因</span>
-        <span class="en-only">⟳ v2.1 Added: TSV/HBM Technical Logic — Why Consumer GPU is the Primary Target</span>
+        <span class="zh-only">⟳ v2.2 新增：NVIDIA历史质量事故专章（G84/$475M→RTX 5090 ROP缺陷），含代工相关性分析与来源链接</span>
+        <span class="en-only">⟳ v2.2 Added: NVIDIA Historical Failure Cases (G84/$475M → RTX 5090 ROP), with foundry relevance analysis and source links</span>
       </div>
       <div class="hero-meta">
         <span class="badge zh-only">📅 2026年4月</span>
@@ -198,6 +198,7 @@
     <a href="#wafer"><span class="zh-only">📊 晶圆需求</span><span class="en-only">📊 Wafer Demand</span></a>
     <a href="#tech"><span class="zh-only">⚗️ 技术要求</span><span class="en-only">⚗️ Tech Specs</span></a>
     <a href="#opportunity"><span class="zh-only">💡 机会分析</span><span class="en-only">💡 Opportunities</span></a>
+    <a href="#failures"><span class="zh-only">🚨 历史事故</span><span class="en-only">🚨 Failure Cases</span></a>
     <a href="#conclusion"><span class="zh-only">✅ 结论</span><span class="en-only">✅ Conclusion</span></a>
   </div>
   <div class="toc-lang">
@@ -791,6 +792,381 @@
   </div>
 
   <div class="card"><div class="chart-wrap"><canvas id="oppChart"></canvas></div></div>
+</section>
+
+<!-- ===== 历史质量事故 ===== -->
+<section class="section" id="failures">
+  <h2><span>🚨</span><span class="zh-only">NVIDIA历史质量事故 — 有据可查的踩雷案例</span><span class="en-only">NVIDIA Historical Quality Failures — Documented Cases</span></h2>
+
+  <div class="alert alert-blue">
+    <span>📌</span>
+    <div>
+      <span class="zh-only">本节内容均来自可核实的公开报道、官方声明及财务披露，注明原始来源链接。区分"代工/Die级问题"与"AIB板级/连接器问题"。对于无法明确归因代工的事项，不作推断。</span>
+      <span class="en-only">All items in this section are sourced from verifiable public reports, official statements, or financial filings, with original source links. Clearly distinguishes "foundry/die-level issues" from "AIB board-level/connector issues." No speculation where causation cannot be confirmed.</span>
+    </div>
+  </div>
+
+  <!-- Case 1: G84/G86 -->
+  <div class="card" style="border-color:rgba(231,76,60,0.5); margin-bottom:16px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+      <div>
+        <div style="font-size:11px; color:var(--danger); font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px;">
+          <span class="zh-only">案例 1 · 2007–2008年 · NVIDIA历史上最大质量事故</span>
+          <span class="en-only">Case 1 · 2007–2008 · Largest Quality Incident in NVIDIA History</span>
+        </div>
+        <div style="font-size:18px; font-weight:800; color:var(--t1);">G84 / G86 全系 Solder Bump 失效</div>
+        <div style="font-size:12.5px; color:var(--t2); margin-top:3px;">
+          <span class="zh-only">GeForce 8400M / 8600M / 8700M 笔记本GPU全产品线</span>
+          <span class="en-only">GeForce 8400M / 8600M / 8700M Mobile GPU — Entire Product Line</span>
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:22px; font-weight:800; color:var(--danger);">$475.9M</div>
+        <div style="font-size:11px; color:var(--t2);"><span class="zh-only">NVIDIA计提损失总计</span><span class="en-only">Total NVIDIA charge</span></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h4 style="color:var(--warn); margin-bottom:8px;">
+          <span class="zh-only">🔍 确认根本原因（有据可查）</span>
+          <span class="en-only">🔍 Confirmed Root Cause (Documented)</span>
+        </h4>
+        <ul style="color:var(--t2); font-size:13px; line-height:2.2; padding-left:16px;">
+          <li>
+            <span class="zh-only">Die-to-substrate的 <strong style="color:#fff;">Solder Bump材料缺陷</strong>——连接芯片I/O与基板焊盘的焊球在热循环下发生疲劳裂纹</span>
+            <span class="en-only"><strong style="color:#fff;">Solder bump material defect</strong> at die-to-substrate interface — thermal cycling caused fatigue cracking of solder balls connecting chip I/O to substrate pads</span>
+          </li>
+          <li>
+            <span class="zh-only">热循环（开机→加热→关机→冷却）反复循环导致焊球机械疲劳，最终断路</span>
+            <span class="en-only">Repeated thermal cycles (power on→heat→off→cool) caused mechanical fatigue and eventual open circuit</span>
+          </li>
+          <li>
+            <span class="zh-only">笔记本散热空间有限，芯片温度变化幅度更大，加速失效</span>
+            <span class="en-only">Notebook thermal environment limited heat dissipation, amplifying temperature swings and accelerating failure</span>
+          </li>
+        </ul>
+
+        <h4 style="color:var(--warn); margin-top:14px; margin-bottom:8px;">
+          <span class="zh-only">🏭 代工厂信息</span>
+          <span class="en-only">🏭 Foundry Information</span>
+        </h4>
+        <div class="alert alert-yellow" style="margin:0;">
+          <span>⚠️</span>
+          <div style="font-size:12.5px;">
+            <span class="zh-only">G84/G86采用 <strong>TSMC 65nm</strong> 工艺制造。根据TechPowerUp/EETimes报道，NVIDIA将问题归因于die packaging材料（solder bump合金成分及underfill工艺），由NVIDIA指定的封装材料规格与TSMC共同分担责任。NVIDIA未公开指名TSMC为单一责任方，财务报表将损失计入自身成本。</span>
+            <span class="en-only">G84/G86 manufactured on <strong>TSMC 65nm</strong>. Per TechPowerUp/EETimes reporting, NVIDIA attributed the issue to die packaging materials (solder bump alloy composition and underfill process), with shared responsibility between NVIDIA-specified materials and TSMC packaging. NVIDIA did not publicly name TSMC as sole responsible party; financial charges were recorded on NVIDIA's books.</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h4 style="color:var(--warn); margin-bottom:8px;">
+          <span class="zh-only">📊 财务与规模影响（来自官方财报）</span>
+          <span class="en-only">📊 Financial & Scale Impact (From Official Filings)</span>
+        </h4>
+        <div class="table-wrap">
+          <table>
+            <tr>
+              <th><span class="zh-only">时间</span><span class="en-only">Date</span></th>
+              <th><span class="zh-only">事件</span><span class="en-only">Event</span></th>
+              <th><span class="zh-only">金额</span><span class="en-only">Amount</span></th>
+            </tr>
+            <tr><td>2008 Q2</td><td><span class="zh-only">首次计提损失</span><span class="en-only">Initial charge</span></td><td class="yellow">$150M</td></tr>
+            <tr><td>2008 Q3</td><td><span class="zh-only">追加损失计提</span><span class="en-only">Additional charge</span></td><td class="red">$193.9M</td></tr>
+            <tr><td><span class="zh-only">累计</span><span class="en-only">Total</span></td><td><span class="zh-only">总损失</span><span class="en-only">Total loss</span></td><td class="red"><strong>$475.9M</strong></td></tr>
+          </table>
+        </div>
+        <h4 style="color:var(--warn); margin-top:12px; margin-bottom:6px;">
+          <span class="zh-only">🔗 可核实来源</span>
+          <span class="en-only">🔗 Verified Sources</span>
+        </h4>
+        <div style="font-size:12px; line-height:2;">
+          <a href="https://www.tomshardware.com/news/gpu-g84-g86-defect-die,10856.html" style="color:var(--info);" target="_blank">Tom's Hardware: Nvidia's GPU Material Defect Cost $475.9 Million</a><br>
+          <a href="https://www.techpowerup.com/69704/nvidia-gpu-failures-caused-by-material-problem-sources-claim" style="color:var(--info);" target="_blank">TechPowerUp: GPU Failures Caused by Material Problem</a><br>
+          <a href="https://www.eetimes.com/nvidia-takes-charge-for-bad-chips-but-who-is-to-blame/" style="color:var(--info);" target="_blank">EE Times: Nvidia Takes Charge for Bad Chips, But Who Is to Blame?</a>
+        </div>
+
+        <div class="tag tr" style="margin-top:10px;"><span class="zh-only">★ Die/封装级问题</span><span class="en-only">★ Die/Package Level</span></div>
+        <div class="tag ty"><span class="zh-only">与代工直接相关</span><span class="en-only">Foundry Relevant</span></div>
+        <div class="tag tr">TSMC 65nm</div>
+      </div>
+    </div>
+
+    <div class="alert alert-red" style="margin-top:14px;">
+      <span>🎯</span>
+      <div style="font-size:13px;">
+        <span class="zh-only"><strong>对RTX 60代工的启示：</strong>RTX 60旗舰Die约800mm²（远大于G84），热循环下的bump fatigue风险更高。必须在OSAT工艺中指定高可靠性underfill材料，并进行≥1000次TC（-40°C~125°C）热循环测试验证，这是G84事故最直接的防范措施。</span>
+        <span class="en-only"><strong>Implication for RTX 60 Foundry:</strong> RTX 60 flagship die is ~800mm² (far larger than G84). Bump fatigue risk under thermal cycling is proportionally higher. Must specify high-reliability underfill in OSAT process and conduct ≥1000 thermal cycle (-40°C~125°C) tests. This is the most direct prevention for a G84-type failure.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case 2: RTX 3090 -->
+  <div class="card" style="border-color:rgba(245,166,35,0.4); margin-bottom:16px;">
+    <div style="margin-bottom:12px;">
+      <div style="font-size:11px; color:var(--warn); font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px;">
+        <span class="zh-only">案例 2 · 2021年</span><span class="en-only">Case 2 · 2021</span>
+      </div>
+      <div style="font-size:18px; font-weight:800; color:var(--t1);">RTX 3090 批量损坏 (EVGA)</div>
+      <div style="font-size:12.5px; color:var(--t2); margin-top:3px;">
+        <span class="zh-only">Amazon《New World》游戏触发，EVGA品牌批量损坏</span>
+        <span class="en-only">Triggered by Amazon "New World" game — EVGA batch failures</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h4 style="color:var(--warn); margin-bottom:8px;"><span class="zh-only">🔍 确认根本原因</span><span class="en-only">🔍 Confirmed Root Cause</span></h4>
+        <ul style="color:var(--t2); font-size:13px; line-height:2.2; padding-left:16px;">
+          <li>
+            <span class="zh-only">EVGA官方确认：特定批次RTX 3090 PCB上存在<strong style="color:#fff;">焊接缺陷</strong>——特定电容焊点虚焊</span>
+            <span class="en-only">EVGA officially confirmed: specific batch of RTX 3090 PCBs had <strong style="color:#fff;">soldering defects</strong> — certain capacitor joints had cold solder</span>
+          </li>
+          <li>
+            <span class="zh-only">《New World》游戏主菜单无帧率限制，GPU持续满负荷运行（异常高帧率→极端功耗→过电流）触发了本已存在的焊接缺陷</span>
+            <span class="en-only">"New World" had no frame rate limiter in main menu, causing GPU to run at maximum load (extreme high FPS → peak power draw → overcurrent) which triggered pre-existing solder defects</span>
+          </li>
+        </ul>
+        <div class="alert alert-yellow" style="margin-top:10px;">
+          <span>⚠️</span>
+          <div style="font-size:12.5px;">
+            <span class="zh-only"><strong>代工厂相关性：低。</strong>这是AIB（EVGA）的PCB制造质量问题，与前道晶圆代工无关。Die本身（GA102，TSMC Samsung 8nm）无质量问题。触发条件是NVIDIA GPU的极端功耗特性被异常软件激活。</span>
+            <span class="en-only"><strong>Foundry relevance: Low.</strong> This was an AIB (EVGA) PCB manufacturing quality issue, unrelated to front-end wafer foundry. The die itself (GA102, Samsung 8nm) had no defects. Trigger was NVIDIA GPU's extreme power characteristic activated by abnormal software behavior.</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h4 style="color:var(--warn); margin-bottom:8px;"><span class="zh-only">🏭 代工厂信息</span><span class="en-only">🏭 Foundry Information</span></h4>
+        <div class="table-wrap">
+          <table>
+            <tr><th><span class="zh-only">产品</span><span class="en-only">Product</span></th><th><span class="zh-only">代工厂</span><span class="en-only">Foundry</span></th><th><span class="zh-only">工艺</span><span class="en-only">Process</span></th></tr>
+            <tr><td>RTX 3090 (GA102)</td><td class="yellow">Samsung</td><td>8nm</td></tr>
+          </table>
+        </div>
+        <p style="font-size:12px; color:var(--t2); margin-top:8px;">
+          <span class="zh-only">RTX 30系列部分产品（包括GA102）由三星8nm代工，而非TSMC。EVGA的PCB焊接问题属于后道AIB制造环节。</span>
+          <span class="en-only">RTX 30 series (incl. GA102) was partly manufactured by Samsung 8nm, not TSMC. EVGA's PCB solder defect was in the downstream AIB manufacturing stage.</span>
+        </p>
+        <h4 style="color:var(--warn); margin-top:12px; margin-bottom:6px;"><span class="zh-only">🔗 来源</span><span class="en-only">🔗 Sources</span></h4>
+        <div style="font-size:12px; line-height:2;">
+          <a href="https://www.techpowerup.com/286260/evga-reveals-that-bad-soldering-was-the-culprit-behind-bricked-rtx-3090-cards" style="color:var(--info);" target="_blank">TechPowerUp: EVGA Reveals Bad Soldering Was the Culprit</a><br>
+          <a href="https://www.tomshardware.com/news/amazon-new-world-gpu-deaths-caused-by-hardware-not-game" style="color:var(--info);" target="_blank">Tom's Hardware: New World GPU Deaths Caused by Hardware, Not Game</a>
+        </div>
+        <div class="tag ty" style="margin-top:10px;"><span class="zh-only">AIB PCB级问题</span><span class="en-only">AIB PCB Level</span></div>
+        <div class="tag tg"><span class="zh-only">与前道代工无关</span><span class="en-only">Not Foundry Related</span></div>
+        <div class="tag tp">Samsung 8nm</div>
+      </div>
+    </div>
+
+    <div class="alert alert-green" style="margin-top:12px;">
+      <span>🎯</span>
+      <div style="font-size:13px;">
+        <span class="zh-only"><strong>对RTX 60代工的启示：</strong>Die侧的extreme peak power特性（RTX 60旗舰预计TDP 600W+，瞬态可能更高）是触发下游问题的根源。代工需确认：出货Die的 <strong>peak current spec已测试</strong>，Die-level PDN验证覆盖极端workload。前道代工虽不直接负责PCB，但准确的peak power spec输出是责任所在。</span>
+        <span class="en-only"><strong>Implication for RTX 60 Foundry:</strong> Die-side extreme peak power behavior (RTX 60 flagship TDP est. 600W+, transients may be higher) is what triggers downstream issues. Foundry must ensure: <strong>peak current spec is tested</strong> at the die level, die-level PDN validation covers extreme workloads. While front-end foundry is not responsible for PCB, accurate peak power spec output is a foundry responsibility.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case 3: RTX 4090 connector -->
+  <div class="card" style="border-color:rgba(245,166,35,0.4); margin-bottom:16px;">
+    <div style="margin-bottom:12px;">
+      <div style="font-size:11px; color:var(--warn); font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px;">
+        <span class="zh-only">案例 3 · 2022年至今 · 持续性问题</span><span class="en-only">Case 3 · 2022–Present · Ongoing Issue</span>
+      </div>
+      <div style="font-size:18px; font-weight:800; color:var(--t1);">RTX 4090 / 5090 12VHPWR 连接器熔化</div>
+      <div style="font-size:12.5px; color:var(--t2); margin-top:3px;">
+        <span class="zh-only">数百至数千用户报告，NVIDIA召回部分产品，至RTX 5090代仍存在</span>
+        <span class="en-only">Hundreds to thousands of user reports; NVIDIA recalled some products; issue persisted into RTX 5090 generation</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h4 style="color:var(--warn); margin-bottom:8px;"><span class="zh-only">🔍 确认根本原因（Gamers Nexus深度调查）</span><span class="en-only">🔍 Confirmed Root Cause (Gamers Nexus Investigation)</span></h4>
+        <ul style="color:var(--t2); font-size:13px; line-height:2.2; padding-left:16px;">
+          <li>
+            <span class="zh-only">12VHPWR连接器本身设计裕量不足——额定600W但实测峰值可达800W+</span>
+            <span class="en-only">12VHPWR connector design had insufficient margin — rated 600W but measured peaks up to 800W+</span>
+          </li>
+          <li>
+            <span class="zh-only">连接器接触电阻过高（插入不到位、线材劣质）→ 局部发热 → 熔化</span>
+            <span class="en-only">High contact resistance (improper insertion, low-quality cables) → localized heating → melting</span>
+          </li>
+          <li>
+            <span class="zh-only">Gamers Nexus实验室测试：插入不完全的情况下失效可重复复现</span>
+            <span class="en-only">Gamers Nexus lab tests confirmed: failure was reproducible with incomplete connector insertion</span>
+          </li>
+        </ul>
+        <div class="alert alert-yellow" style="margin-top:10px;">
+          <span>⚠️</span>
+          <div style="font-size:12.5px;">
+            <span class="zh-only"><strong>代工厂相关性：间接。</strong>连接器熔化是PCIe connector规格与板级设计问题，与前道晶圆代工无直接关系。<strong>但Die侧的800W瞬态电流特性</strong>是整个问题的根源——代工需要准确测定并输出Die-level peak transient current spec。</span>
+            <span class="en-only"><strong>Foundry relevance: Indirect.</strong> Connector melting is a PCIe connector spec and board design issue, not directly foundry-related. <strong>However, the 800W die-level transient current behavior</strong> is the underlying cause — foundry must accurately measure and report die-level peak transient current specs.</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h4 style="color:var(--warn); margin-bottom:8px;"><span class="zh-only">🏭 代工厂信息</span><span class="en-only">🏭 Foundry Information</span></h4>
+        <div class="table-wrap">
+          <table>
+            <tr><th><span class="zh-only">产品</span><span class="en-only">Product</span></th><th><span class="zh-only">代工厂</span><span class="en-only">Foundry</span></th><th><span class="zh-only">工艺</span><span class="en-only">Process</span></th></tr>
+            <tr><td>RTX 4090 (AD102)</td><td class="green">TSMC</td><td>N4 / 4nm</td></tr>
+            <tr><td>RTX 5090 (GB202)</td><td class="green">TSMC</td><td>N4P</td></tr>
+          </table>
+        </div>
+        <h4 style="color:var(--warn); margin-top:12px; margin-bottom:6px;"><span class="zh-only">🔗 来源</span><span class="en-only">🔗 Sources</span></h4>
+        <div style="font-size:12px; line-height:2;">
+          <a href="https://gamersnexus.net/gpus/12vhpwr-dumpster-fire-investigation-contradicting-specs-corner-cutting" style="color:var(--info);" target="_blank">Gamers Nexus: 12VHPWR Investigation (Full Technical Report)</a><br>
+          <a href="https://www.tomshardware.com/news/nvidia-16-pin-gpu-power-connector-all-we-know" style="color:var(--info);" target="_blank">Tom's Hardware: All We Know About RTX 4090 Connector Melting</a><br>
+          <a href="https://videocardz.com/newz/nvidia-tells-board-partners-to-collect-geforce-rtx-4090-cards-affected-by-melting-16-pin-power-adapter" style="color:var(--info);" target="_blank">VideoCardz: NVIDIA Collects Affected 4090 Cards from Board Partners</a>
+        </div>
+        <div class="tag ty" style="margin-top:10px;"><span class="zh-only">连接器/板级问题</span><span class="en-only">Connector/Board Level</span></div>
+        <div class="tag tb"><span class="zh-only">Die峰值电流间接相关</span><span class="en-only">Die Peak Current Indirect</span></div>
+      </div>
+    </div>
+
+    <div class="alert alert-red" style="margin-top:12px;">
+      <span>🎯</span>
+      <div style="font-size:13px;">
+        <span class="zh-only"><strong>对RTX 60代工的启示：</strong>RTX 60旗舰TDP预计600W+。代工测试必须准确测定<strong>Die-level peak transient current（瞬态峰值电流）</strong>并在规格书中明确标注，这是NVIDIA和AIB设计连接器/VRM方案的依据。漏测或低报此值，将直接导致下游系统设计留量不足。</span>
+        <span class="en-only"><strong>Implication for RTX 60 Foundry:</strong> RTX 60 flagship TDP estimated 600W+. Foundry testing must accurately measure <strong>die-level peak transient current</strong> and clearly specify it in datasheets — this is what NVIDIA and AIB partners use to design connectors/VRM. Underreporting this value directly causes downstream system design margin failures.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case 4: RTX 5090 ROP -->
+  <div class="card" style="border-color:rgba(231,76,60,0.5); margin-bottom:16px;">
+    <div style="margin-bottom:12px;">
+      <div style="font-size:11px; color:var(--danger); font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px;">
+        <span class="zh-only">案例 4 · 2025年 · 最近案例 · 与代工测试直接相关</span>
+        <span class="en-only">Case 4 · 2025 · Most Recent · Directly Foundry-Relevant</span>
+      </div>
+      <div style="font-size:18px; font-weight:800; color:var(--t1);">RTX 5090 / 5080 / 5070 Ti — Missing ROPs 缺陷</div>
+      <div style="font-size:12.5px; color:var(--t2); margin-top:3px;">
+        <span class="zh-only">影响 &lt;0.5% 批次，NVIDIA官方承认并启动换货</span>
+        <span class="en-only">Affecting &lt;0.5% of units — NVIDIA officially acknowledged and initiated replacements</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h4 style="color:var(--warn); margin-bottom:8px;"><span class="zh-only">🔍 确认根本原因</span><span class="en-only">🔍 Confirmed Root Cause</span></h4>
+        <ul style="color:var(--t2); font-size:13px; line-height:2.2; padding-left:16px;">
+          <li>
+            <span class="zh-only">NVIDIA官方声明（2025年2月）：RTX 5090/5090D、5080、5070 Ti中&lt;0.5%的产品存在"比规格少一个ROP partition"的缺陷</span>
+            <span class="en-only">NVIDIA official statement (Feb 2025): &lt;0.5% of RTX 5090/5090D, 5080, 5070 Ti units shipped with "one fewer ROP partition than specified"</span>
+          </li>
+          <li>
+            <span class="zh-only">这类缺陷通常源于：<strong style="color:#fff;">e-Fuse编程错误</strong>（Die上的电子熔丝用于激活/屏蔽功能单元，programming错误导致ROP单元状态错误）或ATE测试向量未覆盖该功能单元</span>
+            <span class="en-only">This type of defect typically stems from: <strong style="color:#fff;">e-Fuse programming error</strong> (electronic fuses on die control enable/disable of functional units; programming error caused incorrect ROP unit state) or ATE test vector failing to cover this functional unit</span>
+          </li>
+          <li>
+            <span class="zh-only">缺陷在出厂测试中未被检出，直到用户进行第三方Benchmark测试才发现性能异常</span>
+            <span class="en-only">Defect was not detected at factory test; only discovered when users ran third-party benchmark tests and noticed performance anomalies</span>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:var(--warn); margin-bottom:8px;"><span class="zh-only">🏭 代工厂信息</span><span class="en-only">🏭 Foundry Information</span></h4>
+        <div class="table-wrap">
+          <table>
+            <tr><th><span class="zh-only">产品</span><span class="en-only">Product</span></th><th><span class="zh-only">代工厂</span><span class="en-only">Foundry</span></th><th><span class="zh-only">工艺</span><span class="en-only">Process</span></th></tr>
+            <tr><td>RTX 5090/5080/5070Ti (GB202/203)</td><td class="green">TSMC</td><td class="blue">N4P</td></tr>
+          </table>
+        </div>
+        <div class="alert alert-red" style="margin-top:10px;">
+          <span>🚨</span>
+          <div style="font-size:12.5px;">
+            <span class="zh-only"><strong>代工厂相关性：高。</strong>e-Fuse编程属于wafer probe/final test阶段的操作。无论是NVIDIA、TSMC、还是负责ATE的测试厂，这是<strong>与代工测试流程直接相关的缺陷</strong>。RTX 60代工必须建立：SM/ROP/TMU每个功能单元100%ATE覆盖，e-Fuse programming独立双重验证机制。</span>
+            <span class="en-only"><strong>Foundry relevance: High.</strong> e-Fuse programming happens during wafer probe/final test. Whether NVIDIA, TSMC, or the ATE test house is responsible, this is a <strong>defect directly related to foundry test flow.</strong> RTX 60 foundry must establish: 100% ATE coverage for each SM/ROP/TMU functional unit, independent dual-verification for e-Fuse programming.</span>
+          </div>
+        </div>
+        <h4 style="color:var(--warn); margin-top:12px; margin-bottom:6px;"><span class="zh-only">🔗 来源</span><span class="en-only">🔗 Sources</span></h4>
+        <div style="font-size:12px; line-height:2;">
+          <a href="https://www.theverge.com/news/618748/nvidia-admits-the-rtx-5080-is-affecte" style="color:var(--info);" target="_blank">The Verge: Nvidia Admits RTX 5080 Missing ROPs</a><br>
+          <a href="https://hothardware.com/news/nvidia-statement-geforce-rtx-50-cards-missing-rops" style="color:var(--info);" target="_blank">HotHardware: NVIDIA Statement on RTX 50 ROP Defect</a><br>
+          <a href="https://www.techpowerup.com/332884/nvidia-geforce-rtx-50-cards-spotted-with-missing-rops-nvidia-confirms-the-issue-multiple-vendors-affected" style="color:var(--info);" target="_blank">TechPowerUp: NVIDIA Confirms Missing ROPs Issue</a>
+        </div>
+        <div class="tag tr" style="margin-top:10px;"><span class="zh-only">★ 与代工测试直接相关</span><span class="en-only">★ Directly Foundry-Test Related</span></div>
+        <div class="tag tg">TSMC N4P</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Table -->
+  <h3><span class="zh-only">📊 事故汇总对比表</span><span class="en-only">📊 Summary Comparison Table</span></h3>
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th><span class="zh-only">案例</span><span class="en-only">Case</span></th>
+        <th><span class="zh-only">年份</span><span class="en-only">Year</span></th>
+        <th><span class="zh-only">产品</span><span class="en-only">Product</span></th>
+        <th><span class="zh-only">代工厂/工艺</span><span class="en-only">Foundry/Node</span></th>
+        <th><span class="zh-only">根本原因</span><span class="en-only">Root Cause</span></th>
+        <th><span class="zh-only">代工相关性</span><span class="en-only">Foundry Relevance</span></th>
+        <th><span class="zh-only">财务影响</span><span class="en-only">Financial Impact</span></th>
+      </tr>
+      <tr>
+        <td class="hl">G84/G86 Bump</td>
+        <td>2007–2008</td>
+        <td>GeForce 8M系列</td>
+        <td class="blue">TSMC 65nm</td>
+        <td><span class="zh-only">Solder Bump材料/热循环疲劳</span><span class="en-only">Solder bump material / thermal fatigue</span></td>
+        <td class="red"><span class="zh-only">高（Die封装材料）</span><span class="en-only">High (die packaging)</span></td>
+        <td class="red"><strong>$475.9M</strong></td>
+      </tr>
+      <tr>
+        <td class="hl">RTX 3090 EVGA</td>
+        <td>2021</td>
+        <td>RTX 3090</td>
+        <td class="yellow">Samsung 8nm</td>
+        <td><span class="zh-only">PCB虚焊（AIB问题）</span><span class="en-only">PCB cold solder (AIB issue)</span></td>
+        <td class="green"><span class="zh-only">低（AIB制造）</span><span class="en-only">Low (AIB manufacturing)</span></td>
+        <td><span class="zh-only">局部批次</span><span class="en-only">Limited batch</span></td>
+      </tr>
+      <tr>
+        <td class="hl">RTX 4090/5090 连接器</td>
+        <td>2022–今</td>
+        <td>RTX 4090, 5090</td>
+        <td class="blue">TSMC N4/N4P</td>
+        <td><span class="zh-only">12VHPWR设计裕量不足</span><span class="en-only">12VHPWR connector design margin</span></td>
+        <td class="yellow"><span class="zh-only">间接（Die峰值电流）</span><span class="en-only">Indirect (die peak current)</span></td>
+        <td><span class="zh-only">召回+持续报告</span><span class="en-only">Recall + ongoing</span></td>
+      </tr>
+      <tr>
+        <td class="hl">RTX 50系列 Missing ROPs</td>
+        <td>2025</td>
+        <td>RTX 5090/5080/5070Ti</td>
+        <td class="blue">TSMC N4P</td>
+        <td><span class="zh-only">e-Fuse编程/ATE测试漏测</span><span class="en-only">e-Fuse programming / ATE test gap</span></td>
+        <td class="red"><span class="zh-only">高（测试流程）</span><span class="en-only">High (test flow)</span></td>
+        <td><span class="zh-only">&lt;0.5%，换货处理</span><span class="en-only">&lt;0.5%, replacements</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Foundry Checklist -->
+  <h3 style="margin-top:20px;"><span class="zh-only">✅ RTX 60代工风险防控清单（基于历史案例）</span><span class="en-only">✅ RTX 60 Foundry Risk Prevention Checklist (Based on Historical Cases)</span></h3>
+  <div class="card-grid">
+    <div class="card" style="border-color:rgba(231,76,60,0.4);">
+      <h4 style="color:var(--danger); margin-bottom:10px;">🔴 <span class="zh-only">必须做（源自真实事故）</span><span class="en-only">Must-Do (Derived from Real Incidents)</span></h4>
+      <ul style="color:var(--t2); font-size:12.5px; line-height:2.2; padding-left:15px;">
+        <li><span class="zh-only">Underfill材料认证 + TC≥1000次热循环测试（防G84重演）</span><span class="en-only">Underfill material qualification + ≥1000 TC thermal cycle test (prevent G84 recurrence)</span></li>
+        <li><span class="zh-only">每颗Die的SM/ROP/TMU功能单元100% ATE测试向量覆盖（防ROP漏测）</span><span class="en-only">100% ATE test vector coverage per SM/ROP/TMU functional unit (prevent ROP miss)</span></li>
+        <li><span class="zh-only">e-Fuse programming独立双重验证机制（prevent 5090 ROP类缺陷）</span><span class="en-only">Independent dual-verification for e-Fuse programming (prevent 5090-type ROP defect)</span></li>
+        <li><span class="zh-only">Die-level peak transient current准确测定并在规格书中明确（防4090连接器类问题）</span><span class="en-only">Accurate measurement and clear spec of die-level peak transient current (prevent 4090 connector-type issues)</span></li>
+      </ul>
+    </div>
+    <div class="card" style="border-color:rgba(245,166,35,0.4);">
+      <h4 style="color:var(--warn); margin-bottom:10px;">🟡 <span class="zh-only">强烈建议（技术最佳实践）</span><span class="en-only">Highly Recommended (Technical Best Practices)</span></h4>
+      <ul style="color:var(--t2); font-size:12.5px; line-height:2.2; padding-left:15px;">
+        <li><span class="zh-only">IDDQ严格BIN分级：漏电超标Die不得强行出货（防TDP超规）</span><span class="en-only">Strict IDDQ BIN grading: leakage-exceeded dies must not be force-shipped (prevent TDP overspec)</span></li>
+        <li><span class="zh-only">HTOL测试模拟实际GPU workload（游戏/渲染），而非仅标准IEC条件</span><span class="en-only">HTOL testing simulating actual GPU workloads (gaming/rendering), not just standard IEC conditions</span></li>
+        <li><span class="zh-only">EM（电迁移）规则100%DRC覆盖：高电流密度金属层专项PERC仿真</span><span class="en-only">100% DRC EM rule coverage: dedicated PERC simulation for high-current metal layers</span></li>
+        <li><span class="zh-only">ESD（CDM+HBM）双模式验证，边角I/O专项检查</span><span class="en-only">Dual-mode ESD validation (CDM+HBM), corner I/O dedicated review</span></li>
+      </ul>
+    </div>
+  </div>
 </section>
 
 <!-- ===== 结论 ===== -->
