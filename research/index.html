@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📡 研报中心 — Sky Portal</title>
+<title>📡 每日研报 Daily Research — Sky Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -18,8 +18,6 @@
   --text-dim: #6b6b80;
   --accent: #f0a040;
   --accent-glow: rgba(240,160,64,0.12);
-  --green: #4ade80;
-  --blue: #6c8aff;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -27,11 +25,30 @@ body {
   background: var(--bg); color: var(--text);
   height: 100vh; overflow: hidden;
 }
+body.lang-zh .en { display:none !important; }
+body.lang-en .zh { display:none !important; }
+
 .layout {
   display: grid;
   grid-template-columns: 260px 1fr;
   height: 100vh;
 }
+
+/* ── Lang Toggle ── */
+.lang-toggle {
+  display: flex;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.lang-toggle button {
+  padding: 4px 12px; border: none; background: transparent;
+  color: var(--text-dim); font-size: 0.72rem; cursor: pointer;
+  transition: all 0.25s; font-family: inherit;
+}
+.lang-toggle button.active { background: var(--accent); color: #000; }
 
 /* ── Sidebar ── */
 .sidebar {
@@ -83,23 +100,18 @@ body {
   border-left: 3px solid transparent;
   font-size: 0.88em;
 }
-.date-item:hover {
-  background: var(--card-hover);
-}
+.date-item:hover { background: var(--card-hover); }
 .date-item.active {
   background: var(--accent-glow);
   border-left-color: var(--accent);
-  color: var(--accent);
-  font-weight: 500;
+  color: var(--accent); font-weight: 500;
 }
 .date-item .day {
   font-family: 'JetBrains Mono', monospace;
   font-size: 1.1em; font-weight: 600;
   width: 28px; text-align: center;
 }
-.date-item .weekday {
-  font-size: 0.78em; color: var(--text-dim);
-}
+.date-item .weekday { font-size: 0.78em; color: var(--text-dim); }
 .date-item.active .weekday { color: var(--accent); opacity: 0.7; }
 .badge-new {
   font-size: 0.6em; background: var(--accent);
@@ -110,10 +122,7 @@ body {
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
 /* ── Content ── */
-.content-area {
-  display: flex; flex-direction: column;
-  overflow: hidden;
-}
+.content-area { display: flex; flex-direction: column; overflow: hidden; }
 .content-toolbar {
   padding: 12px 24px;
   border-bottom: 1px solid var(--border);
@@ -130,80 +139,83 @@ body {
   border-radius: 6px; cursor: pointer; font-size: 0.82em;
   transition: all 0.15s;
 }
-.content-toolbar .nav-btn:hover {
-  background: var(--card-hover); color: var(--text);
-}
-.content-toolbar .nav-btn:disabled {
-  opacity: 0.3; cursor: not-allowed;
-}
-.report-frame {
-  flex: 1; border: none; width: 100%;
-  background: var(--content-bg);
-}
+.content-toolbar .nav-btn:hover { background: var(--card-hover); color: var(--text); }
+.content-toolbar .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.report-frame { flex: 1; border: none; width: 100%; background: var(--content-bg); }
 .empty-state {
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   color: var(--text-dim); gap: 12px;
 }
 .empty-state .icon { font-size: 3em; opacity: 0.3; }
-.empty-state p { font-size: 0.95em; }
 
-/* ── Mobile ── */
 @media (max-width: 768px) {
   .layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
-  .sidebar {
-    height: auto; max-height: 45vh;
-    border-right: none; border-bottom: 1px solid var(--border);
-  }
+  .sidebar { height: auto; max-height: 45vh; border-right: none; border-bottom: 1px solid var(--border); }
   .sidebar-nav { max-height: 35vh; }
 }
 </style>
 </head>
-<body>
+<body class="lang-zh">
 <div class="layout">
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h1>📡 研报中心</h1>
-      <a class="home-link" href="../index.html">← 返回 Sky Portal</a>
+      <h1>📡 <span class="zh">每日研报</span><span class="en">Daily Research</span></h1>
+      <a class="home-link" href="../index.html"><span class="zh">← 返回 Sky Portal</span><span class="en">← Back to Sky Portal</span></a>
+      <div class="lang-toggle">
+        <button id="btnZh" class="active" onclick="setLang('zh')">中文</button>
+        <button id="btnEn" onclick="setLang('en')">EN</button>
+      </div>
     </div>
     <nav class="sidebar-nav" id="nav"></nav>
   </aside>
   <main class="content-area">
     <div class="content-toolbar">
-      <button class="nav-btn" id="prevBtn" onclick="navigateDay(-1)">◀ 前一天</button>
+      <button class="nav-btn" id="prevBtn" onclick="navigateDay(-1)"><span class="zh">◀ 前一天</span><span class="en">◀ Prev</span></button>
       <span class="current-date" id="currentDate">—</span>
-      <button class="nav-btn" id="nextBtn" onclick="navigateDay(1)">后一天 ▶</button>
+      <button class="nav-btn" id="nextBtn" onclick="navigateDay(1)"><span class="zh">后一天 ▶</span><span class="en">Next ▶</span></button>
     </div>
     <iframe class="report-frame" id="reportFrame"></iframe>
     <div class="empty-state" id="emptyState" style="display:none">
       <div class="icon">📡</div>
-      <p>选择左侧日期查看研报</p>
+      <p><span class="zh">选择左侧日期查看研报</span><span class="en">Select a date to view report</span></p>
     </div>
   </main>
 </div>
 
 <script>
-// Report registry — append new dates here each day
-// Format: 'YYYY-MM-DD'
 const REPORTS = [
   '2026-04-05',
 ];
 
 const WEEKDAYS_ZH = ['日','一','二','三','四','五','六'];
+const WEEKDAYS_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS_ZH = ['','1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+const MONTHS_EN = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 let currentIndex = 0;
+let currentLang = 'zh';
 
-function init() {
-  // Group by month
+function setLang(lang) {
+  currentLang = lang;
+  document.body.className = 'lang-' + lang;
+  document.getElementById('btnZh').classList.toggle('active', lang === 'zh');
+  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+  localStorage.setItem('research-lang', lang);
+  buildNav();
+  if (currentIndex >= 0) loadReport(currentIndex);
+}
+
+function buildNav() {
   const months = {};
   REPORTS.forEach(d => {
-    const key = d.substring(0, 7); // YYYY-MM
+    const key = d.substring(0, 7);
     if (!months[key]) months[key] = [];
     months[key].push(d);
   });
 
   const nav = document.getElementById('nav');
-  // Sort months descending (newest first)
+  nav.innerHTML = '';
   const sortedMonths = Object.keys(months).sort().reverse();
 
   sortedMonths.forEach((monthKey, mi) => {
@@ -213,27 +225,30 @@ function init() {
 
     const label = document.createElement('div');
     label.className = 'month-label';
-    label.textContent = `${y} 年 ${parseInt(m)} 月`;
+    if (currentLang === 'zh') {
+      label.textContent = `${y} 年 ${parseInt(m)} 月`;
+    } else {
+      label.textContent = `${MONTHS_EN[parseInt(m)]} ${y}`;
+    }
     label.onclick = () => group.classList.toggle('open');
     group.appendChild(label);
 
     const dates = document.createElement('div');
     dates.className = 'month-dates';
 
-    // Sort dates descending within month
     months[monthKey].sort().reverse().forEach(dateStr => {
       const dt = new Date(dateStr + 'T12:00:00');
       const day = dt.getDate();
-      const wd = WEEKDAYS_ZH[dt.getDay()];
+      const wd = currentLang === 'zh' ? '周' + WEEKDAYS_ZH[dt.getDay()] : WEEKDAYS_EN[dt.getDay()];
       const isLatest = dateStr === REPORTS[REPORTS.length - 1];
       const idx = REPORTS.indexOf(dateStr);
 
       const item = document.createElement('div');
-      item.className = 'date-item';
+      item.className = 'date-item' + (idx === currentIndex ? ' active' : '');
       item.dataset.index = idx;
       item.innerHTML = `
         <span class="day">${day}</span>
-        <span class="weekday">周${wd}</span>
+        <span class="weekday">${wd}</span>
         ${isLatest ? '<span class="badge-new">NEW</span>' : ''}
       `;
       item.onclick = () => loadReport(idx);
@@ -243,35 +258,33 @@ function init() {
     group.appendChild(dates);
     nav.appendChild(group);
   });
-
-  // Load latest
-  loadReport(REPORTS.length - 1);
 }
 
 function loadReport(index) {
   if (index < 0 || index >= REPORTS.length) return;
   currentIndex = index;
   const dateStr = REPORTS[index];
-  const filename = `report-${dateStr}.html`;
-
-  document.getElementById('reportFrame').src = filename;
+  document.getElementById('reportFrame').src = `report-${dateStr}.html`;
   document.getElementById('reportFrame').style.display = 'block';
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('currentDate').textContent = dateStr;
   document.getElementById('prevBtn').disabled = (index === 0);
   document.getElementById('nextBtn').disabled = (index === REPORTS.length - 1);
-
-  // Update active state
   document.querySelectorAll('.date-item').forEach(el => {
     el.classList.toggle('active', parseInt(el.dataset.index) === index);
   });
 }
 
-function navigateDay(delta) {
-  loadReport(currentIndex + delta);
-}
+function navigateDay(delta) { loadReport(currentIndex + delta); }
 
-init();
+// Init
+const saved = localStorage.getItem('research-lang');
+if (saved) currentLang = saved;
+document.body.className = 'lang-' + currentLang;
+document.getElementById('btn' + (currentLang === 'zh' ? 'Zh' : 'En')).classList.add('active');
+document.getElementById('btn' + (currentLang === 'zh' ? 'En' : 'Zh')).classList.remove('active');
+buildNav();
+loadReport(REPORTS.length - 1);
 </script>
 </body>
 </html>
