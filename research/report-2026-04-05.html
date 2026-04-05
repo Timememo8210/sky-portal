@@ -1,288 +1,161 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Daily Research — 2026-04-05</title>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日研报 - 2026-04-05</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,'Helvetica Neue','PingFang SC',sans-serif;background:#0f0f0f;color:#e0e0e0;padding:20px;max-width:900px;margin:0 auto}
-header{text-align:center;padding:30px 0 20px;border-bottom:1px solid #333;margin-bottom:24px}
-header h1{font-size:1.6em;color:#fff;font-weight:600}
-header .date{color:#888;font-size:0.9em;margin-top:6px}
-.card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:20px;margin-bottom:16px}
-.card h2{font-size:1.1em;color:#f0a040;margin-bottom:12px;border-bottom:1px solid #2a2a2a;padding-bottom:8px}
-.content{font-size:0.92em;line-height:1.7;color:#ccc}
-.content p{margin-bottom:10px} .content strong{color:#fff}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0f0f0f; color: #ccc; font-family: -apple-system, 'Helvetica Neue', 'PingFang SC', sans-serif; line-height: 1.7; }
+.container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
+h1 { color: #f0a040; font-size: 1.8em; margin-bottom: 5px; }
+.date { color: #888; font-size: 0.9em; margin-bottom: 30px; }
+.card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+.card h2 { color: #f0a040; font-size: 1.3em; margin-bottom: 16px; }
+.card h3 { color: #fff; font-size: 1.05em; margin: 14px 0 6px; }
+.card p, .card li { color: #ccc; font-size: 0.95em; }
+.card ul { padding-left: 20px; }
+.card li { margin-bottom: 6px; }
+b, strong { color: #fff; }
+.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.stock-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #111; border-radius: 8px; }
+.stock-ticker { font-weight: 700; color: #fff; font-size: 0.95em; }
+.stock-price { color: #aaa; font-size: 0.88em; margin-left: 8px; }
+.tag-up { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); font-family: 'SF Mono', monospace; font-weight: 600; font-size: 0.82em; padding: 3px 10px; border-radius: 5px; }
+.tag-down { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); font-family: 'SF Mono', monospace; font-weight: 600; font-size: 0.82em; padding: 3px 10px; border-radius: 5px; }
+.tv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+.tv-grid > div { border-radius: 8px; overflow: hidden; }
+footer { text-align: center; color: #555; font-size: 0.85em; margin-top: 40px; padding-top: 20px; border-top: 1px solid #2a2a2a; }
+footer a { color: #f0a040; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
 
-/* Stock tags with colors */
-.tag{display:inline-block;padding:3px 10px;border-radius:5px;font-size:0.82em;margin:3px;font-family:'SF Mono',monospace;font-weight:600}
-.tag-up{background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3)}
-.tag-down{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
-.tag-neutral{background:rgba(255,255,255,0.06);color:#888;border:1px solid rgba(255,255,255,0.1)}
+<h1>📡 每日研报</h1>
+<p class="date">2026-04-05 (Sunday)</p>
 
-/* Chart grid */
-.charts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
-.chart-box{background:#14141e;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;min-height:220px}
-.chart-label{font-size:0.82em;font-weight:600;color:#f0a040;padding:10px 12px 4px;font-family:'SF Mono',monospace}
-.tradingview-widget-container{height:180px}
-
-@media(max-width:600px){.charts-grid{grid-template-columns:1fr}}
-
-footer{text-align:center;color:#555;font-size:0.8em;padding:20px 0;border-top:1px solid #222;margin-top:20px}
-</style></head><body>
-<header><h1>📡 Daily Research Report</h1><div class="date">Generated: 2026-04-05 17:43 UTC</div></header>
-
+<!-- 板块1: 半导体与AI -->
 <div class="card">
 <h2>🔬 半导体与AI</h2>
-<div class="content">
-<p><strong>全球半导体销售创新高：</strong>SIA 数据显示 2025 年全球芯片销售额达 7917 亿美元，同比增长 25.6%。2026 年预计接近万亿美元大关，AI 芯片贡献约一半营收但仅占出货量 0.2%。</p>
-<p><strong>WTO 数字贸易关税豁免失效：</strong>4月1日，WTO 各方未能就永久免除电子传输关税达成协议，SIA 主席 Neuffer 表示失望，呼吁在日内瓦后续谈判中恢复该豁免。</p>
-<p><strong>EDA 工具加速智能化：</strong>Siemens 推出 Fuse EDA AI Agent，Cursor 发布 agent-first 编程界面 Cursor 3，EDA 行业加速向自动化和智能编排方向演进。</p>
-<p><strong>中东局势冲击供应链：</strong>持续的中东冲突暴露了半导体供应链的关键脆弱性，内存价格上涨导致 PC 和智能手机出货量预计 2026 年下降。</p>
-<p><strong>先进制程竞赛继续：</strong>TSMC 持续扩大 2nm/3nm 产能，Arm 和 Synopsys 联合推出面向 AI 数据中心的新平台。</p>
-</div></div>
 
-<div class="card">
-<h2>📈 半导体股票</h2>
-<div class="content">
-<p><strong>Q1 回顾：</strong>半导体板块在 2026 年初强劲开局，但 Q1 尾声受中东局势和地缘不确定性拖累回吐大部分涨幅。进入 Q2 预计波动加剧。</p>
-<p><strong>4月4日收盘（部分）：</strong></p>
-<p><span class="tag tag-up">INTC $50.38 +4.89%</span> <span class="tag tag-up">AMD $217.50 +3.47%</span> <span class="tag tag-down">TSM $339.04 -0.72%</span> <span class="tag tag-neutral">NVDA —</span> <span class="tag tag-down">MU $366.24 -0.44%</span> <span class="tag tag-up">AVGO $314.55 +0.34%</span> <span class="tag tag-down">QCOM $126.80 -0.38%</span> <span class="tag tag-up">CRDO $101.45 +5.77%</span> <span class="tag tag-neutral">TSLA —</span> <span class="tag tag-neutral">SMH —</span></p>
-<p><strong>趋势：</strong>Intel 和 Credo Technology 领涨，AMD 涨超3%。TSMC、Micron 小幅回调。板块整体呈分化走势，AI 相关个股仍是主要驱动力。</p>
+<h3>1. TSMC 3nm 产能严重短缺，扩建 Arizona GigaFab</h3>
+<p>TSMC 的 3nm 产能已售罄至 2028 年，公司计划在亚利桑那州大规模扩建 "GigaFab"，并在日本启动 3nm 量产。2026年营收预计同比增长近 30%。</p>
 
-<h3 style="font-size:0.95em;color:#f0a040;margin:20px 0 8px;padding-top:12px;border-top:1px solid #2a2a2a;">📊 K 线图（可拖动切换 1周 / 1月 / 3月）</h3>
-<div class="charts-grid">
+<h3>2. SK Hynix 豪掷 120 亿美元购入 EUV 设备</h3>
+<p>SK Hynix 宣布以约 <strong>12 万亿韩元</strong>（84亿美元）购买 ASML 约 40 台 EUV 光刻设备，用于将 1c 工艺扩展至 HBM 及其他产品线。同时投入 19 万亿韩元建设新封装工厂 P&T7。</p>
 
-    <div class="chart-box">
-      <div class="chart-label">Intel (INTC)</div>
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
-        {
-          "symbols": [["NASDAQ:INTC"]],
-          "chartOnly": true,
-          "width": "100%",
-          "height": 180,
-          "locale": "zh_CN",
-          "colorTheme": "dark",
-          "autosize": false,
-          "showVolume": false,
-          "showMA": false,
-          "hideDateRanges": false,
-          "hideMarketStatus": true,
-          "hideSymbolLogo": true,
-          "scalePosition": "right",
-          "scaleMode": "Normal",
-          "fontFamily": "-apple-system, sans-serif",
-          "fontSize": "10",
-          "noTimeScale": false,
-          "valuesTracking": "1",
-          "changeMode": "price-and-percent",
-          "chartType": "candlesticks",
-          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
-          "backgroundColor": "rgba(20,20,30,1)",
-          "gridLineColor": "rgba(255,255,255,0.04)"
-        }
-        </script>
-      </div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-label">NVIDIA (NVDA)</div>
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
-        {
-          "symbols": [["NASDAQ:NVDA"]],
-          "chartOnly": true,
-          "width": "100%",
-          "height": 180,
-          "locale": "zh_CN",
-          "colorTheme": "dark",
-          "autosize": false,
-          "showVolume": false,
-          "showMA": false,
-          "hideDateRanges": false,
-          "hideMarketStatus": true,
-          "hideSymbolLogo": true,
-          "scalePosition": "right",
-          "scaleMode": "Normal",
-          "fontFamily": "-apple-system, sans-serif",
-          "fontSize": "10",
-          "noTimeScale": false,
-          "valuesTracking": "1",
-          "changeMode": "price-and-percent",
-          "chartType": "candlesticks",
-          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
-          "backgroundColor": "rgba(20,20,30,1)",
-          "gridLineColor": "rgba(255,255,255,0.04)"
-        }
-        </script>
-      </div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-label">Tesla (TSLA)</div>
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
-        {
-          "symbols": [["NASDAQ:TSLA"]],
-          "chartOnly": true,
-          "width": "100%",
-          "height": 180,
-          "locale": "zh_CN",
-          "colorTheme": "dark",
-          "autosize": false,
-          "showVolume": false,
-          "showMA": false,
-          "hideDateRanges": false,
-          "hideMarketStatus": true,
-          "hideSymbolLogo": true,
-          "scalePosition": "right",
-          "scaleMode": "Normal",
-          "fontFamily": "-apple-system, sans-serif",
-          "fontSize": "10",
-          "noTimeScale": false,
-          "valuesTracking": "1",
-          "changeMode": "price-and-percent",
-          "chartType": "candlesticks",
-          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
-          "backgroundColor": "rgba(20,20,30,1)",
-          "gridLineColor": "rgba(255,255,255,0.04)"
-        }
-        </script>
-      </div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-label">SMH ETF</div>
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
-        {
-          "symbols": [["AMEX:SMH"]],
-          "chartOnly": true,
-          "width": "100%",
-          "height": 180,
-          "locale": "zh_CN",
-          "colorTheme": "dark",
-          "autosize": false,
-          "showVolume": false,
-          "showMA": false,
-          "hideDateRanges": false,
-          "hideMarketStatus": true,
-          "hideSymbolLogo": true,
-          "scalePosition": "right",
-          "scaleMode": "Normal",
-          "fontFamily": "-apple-system, sans-serif",
-          "fontSize": "10",
-          "noTimeScale": false,
-          "valuesTracking": "1",
-          "changeMode": "price-and-percent",
-          "chartType": "candlesticks",
-          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
-          "backgroundColor": "rgba(20,20,30,1)",
-          "gridLineColor": "rgba(255,255,255,0.04)"
-        }
-        </script>
-      </div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-label">S&P 500</div>
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
-        {
-          "symbols": [["SP:SPX"]],
-          "chartOnly": true,
-          "width": "100%",
-          "height": 180,
-          "locale": "zh_CN",
-          "colorTheme": "dark",
-          "autosize": false,
-          "showVolume": false,
-          "showMA": false,
-          "hideDateRanges": false,
-          "hideMarketStatus": true,
-          "hideSymbolLogo": true,
-          "scalePosition": "right",
-          "scaleMode": "Normal",
-          "fontFamily": "-apple-system, sans-serif",
-          "fontSize": "10",
-          "noTimeScale": false,
-          "valuesTracking": "1",
-          "changeMode": "price-and-percent",
-          "chartType": "candlesticks",
-          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
-          "backgroundColor": "rgba(20,20,30,1)",
-          "gridLineColor": "rgba(255,255,255,0.04)"
-        }
-        </script>
-      </div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-label">上证指数</div>
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
-        {
-          "symbols": [["SSE:000001"]],
-          "chartOnly": true,
-          "width": "100%",
-          "height": 180,
-          "locale": "zh_CN",
-          "colorTheme": "dark",
-          "autosize": false,
-          "showVolume": false,
-          "showMA": false,
-          "hideDateRanges": false,
-          "hideMarketStatus": true,
-          "hideSymbolLogo": true,
-          "scalePosition": "right",
-          "scaleMode": "Normal",
-          "fontFamily": "-apple-system, sans-serif",
-          "fontSize": "10",
-          "noTimeScale": false,
-          "valuesTracking": "1",
-          "changeMode": "price-and-percent",
-          "chartType": "candlesticks",
-          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
-          "backgroundColor": "rgba(20,20,30,1)",
-          "gridLineColor": "rgba(255,255,255,0.04)"
-        }
-        </script>
-      </div>
-    </div>
+<h3>3. NVIDIA 在中国市场份额下滑</h3>
+<p>中国本土 GPU 和 AI 芯片厂商在 2025 年抢占约 <strong>41%</strong> 的 AI 加速器服务器市场份额，NVIDIA 份额降至 55%。</p>
+
+<h3>4. Intel 战略调整：回购爱尔兰工厂股份</h3>
+<p>Intel 以 <strong>142 亿美元</strong>回购爱尔兰晶圆厂合资企业的股份，投资芯片初创公司 SambaNova，并任命 Aparna Bawa 为首席法务及人事官。</p>
+
+<h3>5. CPU 涨价与 HBM/先进封装瓶颈</h3>
+<p>Intel 和 AMD 计划将 CPU 价格上调最高 <strong>15%</strong>，原因是供应紧张和制造瓶颈。行业面临的真正制约是 HBM 和先进封装（2.5D/3D 集成），即使前端逻辑产能充足，封装和 HBM 供应也会限制 AI GPU 出货量。</p>
 </div>
-</div></div>
 
+<!-- 板块2: 半导体股票 -->
+<div class="card">
+<h2>📈 半导体股票（最近收盘价）</h2>
+<div class="stock-grid">
+  <div class="stock-item"><div><span class="stock-ticker">INTC</span><span class="stock-price">$50.38</span></div><span class="tag-up">+4.89%</span></div>
+  <div class="stock-item"><div><span class="stock-ticker">TSM</span><span class="stock-price">$339.04</span></div><span class="tag-down">-0.72%</span></div>
+  <div class="stock-item"><div><span class="stock-ticker">NVDA</span><span class="stock-price">$177.39</span></div><span class="tag-up">+0.93%</span></div>
+  <div class="stock-item"><div><span class="stock-ticker">AMD</span><span class="stock-price">$216.35</span></div><span class="tag-up">+0.52%</span></div>
+  <div class="stock-item"><div><span class="stock-ticker">ASML</span><span class="stock-price">$1,317.23</span></div><span class="tag-down">-0.45%</span></div>
+  <div class="stock-item"><div><span class="stock-ticker">MU</span><span class="stock-price">$366.24</span></div><span class="tag-down">-0.44%</span></div>
+  <div class="stock-item"><div><span class="stock-ticker">AVGO</span><span class="stock-price">$314.55</span></div><span class="tag-up">+0.34%</span></div>
+  <div class="stock-item"><div><span class="stock-ticker">QCOM</span><span class="stock-price">$126.80</span></div><span class="tag-down">-0.38%</span></div>
+  <div class="stock-item"><div><span class="stock-ticker">TSLA</span><span class="stock-price">$360.59</span></div><span class="tag-up">+1.12%</span></div>
+  <div class="stock-item"><div><span class="stock-ticker">SMH</span><span class="stock-price">$392.32</span></div><span class="tag-up">+0.68%</span></div>
+</div>
+
+<p style="color:#666; font-size:0.82em;">* 数据来源：Yahoo Finance / CNBC，最近交易日收盘价</p>
+
+<!-- TradingView K线图 -->
+<div class="tv-grid">
+<div>
+<div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>{"symbols":[["NASDAQ:INTC"]],"chartOnly":true,"width":"100%","height":180,"locale":"zh_CN","colorTheme":"dark","autosize":false,"chartType":"candlesticks","dateRanges":["1w|1D","1m|1D","3m|1W"],"backgroundColor":"rgba(20,20,30,1)"}</script></div>
+</div>
+<div>
+<div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>{"symbols":[["NASDAQ:NVDA"]],"chartOnly":true,"width":"100%","height":180,"locale":"zh_CN","colorTheme":"dark","autosize":false,"chartType":"candlesticks","dateRanges":["1w|1D","1m|1D","3m|1W"],"backgroundColor":"rgba(20,20,30,1)"}</script></div>
+</div>
+<div>
+<div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>{"symbols":[["NASDAQ:TSLA"]],"chartOnly":true,"width":"100%","height":180,"locale":"zh_CN","colorTheme":"dark","autosize":false,"chartType":"candlesticks","dateRanges":["1w|1D","1m|1D","3m|1W"],"backgroundColor":"rgba(20,20,30,1)"}</script></div>
+</div>
+<div>
+<div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>{"symbols":[["AMEX:SMH"]],"chartOnly":true,"width":"100%","height":180,"locale":"zh_CN","colorTheme":"dark","autosize":false,"chartType":"candlesticks","dateRanges":["1w|1D","1m|1D","3m|1W"],"backgroundColor":"rgba(20,20,30,1)"}</script></div>
+</div>
+<div>
+<div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>{"symbols":[["SP:SPX"]],"chartOnly":true,"width":"100%","height":180,"locale":"zh_CN","colorTheme":"dark","autosize":false,"chartType":"candlesticks","dateRanges":["1w|1D","1m|1D","3m|1W"],"backgroundColor":"rgba(20,20,30,1)"}</script></div>
+</div>
+<div>
+<div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div><script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>{"symbols":[["SSE:000001"]],"chartOnly":true,"width":"100%","height":180,"locale":"zh_CN","colorTheme":"dark","autosize":false,"chartType":"candlesticks","dateRanges":["1w|1D","1m|1D","3m|1W"],"backgroundColor":"rgba(20,20,30,1)"}</script></div>
+</div>
+</div>
+</div>
+
+<!-- 板块3: FC Barcelona -->
 <div class="card">
 <h2>⚽ FC Barcelona</h2>
-<div class="content">
-<p><strong>🏆 客场险胜马竞 2-1，领先7分！</strong>Lewandowski 在比赛尾声打入致胜球，巴萨在大都会球场艰难拿下三分。同日皇马也输球，巴萨领先优势扩大至 7 分。</p>
-<p><strong>VAR 争议：</strong>Gerard Martin 红牌被 VAR 推翻。Flick 赛后表示 Lamine Yamal 有些不满（被换下），同时关注 Marc Bernal 的伤病情况。</p>
-<p><strong>转会动态：</strong>巴萨向国际米兰中卫 Alessandro Bastoni 提出初步报价。Lewandowski 本人希望等巴萨的续约方案，尤文图斯也在关注。</p>
-<p><strong>女足：</strong>巴萨女足 6-0 皇马，两回合总比分 12-2 晋级欧冠四强。Alexia Putellas 迎来第 500 场俱乐部比赛。</p>
-<p><strong>世界杯：</strong>Lewandowski 和波兰在预选赛被瑞典淘汰，无缘 2026 世界杯。</p>
-</div></div>
 
+<h3>La Liga 排名</h3>
+<p><strong>第1名</strong> — 74 分 / 30 场（24胜2平4负），领先皇马 <strong>7 分</strong>，进79球失29球。</p>
+
+<h3>最近比赛</h3>
+<p>巴萨 <strong>2-1</strong> 击败马德里竞技（La Liga），莱万多夫斯基进球助球队拉开 7 分差距。</p>
+
+<h3>伤病更新</h3>
+<ul>
+<li><strong>Raphinha</strong>：3月26日法国 vs 巴西友谊赛中右腿腿筋受伤，预计缺阵 5 周。</li>
+<li><strong>Koundé & Balde</strong>：已恢复合练，有望出战下场比赛。</li>
+</ul>
+
+<h3>转会动态</h3>
+<p>巴萨计划夏窗引进一名中后卫，首要目标为国际米兰的 <strong>Alessandro Bastoni</strong>。拉波尔塔已就 Bastoni 和 Alvarez 的转会计划发表讲话。</p>
+
+<h3>接下来赛程</h3>
+<p>未来 10 天内将与马竞三度交锋，包括联赛和 <strong>4月8日</strong> 欧冠对阵马竞。</p>
+</div>
+
+<!-- 板块4: Portland 本地 -->
 <div class="card">
 <h2>🌲 Portland 本地</h2>
-<div class="content">
-<p><strong>天气：</strong>今天多云，当前 61°F。本周前半段温暖（周日周一最高 74°F），周二转凉至 59°F，之后回升。降水概率极低，适合户外活动。</p>
-<p><strong>麻疹预警：</strong>Oregon 今年已报告 13 例麻疹，SE Portland 的 Safeway 被列为暴露地点。OHA 召开媒体通报会，呼吁加强疫苗接种。</p>
-<p><strong>Portland Fire (WNBA)：</strong>WNBA 扩展选秀完成，Portland Fire 选中 11 名球员组建首赛季阵容，首选 Lynx 前锋 Bridget Carleton。</p>
-<p><strong>开拓者：</strong>Trail Blazers 击败鹈鹕 118-106，迎来新老板 Tom Dundon。球队有望自 2021 年来首次进入季后赛。</p>
-<p><strong>世界杯奖杯巡展：</strong>FIFA 世界杯奖杯巡展本周六到达 Portland。</p>
-<p><strong>城市预算：</strong>Portland 市面临下一财年至少 5000 万美元预算缺口，正在计划削减开支。</p>
-</div></div>
 
+<h3>天气预报</h3>
+<p>今日上午多云间晴，下午云量增多。最高温 <strong>77°F (25°C)</strong>，东北风 5-10 mph。今晚部分多云，最低温 <strong>50°F (10°C)</strong>。有望追平 1977 年创下的 4 月 5 日历史最高温纪录。</p>
+
+<h3>安全警示：冷水休克风险</h3>
+<p>随着俄勒冈州气温升高，国家气象局警告民众：<strong>即使空气温度较高，河流和湖泊的水温仍然很低</strong>，突然跳入冷水可能导致冷水休克，对身体和大脑产生严重影响。</p>
+</div>
+
+<!-- 板块5: AI 工具/产品动态 -->
 <div class="card">
-<h2>🤖 AI 工具/产品动态</h2>
-<div class="content">
-<p><strong>OpenAI GPT-5.4：</strong>百万 token 上下文窗口，可自主执行跨软件环境的多步骤工作流。在 OSWorld-V 基准测试中得分 75%，超过人类基线 72.4%。OpenAI 年化营收突破 250 亿美元。</p>
-<p><strong>Google Gemini 3.1 Ultra：</strong>200 万 token 上下文窗口，原生跨文本/图像/音频/视频推理，内置沙盒代码执行工具。Veo 3.1 Lite 将 AI 视频生成成本降低 50%+。</p>
-<p><strong>Cursor 3：</strong>推出 agent-first 编程界面，直接与 Claude Code 和 Codex 竞争。支持多 agent 并行、进度监控和输出审查。</p>
-<p><strong>Yahoo Scout：</strong>基于 Anthropic 技术的 AI 搜索引擎，主打个性化直接回答而非对话式交互。</p>
-<p><strong>FLORA FAUNA：</strong>Nike、Netflix、Pentagram 采用的 AI 创意代理，通过 50+ 模型集成保持品牌创意独特性。按产出而非席位收费。</p>
-<p><strong>Sora 关停：</strong>OpenAI 宣布停运 AI 视频应用 Sora，上线仅6个月。日烧 1500 万美元算力，总营收仅 210 万美元。</p>
-</div></div>
+<h2>🤖 AI 工具 / 产品动态</h2>
 
-<footer>Powered by Claude (Max Plan) | Auto-generated for Xiaobo | <a href="index.html" style="color:#f0a040">All Reports</a></footer>
-</body></html>
+<h3>1. 当前旗舰模型一览</h3>
+<p>截至 2026 年 4 月：<strong>GPT-5.4 Thinking</strong>（OpenAI，3月5日发布）、<strong>Claude Opus 4.6 & Sonnet 4.6</strong>（Anthropic，2月发布）、<strong>Gemini 3.1 Pro</strong>（Google，2-3月发布）、<strong>Grok 4.20 Beta 2</strong>（xAI）。</p>
+
+<h3>2. 4月新模型展望</h3>
+<p>预测市场显示 4 月底前至少有一次重大模型发布，<strong>Claude Mythos</strong> 被认为是最可能的候选。</p>
+
+<h3>3. MCP 生态爆发</h3>
+<p>Anthropic 的 MCP（Model Context Protocol）在 3 月突破 <strong>9700 万安装量</strong>，从实验性标准转变为 AI Agent 基础设施的核心组件。</p>
+
+<h3>4. 行业融资与基建</h3>
+<p>OpenAI 刚刚完成 <strong>1220 亿美元</strong>融资，重点投入基础设施建设。Anthropic 面临 Claude Code 的使用限制问题——需求增长与算力供给的矛盾日益突出。</p>
+
+<h3>5. 微软发布 3 款新 AI 模型</h3>
+<p>微软推出三款新 AI 模型，直接挑战 OpenAI 和 Google 在 AI 领域的主导地位。</p>
+</div>
+
+<footer>
+<p>📡 Daily Research Report | Generated on 2026-04-05</p>
+<p><a href="index.html">All Reports</a></p>
+</footer>
+
+</div>
+</body>
+</html>
