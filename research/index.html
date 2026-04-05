@@ -174,6 +174,10 @@ body.lang-en .zh { display:none !important; }
       <button class="nav-btn" id="prevBtn" onclick="navigateDay(-1)"><span class="zh">◀ 前一天</span><span class="en">◀ Prev</span></button>
       <span class="current-date" id="currentDate">—</span>
       <button class="nav-btn" id="nextBtn" onclick="navigateDay(1)"><span class="zh">后一天 ▶</span><span class="en">Next ▶</span></button>
+      <span style="flex:1"></span>
+      <button class="nav-btn" id="promptBtn" onclick="togglePrompt()" style="background:rgba(240,160,64,0.1);color:#f0a040;border-color:rgba(240,160,64,0.3)">
+        <span class="zh">⚙ 生成指令</span><span class="en">⚙ Prompt</span>
+      </button>
     </div>
     <iframe class="report-frame" id="reportFrame"></iframe>
     <div class="empty-state" id="emptyState" style="display:none">
@@ -276,6 +280,19 @@ function loadReport(index) {
 }
 
 function navigateDay(delta) { loadReport(currentIndex + delta); }
+
+function togglePrompt() {
+  const frame = document.getElementById('reportFrame');
+  const btn = document.getElementById('promptBtn');
+  if (frame.src.includes('prompt.md') || frame.src.includes('prompt_view.html')) {
+    loadReport(currentIndex);
+    btn.style.background = 'rgba(240,160,64,0.1)';
+  } else {
+    frame.src = 'https://raw.githubusercontent.com/Timememo8210/sky-portal/main/research/prompt.md';
+    document.getElementById('currentDate').textContent = '⚙ 生成指令 / Prompt';
+    btn.style.background = 'rgba(240,160,64,0.3)';
+  }
+}
 
 // Init
 const saved = localStorage.getItem('research-lang');
