@@ -1,12 +1,12 @@
 # 📡 每日研报生成指令 (Daily Research Prompt)
 > 最后更新: 2026-04-05
-> 版本: v1.0
+> 版本: v1.1
 
 ---
 
 ## 执行流程
 
-搜索以下五个板块的最新新闻和数据，生成一份HTML研报并发布到GitHub。
+搜索以下五个板块的最新新闻和数据，生成一份HTML研报并发布到GitHub，最后推送通知到 Telegram 和 Discord。
 
 ### 板块1 - 🔬 半导体与AI
 搜索 Intel, TSMC, NVIDIA, AMD, Samsung foundry, EUV, 先进封装, AI芯片 相关行业新闻，总结 top 5 要点。
@@ -67,9 +67,49 @@ Authorization: token {GITHUB_PAT}
 ```
 GET https://api.github.com/repos/Timememo8210/sky-portal/contents/research/index.html
 ```
-找到 `const REPORTS = [` 数组，在数组最后追加今天日期字符串 `'YYYY-MM-DD'`，然后 PUT 更新（带 sha）。
+找到 `const REPORTS = [` 数组，检查今天日期是否已存在。如果不存在，在数组最后追加今天日期字符串 `'YYYY-MM-DD'`，然后 PUT 更新（带 sha）。
 
-### Step 3: 输出
+### Step 3: 推送通知
+
+将研报摘要同时推送到 Telegram 和 Discord。
+
+**摘要格式：**
+```
+📡 每日研报 YYYY-MM-DD 要点摘要
+
+🔬 半导体与AI:
+• [要点1-3]
+
+📈 股票:
+[股票代码 价格 涨跌幅]
+
+⚽ 巴萨: [最新比赛/排名信息]
+
+🌲 Portland: [天气和本地新闻]
+
+🤖 AI动态: [最新AI产品/工具动态]
+
+📎 完整报告: https://timememo8210.github.io/sky-portal/research/report-YYYY-MM-DD.html
+```
+
+**Telegram 推送：**
+```bash
+curl -s -X POST "https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage" \
+  -H "Content-Type: application/json" \
+  -d '{"chat_id": {TELEGRAM_CHAT_ID}, "text": "摘要内容..."}'
+```
+- TELEGRAM_BOT_TOKEN: `8785913810:AAEDjecRQo-dEk3EaovKOCP2WgOWQkHz_cA`
+- TELEGRAM_CHAT_ID: `8171251372`
+
+**Discord 推送：**
+```bash
+curl -s -X POST "{DISCORD_WEBHOOK_URL}" \
+  -H "Content-Type: application/json" \
+  -d '{"username": "Sky Daily Research", "content": "摘要内容..."}'
+```
+- DISCORD_WEBHOOK_URL: `https://discord.com/api/webhooks/1490435450328977580/maeoZtY9QKIrv-qPKympcmasAWiVrinsJghmVhlTv-73jhyT1ULu42IAIOohfDmTJwvq`
+
+### Step 4: 输出
 把研报完整内容以文字形式输出（所有五个板块的要点摘要），最后附上 HTML 报告链接：
 `https://timememo8210.github.io/sky-portal/research/report-{日期}.html`
 
@@ -78,4 +118,5 @@ GET https://api.github.com/repos/Timememo8210/sky-portal/contents/research/index
 ## 变更记录
 | 日期 | 变更 |
 |------|------|
-| 2026-04-05 | 初始版本：五板块 + 涨跌颜色 + TradingView K线图 |
+| 2026-04-05 | v1.1：新增 Step 3 Telegram + Discord 推送通知 |
+| 2026-04-05 | v1.0：初始版本：五板块 + 涨跌颜色 + TradingView K线图 |
