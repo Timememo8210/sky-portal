@@ -3,7 +3,7 @@
 <title>Daily Research — 2026-04-05</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,'Helvetica Neue','PingFang SC',sans-serif;background:#0f0f0f;color:#e0e0e0;padding:20px;max-width:800px;margin:0 auto}
+body{font-family:-apple-system,'Helvetica Neue','PingFang SC',sans-serif;background:#0f0f0f;color:#e0e0e0;padding:20px;max-width:900px;margin:0 auto}
 header{text-align:center;padding:30px 0 20px;border-bottom:1px solid #333;margin-bottom:24px}
 header h1{font-size:1.6em;color:#fff;font-weight:600}
 header .date{color:#888;font-size:0.9em;margin-top:6px}
@@ -11,10 +11,24 @@ header .date{color:#888;font-size:0.9em;margin-top:6px}
 .card h2{font-size:1.1em;color:#f0a040;margin-bottom:12px;border-bottom:1px solid #2a2a2a;padding-bottom:8px}
 .content{font-size:0.92em;line-height:1.7;color:#ccc}
 .content p{margin-bottom:10px} .content strong{color:#fff}
-.tag{display:inline-block;background:#2a2a2a;color:#f0a040;padding:2px 8px;border-radius:4px;font-size:0.8em;margin:2px}
+
+/* Stock tags with colors */
+.tag{display:inline-block;padding:3px 10px;border-radius:5px;font-size:0.82em;margin:3px;font-family:'SF Mono',monospace;font-weight:600}
+.tag-up{background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3)}
+.tag-down{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.tag-neutral{background:rgba(255,255,255,0.06);color:#888;border:1px solid rgba(255,255,255,0.1)}
+
+/* Chart grid */
+.charts-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.chart-box{background:#14141e;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;min-height:220px}
+.chart-label{font-size:0.82em;font-weight:600;color:#f0a040;padding:10px 12px 4px;font-family:'SF Mono',monospace}
+.tradingview-widget-container{height:180px}
+
+@media(max-width:600px){.charts-grid{grid-template-columns:1fr}}
+
 footer{text-align:center;color:#555;font-size:0.8em;padding:20px 0;border-top:1px solid #222;margin-top:20px}
 </style></head><body>
-<header><h1>📡 Daily Research Report</h1><div class="date">Generated: 2026-04-05 17:20 UTC</div></header>
+<header><h1>📡 Daily Research Report</h1><div class="date">Generated: 2026-04-05 17:43 UTC</div></header>
 
 <div class="card">
 <h2>🔬 半导体与AI</h2>
@@ -30,9 +44,212 @@ footer{text-align:center;color:#555;font-size:0.8em;padding:20px 0;border-top:1p
 <h2>📈 半导体股票</h2>
 <div class="content">
 <p><strong>Q1 回顾：</strong>半导体板块在 2026 年初强劲开局，但 Q1 尾声受中东局势和地缘不确定性拖累回吐大部分涨幅。进入 Q2 预计波动加剧。</p>
-<p><strong>4月4日收盘价（部分）：</strong></p>
-<p><span class="tag">INTC $50.38 +4.89%</span> <span class="tag">AMD $217.50 +3.47%</span> <span class="tag">NVDA 见下</span> <span class="tag">TSM $339.04 -0.72%</span> <span class="tag">MU $366.24 -0.44%</span> <span class="tag">AVGO $314.55 +0.34%</span> <span class="tag">QCOM $126.80 -0.38%</span> <span class="tag">CRDO $101.45 +5.77%</span></p>
-<p><strong>趋势：</strong>Intel 和 AMD 领涨，Credo Technology 大涨近6%。TSMC 小幅回调。板块整体呈分化走势，AI 相关个股仍是主要驱动力。</p>
+<p><strong>4月4日收盘（部分）：</strong></p>
+<p><span class="tag tag-up">INTC $50.38 +4.89%</span> <span class="tag tag-up">AMD $217.50 +3.47%</span> <span class="tag tag-down">TSM $339.04 -0.72%</span> <span class="tag tag-neutral">NVDA —</span> <span class="tag tag-down">MU $366.24 -0.44%</span> <span class="tag tag-up">AVGO $314.55 +0.34%</span> <span class="tag tag-down">QCOM $126.80 -0.38%</span> <span class="tag tag-up">CRDO $101.45 +5.77%</span> <span class="tag tag-neutral">TSLA —</span> <span class="tag tag-neutral">SMH —</span></p>
+<p><strong>趋势：</strong>Intel 和 Credo Technology 领涨，AMD 涨超3%。TSMC、Micron 小幅回调。板块整体呈分化走势，AI 相关个股仍是主要驱动力。</p>
+
+<h3 style="font-size:0.95em;color:#f0a040;margin:20px 0 8px;padding-top:12px;border-top:1px solid #2a2a2a;">📊 K 线图（可拖动切换 1周 / 1月 / 3月）</h3>
+<div class="charts-grid">
+
+    <div class="chart-box">
+      <div class="chart-label">Intel (INTC)</div>
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+        {
+          "symbols": [["NASDAQ:INTC"]],
+          "chartOnly": true,
+          "width": "100%",
+          "height": 180,
+          "locale": "zh_CN",
+          "colorTheme": "dark",
+          "autosize": false,
+          "showVolume": false,
+          "showMA": false,
+          "hideDateRanges": false,
+          "hideMarketStatus": true,
+          "hideSymbolLogo": true,
+          "scalePosition": "right",
+          "scaleMode": "Normal",
+          "fontFamily": "-apple-system, sans-serif",
+          "fontSize": "10",
+          "noTimeScale": false,
+          "valuesTracking": "1",
+          "changeMode": "price-and-percent",
+          "chartType": "candlesticks",
+          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
+          "backgroundColor": "rgba(20,20,30,1)",
+          "gridLineColor": "rgba(255,255,255,0.04)"
+        }
+        </script>
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-label">NVIDIA (NVDA)</div>
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+        {
+          "symbols": [["NASDAQ:NVDA"]],
+          "chartOnly": true,
+          "width": "100%",
+          "height": 180,
+          "locale": "zh_CN",
+          "colorTheme": "dark",
+          "autosize": false,
+          "showVolume": false,
+          "showMA": false,
+          "hideDateRanges": false,
+          "hideMarketStatus": true,
+          "hideSymbolLogo": true,
+          "scalePosition": "right",
+          "scaleMode": "Normal",
+          "fontFamily": "-apple-system, sans-serif",
+          "fontSize": "10",
+          "noTimeScale": false,
+          "valuesTracking": "1",
+          "changeMode": "price-and-percent",
+          "chartType": "candlesticks",
+          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
+          "backgroundColor": "rgba(20,20,30,1)",
+          "gridLineColor": "rgba(255,255,255,0.04)"
+        }
+        </script>
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-label">Tesla (TSLA)</div>
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+        {
+          "symbols": [["NASDAQ:TSLA"]],
+          "chartOnly": true,
+          "width": "100%",
+          "height": 180,
+          "locale": "zh_CN",
+          "colorTheme": "dark",
+          "autosize": false,
+          "showVolume": false,
+          "showMA": false,
+          "hideDateRanges": false,
+          "hideMarketStatus": true,
+          "hideSymbolLogo": true,
+          "scalePosition": "right",
+          "scaleMode": "Normal",
+          "fontFamily": "-apple-system, sans-serif",
+          "fontSize": "10",
+          "noTimeScale": false,
+          "valuesTracking": "1",
+          "changeMode": "price-and-percent",
+          "chartType": "candlesticks",
+          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
+          "backgroundColor": "rgba(20,20,30,1)",
+          "gridLineColor": "rgba(255,255,255,0.04)"
+        }
+        </script>
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-label">SMH ETF</div>
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+        {
+          "symbols": [["AMEX:SMH"]],
+          "chartOnly": true,
+          "width": "100%",
+          "height": 180,
+          "locale": "zh_CN",
+          "colorTheme": "dark",
+          "autosize": false,
+          "showVolume": false,
+          "showMA": false,
+          "hideDateRanges": false,
+          "hideMarketStatus": true,
+          "hideSymbolLogo": true,
+          "scalePosition": "right",
+          "scaleMode": "Normal",
+          "fontFamily": "-apple-system, sans-serif",
+          "fontSize": "10",
+          "noTimeScale": false,
+          "valuesTracking": "1",
+          "changeMode": "price-and-percent",
+          "chartType": "candlesticks",
+          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
+          "backgroundColor": "rgba(20,20,30,1)",
+          "gridLineColor": "rgba(255,255,255,0.04)"
+        }
+        </script>
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-label">S&P 500</div>
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+        {
+          "symbols": [["SP:SPX"]],
+          "chartOnly": true,
+          "width": "100%",
+          "height": 180,
+          "locale": "zh_CN",
+          "colorTheme": "dark",
+          "autosize": false,
+          "showVolume": false,
+          "showMA": false,
+          "hideDateRanges": false,
+          "hideMarketStatus": true,
+          "hideSymbolLogo": true,
+          "scalePosition": "right",
+          "scaleMode": "Normal",
+          "fontFamily": "-apple-system, sans-serif",
+          "fontSize": "10",
+          "noTimeScale": false,
+          "valuesTracking": "1",
+          "changeMode": "price-and-percent",
+          "chartType": "candlesticks",
+          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
+          "backgroundColor": "rgba(20,20,30,1)",
+          "gridLineColor": "rgba(255,255,255,0.04)"
+        }
+        </script>
+      </div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-label">上证指数</div>
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+        {
+          "symbols": [["SSE:000001"]],
+          "chartOnly": true,
+          "width": "100%",
+          "height": 180,
+          "locale": "zh_CN",
+          "colorTheme": "dark",
+          "autosize": false,
+          "showVolume": false,
+          "showMA": false,
+          "hideDateRanges": false,
+          "hideMarketStatus": true,
+          "hideSymbolLogo": true,
+          "scalePosition": "right",
+          "scaleMode": "Normal",
+          "fontFamily": "-apple-system, sans-serif",
+          "fontSize": "10",
+          "noTimeScale": false,
+          "valuesTracking": "1",
+          "changeMode": "price-and-percent",
+          "chartType": "candlesticks",
+          "dateRanges": ["1w|1D", "1m|1D", "3m|1W"],
+          "backgroundColor": "rgba(20,20,30,1)",
+          "gridLineColor": "rgba(255,255,255,0.04)"
+        }
+        </script>
+      </div>
+    </div>
+</div>
 </div></div>
 
 <div class="card">
@@ -42,7 +259,7 @@ footer{text-align:center;color:#555;font-size:0.8em;padding:20px 0;border-top:1p
 <p><strong>VAR 争议：</strong>Gerard Martin 红牌被 VAR 推翻。Flick 赛后表示 Lamine Yamal 有些不满（被换下），同时关注 Marc Bernal 的伤病情况。</p>
 <p><strong>转会动态：</strong>巴萨向国际米兰中卫 Alessandro Bastoni 提出初步报价。Lewandowski 本人希望等巴萨的续约方案，尤文图斯也在关注。</p>
 <p><strong>女足：</strong>巴萨女足 6-0 皇马，两回合总比分 12-2 晋级欧冠四强。Alexia Putellas 迎来第 500 场俱乐部比赛。</p>
-<p><strong>世界杯：</strong>Lewandowski 和波兰在预选赛被瑞典（Roony 进球）淘汰，无缘 2026 世界杯。</p>
+<p><strong>世界杯：</strong>Lewandowski 和波兰在预选赛被瑞典淘汰，无缘 2026 世界杯。</p>
 </div></div>
 
 <div class="card">
