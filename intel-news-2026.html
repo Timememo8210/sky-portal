@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intel 2026 新闻速览</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0f1a;
+    --paper: #f0ede6;
+    --accent: #0071c5;
+    --accent2: #00c7fd;
+    --warn: #e5a200;
+    --red: #d94040;
+    --green: #2ea44f;
+    --muted: #6b7280;
+    --border: #d1cdc4;
+    --card: #faf8f4;
+    --gradient: linear-gradient(135deg, #0071c5 0%, #00c7fd 50%, #0071c5 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(0,113,197,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 30%, rgba(0,199,253,0.15) 0%, transparent 50%),
+      repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.02) 59px, rgba(255,255,255,0.02) 60px),
+      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.02) 59px, rgba(255,255,255,0.02) 60px);
+    animation: gridPulse 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes gridPulse {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 3rem 2rem;
+    max-width: 900px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,113,197,0.2);
+    border: 1px solid rgba(0,199,253,0.3);
+    padding: 6px 18px;
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    animation: fadeSlideUp 0.8s ease-out;
+  }
+
+  .hero-badge .dot {
+    width: 6px; height: 6px;
+    background: var(--accent2);
+    border-radius: 50%;
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 1.2rem;
+    animation: fadeSlideUp 1s ease-out 0.15s both;
+  }
+
+  .hero h1 span {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    color: rgba(255,255,255,0.55);
+    font-size: 1.05rem;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    animation: fadeSlideUp 1s ease-out 0.3s both;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== TICKER ===== */
+  .ticker-wrap {
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    padding: 12px 0;
+  }
+
+  .ticker {
+    display: flex;
+    white-space: nowrap;
+    animation: scroll 30s linear infinite;
+    gap: 3rem;
+  }
+
+  .ticker span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.05em;
+  }
+
+  .ticker .up { color: var(--green); }
+  .ticker .tag { color: var(--accent2); }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ===== MAIN ===== */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3.5rem 0 1.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .section-head:first-child { margin-top: 0; }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    background: rgba(0,113,197,0.08);
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+  }
+
+  .section-head h2 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    flex: 1;
+  }
+
+  /* ===== NEWS CARDS ===== */
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.6rem 1.8rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--gradient);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+    border-color: var(--accent);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .card-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .card-tag {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .tag-foundry { background: rgba(0,113,197,0.1); color: var(--accent); }
+  .tag-product { background: rgba(46,164,79,0.1); color: var(--green); }
+  .tag-finance { background: rgba(229,162,0,0.1); color: #b88600; }
+  .tag-leadership { background: rgba(217,64,64,0.1); color: var(--red); }
+  .tag-strategy { background: rgba(139,92,246,0.1); color: #7c3aed; }
+  .tag-ai { background: rgba(0,199,253,0.1); color: #0091b5; }
+
+  .card h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 1.12rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
+
+  .card p {
+    color: #4a4a4a;
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+
+  /* ===== HIGHLIGHT CARD ===== */
+  .card-highlight {
+    background: linear-gradient(135deg, #0a1628 0%, #0d1f3c 100%);
+    color: #fff;
+    border-color: rgba(0,113,197,0.3);
+  }
+
+  .card-highlight::before { opacity: 1; }
+
+  .card-highlight h3 { color: #fff; }
+
+  .card-highlight p { color: rgba(255,255,255,0.7); }
+
+  .card-highlight .card-date { color: rgba(255,255,255,0.4); }
+
+  .card-highlight:hover {
+    box-shadow: 0 8px 40px rgba(0,113,197,0.2);
+  }
+
+  /* ===== STATS ROW ===== */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+
+  .stat-card:hover { transform: translateY(-2px); }
+
+  .stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 1.5rem 0;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    border-radius: 1px;
+  }
+
+  .tl-item {
+    position: relative;
+    padding: 0 0 1.5rem 1.2rem;
+  }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 6px;
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border: 3px solid var(--paper);
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .tl-item:last-child { padding-bottom: 0; }
+
+  .tl-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    margin-bottom: 2px;
+  }
+
+  .tl-text {
+    font-size: 0.9rem;
+    color: #4a4a4a;
+    line-height: 1.6;
+  }
+
+  .tl-text strong { color: var(--ink); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 640px) {
+    .hero { min-height: 50vh; }
+    .main { padding: 2rem 1rem 3rem; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .section-head h2 { font-size: 1.3rem; }
+  }
+
+  /* ===== ANIMATIONS ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeSlideUp 0.6s ease-out forwards;
+  }
+
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.1s; }
+  .d3 { animation-delay: 0.15s; }
+  .d4 { animation-delay: 0.2s; }
+  .d5 { animation-delay: 0.25s; }
+  .d6 { animation-delay: 0.3s; }
+  .d7 { animation-delay: 0.35s; }
+  .d8 { animation-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span>LIVE UPDATE · 2026.04.04</div>
+    <h1>Intel <span>2026</span> 新闻速览</h1>
+    <p class="hero-sub">18A量产元年 · 代工复兴 · 领导层重塑 — 一文纵览Intel关键转折点</p>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>INTC <span class="up">$48.24 ▲9.31%</span></span>
+    <span class="tag">18A HVM</span>
+    <span>Fab 52 亚利桑那投产</span>
+    <span class="tag">Panther Lake</span>
+    <span>Core Ultra Series 3 已上市</span>
+    <span class="tag">Clearwater Forest</span>
+    <span>爱尔兰Fab 34回购 $14.2B</span>
+    <span class="tag">14A节点</span>
+    <span>High-NA EUV 率先部署</span>
+    <span>Q1财报 4/23发布</span>
+    <!-- duplicate for seamless loop -->
+    <span>INTC <span class="up">$48.24 ▲9.31%</span></span>
+    <span class="tag">18A HVM</span>
+    <span>Fab 52 亚利桑那投产</span>
+    <span class="tag">Panther Lake</span>
+    <span>Core Ultra Series 3 已上市</span>
+    <span class="tag">Clearwater Forest</span>
+    <span>爱尔兰Fab 34回购 $14.2B</span>
+    <span class="tag">14A节点</span>
+    <span>High-NA EUV 率先部署</span>
+    <span>Q1财报 4/23发布</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- KEY METRICS -->
+  <div class="stats">
+    <div class="stat-card reveal d1">
+      <div class="stat-val">$48.24</div>
+      <div class="stat-label">股价 (4/1) ▲9.31%</div>
+    </div>
+    <div class="stat-card reveal d2">
+      <div class="stat-val">$207B</div>
+      <div class="stat-label">市值</div>
+    </div>
+    <div class="stat-card reveal d3">
+      <div class="stat-val">18A</div>
+      <div class="stat-label">量产制程节点</div>
+    </div>
+    <div class="stat-card reveal d4">
+      <div class="stat-val">200+</div>
+      <div class="stat-label">Series 3 PC设计</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: FOUNDRY & 18A -->
+  <div class="section-head reveal d1">
+    <span class="section-num">01</span>
+    <h2>制造与代工 · 18A量产攻坚</h2>
+  </div>
+
+  <div class="news-grid">
+    <div class="card card-highlight reveal d2">
+      <div class="card-meta">
+        <span class="card-date">2025.10 — 持续至今</span>
+        <span class="card-tag tag-foundry">Foundry</span>
+      </div>
+      <h3>18A正式进入量产阶段，Fab 52完成首批晶圆制造</h3>
+      <p>Intel 18A于2025年10月进入高量产(HVM)，亚利桑那州Fab 52已完成首批晶圆"run the lot"。该节点集成RibbonFET全环栅晶体管与业界首创PowerVia背面供电技术，较Intel 3提升约15%性能/瓦、30%芯片密度。目前良率每月约提升7%，目标年底前达到商业化可行水平。</p>
+    </div>
+
+    <div class="card reveal d3">
+      <div class="card-meta">
+        <span class="card-date">2026.04.01</span>
+        <span class="card-tag tag-finance">财务</span>
+      </div>
+      <h3>$142亿回购爱尔兰Fab 34合资企业49%股权</h3>
+      <p>Intel与Apollo达成协议，以$142亿回购2024年出让的爱尔兰Fab 34的49%股权。资金来源包括现金储备及约$65亿新债。管理层表示此举反映"CPU在AI时代日益增长的战略重要性"，交易预计在2027年后对EPS产生增益效应。</p>
+    </div>
+
+    <div class="card reveal d4">
+      <div class="card-meta">
+        <span class="card-date">2026 H2 预期</span>
+        <span class="card-tag tag-foundry">Foundry</span>
+      </div>
+      <h3>14A节点：率先引入High-NA EUV，寻求外部代工客户</h3>
+      <p>14A是Intel下一代节点，较18A提升15-20%性能/瓦、25-35%功耗降低、1.3x密度。Intel是全球首家部署High-NA EUV光刻的芯片制造商。早期PDK已分发给领先客户，预计2026下半年至2027上半年两个潜在外部客户将做出绑定承诺。如无法获得外部代工营收，14A后续节点投资将面临压力。</p>
+    </div>
+
+    <div class="card reveal d5">
+      <div class="card-meta">
+        <span class="card-date">进行中</span>
+        <span class="card-tag tag-strategy">战略</span>
+      </div>
+      <h3>俄亥俄工厂地下工程完成，全球产能持续扩张</h3>
+      <p>Intel的$200亿俄亥俄项目已完成主要地下施工，不再预期额外延迟。马来西亚先进封装工厂预计2026年投入运营。同时CPU供应紧张推动价格上涨10%-15%，Intel和AMD均已通知客户涨价计划。</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2: PRODUCTS -->
+  <div class="section-head reveal d1">
+    <span class="section-num">02</span>
+    <h2>产品线 · AI PC与数据中心双线推进</h2>
+  </div>
+
+  <div class="news-grid">
+    <div class="card reveal d2">
+      <div class="card-meta">
+        <span class="card-date">2026.01 CES</span>
+        <span class="card-tag tag-product">产品</span>
+      </div>
+      <h3>Core Ultra Series 3 (Panther Lake) — 首款18A消费级处理器</h3>
+      <p>CES 2026上正式发布，这是首个基于Intel 18A制程的AI PC平台。新增Core Ultra X9/X7高端系列，搭载最强集成Arc显卡。支持200+笔记本设计，1月27日起全球发售。新增X9/X7产品线专为游戏、创作和移动办公场景打造。</p>
+    </div>
+
+    <div class="card reveal d3">
+      <div class="card-meta">
+        <span class="card-date">2026 H1 预期</span>
+        <span class="card-tag tag-product">产品</span>
+      </div>
+      <h3>Xeon 6+ (Clearwater Forest) — 18A服务器端首秀</h3>
+      <p>基于18A制程的下一代E核服务器处理器，最多288个E核，IPC较上代提升17%。专为超大规模数据中心、云服务商和电信运营商设计，强调密度、吞吐量和能效优势。预计2026上半年正式发布。</p>
+    </div>
+
+    <div class="card reveal d4">
+      <div class="card-meta">
+        <span class="card-date">2026 H2 预期</span>
+        <span class="card-tag tag-product">产品</span>
+      </div>
+      <h3>Nova Lake桌面CPU — 大部分产能仍依赖TSMC N2</h3>
+      <p>Nova Lake将接替问题较多的Arrow Lake桌面系列。但值得注意的是，超过90%的Nova Lake CPU将由TSMC N2节点制造。CFO Zinsner坦言"我们会永远在TSMC上放产品"，这是务实选择，但也凸显Intel自身代工产能尚未完全满足内部需求。</p>
+    </div>
+
+    <div class="card reveal d5">
+      <div class="card-meta">
+        <span class="card-date">2026 H2 样片</span>
+        <span class="card-tag tag-ai">AI</span>
+      </div>
+      <h3>AI加速器路线调整：放弃Falcon Shores，转向推理市场</h3>
+      <p>Intel取消了Falcon Shores的商业发售计划，仅供内部使用。转而推出Crescent Island (160GB LPDDR5X，面向空气冷却企业服务器推理场景)，并规划搭载HBM4和硅光互连的Jaguar Shores。策略从与NVIDIA正面竞争大规模训练，转向以能效和成本取胜的推理细分市场。</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3: LEADERSHIP -->
+  <div class="section-head reveal d1">
+    <span class="section-num">03</span>
+    <h2>领导层与公司治理</h2>
+  </div>
+
+  <div class="timeline reveal d2">
+    <div class="tl-item">
+      <div class="tl-date">2026.04.02</div>
+      <div class="tl-text"><strong>Aparna Bawa</strong> 被任命为EVP、首席法务与人力官，来自Zoom COO岗位，5月到任。将领导法律、合规、人力资源与文化组织。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026.04.03</div>
+      <div class="tl-text">现任首席法务官 <strong>April Miller Boise</strong> 将于6月1日离职，获得高管离职补偿。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026.03.03</div>
+      <div class="tl-text">董事会主席 <strong>Frank D. Yeary</strong> 将在年会后退休；<strong>Dr. Craig H. Barratt</strong> 当选新主席。</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2026.01</div>
+      <div class="tl-text">CEO <strong>Lip-Bu Tan</strong> 在白宫会议后，Intel被授予"国家冠军(national champion)"半导体制造商称号，股价当日跳涨10.5%。</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: STOCK & FINANCE -->
+  <div class="section-head reveal d1">
+    <span class="section-num">04</span>
+    <h2>股价与财务表现</h2>
+  </div>
+
+  <div class="news-grid">
+    <div class="card reveal d2">
+      <div class="card-meta">
+        <span class="card-date">2026.04.01</span>
+        <span class="card-tag tag-finance">财务</span>
+      </div>
+      <h3>INTC股价突破$48，年内涨幅超150%</h3>
+      <p>从2024年低点反弹超过150%，52周区间$17.67-$54.60。市值约$207B。4月1日单日涨幅9.31%，受云计算积极预期及CPU供需紧张推动。New Street将目标价从$40上调至$50。不过当前估值仍然较高(约50x前瞻PE)，净利润因研发投入仍为负。</p>
+    </div>
+
+    <div class="card reveal d3">
+      <div class="card-meta">
+        <span class="card-date">2026.04.23</span>
+        <span class="card-tag tag-finance">财务</span>
+      </div>
+      <h3>Q1 2026财报将于4月23日盘后发布</h3>
+      <p>Intel将于4月23日收盘后公布2026年一季度财报，随后在太平洋时间下午2点举行电话会议。2025全年营收$528.5亿，毛利率34.8%，但净利润为-$3.33亿。市场重点关注18A良率改善进度、代工业务外部客户拓展以及Clearwater Forest量产时间表。</p>
+    </div>
+  </div>
+
+  <!-- SECTION 5: ECOSYSTEM -->
+  <div class="section-head reveal d1">
+    <span class="section-num">05</span>
+    <h2>生态与合作伙伴</h2>
+  </div>
+
+  <div class="news-grid">
+    <div class="card reveal d2">
+      <div class="card-meta">
+        <span class="card-date">2026.03.25</span>
+        <span class="card-tag tag-ai">AI·安全</span>
+      </div>
+      <h3>与CrowdStrike深化合作，AI PC设备端安全加固</h3>
+      <p>CrowdStrike Falcon平台将与Intel AI PC架构深度整合，实现实时威胁检测和增强数据保护，且不影响系统性能。这是Intel在商用PC安全领域的重要差异化策略。</p>
+    </div>
+
+    <div class="card reveal d3">
+      <div class="card-meta">
+        <span class="card-date">2026.04.01</span>
+        <span class="card-tag tag-ai">AI·性能</span>
+      </div>
+      <h3>MLPerf Inference v6.0：Xeon 6 + Arc Pro展示推理能力</h3>
+      <p>在最新MLPerf推理基准测试中，Intel Xeon 6与Arc Pro B系列GPU展示了面向工作站和边缘系统的强劲低延迟AI推理性能，验证了Intel在非GPU推理领域的竞争力。</p>
+    </div>
+
+    <div class="card reveal d4">
+      <div class="card-meta">
+        <span class="card-date">2026.03.23</span>
+        <span class="card-tag tag-product">子公司</span>
+      </div>
+      <h3>Mobileye获美国主要车厂DMS量产合同</h3>
+      <p>Intel子公司Mobileye与一家美国大型汽车制造商签署驾驶员监控系统(DMS)量产合同，预计2027年投产，可能覆盖数百万辆车型。扩展了Mobileye现有ADAS项目版图。</p>
+    </div>
+  </div>
+
+  <!-- SECTION 6: KEY RISKS -->
+  <div class="section-head reveal d1">
+    <span class="section-num">06</span>
+    <h2>关键风险与挑战</h2>
+  </div>
+
+  <div class="news-grid">
+    <div class="card reveal d2" style="border-left: 4px solid var(--warn);">
+      <h3 style="color: #b88600;">⚠ 值得关注的挑战</h3>
+      <p>
+        <strong>良率压力：</strong>18A良率虽在改善，但年底前仍难达到盈利水平，Fab 52产能爬坡需要时间。<br><br>
+        <strong>TSMC依赖：</strong>Nova Lake 90%+产能外包给TSMC N2，说明Intel Foundry尚无法承接全部内部订单。<br><br>
+        <strong>14A客户不确定性：</strong>若无法争取到重要外部客户，后续先进节点的巨额资本支出将难以为继。<br><br>
+        <strong>DRAM涨价冲击：</strong>内存芯片短缺推动PC价格上涨10-30%，可能抑制需求并影响AI PC普及节奏。<br><br>
+        <strong>估值与盈利：</strong>当前约50x前瞻PE，净利润为负，自由现金流同样为负，股价已price-in大量乐观预期。
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  数据来源：Intel Newsroom, Business Wire, Tom's Hardware, Motley Fool, TrendForce, Investing.com 等 · 由Claude整理 · 2026年4月4日<br>
+  <span style="opacity:0.6;">本页面仅供信息参考，不构成投资建议。</span>
+</footer>
+
+</body>
+</html>
