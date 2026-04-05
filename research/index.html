@@ -284,11 +284,11 @@ function navigateDay(delta) { loadReport(currentIndex + delta); }
 function togglePrompt() {
   const frame = document.getElementById('reportFrame');
   const btn = document.getElementById('promptBtn');
-  if (frame.src.includes('prompt.md') || frame.src.includes('prompt_view.html')) {
+  if (frame.src.includes('prompt_view.html')) {
     loadReport(currentIndex);
     btn.style.background = 'rgba(240,160,64,0.1)';
   } else {
-    frame.src = 'https://raw.githubusercontent.com/Timememo8210/sky-portal/main/research/prompt.md';
+    frame.src = 'prompt_view.html';
     document.getElementById('currentDate').textContent = '⚙ 生成指令 / Prompt';
     btn.style.background = 'rgba(240,160,64,0.3)';
   }
