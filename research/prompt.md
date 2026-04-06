@@ -38,8 +38,8 @@
          NASDAQ:NVDA  → NVDA — NVIDIA
          NASDAQ:TSLA  → TSLA — Tesla
          NASDAQ:SMH   → NASDAQ:SMH — Semiconductor ETF
-         AMEX:SPY       → SPX — S&P 500
-         SSE:000001   → SHCOMP — 上证指数
+         AMEX:SPY       → SPY — S&P 500
+         SSE:000001   → 000001 — 上证指数
     -->
 
   </div>
