@@ -1,6 +1,6 @@
 # 📡 每日研报生成指令 (Daily Research Prompt)
 > 最后更新: 2026-04-06
-> 版本: v1.2
+> 版本: v1.3
 
 ---
 
@@ -19,13 +19,59 @@
 - 跌幅 < 0 用红色标签：`background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3)`
 - 标签字体：`font-family:'SF Mono',monospace; font-weight:600; font-size:0.82em; padding:3px 10px; border-radius:5px`
 
-**K线图：** 底部嵌入6个 TradingView symbol-overview widget（2×3 grid），配置：
+**K线图：** 底部嵌入6个 TradingView symbol-overview widget，HTML结构如下：
+
+```html
+<!-- K线图区域 -->
+<div style="margin-top:24px">
+  <h3 style="color:#f0a040;margin-bottom:12px">📊 K线图</h3>
+  <div class="kline-grid" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px">
+
+    <!-- 每个图的容器，包含标题标签 -->
+    <div class="kline-item">
+      <div class="kline-label">INTC — Intel</div>
+      <div class="tradingview-widget-container">...</div>
+    </div>
+
+    <!-- 依此类推，股票代码与公司名对应关系：
+         NASDAQ:INTC  → INTC — Intel
+         NASDAQ:NVDA  → NVDA — NVIDIA
+         NASDAQ:TSLA  → TSLA — Tesla
+         AMEX:SMH     → SMH — Semiconductor ETF
+         SP:SPX       → SPX — S&P 500
+         SSE:000001   → 000001 — 上证指数
+    -->
+
+  </div>
+</div>
+
+<style>
+.kline-label {
+  font-family: 'SF Mono', monospace;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #f0a040;
+  text-align: center;
+  margin-bottom: 4px;
+  letter-spacing: 0.03em;
+}
+@media (max-width: 768px) {
+  .kline-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+</style>
+```
+
+TradingView widget 配置：
 - Symbols: `NASDAQ:INTC`, `NASDAQ:NVDA`, `NASDAQ:TSLA`, `AMEX:SMH`, `SP:SPX`, `SSE:000001`
 - chartType: candlesticks
 - colorTheme: dark
 - backgroundColor: rgba(20,20,30,1)
 - dateRanges: ["1w|1D", "1m|1D", "3m|1W"]
 - height: 180, chartOnly: true, locale: zh_CN
+
+**价格格式化：** 股价统一保留2位小数（如 `$23.45`），避免过长小数。
 
 ### 板块3 - ⚽ FC Barcelona
 搜索巴萨最近24小时新闻：比赛结果（比分、进球者）、转会传闻、伤病更新、La Liga 排名、欧冠进展。
@@ -125,6 +171,7 @@ curl -s -X POST "{DISCORD_WEBHOOK_URL}" \
 ## 变更记录
 | 日期 | 变更 |
 |------|------|
+| 2026-04-06 | v1.3：K线图优化：每图加股票标签、手机端单列布局、股价保留2位小数 |
 | 2026-04-06 | v1.2：新增第六板块 ⚽🏀 体育赛事（World Cup & NBA） |
 | 2026-04-05 | v1.1：新增 Step 3 Telegram + Discord 推送通知 |
 | 2026-04-05 | v1.0：初始版本：五板块 + 涨跌颜色 + TradingView K线图 |
