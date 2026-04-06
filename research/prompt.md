@@ -1,12 +1,12 @@
 # 📡 每日研报生成指令 (Daily Research Prompt)
-> 最后更新: 2026-04-05
-> 版本: v1.1
+> 最后更新: 2026-04-06
+> 版本: v1.2
 
 ---
 
 ## 执行流程
 
-搜索以下五个板块的最新新闻和数据，生成一份HTML研报并发布到GitHub，最后推送通知到 Telegram 和 Discord。
+搜索以下六个板块的最新新闻和数据，生成一份HTML研报并发布到GitHub，最后推送通知到 Telegram 和 Discord。
 
 ### 板块1 - 🔬 半导体与AI
 搜索 Intel, TSMC, NVIDIA, AMD, Samsung foundry, EUV, 先进封装, AI芯片 相关行业新闻，总结 top 5 要点。
@@ -30,10 +30,15 @@
 ### 板块3 - ⚽ FC Barcelona
 搜索巴萨最近24小时新闻：比赛结果（比分、进球者）、转会传闻、伤病更新、La Liga 排名、欧冠进展。
 
-### 板块4 - 🌲 Portland 本地
+### 板块4 - ⚽🏀 体育赛事（World Cup & NBA）
+搜索以下关键词的最新新闻：FIFA World Cup 2026、World Cup qualifiers、NBA playoffs 2026、NBA standings、NBA trade rumors。
+新闻来源优先参考：ESPN、BBC Sport、The Athletic、NBA.com。
+每条新闻输出：标题、来源、简要摘要（1-2句）。HTML 卡片用 🏟️ 图标，颜色用绿色系，标题色 `#4CAF50`，边框 `1px solid rgba(76,175,80,0.3)`，背景 `rgba(76,175,80,0.05)`。
+
+### 板块5 - 🌲 Portland 本地
 搜索 Portland Oregon 今日新闻和天气。包括：天气预报、重大本地新闻、交通更新、社区活动。
 
-### 板块5 - 🤖 AI 工具/产品动态
+### 板块6 - 🤖 AI 工具/产品动态
 搜索最新 AI 工具发布、产品重大更新、行业动态。关注：OpenAI, Google, Anthropic, 开源模型, 新应用。
 
 ---
@@ -85,6 +90,8 @@ GET https://api.github.com/repos/Timememo8210/sky-portal/contents/research/index
 
 ⚽ 巴萨: [最新比赛/排名信息]
 
+🏟️ 体育赛事: [World Cup & NBA 最新动态]
+
 🌲 Portland: [天气和本地新闻]
 
 🤖 AI动态: [最新AI产品/工具动态]
@@ -110,7 +117,7 @@ curl -s -X POST "{DISCORD_WEBHOOK_URL}" \
 - DISCORD_WEBHOOK_URL: `https://discord.com/api/webhooks/1490435450328977580/maeoZtY9QKIrv-qPKympcmasAWiVrinsJghmVhlTv-73jhyT1ULu42IAIOohfDmTJwvq`
 
 ### Step 4: 输出
-把研报完整内容以文字形式输出（所有五个板块的要点摘要），最后附上 HTML 报告链接：
+把研报完整内容以文字形式输出（所有六个板块的要点摘要），最后附上 HTML 报告链接：
 `https://timememo8210.github.io/sky-portal/research/report-{日期}.html`
 
 ---
@@ -118,5 +125,6 @@ curl -s -X POST "{DISCORD_WEBHOOK_URL}" \
 ## 变更记录
 | 日期 | 变更 |
 |------|------|
+| 2026-04-06 | v1.2：新增第六板块 ⚽🏀 体育赛事（World Cup & NBA） |
 | 2026-04-05 | v1.1：新增 Step 3 Telegram + Discord 推送通知 |
 | 2026-04-05 | v1.0：初始版本：五板块 + 涨跌颜色 + TradingView K线图 |
