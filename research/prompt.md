@@ -38,8 +38,8 @@
          NASDAQ:NVDA  → NVDA — NVIDIA
          NASDAQ:TSLA  → TSLA — Tesla
          NASDAQ:SMH   → NASDAQ:SMH — Semiconductor ETF
-         SP:SPX       → SPX — S&P 500
-         TVC:SHCOMP   → SHCOMP — 上证指数
+         AMEX:SPY       → SPX — S&P 500
+         SSE:000001   → SHCOMP — 上证指数
     -->
 
   </div>
@@ -64,7 +64,7 @@
 ```
 
 TradingView widget 配置：
-- Symbols: `NASDAQ:INTC`, `NASDAQ:NVDA`, `NASDAQ:TSLA`, `NASDAQ:SMH`, `SP:SPX`, `TVC:SHCOMP`
+- Symbols: `NASDAQ:INTC`, `NASDAQ:NVDA`, `NASDAQ:TSLA`, `NASDAQ:SMH`, `AMEX:SPY`, `SSE:000001`
 - chartType: candlesticks
 - colorTheme: dark
 - backgroundColor: rgba(20,20,30,1)
