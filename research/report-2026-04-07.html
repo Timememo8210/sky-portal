@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sky Daily Research · 2026-04-07</title>
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --card: #1a1a1a;
+    --border: #2a2a2a;
+    --accent: #f0a040;
+    --green: #22c55e;
+    --red: #ef4444;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; }
+
+  /* HEADER / POSTER */
+  .poster {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a0f00 50%, #0f0f0f 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+  }
+  .poster-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #000;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+  }
+  .poster h1 { font-size: 28px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+  .poster .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+
+  /* LANG TOGGLE */
+  .lang-toggle { display: flex; justify-content: center; gap: 8px; margin-bottom: 0; }
+  .lang-btn {
+    background: var(--border);
+    border: 1px solid #3a3a3a;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 4px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-btn.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 700; }
+
+  /* POSTER CONTENT */
+  .poster-content { max-width: 600px; margin: 20px auto 0; text-align: left; }
+  .poster-content .en, .poster-content .zh { display: none; }
+  .poster-content.lang-zh .zh { display: block; }
+  .poster-content.lang-en .en { display: block; }
+  .poster-tagline { font-size: 15px; color: var(--text); padding: 16px; background: rgba(240,160,64,0.08); border-left: 3px solid var(--accent); border-radius: 4px; }
+
+  /* MAIN LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  /* SECTION CARD */
+  .section-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .section-card.full { width: 100%; }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .icon { font-size: 18px; }
+
+  /* NEWS ITEMS */
+  .news-item {
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    font-size: 14px;
+  }
+  .news-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .news-item strong { color: var(--accent); }
+
+  /* STOCK TABLE */
+  .stock-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  @media (max-width: 768px) { .stock-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stock-chip {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .stock-chip .sym { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
+  .stock-chip .price { font-size: 16px; font-weight: 700; color: var(--text); margin: 4px 0; }
+  .stock-chip .change { font-size: 12px; font-weight: 600; padding: 2px 6px; border-radius: 4px; display: inline-block; }
+  .change.up { background: rgba(34,197,94,0.15); color: var(--green); }
+  .change.down { background: rgba(239,68,68,0.15); color: var(--red); }
+  .change.flat { background: rgba(156,163,175,0.15); color: var(--muted); }
+
+  /* CHARTS */
+  .chart-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 768px) { .chart-grid { grid-template-columns: 1fr; } }
+  .chart-frame { border-radius: 8px; overflow: hidden; border: 1px solid var(--border); height: 220px; }
+
+  /* MINI STATS */
+  .stat-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: var(--muted); }
+  .stat-val { font-weight: 600; }
+
+  /* FOOTER */
+  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 32px 16px; border-top: 1px solid var(--border); margin-top: 24px; }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* TAG */
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; margin-left: 6px; }
+  .tag-blue { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .tag-orange { background: rgba(240,160,64,0.15); color: var(--accent); }
+  .tag-purple { background: rgba(167,139,250,0.15); color: #a78bfa; }
+</style>
+</head>
+<body>
+
+<!-- POSTER / HEADER -->
+<div class="poster">
+  <div class="poster-badge">📡 SKY DAILY RESEARCH</div>
+  <h1>每日研报 · 2026-04-07</h1>
+  <div class="subtitle">Semiconductors · Markets · Sports · Portland · AI</div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('zh')">中文</button>
+    <button class="lang-btn" onclick="setLang('en')">English</button>
+  </div>
+  <div class="poster-content lang-zh" id="posterContent">
+    <div class="zh">
+      <p class="poster-tagline">
+        📌 今日要点：半导体行业向万亿美元迈进，TSMC 3nm产能严重短缺；巴萨主客场7分优势领跑；NBA季后赛倒计时；Portland天气晴好66°F；谷歌Gemini 3.1 Ultra发布，OpenAI下线Sora。
+      </p>
+    </div>
+    <div class="en">
+      <p class="poster-tagline">
+        📌 Today: Semis approach $1T milestone, TSMC 3nm sold out through 2028; Barça lead La Liga by 7 pts; NBA Playoffs start April 18; Portland sunny 66°F; Google Gemini 3.1 Ultra drops, OpenAI kills Sora.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ROW 1: Semis + Stocks -->
+  <div class="section-card full">
+    <div class="section-title"><span class="icon">🔬</span> 半导体与AI · Semiconductors &amp; AI</div>
+    <div class="news-item">① <strong>万亿里程碑</strong> — 全球半导体年销售额有望在2026年达到 <strong>$9750亿</strong>，Goldman Sachs预测AI需求将推动营收急剧增长，创历史新高。</div>
+    <div class="news-item">② <strong>NVIDIA生态扩张</strong> — NVDA向Marvell Technology投资 <strong>$20亿</strong>，并与Coupang、ServiceNow、NXP达成新合作；Blackwell/Grace Hopper推理芯片刷新性能记录。</div>
+    <div class="news-item">③ <strong>TSMC产能危机</strong> — 3nm产能严重短缺，订单已排至2028年；公司计划在亚利桑那州兴建"GigaFab"并在日本启动3nm量产。</div>
+    <div class="news-item">④ <strong>中国芯片创收新高</strong> — AI需求爆发 + 美国出口管制倒逼，中国本土半导体企业去年营收创历史纪录，内存芯片价格持续高位。</div>
+    <div class="news-item">⑤ <strong>"超级周期"到来</strong> — 业界报告称半导体进入前所未有的"千亿周期(Giga Cycle)"，AI正在同步重写算力、存储、网络与存储经济学格局。</div>
+  </div>
+
+  <!-- STOCK SECTION -->
+  <div class="section-card full">
+    <div class="section-title"><span class="icon">📈</span> 半导体股价 · Stock Watch</div>
+    <div class="stock-grid">
+      <div class="stock-chip">
+        <div class="sym">NVDA</div>
+        <div class="price">$176.62</div>
+        <div class="change down">▼ -2.1%</div>
+      </div>
+      <div class="stock-chip">
+        <div class="sym">TSM</div>
+        <div class="price">$339.04</div>
+        <div class="change down">▼ -0.72%</div>
+      </div>
+      <div class="stock-chip">
+        <div class="sym">AMD</div>
+        <div class="price">$217.50</div>
+        <div class="change up">▲ +3.47%</div>
+      </div>
+      <div class="stock-chip">
+        <div class="sym">INTC</div>
+        <div class="price">$50.38</div>
+        <div class="change up">▲ +4.89%</div>
+      </div>
+      <div class="stock-chip">
+        <div class="sym">ASML</div>
+        <div class="price">$--</div>
+        <div class="change flat">N/A</div>
+      </div>
+      <div class="stock-chip">
+        <div class="sym">MU</div>
+        <div class="price">$--</div>
+        <div class="change flat">N/A</div>
+      </div>
+      <div class="stock-chip">
+        <div class="sym">AVGO</div>
+        <div class="price">$--</div>
+        <div class="change flat">N/A</div>
+      </div>
+      <div class="stock-chip">
+        <div class="sym">QCOM</div>
+        <div class="price">$--</div>
+        <div class="change flat">N/A</div>
+      </div>
+      <div class="stock-chip">
+        <div class="sym">TSLA</div>
+        <div class="price">$--</div>
+        <div class="change flat">N/A</div>
+      </div>
+      <div class="stock-chip">
+        <div class="sym">SMH</div>
+        <div class="price">$--</div>
+        <div class="change flat">N/A</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRADINGVIEW CHARTS -->
+  <div class="section-card full">
+    <div class="section-title"><span class="icon">📊</span> K线图 · Candlestick Charts</div>
+    <div class="chart-grid">
+      <div class="chart-frame">
+        <iframe src="https://www.tradingview.com/widgetsnippet/chart/?symbol=NASDAQ%3ANVDA&interval=D&theme=dark&hide_top_toolbar=1&hide_legend=1&save_image=0&backgroundColor=rgba%2826%2C26%2C26%2C1%29" width="100%" height="220" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+      </div>
+      <div class="chart-frame">
+        <iframe src="https://www.tradingview.com/widgetsnippet/chart/?symbol=NYSE%3ATSM&interval=D&theme=dark&hide_top_toolbar=1&hide_legend=1&save_image=0&backgroundColor=rgba%2826%2C26%2C26%2C1%29" width="100%" height="220" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+      </div>
+      <div class="chart-frame">
+        <iframe src="https://www.tradingview.com/widgetsnippet/chart/?symbol=NASDAQ%3AAMD&interval=D&theme=dark&hide_top_toolbar=1&hide_legend=1&save_image=0&backgroundColor=rgba%2826%2C26%2C26%2C1%29" width="100%" height="220" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+      </div>
+      <div class="chart-frame">
+        <iframe src="https://www.tradingview.com/widgetsnippet/chart/?symbol=NASDAQ%3AINTC&interval=D&theme=dark&hide_top_toolbar=1&hide_legend=1&save_image=0&backgroundColor=rgba%2826%2C26%2C26%2C1%29" width="100%" height="220" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+      </div>
+      <div class="chart-frame">
+        <iframe src="https://www.tradingview.com/widgetsnippet/chart/?symbol=NASDAQ%3AASML&interval=D&theme=dark&hide_top_toolbar=1&hide_legend=1&save_image=0&backgroundColor=rgba%2826%2C26%2C26%2C1%29" width="100%" height="220" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+      </div>
+      <div class="chart-frame">
+        <iframe src="https://www.tradingview.com/widgetsnippet/chart/?symbol=NASDAQ%3ATSLA&interval=D&theme=dark&hide_top_toolbar=1&hide_legend=1&save_image=0&backgroundColor=rgba%2826%2C26%2C26%2C1%29" width="100%" height="220" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2: Barca + Sports -->
+  <div class="grid-2">
+    <div class="section-card">
+      <div class="section-title"><span class="icon">⚽</span> FC Barcelona</div>
+      <div class="stat-row">
+        <span class="stat-label">最新战绩 (Apr 4)</span>
+        <span class="stat-val" style="color:var(--green)">巴萨 2-1 马竞 ✅</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">进球</span>
+        <span class="stat-val">Rashford 同分，Lewandowski 87' 绝杀</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">联赛排名</span>
+        <span class="stat-val">🥇 领先 <span style="color:var(--accent)">+7分</span></span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">剩余场次</span>
+        <span class="stat-val">8场</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">欧冠下场</span>
+        <span class="stat-val">Apr 8 vs 马竞 🔥</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">主帅</span>
+        <span class="stat-val">Hansi Flick</span>
+      </div>
+      <div style="margin-top:12px; padding:10px; background:rgba(240,160,64,0.07); border-radius:8px; font-size:13px; color:var(--muted)">
+        💡 巴萨连续6场联赛告捷，皇马客场0-2负马略卡，卫冕形势明朗
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title"><span class="icon">🏟️</span> 体育赛事 · Sports Events</div>
+      <div class="news-item">
+        <strong>⚽ 世界杯2026</strong> — 48队名额全部确定！伊拉克2-1玻利维亚赢得附加赛，
+        <span class="tag tag-orange">土耳其</span> 杀入欧洲名额，<span class="tag" style="background:rgba(239,68,68,0.15);color:var(--red)">意大利</span> 无缘决赛圈。
+        刚果民主共和国1-0牙买加完成历史性晋级。
+      </div>
+      <div class="news-item">
+        <strong>🏀 NBA赛程</strong> — 季后赛倒计时！
+        <span class="tag tag-blue">附加赛 Apr 14-17</span>
+        <span class="tag tag-purple">首轮 Apr 18 开幕</span>
+        东西部争夺激烈，NBA.com已更新积分榜和对阵预测。
+      </div>
+      <div style="margin-top:12px; padding:10px; background:rgba(59,130,246,0.07); border-radius:8px; font-size:13px; color:var(--muted)">
+        🌍 2026世界杯将由美国、加拿大、墨西哥三国联合主办，史上首次48队规模
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 3: Portland + AI -->
+  <div class="grid-2">
+    <div class="section-card">
+      <div class="section-title"><span class="icon">🌲</span> Portland 本地</div>
+      <div class="stat-row">
+        <span class="stat-label">🌤️ 今日天气</span>
+        <span class="stat-val">晴间多云 ☀️ 66°F (19°C)</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">风力</span>
+        <span class="stat-val">微风，风向多变</span>
+      </div>
+      <div class="news-item" style="margin-top:8px">
+        🔥 <strong>Columbia河火灾</strong> — Rainier附近Oregon侧两艘船只及大部分码头在周日下午大火中被烧毁。
+      </div>
+      <div class="news-item">
+        🛒 <strong>Trader Joe's重开</strong> — 东南Portland门店因石棉污染3月关闭，本周一已重新开放。
+      </div>
+      <div class="news-item">
+        🏠 <strong>市长紧急求援</strong> — 市长Keith Wilson紧急向周边县请求资金，以应对城市无家可归者收容系统的日益扩大缺口。
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title"><span class="icon">🤖</span> AI 动态 · AI Updates</div>
+      <div class="news-item">
+        <strong>Google Gemini 3.1 Ultra</strong> <span class="tag tag-blue">新发布</span><br>
+        200万token上下文窗口，原生跨文本/图像/音频/视频多模态，搭载沙盒代码执行工具。
+      </div>
+      <div class="news-item">
+        <strong>OpenAI下线Sora</strong> <span class="tag" style="background:rgba(239,68,68,0.15);color:var(--red)">停服</span><br>
+        上线仅6个月即停运，活跃用户跌至50万以下，每日算力消耗约 $1500万。
+      </div>
+      <div class="news-item">
+        <strong>xAI Grok 4.20</strong> <span class="tag tag-orange">更新</span><br>
+        多智能体架构，深度整合X实时数据流，大幅改善事实准确性与来源标注。
+      </div>
+      <div class="news-item">
+        <strong>Microsoft 365 E7</strong> <span class="tag tag-purple">企业版</span><br>
+        E5 + Entra Suite + Copilot + Agent 365 打包，5月1日起通过CSP渠道发售。
+      </div>
+      <div class="news-item">
+        <strong>NVIDIA GTC 2026</strong> — 年度GPU技术峰会聚焦Agent AI框架，NeMoCLAW与OpenCLAW编排工具备受关注，创历史最高出席纪录。
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  <p>Sky Daily Research · <a href="https://timememo8210.github.io/sky-portal/research/">研报首页</a> · 2026-04-07 生成</p>
+  <p style="margin-top:4px">数据来源：TradingView · ESPN · CNBC · KGW Portland · AI Tools Recap</p>
+</footer>
+
+<script>
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const pc = document.getElementById('posterContent');
+  pc.className = 'poster-content lang-' + lang;
+}
+// Default: Chinese
+document.getElementById('posterContent').classList.add('lang-zh');
+</script>
+</body>
+</html>
