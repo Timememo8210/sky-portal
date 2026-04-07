@@ -1,126 +1,139 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📡 每日研报 2026-04-07</title>
+<title>每日研报 2026-04-07</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: -apple-system, 'Helvetica Neue', 'PingFang SC', sans-serif;
-  background: #0f0f0f; color: #ccc; padding: 24px 16px 48px;
-}
-.container { max-width: 900px; margin: 0 auto; }
-h1 { color: #f0a040; font-size: 1.6em; margin-bottom: 4px; }
-.date-line { color: #666; font-size: 0.9em; margin-bottom: 32px; }
-.section { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
-.section h2 { color: #f0a040; font-size: 1.15em; margin-bottom: 16px; border-bottom: 1px solid #2a2a2a; padding-bottom: 10px; }
-.section h3 { color: #fff; font-size: 1em; margin: 14px 0 6px; }
-p { line-height: 1.7; margin-bottom: 10px; }
-ul { padding-left: 20px; }
-li { line-height: 1.8; margin-bottom: 4px; }
-strong { color: #fff; }
-a { color: #f0a040; text-decoration: none; }
-a:hover { text-decoration: underline; }
-.stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-top: 12px; }
-.stock-card { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 12px 14px; }
-.stock-ticker { font-family: 'SF Mono', monospace; font-weight: 700; color: #fff; font-size: 1em; }
-.stock-name { color: #666; font-size: 0.75em; margin-top: 2px; }
-.stock-price { font-family: 'SF Mono', monospace; font-size: 1.05em; color: #e0e0e0; margin-top: 8px; font-weight: 600; }
-.badge { display: inline-block; font-family: 'SF Mono', monospace; font-weight: 600; font-size: 0.82em; padding: 3px 10px; border-radius: 5px; margin-top: 6px; }
-.badge-up { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
-.badge-down { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
-.badge-flat { background: rgba(156,163,175,0.15); color: #9ca3af; border: 1px solid rgba(156,163,175,0.3); }
-.kline-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
-.kline-label { font-family: 'SF Mono', monospace; font-size: 0.8em; font-weight: 600; color: #f0a040; text-align: center; margin-bottom: 4px; letter-spacing: 0.03em; }
-.news-card { border: 1px solid rgba(76,175,80,0.3); background: rgba(76,175,80,0.05); border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; }
-.news-card .card-title { color: #4CAF50; font-weight: 600; font-size: 0.95em; }
-.news-card .card-source { color: #666; font-size: 0.78em; margin: 4px 0; }
-.news-card .card-summary { font-size: 0.88em; line-height: 1.6; }
-#poster { max-width: 900px; margin: 0 auto 32px; font-family: -apple-system, 'Helvetica Neue', 'PingFang SC', sans-serif; }
-.poster-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-footer { text-align: center; margin-top: 40px; color: #555; font-size: 0.85em; }
-footer a { color: #f0a040; }
-@media (max-width: 768px) { .kline-grid { grid-template-columns: 1fr !important; } .stock-grid { grid-template-columns: repeat(2,1fr); } .poster-grid { grid-template-columns: 1fr; } }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f0f0f; color: #ccc; font-family: -apple-system, 'Helvetica Neue', 'PingFang SC', sans-serif; padding: 24px 16px; }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 { color: #f0a040; font-size: 1.6em; margin-bottom: 4px; }
+  .subtitle { color: #888; font-size: 0.9em; margin-bottom: 32px; }
+  .section { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .section-title { color: #f0a040; font-size: 1.2em; font-weight: 700; margin-bottom: 16px; }
+  .news-item { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #2a2a2a; }
+  .news-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .news-title { color: #fff; font-weight: 600; margin-bottom: 6px; }
+  .news-body { color: #ccc; font-size: 0.92em; line-height: 1.6; }
+  .tag { display: inline-block; font-family: 'SF Mono', monospace; font-weight: 600; font-size: 0.82em; padding: 3px 10px; border-radius: 5px; margin: 2px; }
+  .tag-green { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+  .tag-red { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+  .stock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .stock-card { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 12px; }
+  .stock-ticker { color: #f0a040; font-weight: 700; font-size: 0.95em; font-family: 'SF Mono', monospace; }
+  .stock-price { color: #fff; font-size: 1.1em; font-weight: 600; margin: 4px 0; }
+  .kline-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .kline-label { font-family: 'SF Mono', monospace; font-size: 0.8em; font-weight: 600; color: #f0a040; text-align: center; margin-bottom: 4px; letter-spacing: 0.03em; }
+  .sport-card { background: #111; border: 1px solid rgba(76,175,80,0.3); border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+  .sport-card-title { color: #4CAF50; font-weight: 600; margin-bottom: 6px; }
+  .sport-source { color: #888; font-size: 0.8em; margin-bottom: 6px; }
+  footer { text-align: center; color: #555; font-size: 0.85em; margin-top: 40px; padding-top: 20px; border-top: 1px solid #2a2a2a; }
+  footer a { color: #f0a040; text-decoration: none; }
+  @media (max-width: 768px) {
+    .kline-grid { grid-template-columns: 1fr !important; }
+    .stock-grid { grid-template-columns: repeat(2, 1fr); }
+  }
 </style>
 </head>
 <body>
 <div class="container">
 
 <!-- 海报区域 -->
-<div id="poster">
+<div id="poster" style="max-width:900px;margin:0 auto 32px;font-family:-apple-system,'Helvetica Neue','PingFang SC',sans-serif">
   <div style="text-align:right;margin-bottom:8px">
     <button onclick="switchLang('zh')" id="btn-zh" style="background:#555;color:#fff;border:1px solid #555;padding:4px 12px;border-radius:4px;cursor:pointer;margin-right:6px;font-size:0.85em">中文</button>
     <button onclick="switchLang('en')" id="btn-en" style="background:#222;color:#aaa;border:1px solid #444;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:0.85em">EN</button>
   </div>
-  <div class="poster-grid">
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+
     <div style="background:#d92d20;border-radius:12px;padding:20px 24px;color:#fff">
       <div style="font-size:2em;margin-bottom:8px">🔬</div>
       <div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">半导体与AI</div>
       <div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">Semiconductors &amp; AI</div>
-      <div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• TSMC收入增37%，3nm产能售罄至2028<br>• 三星730亿美元投资创历史，Q1利润增8倍</div>
-      <div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• TSMC revenue +37%, 3nm sold out thru 2028<br>• Samsung $73B investment record; Q1 profit +8x YoY</div>
+      <div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• 三星Q1利润预测同比增8倍，AI内存需求爆发<br>• 英伟达H200受关税+出口管制双重压制</div>
+      <div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Samsung Q1 profit forecast 8x YoY on AI memory boom<br>• Nvidia H200 hit by 25% tariff + new export controls</div>
     </div>
+
     <div style="background:linear-gradient(135deg,#004D98 60%,#A50044 100%);border-radius:12px;padding:20px 24px;color:#fff">
       <div style="font-size:2em;margin-bottom:8px">⚽</div>
       <div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">FC Barcelona</div>
       <div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">FC Barcelona</div>
-      <div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• 马竞客场1-2 莱万87'绝杀 连胜6场<br>• 欧冠8强明日主场迎战马竞，领跑西甲7分</div>
-      <div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Beat Atleti 1-2, Lewandowski 87' winner<br>• UCL QF 1st leg vs Atleti tomorrow; +7pts in La Liga</div>
+      <div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• 西甲第30轮客场2-1胜马竞，莱万87'绝杀<br>• 西甲领跑，领先皇马7分；欧冠四强明日主场迎战马竞</div>
+      <div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Won 2-1 at Atletico (La Liga MD30), Lewandowski 87'<br>• 7 pts clear in La Liga; UCL QF 1st leg at home Apr 8</div>
     </div>
+
     <div style="background:#e08c0b;border-radius:12px;padding:20px 24px;color:#fff">
       <div style="font-size:2em;margin-bottom:8px">🏀</div>
       <div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">体育赛事</div>
       <div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">Sports Events</div>
-      <div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• 世界杯48强全定，伊拉克获最后席位<br>• NBA西区雷霆领跑，季后赛4月18日开打</div>
-      <div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• All 48 WC 2026 teams qualified; Iraq last spot<br>• OKC leads West; NBA playoffs tip off April 18</div>
+      <div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• 世界杯：48支球队资格赛全部落定，伊拉克获最后名额<br>• NBA：雷霆领跑西部，季后赛首轮4月18日开打</div>
+      <div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• World Cup 2026: All 48 spots set, Iraq claims last berth<br>• NBA: OKC leads West; Playoffs Round 1 starts Apr 18</div>
     </div>
+
     <div style="background:#10a37f;border-radius:12px;padding:20px 24px;color:#fff">
       <div style="font-size:2em;margin-bottom:8px">🤖</div>
       <div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">AI 动态</div>
       <div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">AI Updates</div>
-      <div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• OpenAI GPT-5.4原生电脑控制正式上线<br>• Anthropic "Claude Mythos"内测，或为Claude 5</div>
-      <div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• OpenAI GPT-5.4 with native computer-use live<br>• Anthropic testing "Claude Mythos" — potential Claude 5</div>
+      <div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Google 发布 Gemma 4 开源模型，支持本地运行<br>• Anthropic "Claude Mythos" 泄露，年化收入超300亿超越OpenAI</div>
+      <div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Google releases Gemma 4 open-source, runs locally<br>• Anthropic "Claude Mythos" leaked; revenue surpasses OpenAI</div>
     </div>
+
   </div>
 </div>
 
-<!-- 报告标题 -->
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.zh').forEach(el => el.style.display = lang === 'zh' ? '' : 'none');
+  document.querySelectorAll('.en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+  document.getElementById('btn-zh').style.background = lang === 'zh' ? '#555' : '#333';
+  document.getElementById('btn-zh').style.color = lang === 'zh' ? '#fff' : '#aaa';
+  document.getElementById('btn-en').style.background = lang === 'en' ? '#555' : '#222';
+  document.getElementById('btn-en').style.color = lang === 'en' ? '#fff' : '#aaa';
+}
+</script>
+
 <h1>📡 每日研报</h1>
-<div class="date-line">2026年4月7日 · Daily Research Report</div>
+<div class="subtitle">2026-04-07 · Sky Portal Daily Research</div>
 
-<!-- 板块1: 半导体与AI -->
 <div class="section">
-  <h2>🔬 半导体与AI</h2>
-  <h3>1. TSMC 月收入暴增37%，3nm产能售罄至2028年</h3>
-  <p>台积电营收增速大幅超越自身30%目标，3纳米晶圆厂产能已被预订至2028年。为缓解供应压力，台积电正在亚利桑那州规划"超级晶圆厂"扩产，并在日本启动3nm量产。2nm节点有望于2026年下半年如期量产。台积电目前掌控全球约69.9%的先进代工市场份额，超过50%的CoWoS先进封装产能。谷歌受制于CoWoS产能限制，已被迫削减2026年TPU生产目标。</p>
-  <h3>2. 三星730亿美元年度投资创史上最高，Q1利润同比增8倍</h3>
-  <p>三星宣布2026年半导体投资超过110万亿韩元（约730亿美元），超越台积电约450亿美元的计划，为史上单年最大投资。重点聚焦AI芯片与HBM（高带宽内存）。2026年第一季度利润同比增长8倍。三星还与NVIDIA联手建设配备5万张以上GPU的AI超级工厂。尽管如此，三星代工市场份额在2025年已跌至仅7.2%，但其2nm节点已开始吸引特斯拉等新客户。</p>
-  <h3>3. Intel 18A良率持续告急，股价4月初下跌约7.5%</h3>
-  <p>英特尔制造端挑战未解：18A节点良率偏低，外部代工吸引力存疑，更先进的14A节点前景蒙阴。英特尔以142亿美元回购爱尔兰工厂合资股权，并向AI芯片初创SambaNova投资，但分析师警告其产能与执行问题或需数年才能全面修复。</p>
-  <h3>4. ASML进军先进封装市场，High-NA EUV瞄准2027-2028量产</h3>
-  <p>ASML于2025年底出货首台先进封装光刻设备（TWINSCAN XT:260），正式进入价值400-500亿美元的先进封装市场，针对HBM与AI处理器封装瓶颈。High-NA EUV目标2027-2028年高量产，英特尔为首位采用者。中国华为/中芯国际正加速自研LDP光刻机，据报道2026年将推出。</p>
-  <h3>5. NVIDIA vs AMD vs 中国：AI加速芯片三强争霸</h3>
-  <p>英伟达在全球AI加速器市场仍占主导，但其在华市场份额在2025年已被侵蚀至约55%，中国本土GPU厂商抢占AI加速服务器市场约41%的份额。AMD已从"性价比替代品"跃升为AI基础设施主力架构师，正面挑战NVIDIA的数据中心GPU地位。三方角力被视为AI芯片市场的核心主轴。</p>
+  <div class="section-title">🔬 半导体与AI</div>
+  <div class="news-item">
+    <div class="news-title">1. 三星Q1利润预测创纪录，AI内存需求爆发</div>
+    <div class="news-body">三星电子预测2026年第一季度营业利润高达57.2万亿韩元（约378亿美元），同比增长约八倍，主要受AI芯片和HBM内存需求爆发驱动。消息公布后三星股价上涨近5%。</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">2. 台积电3nm产能售罄至2028年，2nm即将量产</div>
+    <div class="news-body">台积电3nm产能已售罄至2028年，正加快推进亚利桑那州超级晶圆厂扩产，2nm预计将于2026年下半年开始量产，持续保持技术领先优势。</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">3. 三星德州晶圆厂EUV"初次点亮"里程碑临近</div>
+    <div class="news-body">三星德克萨斯州泰勒晶圆厂即将完成ASML EUV光刻机"初次点亮"里程碑，预计2026年下半年开始风险量产。三星同时推出SF2Z 2nm节点及整合晶圆代工、HBM内存与先进封装的AI芯片交钥匙服务。</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">4. 英伟达遭关税+出口管制双重压制，中国AI芯片份额升至41%</div>
+    <div class="news-body">美国政府对英伟达H200和AMD MI325X等高端AI芯片征收25%关税，并从4月9日起要求H20芯片出口特定国家需取得许可证。中国本土AI芯片企业2025年营收创历史新高，在中国AI加速器服务器市场占比约41%。</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">5. 英特尔代工18A节点2027年才达行业标准良率</div>
+    <div class="news-body">英特尔代工部门仅占全球晶圆代工2.0市场约6%份额，18A制程预计要到2027年才能达到行业标准良率。英特尔以142亿美元回购了爱尔兰晶圆厂合资股权，并投资了AI芯片初创公司SambaNova。</div>
+  </div>
 </div>
 
-<!-- 板块2: 股票 -->
 <div class="section">
-  <h2>📈 半导体股票行情</h2>
+  <div class="section-title">📈 半导体股票行情</div>
   <div class="stock-grid">
-    <div class="stock-card"><div class="stock-ticker">INTC</div><div class="stock-name">Intel</div><div class="stock-price">$50.78</div><span class="badge badge-up">+0.79%</span></div>
-    <div class="stock-card"><div class="stock-ticker">TSM</div><div class="stock-name">TSMC</div><div class="stock-price">$341.27</div><span class="badge badge-up">+0.66%</span></div>
-    <div class="stock-card"><div class="stock-ticker">NVDA</div><div class="stock-name">NVIDIA</div><div class="stock-price">$177.64</div><span class="badge badge-up">+0.14%</span></div>
-    <div class="stock-card"><div class="stock-ticker">AMD</div><div class="stock-name">Advanced Micro Devices</div><div class="stock-price">$219.01</div><span class="badge badge-flat">—</span></div>
-    <div class="stock-card"><div class="stock-ticker">ASML</div><div class="stock-name">ASML Holding</div><div class="stock-price">$1,305.14</div><span class="badge badge-down">-0.92%</span></div>
-    <div class="stock-card"><div class="stock-ticker">MU</div><div class="stock-name">Micron Technology</div><div class="stock-price">$379.35</div><span class="badge badge-up">+3.15%</span></div>
-    <div class="stock-card"><div class="stock-ticker">AVGO</div><div class="stock-name">Broadcom</div><div class="stock-price">$326.30</div><span class="badge badge-flat">—</span></div>
-    <div class="stock-card"><div class="stock-ticker">QCOM</div><div class="stock-name">Qualcomm</div><div class="stock-price">$125.73</div><span class="badge badge-down">-0.84%</span></div>
-    <div class="stock-card"><div class="stock-ticker">TSLA</div><div class="stock-name">Tesla</div><div class="stock-price">$352.82</div><span class="badge badge-down">-2.15%</span></div>
-    <div class="stock-card"><div class="stock-ticker">SMH</div><div class="stock-name">Semiconductor ETF</div><div class="stock-price">$393.00</div><span class="badge badge-down">-0.75%</span></div>
+    <div class="stock-card"><div class="stock-ticker">INTC</div><div class="stock-price">$52.19</div><span class="tag tag-green">+2.78%</span></div>
+    <div class="stock-card"><div class="stock-ticker">TSM</div><div class="stock-price">$340.96</div><span class="tag tag-red">-0.23%</span></div>
+    <div class="stock-card"><div class="stock-ticker">NVDA</div><div class="stock-price">$176.44</div><span class="tag tag-red">-0.68%</span></div>
+    <div class="stock-card"><div class="stock-ticker">AMD</div><div class="stock-price">$219.76</div><span class="tag tag-red">-0.19%</span></div>
+    <div class="stock-card"><div class="stock-ticker">ASML</div><div class="stock-price">$1,288.52</div><span class="tag tag-red">-1.19%</span></div>
+    <div class="stock-card"><div class="stock-ticker">MU</div><div class="stock-price">$376.00</div><span class="tag tag-red">-0.47%</span></div>
+    <div class="stock-card"><div class="stock-ticker">AVGO</div><div class="stock-price">$326.89</div><span class="tag tag-green">+3.96%</span></div>
+    <div class="stock-card"><div class="stock-ticker">QCOM</div><div class="stock-price">$124.56</div><span class="tag tag-red">-0.93%</span></div>
+    <div class="stock-card"><div class="stock-ticker">TSLA</div><div class="stock-price">$344.75</div><span class="tag tag-red">-2.29%</span></div>
+    <div class="stock-card"><div class="stock-ticker">SMH</div><div class="stock-price">$397.10</div><span class="tag tag-green">+0.28%</span></div>
   </div>
-
-  <!-- K线图区域 -->
   <div style="margin-top:24px">
     <h3 style="color:#f0a040;margin-bottom:12px">📊 K线图</h3>
     <div class="kline-grid">
@@ -140,7 +153,7 @@ footer a { color: #f0a040; }
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>{"symbols":[["NASDAQ:TSLA|1D"]],"chartType":"candlesticks","colorTheme":"dark","backgroundColor":"rgba(20,20,30,1)","dateRanges":["1w|1D","1m|1D","3m|1W"],"height":180,"chartOnly":true,"locale":"zh_CN"}</script></div>
       </div>
       <div class="kline-item">
-        <div class="kline-label">NASDAQ:SMH — Semiconductor ETF</div>
+        <div class="kline-label">SMH — Semiconductor ETF</div>
         <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
         <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>{"symbols":[["NASDAQ:SMH|1D"]],"chartType":"candlesticks","colorTheme":"dark","backgroundColor":"rgba(20,20,30,1)","dateRanges":["1w|1D","1m|1D","3m|1W"],"height":180,"chartOnly":true,"locale":"zh_CN"}</script></div>
       </div>
@@ -158,124 +171,97 @@ footer a { color: #f0a040; }
   </div>
 </div>
 
-<!-- 板块3: FC Barcelona -->
 <div class="section">
-  <h2>⚽ FC Barcelona</h2>
-  <h3>最新比赛结果</h3>
-  <p><strong>西甲 马竞 1-2 巴萨（4月4日）</strong> — 巴萨在大都会球场客场获胜。赫利亚诺·西梅奥内先为马竞破门，拉什福德上半场扳平，莱万多夫斯基在87分钟于马竞10打11的情况下打入制胜进球。联赛第6连胜。</p>
-  <p><strong>欧冠16强次回合 巴萨 7-2 纽卡斯尔（3月18日）</strong> — 两回合合计8-3晋级。拉菲尼亚、莱万各入2球，马克·贝尔纳尔、费尔明·洛佩斯、拉明·亚马尔各1球。</p>
-  <h3>⚡ 欧冠8强首回合 — 明日（4月8日）晚9点，诺坎普</h3>
-  <p>巴萨主场19连胜，状态绝佳。马竞在16强5-2合计淘汰热刺。<strong>拉菲尼亚（腘绳肌，~5周）确定缺阵；马克·贝尔纳尔（踝关节）存疑。</strong></p>
-  <h3>西甲积分榜（第30轮后）</h3>
-  <ul>
-    <li><strong>1. FC巴萨 76分</strong>（25W 1D 4L） — 领先皇马7分，剩余8轮</li>
-    <li>2. 皇家马德里 69分</li>
-    <li>3. 比利亚雷亚尔 58分</li>
-    <li>4. 马竞 57分</li>
-  </ul>
-  <h3>伤病 &amp; 转会</h3>
-  <ul>
-    <li><strong>拉菲尼亚</strong> — 右腘绳肌，~5周，欧冠缺席</li>
-    <li><strong>马克·贝尔纳尔</strong> — 踝关节联合韧带一级损伤，约10天，欧冠首回合存疑</li>
-    <li><strong>加维</strong> — 半月板（2月起），时间未定</li>
-    <li><strong>贝尔纳多·席尔瓦</strong>：夏窗头号目标，合同2026年6月到期，巴萨领跑争夺</li>
-    <li><strong>达尼·奥尔莫</strong>：拒绝沙特天价报价，确认留队</li>
-  </ul>
-</div>
-
-<!-- 板块4: 体育赛事 -->
-<div class="section">
-  <h2>🏟️ 体育赛事（World Cup &amp; NBA）</h2>
-  <h3 style="color:#4CAF50">🌍 FIFA 世界杯 2026</h3>
-  <div class="news-card">
-    <div class="card-title">🏟️ 48支球队资格全定，伊拉克获第48席</div>
-    <div class="card-source">FIFA.com</div>
-    <div class="card-summary">伊拉克在附加赛中击败玻利维亚，艾曼·侯赛因打入全球预选赛最后一球，历时2527球的资格战正式画上句号。赛程6月11日至7月19日，横跨美国、墨西哥、加拿大16城市。</div>
+  <div class="section-title">⚽ FC Barcelona</div>
+  <div class="news-item">
+    <div class="news-title">🏆 最新比赛结果 — 西甲第30轮</div>
+    <div class="news-body">4月4日，巴萨客场 <strong style="color:#fff">2-1</strong> 击败马德里竞技。竞技希门尼斯率先破门，<strong style="color:#fff">拉什福德</strong>扳平，<strong style="color:#fff">莱万多夫斯基</strong>第87分钟绝杀。竞技球员冈萨雷斯上半场补时红牌，下半场以10人应战。</div>
   </div>
-  <div class="news-card">
-    <div class="card-title">🏟️ UEFA附加赛大爆冷：波黑点球4-1淘汰意大利</div>
-    <div class="card-source">ESPN</div>
-    <div class="card-summary">3月31日附加赛决赛：波黑（1-1平后）4-1点球淘汰意大利；瑞典3-2击败波兰；捷克3-1点球胜丹麦，完成欧洲最后席位分配。</div>
+  <div class="news-item">
+    <div class="news-title">📊 西甲积分榜（第30轮后）</div>
+    <div class="news-body"><strong style="color:#fff">1. 巴萨 76分</strong>（30场）<br>2. 皇马 69分（30场）<br>3. 比利亚雷亚尔 58分（29场）<br>4. 马竞 57分（30场）<br><em style="color:#888">皇马同周末1-2不敌马洛卡，领先优势扩大至7分。</em></div>
   </div>
-  <div class="news-card">
-    <div class="card-title">🏟️ 最终购票阶段已于4月1日开启</div>
-    <div class="card-source">FIFA.com</div>
-    <div class="card-summary">FIFA第四轮（最终轮）售票已启动，此前三轮累计售出逾百万张，售票窗口将开放至赛事结束。</div>
+  <div class="news-item">
+    <div class="news-title">🏅 欧冠四分之一决赛 vs 马德里竞技</div>
+    <div class="news-body"><strong style="color:#fff">首回合：4月8日（明天）</strong>主场Spotify Camp Nou；次回合：4月14日客场竞技主场。巴萨此前以8-3总比分淘汰纽卡斯尔晋级。</div>
   </div>
-  <h3 style="color:#4CAF50;margin-top:20px">🏀 NBA 2025-26 赛季</h3>
-  <div class="news-card">
-    <div class="card-title">🏀 常规赛末周：各档次排名悬而未决，季后赛4月18日开打</div>
-    <div class="card-source">ESPN / NBA.com</div>
-    <div class="card-summary">常规赛4月12日收官，季后赛附加赛4月14-17日，首轮季后赛4月18日开打。东区：活塞(1)、凯尔特人(2)、尼克斯(3)；西区：雷霆(1)、马刺(2)、掘金(3)。</div>
-  </div>
-  <div class="news-card">
-    <div class="card-title">🏀 重磅交易：安东尼·戴维斯赴华盛顿，哈登加盟骑士</div>
-    <div class="card-source">ESPN</div>
-    <div class="card-summary">达拉斯独行侠将安东尼·戴维斯交易至华盛顿奇才；詹姆斯·哈登被送至克利夫兰骑士，换回达里厄斯·加兰；特雷·杨从亚特兰大老鹰转会华盛顿。</div>
+  <div class="news-item">
+    <div class="news-title">🚑 伤病 &amp; 转会</div>
+    <div class="news-body">拉菲尼亚（腿筋，约5周）、马克·贝纳尔（脚踝，欧冠首回合缺席）、加维（半月板）、特尔·斯特根（膝盖）。<strong style="color:#4ade80">阿劳霍已复出。</strong><br><br>转会：贝尔纳多·席尔瓦（曼城，6月合同到期）为首要引援目标；若昂·坎塞洛有望永久加盟；巴斯托尼（国米）报价被拒。</div>
   </div>
 </div>
 
-<!-- 板块5: Portland -->
 <div class="section">
-  <h2>🌲 Portland 本地动态</h2>
-  <h3>今日天气</h3>
-  <p><strong>最高气温 57°F（14°C）/ 最低气温 50°F（10°C）</strong>，南风约9英里/时，天气温和无明显降水，典型太平洋西北春季天气。</p>
-  <h3>重大本地新闻</h3>
-  <ul>
-    <li><strong>威拉米特河车祸致死</strong>：一辆汽车在市区高速行驶后冲入威拉米特河，已确认2人死亡，第三名乘客下落不明。</li>
-    <li><strong>无家可归者庇护金缺口</strong>：市长基思·威尔逊正寻求邻县出资弥补约1500万美元的庇护所预算缺口。</li>
-    <li><strong>艾拉米达社区抗议</strong>：波特兰警察局4月4日监控游行，1人被捕。</li>
-    <li><strong>公共卫生警报</strong>：俄勒冈健康局发现两处潜在麻疹接触点。</li>
-    <li><strong>饮用水监测</strong>：Bull Run水源3月30-31日检出隐孢子虫卵囊，监测持续中。</li>
-  </ul>
-  <h3>交通更新</h3>
-  <ul>
-    <li><strong>NW Cornell Road</strong>：Bird Alliance以东因山体滑坡（倒树+断电线）封闭（隧道之间段）</li>
-    <li><strong>I-5南行 MP 302.33</strong>：周日至周四深夜10点—次日5点，限高16英尺2英寸</li>
-    <li><strong>I-205南行9号出口</strong>：4月6日起，周一至周四夜间限宽至9英尺</li>
-  </ul>
-  <h3>社区活动</h3>
-  <ul>
-    <li><strong>今晚：《Consider This》作者讲座（Helene Landemore）</strong> — Alberta Rose Theatre，晚7点，$15</li>
-  </ul>
+  <div class="section-title">🏟️ 体育赛事（World Cup &amp; NBA）</div>
+  <div class="sport-card">
+    <div class="sport-card-title">🌍 FIFA 世界杯2026 — 48支球队全部确定</div>
+    <div class="sport-source">来源：FIFA.com / ESPN</div>
+    <div class="news-body">伊拉克在蒙特雷击败玻利维亚，获得洲际附加赛最后名额，成为第48支晋级球队。欧洲附加赛中，捷克、波黑、土耳其和瑞典相继晋级。本届世界杯将在美国、加拿大、墨西哥联合举办，是史上参赛队伍最多的一届。</div>
+  </div>
+  <div class="sport-card">
+    <div class="sport-card-title">🏀 NBA 2025-26 季后赛布局成形</div>
+    <div class="sport-source">来源：ESPN / NBA.com</div>
+    <div class="news-body">常规赛4月12日结束。附加赛（Play-In）4月14-17日，季后赛首轮 <strong style="color:#fff">4月18日</strong> 开打，总决赛预计6月3日。<br><br><strong style="color:#fff">东部：</strong>底特律活塞(1)、波士顿凯尔特人(2)、纽约尼克斯(3)、克利夫兰骑士(4)<br><strong style="color:#fff">西部：</strong>俄克拉荷马雷霆(1, 预计65-17)、圣安东尼奥马刺(2)、丹佛掘金(3)、洛杉矶湖人(4)</div>
+  </div>
+  <div class="sport-card">
+    <div class="sport-card-title">🔄 NBA 交易截止日重大动作（2月5日）</div>
+    <div class="sport-source">来源：ESPN</div>
+    <div class="news-body">• 特雷·杨 → 华盛顿奇才（换回麦科勒姆+基斯珀特）<br>• 詹姆斯·哈登 → 克利夫兰骑士（换来达留斯·加兰德）<br>• 贾伦·杰克逊小将 → 爵士（8人交易）<br>• 湖人未有大动作，休赛期与詹姆斯、东契奇等传闻相关</div>
+  </div>
 </div>
 
-<!-- 板块6: AI动态 -->
 <div class="section">
-  <h2>🤖 AI 工具 / 产品动态</h2>
-  <h3>1. OpenAI — GPT-5.4：首个原生电脑控制通用模型</h3>
-  <p>3月5日发布，拥有<strong>原生电脑操作能力</strong>（可在桌面执行复杂多步骤工作流），100万token上下文，GDPVal评测83%。轻量版mini/nano于3月17日跟进。<strong>GPT-5.5（代号"Spud"）</strong>已完成预训练，即将发布。开源<strong>gpt-oss-120b</strong>（1170亿活跃参数，Apache 2.0）同步推出。</p>
-  <h3>2. Google — Gemini 3.1 Ultra + LiteRT-LM（今日发布）</h3>
-  <p>Gemini 3.1 Ultra支持<strong>200万token上下文</strong>，原生多模态（文本/图像/音频/视频）。今日（4月7日）Google发布开源<strong>LiteRT-LM</strong>，为在边缘设备运行LLM的生产级推理框架，主打隐私优先、低延迟端侧AI。</p>
-  <h3>3. Anthropic — 1M上下文正式上线，"Claude Mythos"内测中</h3>
-  <p>Claude Sonnet 4.6和Opus 4.6现已标准定价支持100万token上下文（无需beta header）。旧版Sonnet 4/4.5的百万上下文beta将于4月30日下线。Anthropic正内部测试<strong>"Claude Mythos"</strong>——被描述为"能力跨越式提升"，可能是Claude 5级前沿模型，预计Q2 2026问世。</p>
-  <h3>4. 开源MoE架构浪潮：单卡H100实现前沿级性能</h3>
-  <ul>
-    <li><strong>Meta Llama 4</strong>（总1090亿 / 活跃170亿参数）</li>
-    <li><strong>Mistral Small 4</strong>（总1190亿 / 活跃65亿，Apache 2.0）</li>
-    <li><strong>Google Gemma 4</strong> / <strong>阿里云 Qwen 3.6 Plus</strong> / <strong>智谱 GLM-5</strong>（总7440亿/活跃400亿）</li>
-  </ul>
-  <p>相比稠密模型，自托管成本降低4-8倍。</p>
-  <h3>5. Visa上线6款AI争议管理工具 + ChatGPT CarPlay集成</h3>
-  <p>Visa（4月1日）发布6款AI驱动争议管理工具，现代化信用卡退单流程，标志着AI深入金融基础设施。ChatGPT新获<strong>CarPlay集成</strong>（4月2日，iOS 26.4），拓展AI至汽车场景。</p>
+  <div class="section-title">🌲 Portland 本地</div>
+  <div class="news-item">
+    <div class="news-title">🌤️ 今日天气</div>
+    <div class="news-body">最高 <strong style="color:#fff">14°C (57°F)</strong>，最低 <strong style="color:#fff">10°C (50°F)</strong>，南风约15 km/h，多云有雨，出门建议带伞。</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">🚨 威拉米特河坠车事故（头条）</div>
+    <div class="news-body">周一凌晨，一辆超速车辆冲入市中心后坠入威拉米特河，已确认 <strong style="color:#f87171">两人死亡</strong>，第三人仍失踪，搜救仍在进行中。</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">📰 其他本地新闻</div>
+    <div class="news-body">• <strong style="color:#fff">I-5桥下车祸：</strong>北波特兰I-5桥下车祸引发火灾，5人受伤<br>• <strong style="color:#fff">街头飙车整治：</strong>警方逮捕6人、扣押多辆车<br>• <strong style="color:#fff">无家可归者资金缺口：</strong>市长Wilson紧急向周边县市求援<br>• <strong style="color:#4ade80">Trader Joe's重新开业：</strong>SE波特兰门店因石棉污染关闭后今日复业<br>• <strong style="color:#f0a040">麻疹预警：</strong>俄勒冈健康局警告两处潜在暴露地点<br>• <strong style="color:#fff">市区大树倒塌：</strong>SW Market St和2nd Ave路口，附近停车楼有震感</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">🚗 交通提醒</div>
+    <div class="news-body">• NW Cornell Road（Bird Alliance段）：山体滑坡导致路段关闭<br>• I-205南行9号出口：本周一至四夜间10点至次日5点限宽9英尺<br>• 实时路况：<a href="https://www.tripcheck.com" style="color:#f0a040">TripCheck.com</a></div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">🌷 社区活动</div>
+    <div class="news-body">• <strong style="color:#fff">木鞋郁金香节</strong>（4月1-26日，Woodburn）：40英亩花海，含品酒、美食和手工市集<br>• <strong style="color:#fff">Alberta Rose Theatre讲座</strong>：今晚7点，Hélène Landemore谈民主制度改革</div>
+  </div>
 </div>
 
-<!-- 页脚 -->
+<div class="section">
+  <div class="section-title">🤖 AI 工具/产品动态</div>
+  <div class="news-item">
+    <div class="news-title">1. Google 发布 Gemma 4 开源模型家族</div>
+    <div class="news-body">谷歌4月2日发布 Gemma 4（Apache 2.0许可），包含26B、31B、E2B、E4B等变体，基于 Gemini 3 技术，支持 Android 设备和消费级笔记本 GPU 本地运行，具备原生多模态能力。配套 Google Dictation 离线听写 App 同步在 iOS 上线。</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">2. Meta Llama 4 Maverick — 当前最强开放权重模型</div>
+    <div class="news-body">Meta 的 Llama 4 Maverick（4000亿参数，1000万 token 上下文窗口）已成为当前最强开放权重模型，可直接与闭源 API 竞争。Meta 本周还宣布计划将下一代 AI 模型部分版本开源。</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">3. Anthropic "Claude Mythos" 泄露，年化收入超300亿超越OpenAI</div>
+    <div class="news-body">Anthropic 下一代模型"Claude Mythos"于3月26日泄露，内部人士称为"迄今最强 AI 模型"，仅向网络安全合作伙伴开放早期访问。Anthropic 还与谷歌和博通签署多吉瓦特级 TPU 算力协议（2027年部署）。年化营收已超 <strong style="color:#fff">300亿美元</strong>，超越 OpenAI 的250亿美元。</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">4. Adobe 推出 Acrobat Spaces 免费AI学习工具</div>
+    <div class="news-body">Adobe于4月7日推出"Acrobat Spaces"，无需登录，可自动从文档生成闪卡、测验和幻灯片演示，标志着 Adobe 向消费级 AI 生产力工具领域发力。</div>
+  </div>
+  <div class="news-item">
+    <div class="news-title">5. 英伟达发布 Vera Rubin 平台 + Nemotron 3 开源模型</div>
+    <div class="news-body">英伟达正式发布 Vera Rubin AI 计算平台（Blackwell 继任者），专为万亿参数模型优化。同时发布 Nemotron 3 开放模型家族（Nano/Super/Ultra），采用混合专家架构，吞吐量较上代提升4倍，专为多智能体企业 AI 应用设计。</div>
+  </div>
+</div>
+
 <footer>
-  <p>生成时间：2026-04-07 · Sky Portal 每日研报</p>
-  <p style="margin-top:8px"><a href="index.html">← 查看所有报告 All Reports</a></p>
+  <p>生成时间：2026-04-07 · <a href="index.html">All Reports</a></p>
 </footer>
-</div>
 
-<script>
-function switchLang(lang) {
-  document.querySelectorAll('.zh').forEach(el => el.style.display = lang === 'zh' ? '' : 'none');
-  document.querySelectorAll('.en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
-  document.getElementById('btn-zh').style.background = lang === 'zh' ? '#555' : '#333';
-  document.getElementById('btn-zh').style.color = lang === 'zh' ? '#fff' : '#aaa';
-  document.getElementById('btn-en').style.background = lang === 'en' ? '#555' : '#222';
-  document.getElementById('btn-en').style.color = lang === 'en' ? '#fff' : '#aaa';
-}
-</script>
+</div>
 </body>
 </html>
