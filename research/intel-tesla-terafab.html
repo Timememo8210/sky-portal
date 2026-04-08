@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intel × Tesla Terafab 深度调研 | Deep Research Report</title>
+<style>
+/* ===== CSS Variables & Reset ===== */
+:root {
+  --bg: #0b0e14;
+  --bg2: #111620;
+  --bg3: #161c28;
+  --card: rgba(255,255,255,0.03);
+  --card-hover: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.07);
+  --text: #e0e4ec;
+  --text-dim: #7a8599;
+  --intel-blue: #0071c5;
+  --intel-blue-glow: rgba(0,113,197,0.2);
+  --tesla-red: #cc0000;
+  --tesla-red-glow: rgba(204,0,0,0.15);
+  --accent: #3b9eff;
+  --green: #4ade80;
+  --orange: #fb923c;
+  --yellow: #facc15;
+  --red: #f87171;
+  --purple: #a78bfa;
+  --cyan: #22d3ee;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;
+}
+body.lang-zh .en{display:none!important;}
+body.lang-en .zh{display:none!important;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* ===== Lang Toggle ===== */
+.lang-toggle{
+  position:fixed;top:70px;right:16px;z-index:9999;
+  display:flex;background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);border-radius:100px;overflow:hidden;
+  backdrop-filter:blur(12px);
+}
+.lang-toggle button{
+  padding:6px 14px;border:none;background:transparent;
+  color:var(--text-dim);font-size:.78rem;cursor:pointer;
+  transition:all .25s;font-family:inherit;
+}
+.lang-toggle button.active{background:var(--accent);color:#fff;}
+
+/* ===== Back to Top ===== */
+.back-top{
+  position:fixed;bottom:24px;right:24px;z-index:9999;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;
+  font-size:1.2rem;cursor:pointer;opacity:0;
+  transition:opacity .3s,transform .3s;transform:translateY(10px);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px rgba(59,158,255,0.3);
+}
+.back-top.show{opacity:1;transform:translateY(0);}
+
+/* ===== Nav ===== */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:9998;
+  background:rgba(11,14,20,0.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);height:52px;
+  display:flex;align-items:center;padding:0 20px;
+}
+nav .logo{
+  font-weight:700;font-size:.9rem;white-space:nowrap;
+  background:linear-gradient(135deg,var(--intel-blue),var(--tesla-red));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-right:24px;
+}
+nav .nav-links{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none;}
+nav .nav-links::-webkit-scrollbar{display:none;}
+nav a{
+  padding:6px 12px;border-radius:var(--radius-sm);font-size:.78rem;
+  color:var(--text-dim);white-space:nowrap;transition:all .2s;
+}
+nav a:hover,nav a.active{color:#fff;background:rgba(255,255,255,0.08);text-decoration:none;}
+
+/* ===== Main ===== */
+main{max-width:1000px;margin:0 auto;padding:72px 20px 60px;}
+
+/* ===== Hero ===== */
+.hero{text-align:center;padding:60px 0 40px;}
+.hero h1{
+  font-size:clamp(1.8rem,5vw,3rem);font-weight:800;
+  background:linear-gradient(135deg,var(--intel-blue) 0%,#fff 40%,var(--tesla-red) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:12px;
+}
+.hero .subtitle{color:var(--text-dim);font-size:.95rem;margin-bottom:8px;}
+.hero .date-badge{
+  display:inline-block;padding:4px 16px;border-radius:100px;
+  background:var(--card);border:1px solid var(--border);
+  font-size:.78rem;color:var(--text-dim);margin-top:8px;
+}
+
+/* ===== Cards Grid ===== */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:16px;margin:32px 0;
+}
+.stat-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;text-align:center;
+  transition:all .3s;
+}
+.stat-card:hover{background:var(--card-hover);transform:translateY(-2px);}
+.stat-card .value{
+  font-size:1.6rem;font-weight:800;margin-bottom:4px;
+}
+.stat-card .label{font-size:.78rem;color:var(--text-dim);}
+.stat-card.intel .value{color:var(--intel-blue);}
+.stat-card.tesla .value{color:var(--tesla-red);}
+.stat-card.green .value{color:var(--green);}
+.stat-card.yellow .value{color:var(--yellow);}
+
+/* ===== Section ===== */
+.section{margin:60px 0;}
+.section-title{
+  font-size:1.4rem;font-weight:700;margin-bottom:24px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-title::after{
+  content:'';flex:1;height:1px;background:var(--border);
+}
+
+/* ===== Timeline ===== */
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{
+  content:'';position:absolute;left:11px;top:0;bottom:0;
+  width:2px;background:linear-gradient(var(--intel-blue),var(--tesla-red));
+  opacity:.4;
+}
+.tl-item{position:relative;margin-bottom:24px;}
+.tl-item .dot{
+  position:absolute;left:-32px;top:6px;width:14px;height:14px;
+  border-radius:50%;border:2px solid var(--accent);background:var(--bg);
+  z-index:1;
+}
+.tl-item .dot.highlight{border-color:var(--tesla-red);background:var(--tesla-red);}
+.tl-item .dot.intel-dot{border-color:var(--intel-blue);background:var(--intel-blue);}
+.tl-date{font-size:.78rem;color:var(--accent);font-weight:600;margin-bottom:2px;}
+.tl-title{font-weight:600;margin-bottom:2px;}
+.tl-detail{
+  font-size:.85rem;color:var(--text-dim);display:none;padding-top:4px;
+}
+.tl-item.open .tl-detail{display:block;}
+.tl-toggle{
+  font-size:.72rem;color:var(--accent);cursor:pointer;
+  border:none;background:none;padding:2px 0;font-family:inherit;
+}
+.tl-toggle:hover{text-decoration:underline;}
+
+/* ===== Tables ===== */
+.table-wrap{overflow-x:auto;margin:16px 0;border-radius:var(--radius);border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:.82rem;}
+th{
+  background:var(--bg2);color:var(--text-dim);font-weight:600;
+  padding:10px 14px;text-align:left;cursor:pointer;
+  user-select:none;white-space:nowrap;position:relative;
+}
+th:hover{background:var(--bg3);}
+th .sort-arrow{font-size:.65rem;margin-left:4px;opacity:.4;}
+th.sorted .sort-arrow{opacity:1;color:var(--accent);}
+td{padding:10px 14px;border-top:1px solid var(--border);}
+tr:hover td{background:rgba(255,255,255,0.02);}
+.highlight-cell{color:var(--green);font-weight:600;}
+.warn-cell{color:var(--orange);font-weight:600;}
+.bad-cell{color:var(--red);font-weight:600;}
+
+/* ===== Bar Charts (CSS) ===== */
+.bar-chart{margin:24px 0;}
+.bar-row{display:flex;align-items:center;margin-bottom:12px;gap:12px;}
+.bar-label{width:160px;min-width:160px;font-size:.82rem;text-align:right;flex-shrink:0;}
+.bar-track{flex:1;height:28px;background:var(--card);border-radius:6px;overflow:hidden;position:relative;}
+.bar-fill{height:100%;border-radius:6px;transition:width 1s ease;display:flex;align-items:center;padding-left:10px;font-size:.72rem;font-weight:600;color:#fff;min-width:fit-content;}
+.bar-fill.intel{background:linear-gradient(90deg,var(--intel-blue),#0097e6);}
+.bar-fill.tesla{background:linear-gradient(90deg,var(--tesla-red),#ff3333);}
+.bar-fill.tsmc{background:linear-gradient(90deg,#e53e3e,#fc8181);}
+.bar-fill.samsung{background:linear-gradient(90deg,#1428a0,#5b7cfa);}
+.bar-fill.gov{background:linear-gradient(90deg,#2d7d46,var(--green));}
+.bar-fill.other{background:linear-gradient(90deg,#6b7280,#9ca3af);}
+.bar-value{font-size:.82rem;font-weight:600;min-width:60px;}
+
+/* ===== Process Comparison ===== */
+.process-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;margin:24px 0;
+}
+.process-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+}
+.process-card h4{margin-bottom:12px;font-size:.95rem;}
+.process-card.intel-card{border-color:rgba(0,113,197,0.3);}
+.process-card.tsmc-card{border-color:rgba(229,62,62,0.2);}
+.process-card.samsung-card{border-color:rgba(20,40,160,0.3);}
+.process-card .tag{
+  display:inline-block;padding:2px 8px;border-radius:4px;
+  font-size:.7rem;font-weight:600;margin:2px 2px;
+}
+.tag-blue{background:rgba(0,113,197,0.15);color:var(--intel-blue);}
+.tag-red{background:rgba(204,0,0,0.15);color:var(--tesla-red);}
+.tag-green{background:rgba(74,222,128,0.15);color:var(--green);}
+.tag-orange{background:rgba(251,146,60,0.15);color:var(--orange);}
+.tag-purple{background:rgba(167,139,250,0.15);color:var(--purple);}
+
+/* ===== Roadmap Flow ===== */
+.roadmap{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  margin:24px 0;justify-content:center;
+}
+.rm-step{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:12px 16px;text-align:center;
+  font-size:.82rem;min-width:140px;
+}
+.rm-step .phase{font-size:.68rem;color:var(--accent);font-weight:600;margin-bottom:2px;}
+.rm-step .chip{font-weight:700;margin-bottom:2px;}
+.rm-step .meta{font-size:.72rem;color:var(--text-dim);}
+.rm-arrow{color:var(--text-dim);font-size:1.2rem;}
+
+/* ===== Stock Chart (SVG) ===== */
+.stock-chart{margin:24px 0;}
+.stock-chart svg{width:100%;height:auto;}
+
+/* ===== Quotes ===== */
+.quote-block{
+  border-left:3px solid var(--accent);padding:12px 20px;
+  margin:16px 0;background:var(--card);border-radius:0 var(--radius) var(--radius) 0;
+}
+.quote-block .who{font-size:.78rem;color:var(--text-dim);margin-top:6px;}
+
+/* ===== Reaction Cards ===== */
+.reaction-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;margin:24px 0;
+}
+.reaction-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;
+}
+.reaction-card .platform{
+  font-size:.72rem;font-weight:600;color:var(--accent);
+  margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;
+}
+.reaction-card .quote{font-size:.85rem;font-style:italic;margin-bottom:6px;}
+.reaction-card .source{font-size:.72rem;color:var(--text-dim);}
+
+/* ===== Risk Matrix ===== */
+.risk-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:12px;margin:16px 0;
+}
+.risk-item{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:14px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.risk-icon{font-size:1.2rem;flex-shrink:0;}
+.risk-item .risk-title{font-weight:600;font-size:.88rem;margin-bottom:2px;}
+.risk-item .risk-desc{font-size:.78rem;color:var(--text-dim);}
+.risk-item .risk-level{
+  font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;
+  display:inline-block;margin-top:4px;
+}
+.risk-high{background:rgba(248,113,113,0.15);color:var(--red);}
+.risk-med{background:rgba(251,146,60,0.15);color:var(--orange);}
+.risk-low{background:rgba(74,222,128,0.15);color:var(--green);}
+
+/* ===== Footer ===== */
+footer{
+  text-align:center;padding:40px 20px;color:var(--text-dim);
+  font-size:.78rem;border-top:1px solid var(--border);margin-top:40px;
+}
+
+/* ===== Responsive ===== */
+@media(max-width:640px){
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .bar-label{width:100px;min-width:100px;font-size:.75rem;}
+  .roadmap{flex-direction:column;}
+  .rm-arrow{transform:rotate(90deg);}
+  nav .logo{margin-right:12px;}
+  .hero h1{font-size:1.6rem;}
+}
+</style>
+</head>
+<body class="lang-zh">
+
+<!-- Language Toggle -->
+<div class="lang-toggle">
+  <button class="active" onclick="setLang('zh')">中文</button>
+  <button onclick="setLang('en')">EN</button>
+</div>
+
+<!-- Back to Top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- Navigation -->
+<nav>
+  <div class="logo">
+    <span class="zh">Intel × Tesla Terafab</span>
+    <span class="en">Intel × Tesla Terafab</span>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a href="#overview">
+      <span class="zh">概述</span><span class="en">Overview</span>
+    </a>
+    <a href="#timeline">
+      <span class="zh">时间线</span><span class="en">Timeline</span>
+    </a>
+    <a href="#partnership">
+      <span class="zh">合作细节</span><span class="en">Partnership</span>
+    </a>
+    <a href="#tech">
+      <span class="zh">技术分析</span><span class="en">Technology</span>
+    </a>
+    <a href="#finance">
+      <span class="zh">资金分析</span><span class="en">Finance</span>
+    </a>
+    <a href="#competition">
+      <span class="zh">竞争格局</span><span class="en">Competition</span>
+    </a>
+    <a href="#reactions">
+      <span class="zh">行业反应</span><span class="en">Reactions</span>
+    </a>
+    <a href="#risks">
+      <span class="zh">风险展望</span><span class="en">Risks</span>
+    </a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="overview">
+  <h1>
+    <span class="zh">Intel × Tesla Terafab</span>
+    <span class="en">Intel × Tesla Terafab</span>
+  </h1>
+  <p class="subtitle">
+    <span class="zh">超级半导体制造项目深度调研报告</span>
+    <span class="en">Deep Research Report on the Mega Semiconductor Manufacturing Project</span>
+  </p>
+  <div class="date-badge">
+    <span class="zh">📅 2026年4月8日 · 覆盖时段：2025.7 – 2026.4.7</span>
+    <span class="en">📅 April 8, 2026 · Coverage: Jul 2025 – Apr 7, 2026</span>
+  </div>
+</section>
+
+<!-- Core Stats -->
+<div class="stats-grid">
+  <div class="stat-card tesla">
+    <div class="value">$20-25B</div>
+    <div class="label"><span class="zh">总投资额</span><span class="en">Total Investment</span></div>
+  </div>
+  <div class="stat-card intel">
+    <div class="value">18A</div>
+    <div class="label"><span class="zh">Intel主力制程 (~1.8nm)</span><span class="en">Intel Lead Process (~1.8nm)</span></div>
+  </div>
+  <div class="stat-card green">
+    <div class="value">1 TW/yr</div>
+    <div class="label"><span class="zh">目标年产算力</span><span class="en">Target Compute Output</span></div>
+  </div>
+  <div class="stat-card yellow">
+    <div class="value">
+      <span class="zh">4方联合</span><span class="en">4-Party JV</span>
+    </div>
+    <div class="label"><span class="zh">Tesla · SpaceX · xAI · Intel</span><span class="en">Tesla · SpaceX · xAI · Intel</span></div>
+  </div>
+</div>
+
+<!-- Key Context -->
+<div class="quote-block">
+  <div>
+    <span class="zh">Intel官方声明："我们设计、制造和封装超高性能芯片的规模化能力，将加速Terafab实现年产1太瓦算力的目标。" — 实质上，Tesla是共同锚定Intel Foundry在Austin扩建的一方，而非真正自建fab。</span>
+    <span class="en">Intel's statement: "Our ability to design, fabricate, and package ultra-high-performance chips at scale will help accelerate Terafab's aim to produce 1 TW/year of compute." — In practice, Tesla is co-anchoring an Intel Foundry expansion in Austin, not building its own fab.</span>
+  </div>
+  <div class="who">Intel Official X Post · Apr 7, 2026</div>
+</div>
+
+<!-- ==================== TIMELINE ==================== -->
+<section class="section" id="timeline">
+  <div class="section-title">
+    <span>🕐</span>
+    <span class="zh">事件时间线</span><span class="en">Event Timeline</span>
+  </div>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="dot"></div>
+      <div class="tl-date">2025-07</div>
+      <div class="tl-title">
+        <span class="zh">Tesla与三星签署 $165亿 多年期合同</span>
+        <span class="en">Tesla–Samsung $16.5B Multi-Year Contract</span>
+      </div>
+      <button class="tl-toggle" onclick="toggleDetail(this)">
+        <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+      </button>
+      <div class="tl-detail">
+        <span class="zh">在三星德州泰勒厂以2nm工艺生产AI6芯片，合同期至2033年12月。这是Tesla AI芯片代工战略的开端。</span>
+        <span class="en">Samsung's Taylor, TX fab to produce AI6 chips on 2nm process. Contract runs through Dec 2033. This marks the start of Tesla's AI chip foundry strategy.</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="dot"></div>
+      <div class="tl-date">2025-08-07</div>
+      <div class="tl-title">
+        <span class="zh">首次传出Intel–Tesla合作消息</span>
+        <span class="en">First Reports of Intel–Tesla Collaboration</span>
+      </div>
+      <button class="tl-toggle" onclick="toggleDetail(this)">
+        <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+      </button>
+      <div class="tl-detail">
+        <span class="zh">Tesla选择三星负责代工（Dojo芯片制造），Intel负责先进封装。这是Intel–Tesla合作的最早公开迹象。</span>
+        <span class="en">Tesla selects Samsung for foundry (Dojo chip manufacturing) and Intel for advanced packaging. First public indication of Intel–Tesla collaboration.</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="dot"></div>
+      <div class="tl-date">2025-11-07</div>
+      <div class="tl-title">
+        <span class="zh">马斯克暗示可能自建巨型芯片厂 + 与Intel合作</span>
+        <span class="en">Musk Hints at Building Own Mega Fab + Intel Partnership</span>
+      </div>
+      <button class="tl-toggle" onclick="toggleDetail(this)">
+        <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+      </button>
+      <div class="tl-detail">
+        <span class="zh">Musk公开表示Tesla"可能必须建造一个巨型芯片厂"来制造AI芯片，并暗示可能与Intel合作。</span>
+        <span class="en">Musk publicly states Tesla "probably will have to build a gigantic chip fab" for AI chips, and hints at potential Intel partnership.</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="dot"></div>
+      <div class="tl-date">2026-03-04</div>
+      <div class="tl-title">
+        <span class="zh">Intel CFO称18A工艺进展足以开放外部客户</span>
+        <span class="en">Intel CFO: 18A Progress Strong Enough for External Customers</span>
+      </div>
+      <button class="tl-toggle" onclick="toggleDetail(this)">
+        <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+      </button>
+      <div class="tl-detail">
+        <span class="zh">CFO Zinsner表示Intel Foundry 2027年盈亏平衡目标"看起来更真实了"，18A良率月增7-8%。</span>
+        <span class="en">CFO Zinsner signals Intel Foundry breakeven target for 2027 looks "a lot more real." 18A yields improving 7-8% monthly.</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="dot highlight"></div>
+      <div class="tl-date">2026-03-21</div>
+      <div class="tl-title">
+        <span class="zh">🔴 Musk正式宣布Terafab项目</span>
+        <span class="en">🔴 Musk Officially Announces Terafab</span>
+      </div>
+      <button class="tl-toggle" onclick="toggleDetail(this)">
+        <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+      </button>
+      <div class="tl-detail">
+        <span class="zh">在Austin Seaholm电厂活动上宣布$20-25B合资项目。Terafab实际上是两座fab：一座用于汽车和机器人，一座用于太空AI数据中心。选址Giga Texas北校区。</span>
+        <span class="en">Announced at Austin's Seaholm Power Plant event. $20-25B JV between Tesla and SpaceX (merged with xAI). Two fabs: one for cars/robots, one for space AI data centers. Location: Giga Texas north campus.</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="dot"></div>
+      <div class="tl-date">2026-03-24</div>
+      <div class="tl-title">
+        <span class="zh">Tesla在台湾大规模招聘，瞄准台积电人才</span>
+        <span class="en">Tesla Ramps Hiring in Taiwan, Targeting TSMC Talent</span>
+      </div>
+      <button class="tl-toggle" onclick="toggleDetail(this)">
+        <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+      </button>
+      <div class="tl-detail">
+        <span class="zh">Tesla瞄准TSMC资深工艺整合工程师，为Terafab储备人才。这可能加速半导体人才市场的薪资膨胀。</span>
+        <span class="en">Targeting TSMC senior process integration engineers for Terafab. Could accelerate wage inflation in the semiconductor talent market.</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="dot"></div>
+      <div class="tl-date">2026-04-01</div>
+      <div class="tl-title">
+        <span class="zh">SpaceX秘密提交IPO申请</span>
+        <span class="en">SpaceX Confidentially Files for IPO</span>
+      </div>
+      <button class="tl-toggle" onclick="toggleDetail(this)">
+        <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+      </button>
+      <div class="tl-detail">
+        <span class="zh">有望成为史上最大规模IPO，为Terafab提供重要资金来源。目标2026年内上市。</span>
+        <span class="en">Could become the largest stock market listing on record. Target: later 2026. Provides significant funding source for Terafab.</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="dot intel-dot"></div>
+      <div class="tl-date">2026-04-06 (Weekend)</div>
+      <div class="tl-title">
+        <span class="zh">🔵 Musk造访Intel园区，与CEO陈立武合影</span>
+        <span class="en">🔵 Musk Visits Intel Campus, Photo with CEO Lip-Bu Tan</span>
+      </div>
+      <button class="tl-toggle" onclick="toggleDetail(this)">
+        <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+      </button>
+      <div class="tl-detail">
+        <span class="zh">Musk周末造访Intel，与CEO陈立武握手合影。照片发布后引发广泛猜测。</span>
+        <span class="en">Musk visits Intel's campus over the weekend. Photo of CEO Lip-Bu Tan and Musk shaking hands circulates widely.</span>
+      </div>
+    </div>
+
+    <div class="tl-item open">
+      <div class="dot intel-dot"></div>
+      <div class="tl-date">2026-04-07</div>
+      <div class="tl-title">
+        <span class="zh">🔵 Intel正式官宣加入Terafab</span>
+        <span class="en">🔵 Intel Officially Announces Joining Terafab</span>
+      </div>
+      <button class="tl-toggle" onclick="toggleDetail(this)">
+        <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+      </button>
+      <div class="tl-detail" style="display:block">
+        <span class="zh">Intel在X平台发文："Intel is proud to join the Terafab project with SpaceX, xAI, and Tesla to help refactor silicon fab technology." 股价两日累计上涨15.8%（$50.78→$58.79），市值增加约$390亿。同日宣布$142亿回购爱尔兰工厂50%股份。</span>
+        <span class="en">Intel posts on X: "Intel is proud to join the Terafab project with SpaceX, xAI, and Tesla." Shares jump +15.8% in two days ($50.78→$58.79), adding ~$39B market cap. Same day: Intel also announces $14.2B buyback of 50% stake in Ireland fab from Apollo.</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== PARTNERSHIP ==================== -->
+<section class="section" id="partnership">
+  <div class="section-title">
+    <span>🤝</span>
+    <span class="zh">合作细节</span><span class="en">Partnership Details</span>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card intel">
+      <div class="value" style="font-size:1.1rem;">
+        <span class="zh">Intel</span><span class="en">Intel</span>
+      </div>
+      <div class="label">
+        <span class="zh">工艺技术 · 先进封装 · Fab运营</span><span class="en">Process Tech · Adv. Packaging · Fab Ops</span>
+      </div>
+    </div>
+    <div class="stat-card tesla">
+      <div class="value" style="font-size:1.1rem;">
+        <span class="zh">Tesla / SpaceX / xAI</span><span class="en">Tesla / SpaceX / xAI</span>
+      </div>
+      <div class="label">
+        <span class="zh">资金投入 · 锚定需求 · 基础设施</span><span class="en">Capital · Anchor Demand · Infrastructure</span>
+      </div>
+    </div>
+    <div class="stat-card green">
+      <div class="value" style="font-size:1.1rem;">
+        <span class="zh">美国政府</span><span class="en">U.S. Government</span>
+      </div>
+      <div class="label">
+        <span class="zh">CHIPS Act $110亿+ · 最大股东(9.9%)</span><span class="en">CHIPS Act $11B+ · Largest Shareholder (9.9%)</span>
+      </div>
+    </div>
+  </div>
+
+  <h4 style="margin:20px 0 12px;">
+    <span class="zh">两座Fab，一个地点</span><span class="en">Two Fabs, One Location</span>
+  </h4>
+  <div class="process-grid">
+    <div class="process-card intel-card">
+      <h4>
+        <span class="zh">🏭 Fab 1 — 车载 & 机器人</span>
+        <span class="en">🏭 Fab 1 — Automotive & Robotics</span>
+      </h4>
+      <p style="font-size:.85rem;color:var(--text-dim);">
+        <span class="zh">生产Tesla AI5/AI6芯片，用于FSD自动驾驶和Optimus人形机器人。Musk 2027年Optimus产量目标1000万台。</span>
+        <span class="en">Produces Tesla AI5/AI6 chips for FSD autonomous driving and Optimus humanoid robots. Musk targets 10M Optimus units by 2027.</span>
+      </p>
+      <div style="margin-top:8px;">
+        <span class="tag tag-blue">AI5</span>
+        <span class="tag tag-blue">AI6</span>
+        <span class="tag tag-red">FSD</span>
+        <span class="tag tag-red">Optimus</span>
+      </div>
+    </div>
+    <div class="process-card tesla-card" style="border-color:rgba(204,0,0,0.3);">
+      <h4>
+        <span class="zh">🚀 Fab 2 — 太空AI数据中心</span>
+        <span class="en">🚀 Fab 2 — Space AI Data Centers</span>
+      </h4>
+      <p style="font-size:.85rem;color:var(--text-dim);">
+        <span class="zh">生产Dojo D3太空专用AI芯片，抗辐射加固设计，100kW轨道服务器架，由Starship部署。约80%产能面向太空。</span>
+        <span class="en">Produces Dojo D3 radiation-hardened space AI chips. 100kW orbital server racks deployed by Starship. ~80% capacity for space applications.</span>
+      </p>
+      <div style="margin-top:8px;">
+        <span class="tag tag-purple">Dojo D3</span>
+        <span class="tag tag-purple">Space AI</span>
+        <span class="tag tag-green">Starship</span>
+        <span class="tag tag-orange">Radiation-Hardened</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    <div>
+      <span class="zh">"Elon有重新想象整个行业的可靠记录。这正是当今半导体制造所需要的。Terafab代表了硅逻辑、存储和封装未来建造方式的范式转变。"</span>
+      <span class="en">"Elon has a proven track record of reimagining entire industries. This is exactly what is needed in semiconductor manufacturing today. Terafab represents a step change in how silicon logic, memory and packaging will get built in the future."</span>
+    </div>
+    <div class="who">
+      <span class="zh">Intel CEO 陈立武 (Lip-Bu Tan)</span>
+      <span class="en">Intel CEO Lip-Bu Tan</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TECHNOLOGY ==================== -->
+<section class="section" id="tech">
+  <div class="section-title">
+    <span>🔬</span>
+    <span class="zh">技术分析</span><span class="en">Technology Analysis</span>
+  </div>
+
+  <h4 style="margin-bottom:12px;">
+    <span class="zh">先进制程对比 (2026年4月)</span><span class="en">Advanced Process Comparison (Apr 2026)</span>
+  </h4>
+  <div class="table-wrap">
+    <table id="procTable">
+      <thead>
+        <tr>
+          <th><span class="zh">维度</span><span class="en">Dimension</span> <span class="sort-arrow">⇅</span></th>
+          <th>Intel 18A <span class="sort-arrow">⇅</span></th>
+          <th>TSMC N2 <span class="sort-arrow">⇅</span></th>
+          <th>Samsung 2nm <span class="sort-arrow">⇅</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="zh">制程标注</span><span class="en">Node Label</span></td>
+          <td>18Å (~1.8nm)</td>
+          <td>2nm</td>
+          <td>2nm (SF2)</td>
+        </tr>
+        <tr>
+          <td><span class="zh">晶体管架构</span><span class="en">Transistor Arch</span></td>
+          <td>GAA (RibbonFET)</td>
+          <td>GAA (Nanosheet)</td>
+          <td>GAA (MBCFET)</td>
+        </tr>
+        <tr>
+          <td><span class="zh">背面供电</span><span class="en">Backside Power</span></td>
+          <td class="highlight-cell"><span class="zh">✅ PowerVia (业界首发)</span><span class="en">✅ PowerVia (Industry First)</span></td>
+          <td class="warn-cell"><span class="zh">✅ N2+ (2027+)</span><span class="en">✅ N2+ (2027+)</span></td>
+          <td class="warn-cell"><span class="zh">❌ 后续节点</span><span class="en">❌ Future Node</span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">良率</span><span class="en">Yield</span></td>
+          <td class="warn-cell">~60-65%</td>
+          <td class="highlight-cell">>80%</td>
+          <td class="bad-cell"><span class="zh">不稳定</span><span class="en">Unstable</span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">HVM状态</span><span class="en">HVM Status</span></td>
+          <td><span class="zh">2026初启动</span><span class="en">Early 2026</span></td>
+          <td><span class="zh">2025末量产</span><span class="en">Late 2025</span></td>
+          <td><span class="zh">量产中</span><span class="en">In Production</span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">代工市场份额</span><span class="en">Foundry Share</span></td>
+          <td>&lt;5%</td>
+          <td class="highlight-cell">~70%</td>
+          <td>~15-18%</td>
+        </tr>
+        <tr>
+          <td><span class="zh">IP/PDK成熟度</span><span class="en">IP/PDK Maturity</span></td>
+          <td class="bad-cell"><span class="zh">不成熟</span><span class="en">Immature</span></td>
+          <td class="highlight-cell"><span class="zh">业界标杆</span><span class="en">Industry Standard</span></td>
+          <td class="warn-cell"><span class="zh">中等</span><span class="en">Medium</span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">美国本土产能</span><span class="en">U.S. Onshore Capacity</span></td>
+          <td class="highlight-cell"><span class="zh">✅ AZ + Austin</span><span class="en">✅ AZ + Austin</span></td>
+          <td><span class="zh">AZ（建设中）</span><span class="en">AZ (Building)</span></td>
+          <td><span class="zh">Taylor, TX</span><span class="en">Taylor, TX</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 style="margin:32px 0 12px;">
+    <span class="zh">先进封装对比</span><span class="en">Advanced Packaging Comparison</span>
+  </h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th><span class="zh">技术</span><span class="en">Technology</span></th>
+          <th>Intel</th>
+          <th>TSMC</th>
+          <th>Samsung</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="zh">2.5D桥接</span><span class="en">2.5D Bridge</span></td>
+          <td>EMIB</td>
+          <td>CoWoS</td>
+          <td>I-Cube</td>
+        </tr>
+        <tr>
+          <td><span class="zh">3D堆叠</span><span class="en">3D Stacking</span></td>
+          <td>Foveros</td>
+          <td>SoIC</td>
+          <td>X-Cube</td>
+        </tr>
+        <tr>
+          <td><span class="zh">混合键合</span><span class="en">Hybrid Bonding</span></td>
+          <td class="highlight-cell">Foveros Direct 3D</td>
+          <td>SoIC-X</td>
+          <td class="bad-cell"><span class="zh">未量产</span><span class="en">Not in Prod</span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">玻璃基板</span><span class="en">Glass Substrates</span></td>
+          <td class="highlight-cell"><span class="zh">行业首发</span><span class="en">Industry First</span></td>
+          <td><span class="zh">开发中</span><span class="en">In Development</span></td>
+          <td><span class="zh">开发中</span><span class="en">In Development</span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">综合评价</span><span class="en">Overall Rating</span></td>
+          <td class="highlight-cell">🥇 <span class="zh">最强</span><span class="en">Strongest</span></td>
+          <td>🥈 <span class="zh">强</span><span class="en">Strong</span></td>
+          <td>🥉 <span class="zh">追赶中</span><span class="en">Catching Up</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 style="margin:32px 0 12px;">
+    <span class="zh">Tesla芯片路线图</span><span class="en">Tesla Chip Roadmap</span>
+  </h4>
+  <div class="roadmap">
+    <div class="rm-step">
+      <div class="phase"><span class="zh">当前</span><span class="en">Current</span></div>
+      <div class="chip">AI4 (HW4)</div>
+      <div class="meta">TSMC · N7 · <span class="zh">量产中</span><span class="en">In Prod</span></div>
+    </div>
+    <div class="rm-arrow">→</div>
+    <div class="rm-step">
+      <div class="phase"><span class="zh">下一代</span><span class="en">Next Gen</span></div>
+      <div class="chip">AI5</div>
+      <div class="meta">TSMC+Samsung · 3nm · <span class="zh">2026末样品</span><span class="en">Late 2026 Sample</span></div>
+    </div>
+    <div class="rm-arrow">→</div>
+    <div class="rm-step">
+      <div class="phase"><span class="zh">未来</span><span class="en">Future</span></div>
+      <div class="chip">AI6</div>
+      <div class="meta">Samsung · 2nm · $16.5B · <span class="zh">2027量产</span><span class="en">2027 HVM</span></div>
+    </div>
+    <div class="rm-arrow">→</div>
+    <div class="rm-step" style="border-color:rgba(0,113,197,0.3);">
+      <div class="phase"><span class="zh">Terafab</span><span class="en">Terafab</span></div>
+      <div class="chip">AI5/AI6/D4+</div>
+      <div class="meta">Intel · 18A · <span class="zh">2028+量产</span><span class="en">2028+ HVM</span></div>
+    </div>
+  </div>
+
+  <div class="roadmap" style="margin-top:8px;">
+    <div class="rm-step">
+      <div class="phase"><span class="zh">训练</span><span class="en">Training</span></div>
+      <div class="chip">Dojo D2</div>
+      <div class="meta">TSMC · N5/N7 · <span class="zh">量产</span><span class="en">In Prod</span></div>
+    </div>
+    <div class="rm-arrow">→</div>
+    <div class="rm-step">
+      <div class="phase"><span class="zh">太空</span><span class="en">Space</span></div>
+      <div class="chip">Dojo D3</div>
+      <div class="meta"><span class="zh">抗辐射 · 星舰部署</span><span class="en">Rad-Hardened · Starship</span></div>
+    </div>
+    <div class="rm-arrow">→</div>
+    <div class="rm-step" style="border-color:rgba(204,0,0,0.3);">
+      <div class="phase"><span class="zh">太空AI</span><span class="en">Space AI</span></div>
+      <div class="chip">D4/D5</div>
+      <div class="meta"><span class="zh">Terafab · 18A/14A</span><span class="en">Terafab · 18A/14A</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FINANCE ==================== -->
+<section class="section" id="finance">
+  <div class="section-title">
+    <span>💰</span>
+    <span class="zh">资金分析</span><span class="en">Financial Analysis</span>
+  </div>
+
+  <h4 style="margin-bottom:16px;">
+    <span class="zh">投资规模估算</span><span class="en">Investment Size Estimates</span>
+  </h4>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th><span class="zh">机构</span><span class="en">Institution</span></th>
+          <th><span class="zh">估算总投资</span><span class="en">Est. Total</span></th>
+          <th><span class="zh">说明</span><span class="en">Notes</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Musk/Tesla</td><td class="highlight-cell">$20-25B</td><td><span class="zh">第一阶段</span><span class="en">Phase 1</span></td></tr>
+        <tr><td>Morgan Stanley</td><td class="warn-cell">$35-45B</td><td><span class="zh">含建设成本</span><span class="en">Includes construction</span></td></tr>
+        <tr><td>Barclays</td><td class="warn-cell">$50B+</td><td><span class="zh">牛市情景</span><span class="en">Bull Case</span></td></tr>
+        <tr><td>Bernstein</td><td class="bad-cell">$5T</td><td><span class="zh">完全1TW目标极限成本</span><span class="en">Full 1TW extreme estimate</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 style="margin:28px 0 12px;">
+    <span class="zh">资金来源结构（推测）</span><span class="en">Funding Source Structure (Estimated)</span>
+  </h4>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label"><span class="zh">Tesla经营现金流+债务</span><span class="en">Tesla Cash Flow + Debt</span></div>
+      <div class="bar-track"><div class="bar-fill tesla" style="width:35%;">35%</div></div>
+      <div class="bar-value">$70-100B</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label"><span class="zh">SpaceX IPO + xAI</span><span class="en">SpaceX IPO + xAI</span></div>
+      <div class="bar-track"><div class="bar-fill tesla" style="width:22%;">22%</div></div>
+      <div class="bar-value">$50-60B</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label"><span class="zh">项目级债务融资</span><span class="en">Project Finance</span></div>
+      <div class="bar-track"><div class="bar-fill other" style="width:17%;">17%</div></div>
+      <div class="bar-value">$35-50B</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">CHIPS Act</div>
+      <div class="bar-track"><div class="bar-fill gov" style="width:13%;">13%</div></div>
+      <div class="bar-value">$25-35B</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label"><span class="zh">Intel技术/设备投入</span><span class="en">Intel Tech/Equipment</span></div>
+      <div class="bar-track"><div class="bar-fill intel" style="width:10%;">10%</div></div>
+      <div class="bar-value"><span class="zh">非现金为主</span><span class="en">Mostly Non-Cash</span></div>
+    </div>
+  </div>
+
+  <h4 style="margin:28px 0 12px;">
+    <span class="zh">Intel股价变化 (2026年4月)</span><span class="en">Intel Stock Price (Apr 2026)</span>
+  </h4>
+  <div class="stock-chart">
+    <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+      <!-- Grid -->
+      <line x1="80" y1="20" x2="80" y2="170" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <line x1="80" y1="170" x2="580" y2="170" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <!-- Y axis labels -->
+      <text x="72" y="25" fill="#7a8599" font-size="10" text-anchor="end">$60</text>
+      <text x="72" y="62" fill="#7a8599" font-size="10" text-anchor="end">$56</text>
+      <text x="72" y="100" fill="#7a8599" font-size="10" text-anchor="end">$52</text>
+      <text x="72" y="137" fill="#7a8599" font-size="10" text-anchor="end">$48</text>
+      <text x="72" y="170" fill="#7a8599" font-size="10" text-anchor="end">$46</text>
+      <!-- Grid lines -->
+      <line x1="80" y1="20" x2="580" y2="20" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <line x1="80" y1="57" x2="580" y2="57" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <line x1="80" y1="95" x2="580" y2="95" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <line x1="80" y1="132" x2="580" y2="132" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <!-- Area fill -->
+      <defs>
+        <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0071c5" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#0071c5" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+      <path d="M80,150 L155,130 L230,55 L305,52 L380,49 L455,30 L530,22 L530,170 L80,170 Z" fill="url(#areaGrad)"/>
+      <!-- Line -->
+      <polyline
+        points="80,150 155,130 230,55 305,52 380,49 455,30 530,22"
+        fill="none" stroke="#0071c5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- Data points -->
+      <circle cx="80" cy="150" r="4" fill="#0b0e14" stroke="#0071c5" stroke-width="2"/>
+      <circle cx="155" cy="130" r="4" fill="#0b0e14" stroke="#0071c5" stroke-width="2"/>
+      <circle cx="230" cy="55" r="4" fill="#0b0e14" stroke="#0071c5" stroke-width="2"/>
+      <circle cx="305" cy="52" r="4" fill="#0b0e14" stroke="#0071c5" stroke-width="2"/>
+      <circle cx="380" cy="49" r="4" fill="#0b0e14" stroke="#0071c5" stroke-width="2"/>
+      <circle cx="455" cy="30" r="5" fill="#0071c5" stroke="#fff" stroke-width="2"/>
+      <circle cx="530" cy="22" r="5" fill="#cc0000" stroke="#fff" stroke-width="2"/>
+      <!-- X axis labels -->
+      <text x="80" y="188" fill="#7a8599" font-size="10" text-anchor="middle">4/1</text>
+      <text x="155" y="188" fill="#7a8599" font-size="10" text-anchor="middle">4/2</text>
+      <text x="230" y="188" fill="#7a8599" font-size="10" text-anchor="middle">4/3</text>
+      <text x="305" y="188" fill="#7a8599" font-size="10" text-anchor="middle">4/4</text>
+      <text x="380" y="188" fill="#7a8599" font-size="10" text-anchor="middle">4/5</text>
+      <text x="455" y="188" fill="#0071c5" font-size="10" font-weight="700" text-anchor="middle">4/7</text>
+      <text x="530" y="188" fill="#cc0000" font-size="10" font-weight="700" text-anchor="middle">4/8</text>
+      <!-- Annotations -->
+      <text x="455" y="20" fill="#0071c5" font-size="10" font-weight="600" text-anchor="middle">$52.91</text>
+      <text x="530" y="14" fill="#cc0000" font-size="10" font-weight="600" text-anchor="middle">$58.79 🔥</text>
+      <!-- Terafab label -->
+      <line x1="455" y1="25" x2="455" y2="30" stroke="#0071c5" stroke-width="1" stroke-dasharray="3"/>
+      <text x="455" y="44" fill="#0071c5" font-size="8" text-anchor="middle">Terafab Day 1</text>
+    </svg>
+  </div>
+
+  <h4 style="margin:28px 0 12px;">
+    <span class="zh">Intel Foundry盈亏路径预测</span><span class="en">Intel Foundry Profit Path Projection</span>
+  </h4>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label">2025 <span class="zh">(实际)</span><span class="en">(Actual)</span></div>
+      <div class="bar-track"><div class="bar-fill intel" style="width:2%;">$0.3B</div></div>
+      <div class="bar-value" style="color:var(--red);"><span class="zh">亏损$103亿</span><span class="en">-$10.3B</span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">2026E</div>
+      <div class="bar-track"><div class="bar-fill intel" style="width:8%;">$1B+</div></div>
+      <div class="bar-value" style="color:var(--orange);"><span class="zh">亏损率-40%</span><span class="en">-40%</span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">2027E</div>
+      <div class="bar-track"><div class="bar-fill intel" style="width:25%;">$3-5B</div></div>
+      <div class="bar-value" style="color:var(--yellow);"><span class="zh">盈亏平衡</span><span class="en">Breakeven</span></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">2028E</div>
+      <div class="bar-track"><div class="bar-fill intel" style="width:50%;">$8-12B</div></div>
+      <div class="bar-value" style="color:var(--green);">+5~10%</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">2029E+</div>
+      <div class="bar-track"><div class="bar-fill intel" style="width:80%;">$15B+</div></div>
+      <div class="bar-value" style="color:var(--green);">+15~20%</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== COMPETITION ==================== -->
+<section class="section" id="competition">
+  <div class="section-title">
+    <span>⚔️</span>
+    <span class="zh">竞争格局</span><span class="en">Competitive Landscape</span>
+  </div>
+
+  <div class="table-wrap">
+    <table id="compTable">
+      <thead>
+        <tr>
+          <th><span class="zh">指标</span><span class="en">Metric</span> <span class="sort-arrow">⇅</span></th>
+          <th>TSMC <span class="sort-arrow">⇅</span></th>
+          <th>Samsung <span class="sort-arrow">⇅</span></th>
+          <th>Intel Foundry <span class="sort-arrow">⇅</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="zh">2025年代工收入</span><span class="en">2025 Foundry Rev</span></td>
+          <td class="highlight-cell">$122.5B</td>
+          <td>~$13-14B</td>
+          <td>$17.8B <span class="zh">(多数内部)</span><span class="en">(mostly internal)</span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">外部客户收入</span><span class="en">External Rev</span></td>
+          <td class="highlight-cell">$122.5B</td>
+          <td>~$13-14B</td>
+          <td class="bad-cell">$307M</td>
+        </tr>
+        <tr>
+          <td><span class="zh">工艺领先</span><span class="en">Process Lead</span></td>
+          <td class="highlight-cell">2nm & below</td>
+          <td>2nm</td>
+          <td>18A (~1.8nm)</td>
+        </tr>
+        <tr>
+          <td><span class="zh">盈利能力</span><span class="en">Profitability</span></td>
+          <td class="highlight-cell"><span class="zh">盈利</span><span class="en">Profitable</span></td>
+          <td><span class="zh">先进节点盈利</span><span class="en">Adv. nodes profitable</span></td>
+          <td class="bad-cell"><span class="zh">亏损$103亿</span><span class="en">-$10.3B loss</span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">Tesla关系</span><span class="en">Tesla Relationship</span></td>
+          <td>AI5, Dojo D2/D3</td>
+          <td>AI6 ($16.5B), Dojo 3</td>
+          <td><span class="zh">Terafab</span><span class="en">Terafab</span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">美国产能</span><span class="en">U.S. Capacity</span></td>
+          <td><span class="zh">亚利桑那</span><span class="en">Arizona</span></td>
+          <td><span class="zh">德州泰勒</span><span class="en">Taylor, TX</span></td>
+          <td class="highlight-cell"><span class="zh">亚利桑那 + 奥斯汀</span><span class="en">AZ + Austin</span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">市场份额</span><span class="en">Market Share</span></td>
+          <td class="highlight-cell">~70%</td>
+          <td>~7-18%</td>
+          <td>&lt;5%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="process-grid" style="margin-top:24px;">
+    <div class="process-card tsmc-card">
+      <h4 style="color:#fc8181;">
+        <span class="zh">台积电 TSMC</span><span class="en">TSMC</span>
+      </h4>
+      <p style="font-size:.85rem;color:var(--text-dim);">
+        <span class="zh">全球代工霸主，70%市占率。Tesla的AI5和Dojo D2/D3生产商。Terafab创建了Tesla/TSMC/Samsung之外的第三条供应路径，但TSMC仍是技术领先者和Tesla当前生产伙伴。</span>
+        <span class="en">Global foundry leader with 70% share. Produces Tesla AI5 and Dojo D2/D3. Terafab creates a third sourcing path, but TSMC remains the technology leader and Tesla's immediate production partner.</span>
+      </p>
+    </div>
+    <div class="process-card samsung-card">
+      <h4 style="color:#5b7cfa;">
+        <span class="zh">三星 Samsung</span><span class="en">Samsung</span>
+      </h4>
+      <p style="font-size:.85rem;color:var(--text-dim);">
+        <span class="zh">持有Tesla $165亿AI6合同，泰勒厂与Terafab地理相邻。Intel进入可能改变长期代工平衡。三星代工表现"不及预期"，Tesla交易是重大胜利，Terafab可能缩小未来合作规模。</span>
+        <span class="en">Holds Tesla's $16.5B AI6 contract. Taylor, TX fab geographically close to Terafab. Intel's entry could shift the long-term balance. Samsung's foundry has been "underperforming."</span>
+      </p>
+    </div>
+    <div class="process-card intel-card">
+      <h4 style="color:var(--intel-blue);">
+        <span class="zh">Intel Foundry</span><span class="en">Intel Foundry</span>
+      </h4>
+      <p style="font-size:.85rem;color:var(--text-dim);">
+        <span class="zh">Terafab是自IDM 2.0以来Intel一直追求的锚定客户交易。验证了18A技术路线图，为外部收入增长提供可信路径。Tesla现拥有三大代工伙伴，供应链韧性和议价能力大幅提升。</span>
+        <span class="en">Terafab is the anchor customer deal Intel Foundry has been chasing since IDM 2.0. Validates the 18A roadmap and provides a credible path to external revenue growth. Tesla now has three foundry partners for supply chain resilience.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== REACTIONS ==================== -->
+<section class="section" id="reactions">
+  <div class="section-title">
+    <span>💬</span>
+    <span class="zh">行业反应</span><span class="en">Industry Reactions</span>
+  </div>
+
+  <div class="reaction-grid">
+    <div class="reaction-card">
+      <div class="platform">
+        <span class="zh">📈 看好方</span><span class="en">📈 Bullish</span>
+      </div>
+      <div class="quote">
+        <span class="zh">"Intel需要证明自己能承接头部客户的核心项目，而与Tesla的合作正好印证了这一点。" — Gil Luria, D.A. Davidson</span>
+        <span class="en">"Intel needs to show it can support the largest customers with their most important projects, and that seems to be the case." — Gil Luria, D.A. Davidson</span>
+      </div>
+      <div class="source">D.A. Davidson · <span class="zh">分析师</span><span class="en">Analyst</span></div>
+    </div>
+    <div class="reaction-card">
+      <div class="platform">
+        <span class="zh">📈 看好方</span><span class="en">📈 Bullish</span>
+      </div>
+      <div class="quote">
+        <span class="zh">"Intel在过去一年中在纪律和速度方面取得了巨大进步，与马斯克合作只会加速这一进程。" — Stephen Sopko, HyperFrame Research</span>
+        <span class="en">"Intel has made great strides in terms of discipline and velocity over the last year. Working with Musk could further accelerate that progress." — Stephen Sopko, HyperFrame Research</span>
+      </div>
+      <div class="source">HyperFrame Research · <span class="zh">驻场分析师</span><span class="en">Analyst-in-Residence</span></div>
+    </div>
+    <div class="reaction-card">
+      <div class="platform">
+        <span class="zh">⚡ Electrek 编辑</span><span class="en">⚡ Electrek Editorial</span>
+      </div>
+      <div class="quote">
+        <span class="zh">"实际发生的是Tesla作为共同锚定方参与Intel Foundry奥斯汀扩建，并在新闻稿中称之为Terafab。但这可能是正确的选择——Intel 18A是真的，封装是世界级的。"</span>
+        <span class="en">"What's actually happening is that Tesla is co-anchoring an Intel Foundry expansion in Austin and getting to call it 'Terafab.' But this is probably the right move — Intel 18A is real, Intel's packaging is world-class."</span>
+      </div>
+      <div class="source">Electrek · 2026-04-07</div>
+    </div>
+    <div class="reaction-card">
+      <div class="platform">
+        <span class="zh">⚠️ 质疑方</span><span class="en">⚠️ Skeptical</span>
+      </div>
+      <div class="quote">
+        <span class="zh">"完整1TW目标可能需要$5万亿资本开支。Terafab是催化剂，不是完成的故事。" — Bernstein / 247 Wall St</span>
+        <span class="en">"Full 1TW target could require $5T in capital. Terafab is a catalyst, not a finished story." — Bernstein / 247 Wall St</span>
+      </div>
+      <div class="source">Bernstein Research · 247 Wall St</div>
+    </div>
+    <div class="reaction-card">
+      <div class="platform">Reddit r/intel</div>
+      <div class="quote">
+        <span class="zh">"Musk使用Intel的fab IP作为Terafab起点非常合理。要么Intel获得大量资金和技术验证，要么整个项目失败。双赢。" (50👍 17💬)</span>
+        <span class="en">"Musk using Intel's fab IP as a starting point for Terafab makes perfect sense. Either Intel gets massive funding and tech validation, or the whole thing fails. Win-win." (50👍 17💬)</span>
+      </div>
+      <div class="source">r/intel · Reddit</div>
+    </div>
+    <div class="reaction-card">
+      <div class="platform">
+        <span class="zh">🇨🇳 中文媒体</span><span class="en">🇨🇳 Chinese Media</span>
+      </div>
+      <div class="quote">
+        <span class="zh">新浪财经将Intel加入Terafab定位为马斯克给Intel的"救命大单"。盖世汽车指出Tesla并未真正自建fab。网易称Intel加入让Terafab更"接地气"。</span>
+        <span class="en">Sina Finance frames Intel joining Terafab as a "lifeline order" from Musk. Gasgoo notes Tesla isn't actually building its own fab. 163.com says Intel's joining makes Terafab more "grounded."</span>
+      </div>
+      <div class="source">
+        <span class="zh">新浪财经 · 盖世汽车 · 网易 · 华尔街见闻</span>
+        <span class="en">Sina · Gasgoo · 163.com · Wallstreet CN</span>
+      </div>
+    </div>
+  </div>
+
+  <h4 style="margin:28px 0 12px;">
+    <span class="zh">分析师评级</span><span class="en">Analyst Ratings</span>
+  </h4>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label"><span class="zh">强买/买入</span><span class="en">Strong Buy / Buy</span></div>
+      <div class="bar-track"><div class="bar-fill gov" style="width:20%;">20%</div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label"><span class="zh">持有</span><span class="en">Hold</span></div>
+      <div class="bar-track"><div class="bar-fill other" style="width:70%;">70%</div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label"><span class="zh">卖出/强卖</span><span class="en">Sell / Strong Sell</span></div>
+      <div class="bar-track"><div class="bar-fill tesla" style="width:10%;">10%</div></div>
+    </div>
+  </div>
+  <p style="font-size:.78rem;color:var(--text-dim);margin-top:4px;">
+    <span class="zh">Wells Fargo上调目标价$45→$55 · Keybanc上调至$70 · 多数机构建议Hold</span>
+    <span class="en">Wells Fargo raises PT $45→$55 · Keybanc raises to $70 · Majority recommend Hold</span>
+  </p>
+</section>
+
+<!-- ==================== RISKS ==================== -->
+<section class="section" id="risks">
+  <div class="section-title">
+    <span">⚠️</span>
+    <span class="zh">风险与展望</span><span class="en">Risks & Outlook</span>
+  </div>
+
+  <div class="risk-grid">
+    <div class="risk-item">
+      <div class="risk-icon">🔴</div>
+      <div>
+        <div class="risk-title"><span class="zh">18A良率不足</span><span class="en">18A Yield Insufficient</span></div>
+        <div class="risk-desc">
+          <span class="zh">当前~60-65%良率，TSMC成熟节点>90%。每颗可用芯片成本是90%良率的1.5倍，直接威胁"比NVIDIA更好的性能/$"目标。</span>
+          <span class="en">Current ~60-65% yield vs TSMC >90%. Each usable chip costs 1.5x more than at 90% yield, threatening the "better perf/$ than NVIDIA" target.</span>
+        </div>
+        <span class="risk-level risk-high"><span class="zh">高风险</span><span class="en">High Risk</span></span>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">🔴</div>
+      <div>
+        <div class="risk-title"><span class="zh">产能爬坡太慢</span><span class="en">Capacity Ramp Too Slow</span></div>
+        <div class="risk-desc">
+          <span class="zh">1 TW/yr目标前所未有。Intel现有18A产能是否足够？EUV光刻机全球紧缺，交期18-24个月。</span>
+          <span class="en">1 TW/yr is unprecedented. Can Intel's 18A capacity support it? EUV lithography machines are globally scarce with 18-24 month lead times.</span>
+        </div>
+        <span class="risk-level risk-high"><span class="zh">高风险</span><span class="en">High Risk</span></span>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">🟡</div>
+      <div>
+        <div class="risk-title"><span class="zh">Intel代工服务不成熟</span><span class="en">Immature Foundry Services</span></div>
+        <div class="risk-desc">
+          <span class="zh">Intel长期以IDM模式运营，PDK成熟度和IP生态远不如TSMC。Tesla几乎所有IP都需要自研或从零移植。</span>
+          <span class="en">Intel's IDM heritage means PDK maturity and IP ecosystem lag far behind TSMC. Tesla must self-develop or port nearly all IP from scratch.</span>
+        </div>
+        <span class="risk-level risk-med"><span class="zh">中等风险</span><span class="en">Medium Risk</span></span>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">🟡</div>
+      <div>
+        <div class="risk-title"><span class="zh">资金压力</span><span class="en">Capital Pressure</span></div>
+        <div class="risk-desc">
+          <span class="zh">Tesla 2026 capex指引$200亿+（不含Terafab）。Terafab可能使总capex翻倍。SpaceX IPO是关键变量。</span>
+          <span class="en">Tesla's 2026 capex guide is $20B+ (excl. Terafab). Terafab could double total capex. SpaceX IPO is the key variable.</span>
+        </div>
+        <span class="risk-level risk-med"><span class="zh">中等风险</span><span class="en">Medium Risk</span></span>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">🟡</div>
+      <div>
+        <div class="risk-title"><span class="zh">技术人才短缺</span><span class="en">Talent Shortage</span></div>
+        <div class="risk-desc">
+          <span class="zh">Austin人才竞争激烈（Samsung + 数据中心行业出价更高）。Tesla在台湾挖角TSMC工程师，可能加速薪资膨胀。</span>
+          <span class="en">Fierce Austin talent competition (Samsung + data center industry bidding higher). Tesla's TSMC poaching may accelerate wage inflation.</span>
+        </div>
+        <span class="risk-level risk-med"><span class="zh">中等风险</span><span class="en">Medium Risk</span></span>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">🟡</div>
+      <div>
+        <div class="risk-title"><span class="zh">无SEC文件约束</span><span class="en">No SEC Filing</span></div>
+        <div class="risk-desc">
+          <span class="zh">截至4月8日，Intel和Tesla均未向SEC提交合作协议文件。协议可能仅为谅解备忘录，实际约束力有限——"握手和氛围"。</span>
+          <span class="en">As of Apr 8, no SEC filings from Intel or Tesla. The agreement may be just an MOU with limited binding force — "handshakes and vibes."</span>
+        </div>
+        <span class="risk-level risk-med"><span class="zh">中等风险</span><span class="en">Medium Risk</span></span>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">🟢</div>
+      <div>
+        <div class="risk-title"><span class="zh">地缘政治</span><span class="en">Geopolitics</span></div>
+        <div class="risk-desc">
+          <span class="zh">美国本土制造反而受益于地缘政治趋势。CHIPS Act支持、美国政府作为Intel最大股东、对华芯片竞争加速。</span>
+          <span class="en">U.S. onshore manufacturing benefits from geopolitical trends. CHIPS Act support, U.S. government as Intel's largest shareholder, accelerating chip competition with China.</span>
+        </div>
+        <span class="risk-level risk-low"><span class="zh">低风险（有利）</span><span class="en">Low Risk (Favorable)</span></span>
+      </div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-icon">🟡</div>
+      <div>
+        <div class="risk-title"><span class="zh">AI需求不确定性</span><span class="en">AI Demand Uncertainty</span></div>
+        <div class="risk-desc">
+          <span class="zh">若AI泡沫破裂，$250-450亿的巨额投入难以回收。同时TSMC、Samsung、NVIDIA都在加速竞争。</span>
+          <span class="en">If the AI bubble bursts, $250-450B investment may be hard to recover. TSMC, Samsung, and NVIDIA are all accelerating competition.</span>
+        </div>
+        <span class="risk-level risk-med"><span class="zh">中等风险</span><span class="en">Medium Risk</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-block" style="margin-top:24px;">
+    <div>
+      <span class="zh"><strong>关键里程碑关注：</strong>Intel 4月23日财报 → 关注更新的积压订单和18A良率数据。如果外部收入达到代工总额的10-15%，业务可能从"拖累"变为"驱动"。</span>
+      <span class="en"><strong>Key Milestone:</strong>Intel earnings on April 23 — watch for updated backlog figures and 18A yield data. If external revenue reaches 10-15% of foundry totals, the business could flip from drag to driver.</span>
+    </div>
+    <div class="who">247 Wall St Analysis</div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <p>
+    <span class="zh">Sky AI 深度调研报告 · 2026年4月8日 · 数据来源：Reuters, Bloomberg, WSJ, Electrek, Tom's Hardware, TrendForce 等</span>
+    <span class="en">Sky AI Deep Research Report · April 8, 2026 · Sources: Reuters, Bloomberg, WSJ, Electrek, Tom's Hardware, TrendForce et al.</span>
+  </p>
+  <p style="margin-top:6px;font-size:.72rem;">
+    <span class="zh">本报告基于公开信息整理，不构成投资建议。</span>
+    <span class="en">This report is compiled from public sources and does not constitute investment advice.</span>
+  </p>
+</footer>
+
+</main>
+
+<script>
+// ===== Language Toggle =====
+function setLang(lang) {
+  document.body.className = 'lang-' + lang;
+  document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.remove('active'));
+  document.querySelector('.lang-toggle button.' + (lang === 'zh' ? '' : '')).classList.add('active');
+  // Fix: set correct button active
+  const btns = document.querySelectorAll('.lang-toggle button');
+  btns[0].classList.toggle('active', lang === 'zh');
+  btns[1].classList.toggle('active', lang === 'en');
+  localStorage.setItem('lang', lang);
+}
+// Restore saved language
+const savedLang = localStorage.getItem('lang');
+if (savedLang) setLang(savedLang);
+
+// ===== Back to Top =====
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  backTop.classList.toggle('show', window.scrollY > 400);
+});
+
+// ===== Timeline Toggle =====
+function toggleDetail(btn) {
+  const item = btn.parentElement;
+  item.classList.toggle('open');
+  const zh = btn.querySelector('.zh');
+  const en = btn.querySelector('.en');
+  if (item.classList.contains('open')) {
+    if (zh) zh.textContent = '收起详情 ▴';
+    if (en) en.textContent = 'Details ▴';
+  } else {
+    if (zh) zh.textContent = '展开详情 ▾';
+    if (en) en.textContent = 'Details ▾';
+  }
+}
+
+// ===== Table Sorting =====
+document.querySelectorAll('table').forEach(table => {
+  const headers = table.querySelectorAll('th');
+  headers.forEach((th, colIdx) => {
+    th.addEventListener('click', () => {
+      const tbody = table.querySelector('tbody');
+      if (!tbody) return;
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const asc = th.dataset.sort !== 'asc';
+      // Reset all headers
+      headers.forEach(h => { h.classList.remove('sorted'); h.dataset.sort = ''; });
+      th.classList.add('sorted');
+      th.dataset.sort = asc ? 'asc' : 'desc';
+      rows.sort((a, b) => {
+        const aText = a.cells[colIdx]?.textContent.trim() || '';
+        const bText = b.cells[colIdx]?.textContent.trim() || '';
+        // Try numeric
+        const aNum = parseFloat(aText.replace(/[^0-9.-]/g, ''));
+        const bNum = parseFloat(bText.replace(/[^0-9.-]/g, ''));
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+          return asc ? aNum - bNum : bNum - aNum;
+        }
+        return asc ? aText.localeCompare(bText) : bText.localeCompare(aText);
+      });
+      rows.forEach(r => tbody.appendChild(r));
+    });
+  });
+});
+
+// ===== Active Nav Highlight =====
+const sections = document.querySelectorAll('.section, .hero');
+const navLinks = document.querySelectorAll('#navLinks a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) {
+      current = s.id;
+    }
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
