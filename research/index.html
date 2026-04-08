@@ -206,6 +206,13 @@ function setLang(lang) {
   localStorage.setItem('research-lang', lang);
   buildNav();
   if (currentIndex >= 0) loadReport(currentIndex);
+  // Also toggle language inside the iframe report
+  setTimeout(() => {
+    const frame = document.getElementById('reportFrame');
+    if (frame && frame.contentWindow && frame.contentWindow.switchLang) {
+      frame.contentWindow.switchLang(lang);
+    }
+  }, 500);
 }
 
 function buildNav() {
