@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📡 每日研报 2026-04-08 — Sky Portal</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, 'Helvetica Neue', 'PingFang SC', sans-serif;
+  background: #0f0f0f;
+  color: #ccc;
+  line-height: 1.7;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+h1 { color: #f0a040; font-size: 1.6em; margin-bottom: 4px; }
+h2 { color: #f0a040; font-size: 1.3em; margin: 28px 0 14px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
+h3 { color: #f0a040; margin-bottom: 10px; }
+.date { color: #888; font-size: 0.9em; margin-bottom: 24px; }
+.card {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 12px;
+}
+.card h4 { color: #fff; font-size: 1em; margin-bottom: 6px; }
+.card p { color: #ccc; font-size: 0.92em; }
+.card-sport {
+  background: rgba(76,175,80,0.05);
+  border: 1px solid rgba(76,175,80,0.3);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 12px;
+}
+.card-sport h4 { color: #4CAF50; font-size: 1em; margin-bottom: 6px; }
+.card-sport p { color: #ccc; font-size: 0.92em; }
+.tag-up {
+  font-family: 'SF Mono', monospace;
+  font-weight: 600;
+  font-size: 0.82em;
+  padding: 3px 10px;
+  border-radius: 5px;
+  background: rgba(34,197,94,0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34,197,94,0.3);
+  display: inline-block;
+}
+.tag-down {
+  font-family: 'SF Mono', monospace;
+  font-weight: 600;
+  font-size: 0.82em;
+  padding: 3px 10px;
+  border-radius: 5px;
+  background: rgba(239,68,68,0.15);
+  color: #f87171;
+  border: 1px solid rgba(239,68,68,0.3);
+  display: inline-block;
+}
+.stock-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.stock-item {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.stock-name { font-weight: 600; color: #fff; font-size: 0.95em; }
+.stock-price { color: #aaa; font-size: 0.9em; margin-left: 8px; }
+.kline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.kline-label {
+  font-family: 'SF Mono', monospace;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #f0a040;
+  text-align: center;
+  margin-bottom: 4px;
+  letter-spacing: 0.03em;
+}
+.footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #2a2a2a; text-align: center; }
+.footer a { color: #f0a040; text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+@media (max-width: 768px) {
+  .kline-grid { grid-template-columns: 1fr !important; }
+  .stock-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- 海报区域 -->
+<div id="poster" style="max-width:900px;margin:0 auto 32px;font-family:-apple-system,'Helvetica Neue','PingFang SC',sans-serif">
+<div style="text-align:right;margin-bottom:8px">
+<button onclick="switchLang('zh')" id="btn-zh" style="background:#555;color:#fff;border:1px solid #555;padding:4px 12px;border-radius:4px;cursor:pointer;margin-right:6px;font-size:0.85em">中文</button>
+<button onclick="switchLang('en')" id="btn-en" style="background:#222;color:#aaa;border:1px solid #444;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:0.85em">EN</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+<div style="background:#d92d20;border-radius:12px;padding:20px 24px;color:#fff">
+<div style="font-size:2em;margin-bottom:8px">🔬</div>
+<div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">半导体与AI</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">Semiconductors & AI</div>
+<div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Nvidia锁定台积电先进封装产能，供应链瓶颈浮现<br>• Intel加入马斯克TerraFab AI芯片项目</div>
+<div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Nvidia locks TSMC advanced packaging capacity<br>• Intel joins Musk's TerraFab AI chip project</div>
+</div>
+<div style="background:linear-gradient(135deg,#004D98 60%,#A50044 100%);border-radius:12px;padding:20px 24px;color:#fff">
+<div style="font-size:2em;margin-bottom:8px">⚽</div>
+<div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">FC Barcelona</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">FC Barcelona</div>
+<div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• 欧冠1/4决赛首回合今晚主场对阵马竞<br>• Rashford租借表现出色：11球13助攻</div>
+<div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• UCL QF 1st leg tonight vs Atlético at home<br>• Rashford on fire: 11 goals, 13 assists on loan</div>
+</div>
+<div style="background:#e08c0b;border-radius:12px;padding:20px 24px;color:#fff">
+<div style="font-size:2em;margin-bottom:8px">🏀</div>
+<div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">体育赛事</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">Sports Events</div>
+<div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• NBA常规赛最后一周，季后赛对阵未定<br>• FIFA 2026世界杯球迷投诉门票问题</div>
+<div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• NBA final week, playoff matchups TBD<br>• FIFA 2026 World Cup fans complain about tickets</div>
+</div>
+<div style="background:#10a37f;border-radius:12px;padding:20px 24px;color:#fff">
+<div style="font-size:2em;margin-bottom:8px">🤖</div>
+<div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">AI 动态</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">AI Updates</div>
+<div class="zh poster-data" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Anthropic发布Project Glasswing & Claude Mythos<br>• Perplexity收入月增50%，年化$4.5亿</div>
+<div class="en poster-data" style="display:none;margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Anthropic launches Project Glasswing & Claude Mythos<br>• Perplexity revenue surging 50% MoM, $450M ARR</div>
+</div>
+</div>
+</div>
+
+<h1>📡 每日研报</h1>
+<div class="date">2026-04-08 (周二) | Portland, OR</div>
+
+<!-- 板块1：半导体与AI -->
+<h2>🔬 半导体与AI</h2>
+
+<div class="card">
+<h4>1. Nvidia锁定台积电先进封装产能，AI芯片下一个瓶颈已现</h4>
+<p>Nvidia为保障AI芯片产能，已锁定台积电先进封装（CoWoS）大量产能。随着AI训练和推理需求暴增，先进封装正成为继制程工艺之后的新供应链瓶颈。</p>
+</div>
+
+<div class="card">
+<h4>2. Intel加入马斯克TerraFab AI芯片项目</h4>
+<p>Intel确认加入Elon Musk主导的TerraFab AI芯片项目，与SpaceX、Tesla、xAI展开合作。此举标志着Intel在AI芯片领域的新战略布局，试图通过与超级独角兽合作重振代工业务。</p>
+</div>
+
+<div class="card">
+<h4>3. AMD推理市场加速渗透，AI超周期不止Nvidia一家</h4>
+<p>AMD在AI推理市场加速渗透，MI系列芯片获得越来越多云厂商青睐。分析师指出，AI超周期红利并非Nvidia独享，AMD正在快速缩小差距。</p>
+</div>
+
+<div class="card">
+<h4>4. Nvidia自由现金流达$965亿，计划$100亿收购扩张AI帝国</h4>
+<p>Nvidia最新财报显示自由现金流高达$965亿，公司正筹划高达$100亿的收购计划，目标直指AI软件、数据基础设施等领域，进一步扩张其AI生态系统。</p>
+</div>
+
+<div class="card">
+<h4>5. 先进封装成为AI芯片供应链新瓶颈</h4>
+<p>行业分析指出，先进封装（如CoWoS、SoIC）已成为AI芯片供应链的关键瓶颈。台积电、三星、Intel都在争相扩产，但短期内仍供不应求。</p>
+</div>
+
+<!-- 板块2：股票 -->
+<h2>📈 半导体股票 (4/7 收盘)</h2>
+
+<div class="stock-grid">
+<div class="stock-item">
+  <div><span class="stock-name">INTC</span><span class="stock-price">Intel</span></div>
+  <div style="text-align:right"><div style="color:#fff;font-weight:600">$57.71</div><span class="tag-down">-1.2%</span></div>
+</div>
+<div class="stock-item">
+  <div><span class="stock-name">TSM</span><span class="stock-price">TSMC</span></div>
+  <div style="text-align:right"><div style="color:#fff;font-weight:600">$365.44</div><span class="tag-up">+0.8%</span></div>
+</div>
+<div class="stock-item">
+  <div><span class="stock-name">NVDA</span><span class="stock-price">NVIDIA</span></div>
+  <div style="text-align:right"><div style="color:#fff;font-weight:600">$181.97</div><span class="tag-up">+3.1%</span></div>
+</div>
+<div class="stock-item">
+  <div><span class="stock-name">AMD</span><span class="stock-price">AMD</span></div>
+  <div style="text-align:right"><div style="color:#fff;font-weight:600">$232.03</div><span class="tag-up">+1.5%</span></div>
+</div>
+<div class="stock-item">
+  <div><span class="stock-name">ASML</span><span class="stock-price">ASML</span></div>
+  <div style="text-align:right"><div style="color:#fff;font-weight:600">$1,212.60</div><span class="tag-down">-0.3%</span></div>
+</div>
+<div class="stock-item">
+  <div><span class="stock-name">MU</span><span class="stock-price">Micron</span></div>
+  <div style="text-align:right"><div style="color:#fff;font-weight:600">$406.50</div><span class="tag-up">+2.1%</span></div>
+</div>
+<div class="stock-item">
+  <div><span class="stock-name">AVGO</span><span class="stock-price">Broadcom</span></div>
+  <div style="text-align:right"><div style="color:#fff;font-weight:600">$348.89</div><span class="tag-up">+0.9%</span></div>
+</div>
+<div class="stock-item">
+  <div><span class="stock-name">QCOM</span><span class="stock-price">Qualcomm</span></div>
+  <div style="text-align:right"><div style="color:#fff;font-weight:600">$126.94</div><span class="tag-up">+2.6%</span></div>
+</div>
+<div class="stock-item">
+  <div><span class="stock-name">TSLA</span><span class="stock-price">Tesla</span></div>
+  <div style="text-align:right"><div style="color:#fff;font-weight:600">$348.44</div><span class="tag-down">-0.1%</span></div>
+</div>
+<div class="stock-item">
+  <div><span class="stock-name">SMH</span><span class="stock-price">Semi ETF</span></div>
+  <div style="text-align:right"><div style="color:#fff;font-weight:600">~$420</div><span style="color:#aaa;font-size:0.8em">ETF</span></div>
+</div>
+</div>
+
+<!-- K线图区域 -->
+<div style="margin-top:24px">
+<h3 style="color:#f0a040;margin-bottom:12px">📊 K线图</h3>
+<div class="kline-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+
+<div class="kline-item">
+<div class="kline-label">INTC — Intel</div>
+<div class="tradingview-widget-container">
+<div class="tradingview-widget-container__widget" style="height:180px;width:100%"></div>
+<script type="application/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+{"symbols":[["NASDAQ:INTC|1D"]],"chartOnly":true,"colorTheme":"dark","backgroundColor":"rgba(20,20,30,1)","dateRanges":["1w|1D","1m|1D","3m|1W"],"height":180,"chartType":"candlesticks","locale":"zh_CN"}
+</script>
+</div>
+</div>
+
+<div class="kline-item">
+<div class="kline-label">NVDA — NVIDIA</div>
+<div class="tradingview-widget-container">
+<div class="tradingview-widget-container__widget" style="height:180px;width:100%"></div>
+<script type="application/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+{"symbols":[["NASDAQ:NVDA|1D"]],"chartOnly":true,"colorTheme":"dark","backgroundColor":"rgba(20,20,30,1)","dateRanges":["1w|1D","1m|1D","3m|1W"],"height":180,"chartType":"candlesticks","locale":"zh_CN"}
+</script>
+</div>
+</div>
+
+<div class="kline-item">
+<div class="kline-label">TSLA — Tesla</div>
+<div class="tradingview-widget-container">
+<div class="tradingview-widget-container__widget" style="height:180px;width:100%"></div>
+<script type="application/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+{"symbols":[["NASDAQ:TSLA|1D"]],"chartOnly":true,"colorTheme":"dark","backgroundColor":"rgba(20,20,30,1)","dateRanges":["1w|1D","1m|1D","3m|1W"],"height":180,"chartType":"candlesticks","locale":"zh_CN"}
+</script>
+</div>
+</div>
+
+<div class="kline-item">
+<div class="kline-label">SMH — Semiconductor ETF</div>
+<div class="tradingview-widget-container">
+<div class="tradingview-widget-container__widget" style="height:180px;width:100%"></div>
+<script type="application/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+{"symbols":[["NASDAQ:SMH|1D"]],"chartOnly":true,"colorTheme":"dark","backgroundColor":"rgba(20,20,30,1)","dateRanges":["1w|1D","1m|1D","3m|1W"],"height":180,"chartType":"candlesticks","locale":"zh_CN"}
+</script>
+</div>
+</div>
+
+<div class="kline-item">
+<div class="kline-label">SPY — S&P 500</div>
+<div class="tradingview-widget-container">
+<div class="tradingview-widget-container__widget" style="height:180px;width:100%"></div>
+<script type="application/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+{"symbols":[["AMEX:SPY|1D"]],"chartOnly":true,"colorTheme":"dark","backgroundColor":"rgba(20,20,30,1)","dateRanges":["1w|1D","1m|1D","3m|1W"],"height":180,"chartType":"candlesticks","locale":"zh_CN"}
+</script>
+</div>
+</div>
+
+<div class="kline-item">
+<div class="kline-label">000001 — 上证指数</div>
+<div class="tradingview-widget-container">
+<div class="tradingview-widget-container__widget" style="height:180px;width:100%"></div>
+<script type="application/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js" async>
+{"symbols":[["SSE:000001|1D"]],"chartOnly":true,"colorTheme":"dark","backgroundColor":"rgba(20,20,30,1)","dateRanges":["1w|1D","1m|1D","3m|1W"],"height":180,"chartType":"candlesticks","locale":"zh_CN"}
+</script>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- 板块3：巴萨 -->
+<h2>⚽ FC Barcelona</h2>
+
+<div class="card">
+<h4>欧冠1/4决赛首回合今晚主场对阵马竞 (4/8)</h4>
+<p>巴萨今晚将在诺坎普迎来欧冠1/4决赛首回合，对手是马德里竞技。这是巴萨本赛季冲击欧冠的关键一战，Hansi Flick的战术部署备受关注。</p>
+</div>
+
+<div class="card">
+<h4>Rashford租借表现出色：11球13助攻</h4>
+<p>Marcus Rashford从曼联租借至巴萨后状态火热，已贡献11球13助攻。主教练Flick盛赞其职业态度和融入速度，外界呼吁巴萨买断的声浪越来越高。</p>
+</div>
+
+<div class="card">
+<h4>米兰梦想签下莱万，夏窗转会传闻升温</h4>
+<p>AC米兰被曝有意在夏窗追求Robert Lewandowski。虽然莱万与巴萨仍有合同，但年龄因素让转会传闻持续发酵，米兰视其为锋线补强的理想选择。</p>
+</div>
+
+<!-- 板块4：体育 -->
+<h2>🏟️ 体育赛事</h2>
+
+<div class="card-sport">
+<h4>NBA常规赛最后一周，季后赛对阵未定</h4>
+<p>NBA常规赛进入最后一周，东西部季后赛席位和对阵仍未确定。多支球队将在最后几场比赛中决出排名，竞争异常激烈。</p>
+</div>
+
+<div class="card-sport">
+<h4>字母哥与雄鹿面临不确定性</h4>
+<p>Giannis Antetokounmpo与密尔沃基雄鹿的未来充满不确定性。随着球队本赛季表现起伏，外界猜测字母哥可能在休赛期做出重大决定。</p>
+</div>
+
+<div class="card-sport">
+<h4>FIFA 2026世界杯球迷投诉门票问题</h4>
+<p>距2026 FIFA世界杯开幕还有一年多，但球迷已开始投诉门票分配和购买流程的问题。FIFA面临来自全球球迷的压力，需尽快改善票务体验。</p>
+</div>
+
+<!-- 板块5：Portland -->
+<h2>🌲 Portland 本地</h2>
+
+<div class="card">
+<h4>今天晴转暖，最高接近70°F</h4>
+<p>波特兰今日天气晴好，气温回暖至接近70°F（约21°C）。预计周四可达75°F，春意盎然，适合户外活动。</p>
+</div>
+
+<div class="card">
+<h4>Expo维修费超$3000万</h4>
+<p>Portland Expo Center维修费用已超过$3000万，引发市政关注。这座历史悠久的展览中心亟需大规模翻新，但高额费用让预算承压。</p>
+</div>
+
+<!-- 板块6：AI动态 -->
+<h2>🤖 AI 工具/产品动态</h2>
+
+<div class="card">
+<h4>Anthropic发布Project Glasswing，Claude Mythos自主发现漏洞</h4>
+<p>Anthropic发布Project Glasswing项目，其Claude Mythos系统可自主发现安全漏洞，12家科技巨头联合参与。不过Anthropic随后限制了Mythos的公开发布，担心技术被黑客利用。</p>
+</div>
+
+<div class="card">
+<h4>OpenAI内部动荡可能影响IPO</h4>
+<p>OpenAI近期内部人事变动频繁，可能对其IPO计划产生负面影响。市场观察人士指出，内部稳定性是投资者关注的核心因素。</p>
+</div>
+
+<div class="card">
+<h4>Perplexity收入月增50%，年化$4.5亿</h4>
+<p>AI搜索引擎Perplexity收入实现月增50%的高速增长，年化收入已达$4.5亿。作为AI搜索赛道的领跑者，Perplexity正在快速蚕食传统搜索市场。</p>
+</div>
+
+<div class="card">
+<h4>AI重塑网络安全攻防格局</h4>
+<p>AI技术正在深刻改变网络安全的攻防格局。AI驱动的攻击手段日益复杂，但同时AI也提供了更强大的防御工具，攻防双方都在加速AI化。</p>
+</div>
+
+<!-- 页脚 -->
+<div class="footer">
+<p style="color:#888;font-size:0.85em">📡 Sky Portal · <a href="index.html">All Reports</a> · Generated 2026-04-08</p>
+</div>
+
+</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.zh').forEach(el => el.style.display = lang === 'zh' ? '' : 'none');
+  document.querySelectorAll('.en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+  document.getElementById('btn-zh').style.background = lang === 'zh' ? '#555' : '#333';
+  document.getElementById('btn-zh').style.color = lang === 'zh' ? '#fff' : '#aaa';
+  document.getElementById('btn-en').style.background = lang === 'en' ? '#555' : '#222';
+  document.getElementById('btn-en').style.color = lang === 'en' ? '#fff' : '#aaa';
+}
+</script>
+</body>
+</html>
