@@ -332,6 +332,9 @@ footer{
     <a href="#competition">
       <span class="zh">竞争格局</span><span class="en">Competition</span>
     </a>
+    <a href="#analysis">
+      <span class="zh">深度分析</span><span class="en">Deep Analysis</span>
+    </a>
     <a href="#reactions">
       <span class="zh">行业反应</span><span class="en">Reactions</span>
     </a>
@@ -1038,6 +1041,117 @@ footer{
         <span class="zh">Terafab是自IDM 2.0以来Intel一直追求的锚定客户交易。验证了18A技术路线图，为外部收入增长提供可信路径。Tesla现拥有三大代工伙伴，供应链韧性和议价能力大幅提升。</span>
         <span class="en">Terafab is the anchor customer deal Intel Foundry has been chasing since IDM 2.0. Validates the 18A roadmap and provides a credible path to external revenue growth. Tesla now has three foundry partners for supply chain resilience.</span>
       </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DEEP ANALYSIS ==================== -->
+<section class="section" id="analysis">
+  <div class="section-title">
+    <span>🔬</span>
+    <span class="zh">深度分析</span><span class="en">Deep Analysis</span>
+  </div>
+
+  <div class="quote-block" style="margin-bottom:24px;">
+    <div>
+      <span class="zh">本文基于SemiWiki深度分析文章：《Intel、Musk，和那条在风平浪静的海面上启动千帆的推文》。文章从产业战略角度剖析了Terafab合作背后的深层逻辑——Musk对控制权的执念与Intel对验证的渴望，如何在一条推文中找到了彼此。</span>
+      <span class="en">This section is based on a SemiWiki in-depth analysis: "Intel, Musk, and the Tweet That Launched a 1000 Ships on a Becalmed Sea." The article dissects the deeper logic behind the Terafab partnership — how Musk's obsession with control and Intel's hunger for validation found each other in a single tweet.</span>
+    </div>
+    <div class="who">
+      <span class="zh">来源：SemiWiki · 2026年4月 · <a href="https://semiwiki.com/semiconductor-manufacturers/intel/368228-intel-musk-and-the-tweet-that-launched-a-1000-ships-on-a-becalmed-sea/" target="_blank" rel="noopener">阅读原文 ↗</a></span>
+      <span class="en">Source: SemiWiki · April 2026 · <a href="https://semiwiki.com/semiconductor-manufacturers/intel/368228-intel-musk-and-the-tweet-that-launched-a-1000-ships-on-a-becalmed-sea/" target="_blank" rel="noopener">Read Original ↗</a></span>
+    </div>
+  </div>
+
+  <div class="risk-grid">
+    <!-- Card 1 -->
+    <div class="risk-item" style="cursor:pointer;" onclick="toggleDetail(this.querySelector('.tl-toggle'))">
+      <div class="risk-icon">🎯</div>
+      <div style="flex:1;">
+        <div class="risk-title">
+          <span class="zh">Musk需要的是控制权，不是另一个生意</span>
+          <span class="en">Musk Needs Control, Not Another Business</span>
+        </div>
+        <button class="tl-toggle" style="font-size:.72rem;color:var(--accent);border:none;background:none;padding:2px 0;cursor:pointer;font-family:inherit;margin-top:2px;">
+          <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+        </button>
+        <div class="tl-detail" style="padding-top:4px;">
+          <span class="zh">在Tesla、SpaceX和xAI之间，Musk已经拥有了最重要的输入：真实世界的workload、大规模部署平台、持续不断的数据流。他唯一不能控制的是把workload变成硅片的能力——按自己的时间表、自己的规模。Terafab不是晶圆厂，是一个试图<strong>闭合循环</strong>的尝试。</span>
+          <span class="en">Across Tesla, SpaceX, and xAI, Musk already owns the inputs that matter most: real-world workloads, massive deployment platforms, continuous streams of operational data. What he doesn't control is the one layer that gates everything — the ability to turn those workloads into silicon, at scale, on his own timeline. Terafab isn't a fab. It's an attempt to <strong>close the loop</strong>.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="risk-item" style="cursor:pointer;" onclick="toggleDetail(this.querySelector('.tl-toggle'))">
+      <div class="risk-icon">🔗</div>
+      <div style="flex:1;">
+        <div class="risk-title">
+          <span class="zh">Intel：不可或缺的最薄弱环节</span>
+          <span class="en">Intel: The Indispensable Weak Link</span>
+        </div>
+        <button class="tl-toggle" style="font-size:.72rem;color:var(--accent);border:none;background:none;padding:2px 0;cursor:pointer;font-family:inherit;margin-top:2px;">
+          <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+        </button>
+        <div class="tl-detail" style="padding-top:4px;">
+          <span class="zh">Intel带来了先进制程、制造基础设施和封装能力——Musk无法快速自建的东西。但关键缺失依然醒目：<strong>没有公开证据表明Intel Foundry曾把真正的外部客户从RTL一路带到最先进节点的tapeout</strong>。那是Foundry从"承诺"变成"平台"的时刻。</span>
+          <span class="en">Intel brings things Musk can't build quickly: advanced process technology, manufacturing infrastructure, packaging capabilities. But one milestone remains conspicuously absent — <strong>no public evidence that Intel Foundry has taken a true external customer all the way from RTL through GDSII to tapeout on its most advanced nodes</strong>. That's the moment a foundry goes from "promise" to "platform."</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="risk-item" style="cursor:pointer;" onclick="toggleDetail(this.querySelector('.tl-toggle'))">
+      <div class="risk-icon">⚖️</div>
+      <div style="flex:1;">
+        <div class="risk-title">
+          <span class="zh">为什么选Intel不选TSMC？</span>
+          <span class="en">Why Intel Over TSMC?</span>
+        </div>
+        <button class="tl-toggle" style="font-size:.72rem;color:var(--accent);border:none;background:none;padding:2px 0;cursor:pointer;font-family:inherit;margin-top:2px;">
+          <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+        </button>
+        <div class="tl-detail" style="padding-top:4px;">
+          <span class="zh">TSMC近乎完美但不给灵活性、联合设计影响力或控制权——当然也没有产能按需供应。Intel则相反：需要锚定客户、需要量、需要证明自己。这种<strong>需求创造了不同寻常的动态</strong>。Musk赌的是Intel改变的迫切程度，不是它的过去。</span>
+          <span class="en">TSMC offers near-perfect execution but no flexibility, co-design influence, or capacity on demand — and certainly no control. Intel, by contrast, needs anchor customers, needs volume, needs to prove something. That need <strong>creates an unusual dynamic</strong>. Musk is betting on Intel's desperation to change, not its past.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="risk-item" style="cursor:pointer;" onclick="toggleDetail(this.querySelector('.tl-toggle'))">
+      <div class="risk-icon">⚡</div>
+      <div style="flex:1;">
+        <div class="risk-title">
+          <span class="zh">不是合作，是强制函数</span>
+          <span class="en">Not a Partnership — A Forcing Function</span>
+        </div>
+        <button class="tl-toggle" style="font-size:.72rem;color:var(--accent);border:none;background:none;padding:2px 0;cursor:pointer;font-family:inherit;margin-top:2px;">
+          <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+        </button>
+        <div class="tl-detail" style="padding-top:4px;">
+          <span class="zh">这不如说是<strong>强制函数</strong>。它把Intel从受保护的验证环境推到真实曝光中，压缩时间线，提高期望，消除任何独立于实际执行来管理叙事的能力。Musk不会软化反馈——Intel第一次要面对一个会把问题实时发到社交媒体上的客户。</span>
+          <span class="en">This is less a partnership than a <strong>forcing function</strong>. It moves Intel out of controlled validation and into real exposure, compresses timelines, raises expectations, and eliminates any ability to manage the narrative independent of actual execution. Musk is not going to soften feedback — for the first time, Intel faces a customer who'll post problems to social media in real time.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="risk-item" style="cursor:pointer;" onclick="toggleDetail(this.querySelector('.tl-toggle'))">
+      <div class="risk-icon">📌</div>
+      <div style="flex:1;">
+        <div class="risk-title">
+          <span class="zh">推文是一个标记</span>
+          <span class="en">The Tweet as a Marker</span>
+        </div>
+        <button class="tl-toggle" style="font-size:.72rem;color:var(--accent);border:none;background:none;padding:2px 0;cursor:pointer;font-family:inherit;margin-top:2px;">
+          <span class="zh">展开详情 ▾</span><span class="en">Details ▾</span>
+        </button>
+        <div class="tl-detail" style="padding-top:4px;">
+          <span class="zh">那条推文不是一个完成的交易公告。它是一个<strong>标记</strong>——两个具体问题找到了彼此：Musk对控制权的需求和Intel对验证的渴望。他们能不能真正解决彼此的问题，我们即将见证。但SemiWiki的分析指出：在这个风平浪静的半导体制造格局中，这条推文确实启动了千帆竞发。</span>
+          <span class="en">Read the tweet in context. It's not a finished deal announcement. It's a <strong>marker</strong> that two specific problems — Musk's need for control and Intel's need for validation — have found each other. Whether they actually solve each other, we're about to find out. But as SemiWiki's analysis notes: on this becalmed sea of semiconductor manufacturing, the tweet has indeed launched a thousand ships.</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
