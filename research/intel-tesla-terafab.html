@@ -341,6 +341,9 @@ footer{
     <a href="#risks">
       <span class="zh">风险展望</span><span class="en">Risks</span>
     </a>
+    <a href="#news">
+      <span class="zh">新闻追踪</span><span class="en">News Tracker</span>
+    </a>
   </div>
 </nav>
 
@@ -357,8 +360,8 @@ footer{
     <span class="en">Deep Research Report on the Mega Semiconductor Manufacturing Project</span>
   </p>
   <div class="date-badge">
-    <span class="zh">📅 2026年4月8日 · 覆盖时段：2025.7 – 2026.4.7</span>
-    <span class="en">📅 April 8, 2026 · Coverage: Jul 2025 – Apr 7, 2026</span>
+    <span class="zh">📅 2026年4月12日更新 · 覆盖时段：2025.7 – 2026.4.12</span>
+    <span class="en">📅 Updated Apr 12, 2026 · Coverage: Jul 2025 – Apr 12, 2026</span>
   </div>
 </section>
 
@@ -1357,11 +1360,294 @@ footer{
   </div>
 </section>
 
+<!-- ==================== NEWS TRACKER ==================== -->
+<section class="section" id="news">
+  <div class="section-title">
+    <span>📰</span>
+    <span class="zh">新闻追踪</span><span class="en">News Tracker</span>
+  </div>
+  <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:24px;">
+    <span class="zh">Terafab相关报道时间线，按日期倒序排列。点击展开查看详情。</span>
+    <span class="en">Terafab coverage timeline, sorted by date (newest first). Click to expand.</span>
+  </p>
+
+  <style>
+    .news-date-group{margin-bottom:24px;}
+    .news-date-header{
+      display:flex;align-items:center;gap:10px;margin-bottom:12px;
+    }
+    .news-date-badge{
+      background:linear-gradient(135deg,var(--intel-blue),var(--tesla-red));
+      color:#fff;padding:4px 14px;border-radius:100px;
+      font-size:.78rem;font-weight:700;white-space:nowrap;
+    }
+    .news-date-line{flex:1;height:1px;background:var(--border);}
+    .news-card{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:var(--radius-sm);padding:14px 16px;
+      margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;
+      transition:all .2s;cursor:pointer;
+    }
+    .news-card:hover{background:var(--card-hover);transform:translateX(4px);}
+    .news-source-badge{
+      flex-shrink:0;padding:3px 10px;border-radius:6px;
+      font-size:.68rem;font-weight:700;text-transform:uppercase;
+      letter-spacing:.3px;white-space:nowrap;min-width:60px;text-align:center;
+    }
+    .src-semiwiki{background:rgba(59,158,255,0.15);color:var(--accent);}
+    .src-forbes{background:rgba(74,222,128,0.15);color:var(--green);}
+    .src-chinese{background:rgba(251,146,60,0.15);color:var(--orange);}
+    .src-media{background:rgba(167,139,250,0.15);color:var(--purple);}
+    .src-tech{background:rgba(0,113,197,0.15);color:var(--intel-blue);}
+    .src-video{background:rgba(204,0,0,0.15);color:var(--tesla-red);}
+    .src-forum{background:rgba(34,211,238,0.15);color:var(--cyan);}
+    .news-body{flex:1;min-width:0;}
+    .news-title{font-size:.88rem;font-weight:600;margin-bottom:2px;line-height:1.4;}
+    .news-summary{font-size:.78rem;color:var(--text-dim);display:none;padding-top:4px;line-height:1.5;}
+    .news-card.open .news-summary{display:block;}
+    .news-link{font-size:.72rem;color:var(--accent);margin-top:4px;display:inline-block;}
+    .news-toggle{font-size:.68rem;color:var(--text-dim);border:none;background:none;cursor:pointer;padding:0;font-family:inherit;}
+  </style>
+
+  <!-- Apr 12 -->
+  <div class="news-date-group">
+    <div class="news-date-header">
+      <div class="news-date-badge">2026-04-12</div>
+      <div class="news-date-line"></div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-semiwiki">SemiWiki</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">Intel、Musk，和那条在风平浪静的海面上启动千帆的推文</span>
+          <span class="en">Intel, Musk, and the Tweet That Launched a 1000 Ships on a Becalmed Sea</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">深度分析文章，剖析Terafab背后的真正逻辑——Musk追求控制权与Intel渴望验证的交汇。指出“Musk赌的不是Intel的过去，而是它改变的迫切程度”，并将合作定义为“强制函数”而非传统伙伴关系。</span>
+          <span class="en">In-depth analysis dissecting the real logic behind Terafab — the intersection of Musk's pursuit of control and Intel's hunger for validation. Notes that “Musk isn't betting on Intel's past. He's betting on Intel's desperation to change,” framing the deal as a forcing function.</span>
+          <div class="news-link"><a href="https://semiwiki.com/semiconductor-manufacturers/intel/368228-intel-musk-and-the-tweet-that-launched-a-1000-ships-on-a-becalmed-sea/" target="_blank" rel="noopener">阅读原文 / Read Original ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apr 10 -->
+  <div class="news-date-group">
+    <div class="news-date-header">
+      <div class="news-date-badge">2026-04-10</div>
+      <div class="news-date-line"></div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-forbes">Forbes</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">Intel加入Terafab，建设马斯克250亿美元AI芯片项目</span>
+          <span class="en">Intel Joins Terafab To Build Elon Musk's $25B AI Chip Project</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">Forbes深度分析Intel加入Terafab对半导体行业的战略影响，探讨Intel如何成为Musk AI芯片愿景的关键制造伙伴，以及对NVIDIA主导地位的潜在挑战。</span>
+          <span class="en">Forbes deep analysis of the strategic implications of Intel joining Terafab, exploring how Intel becomes the critical manufacturing partner for Musk's AI chip vision and the potential challenge to NVIDIA dominance.</span>
+          <div class="news-link"><a href="https://www.forbes.com/sites/jonmarkman/2026/04/10/intel-joins-terafab-to-build-elon-musks-25b-ai-chip-project/" target="_blank" rel="noopener">阅读原文 / Read Original ↗</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-chinese">澎湃</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">英特尔加入马斯克Terafab项目，芯片超级工厂梦想能否成真？</span>
+          <span class="en">Intel Joins Musk's Terafab — Can the Super Fab Dream Come True?</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">澎湃新闻深度报道，从中国视角分析Terafab项目的可行性，探讨Intel加入后对全球半导体格局特别是中国芯片产业的影响。</span>
+          <span class="en">The Paper's in-depth report analyzing Terafab's feasibility from a Chinese perspective, exploring how Intel's entry impacts the global semiconductor landscape and China's chip industry.</span>
+          <div class="news-link"><a href="https://m.thepaper.cn/newsDetail_forward_32936080" target="_blank" rel="noopener">阅读原文 / Read Original ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apr 8 -->
+  <div class="news-date-group">
+    <div class="news-date-header">
+      <div class="news-date-badge">2026-04-08</div>
+      <div class="news-date-line"></div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-chinese">IT之家</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">英特尔加入Terafab计划</span>
+          <span class="en">Intel Joins the Terafab Plan</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">IT之家报道Intel正式加入Terafab项目，涵盖技术细节和市场反应。</span>
+          <span class="en">ITHome reports on Intel officially joining Terafab, covering technical details and market reactions.</span>
+          <div class="news-link"><a href="https://www.ithome.com/0/936/740.htm" target="_blank" rel="noopener">阅读原文 / Read Original ↗</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-chinese">财联社</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">马斯克Terafab项目终于接上地气！</span>
+          <span class="en">Musk's Terafab Finally Gets Grounded!</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">财联社分析认为Intel的加入让Terafab从“PPT愿景”变成了可执行的计划。</span>
+          <span class="en">CLS analysis argues Intel's entry transforms Terafab from a “PPT vision” into an executable plan.</span>
+          <div class="news-link"><a href="https://www.cls.cn/detail/2337395" target="_blank" rel="noopener">阅读原文 / Read Original ↗</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-media">Motley Fool</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">股市日报：Intel加入Musk Terafab后股价飙升</span>
+          <span class="en">Stock Market Today: Intel Surges After Joining Elon Musk Terafab</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">Motley Fool报道Terafab消息对Intel股价的即时冲击，两日累计上涨15.8%。</span>
+          <span class="en">Motley Fool covers the immediate impact on Intel stock, surging 15.8% over two days.</span>
+          <div class="news-link"><a href="https://www.fool.com/coverage/stock-market-today/2026/04/08/stock-market-today-april-8-intel-surges-after-joining-elon-musk-terafab-ai-chip-project/" target="_blank" rel="noopener">阅读原文 / Read Original ↗</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-media">Seeking Alpha</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">Intel 250亿美元Terafab交易——你的套现机会</span>
+          <span class="en">Intel's $25B Terafab Deal — Your Chance To Cash Out</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">Seeking Alpha从投资者角度分析Terafab交易，认为短期利好但需警惕估值风险。</span>
+          <span class="en">Seeking Alpha analyzes Terafab from an investor perspective — short-term bullish but warns of valuation risks.</span>
+          <div class="news-link"><a href="https://seekingalpha.com/article/4889235-intel-25b-terafab-deal-your-chance-to-cash-out" target="_blank" rel="noopener">阅读原文 / Read Original ↗</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-tech">CIO</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">Intel押注Terafab，重新杀入AI芯片竞赛</span>
+          <span class="en">Intel Bets on Terafab to Reassert Itself in the AI Chip Race</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">CIO杂志分析Intel如何借助Terafab在AI芯片领域重新建立竞争力。</span>
+          <span class="en">CIO Magazine analyzes how Intel leverages Terafab to rebuild competitiveness in the AI chip space.</span>
+          <div class="news-link"><a href="https://www.cio.com/article/4155419/intel-bets-on-terafab-to-help-it-reassert-itself-in-the-ai-chip-race.html" target="_blank" rel="noopener">阅读原文 / Read Original ↗</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-chinese">网通社/盖世</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">特斯拉放弃自建芯片厂，英特尔将主导Terafab项目运营</span>
+          <span class="en">Tesla Abandons Self-Built Fab Plan, Intel to Lead Terafab Operations</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">网通社和盖世汽车联合报道，指出Tesla实际并未自建fab，而是由Intel主导运营。</span>
+          <span class="en">Joint report by News18a and Gasgoo, noting Tesla isn't actually building its own fab — Intel will lead operations.</span>
+          <div class="news-link"><a href="https://m.news18a.com/news/storys_245400.html" target="_blank" rel="noopener">阅读原文 ① / Read ① ↗</a> · <a href="http://auto.cnfol.com/cheshidongtai/20260408/32130468.shtml" target="_blank" rel="noopener">阅读原文 ② / Read ② ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Apr 7 -->
+  <div class="news-date-group">
+    <div class="news-date-header">
+      <div class="news-date-badge">2026-04-07</div>
+      <div class="news-date-line"></div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-media" style="background:rgba(248,113,113,0.15);color:var(--red);">Reuters / WSJ</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">Intel正式官宣加入Terafab（多家国际媒体头条）</span>
+          <span class="en">Intel Officially Announces Joining Terafab (Multiple International Headlines)</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">Reuters、Bloomberg、WSJ、TechCrunch、Tom's Hardware等国际主流媒体同日报道Intel加入Terafab。Intel股价当日大涨。</span>
+          <span class="en">Reuters, Bloomberg, WSJ, TechCrunch, Tom's Hardware and other major outlets cover Intel's Terafab announcement on the same day. Intel stock surges.</span>
+        </div>
+      </div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-video">Bloomberg TV</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">Intel加入Musk Terafab项目（视频报道）</span>
+          <span class="en">Intel Joins Musk's Terafab Project With Tesla, SpaceX, xAI (Video)</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">Bloomberg Technology频道视频分析，邀请半导体行业专家讨论Terafab的战略意义。</span>
+          <span class="en">Bloomberg Technology video analysis with semiconductor industry experts discussing Terafab's strategic significance.</span>
+          <div class="news-link"><a href="https://www.youtube.com/watch?v=J3uiHbOIsnk" target="_blank" rel="noopener">观看视频 / Watch Video ↗</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-tech">Electrek</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">Tesla不会真的自建芯片厂——Intel来做</span>
+          <span class="en">Tesla Won't Really Build Its Own Chip Fab — Intel Is Going to Do It</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">Electrek评论文章指出Tesla实际是共同锚定Intel Foundry Austin扩建，而非自建fab。认为这是正确选择——Intel 18A是真的，封装是世界级的。</span>
+          <span class="en">Electrek editorial argues Tesla is co-anchoring Intel Foundry's Austin expansion, not building its own fab. Calls it the right move — Intel 18A is real, packaging is world-class.</span>
+          <div class="news-link"><a href="https://electrek.co/2026/04/07/tesla-terafab-intel-joins-foundry/" target="_blank" rel="noopener">阅读原文 / Read Original ↗</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-card" onclick="this.classList.toggle('open')">
+      <div class="news-source-badge src-forum">SemiWiki</div>
+      <div class="news-body">
+        <div class="news-title">
+          <span class="zh">SemiWiki论坛讨论帖</span>
+          <span class="en">SemiWiki Forum Discussion Thread</span>
+        </div>
+        <button class="news-toggle"><span class="zh">展开 ▾</span><span class="en">Expand ▾</span></button>
+        <div class="news-summary">
+          <span class="zh">半导体行业从业者在SemiWiki论坛热议Intel加入Terafab，讨论技术可行性和行业影响。</span>
+          <span class="en">Semiconductor industry professionals discuss Intel joining Terafab on the SemiWiki forum, debating technical feasibility and industry impact.</span>
+          <div class="news-link"><a href="https://semiwiki.com/forum/threads/intel-is-proud-to-join-the-terafab-project-with-spacex-xai-and-tesla-to-help-refactor-silicon-fab-technology.24892/" target="_blank" rel="noopener">查看讨论 / View Discussion ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px;padding:16px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border);">
+    <p style="font-size:.82rem;color:var(--text-dim);">
+      <span class="zh">📌 持续更新中 · 最后更新：2026年4月12日</span>
+      <span class="en">📌 Continuously updated · Last updated: April 12, 2026</span>
+    </p>
+  </div>
+</section>
+
 <!-- ==================== FOOTER ==================== -->
 <footer>
   <p>
-    <span class="zh">Sky AI 深度调研报告 · 2026年4月8日 · 数据来源：Reuters, Bloomberg, WSJ, Electrek, Tom's Hardware, TrendForce 等</span>
-    <span class="en">Sky AI Deep Research Report · April 8, 2026 · Sources: Reuters, Bloomberg, WSJ, Electrek, Tom's Hardware, TrendForce et al.</span>
+    <span class="zh">Sky AI 深度调研报告 · 2026年4月12日更新 · 数据来源：Reuters, Bloomberg, WSJ, Electrek, Tom's Hardware, TrendForce, SemiWiki 等</span>
+    <span class="en">Sky AI Deep Research Report · Updated Apr 12, 2026 · Sources: Reuters, Bloomberg, WSJ, Electrek, Tom's Hardware, TrendForce, SemiWiki et al.</span>
   </p>
   <p style="margin-top:6px;font-size:.72rem;">
     <span class="zh">本报告基于公开信息整理，不构成投资建议。</span>
