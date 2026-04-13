@@ -225,7 +225,7 @@ function setLang(lang) {
 function buildNav() {
   const months = {};
   REPORTS.forEach(d => {
-    const key = d.substring(0, 7);
+    const key = d.replace(/-(am|pm|morning|afternoon|evening)$/i, '').substring(0, 7);
     if (!months[key]) months[key] = [];
     months[key].push(d);
   });
@@ -253,11 +253,12 @@ function buildNav() {
     dates.className = 'month-dates';
 
     months[monthKey].sort().reverse().forEach(dateStr => {
-      const baseDate = dateStr.replace(/-pm$/, '');
-      const isPM = dateStr.endsWith('-pm');
-      const dt = new Date(baseDate + 'T12:00:00');
+      const dateOnly = dateStr.replace(/-(am|pm|morning|afternoon|evening)$/i, '');
+      const suffix = dateStr !== dateOnly ? dateStr.replace(dateOnly + '-', '') : '';
+      const dt = new Date(dateOnly + 'T12:00:00');
       const day = dt.getDate();
       const wd = currentLang === 'zh' ? '周' + WEEKDAYS_ZH[dt.getDay()] : WEEKDAYS_EN[dt.getDay()];
+      const label = suffix ? (currentLang === 'zh' ? ({am:'上午',pm:'午后',morning:'晨',afternoon:'午后',evening:'晚'}[suffix.toLowerCase()]||suffix) : suffix.toUpperCase()) : '';
       const isLatest = dateStr === REPORTS[REPORTS.length - 1];
       const idx = REPORTS.indexOf(dateStr);
 
@@ -266,7 +267,7 @@ function buildNav() {
       item.dataset.index = idx;
       item.innerHTML = `
         <span class="day">${day}</span>
-        <span class="weekday">${isPM ? (currentLang === 'zh' ? '午后' : 'PM') : wd}</span>
+        <span class="weekday">${wd}${label ? ' ' + label : ''}</span>
         ${isLatest ? '<span class="badge-new">NEW</span>' : ''}
       `;
       item.onclick = () => loadReport(idx);
