@@ -253,7 +253,9 @@ function buildNav() {
     dates.className = 'month-dates';
 
     months[monthKey].sort().reverse().forEach(dateStr => {
-      const dt = new Date(dateStr + 'T12:00:00');
+      const baseDate = dateStr.replace(/-pm$/, '');
+      const isPM = dateStr.endsWith('-pm');
+      const dt = new Date(baseDate + 'T12:00:00');
       const day = dt.getDate();
       const wd = currentLang === 'zh' ? '周' + WEEKDAYS_ZH[dt.getDay()] : WEEKDAYS_EN[dt.getDay()];
       const isLatest = dateStr === REPORTS[REPORTS.length - 1];
@@ -264,7 +266,7 @@ function buildNav() {
       item.dataset.index = idx;
       item.innerHTML = `
         <span class="day">${day}</span>
-        <span class="weekday">${wd}</span>
+        <span class="weekday">${isPM ? (currentLang === 'zh' ? '午后' : 'PM') : wd}</span>
         ${isLatest ? '<span class="badge-new">NEW</span>' : ''}
       `;
       item.onclick = () => loadReport(idx);
