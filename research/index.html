@@ -193,6 +193,10 @@ const REPORTS = [
   '2026-04-10'
 ,'2026-04-11'];
 
+const SPECIAL = [
+  { id: 'hermes-vs-openclaw', title: 'Hermes vs OpenClaw', titleZh: 'Hermes vs OpenClaw 对比', badge: '⚡' }
+];
+
 const WEEKDAYS_ZH = ['日','一','二','三','四','五','六'];
 const WEEKDAYS_EN = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const MONTHS_ZH = ['','1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
@@ -270,6 +274,37 @@ function buildNav() {
     group.appendChild(dates);
     nav.appendChild(group);
   });
+
+  // Special reports section
+  if (SPECIAL.length > 0) {
+    const sep = document.createElement('div');
+    sep.style.cssText = 'border-top:1px solid var(--border); margin:12px 20px 8px;';
+    nav.appendChild(sep);
+
+    const spLabel = document.createElement('div');
+    spLabel.className = 'month-label';
+    spLabel.textContent = currentLang === 'zh' ? '专题研究' : 'Special';
+    nav.appendChild(spLabel);
+
+    SPECIAL.forEach((sp, i) => {
+      const item = document.createElement('div');
+      item.className = 'date-item';
+      item.dataset.special = sp.id;
+      item.innerHTML = `
+        <span style="font-size:1.1em">${sp.badge || '📄'}</span>
+        <span class="weekday" style="font-size:0.85em; color:var(--accent)">${currentLang === 'zh' ? sp.titleZh : sp.title}</span>
+      `;
+      item.onclick = () => {
+        document.getElementById('reportFrame').src = sp.id + '.html';
+        document.getElementById('reportFrame').style.display = 'block';
+        document.getElementById('emptyState').style.display = 'none';
+        document.getElementById('currentDate').textContent = currentLang === 'zh' ? sp.titleZh : sp.title;
+        document.querySelectorAll('.date-item').forEach(el => el.classList.remove('active'));
+        item.classList.add('active');
+      };
+      nav.appendChild(item);
+    });
+  }
 }
 
 function loadReport(index) {
