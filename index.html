@@ -140,6 +140,31 @@
   <div style="color:#f0a040;font-size:1.2em;">→</div>
 </a>
 
+<!-- 📊 Daily Market Banner -->
+<a href="market/index.html" class="market-banner" style="
+  display:flex; align-items:center; gap:16px;
+  background: linear-gradient(135deg, rgba(74,222,128,0.12), rgba(74,222,128,0.04));
+  border: 1px solid rgba(74,222,128,0.25);
+  border-radius: 16px; padding: 20px 24px;
+  text-decoration: none; color: var(--text);
+  margin-bottom: 24px;
+  transition: all 0.25s ease;
+  position: relative; overflow: hidden;
+" onmouseover="this.style.borderColor='rgba(74,222,128,0.5)';this.style.transform='translateY(-2px)'"
+   onmouseout="this.style.borderColor='rgba(74,222,128,0.25)';this.style.transform='none'">
+  <div style="font-size:2.2em;flex-shrink:0;">📊</div>
+  <div style="flex:1;">
+    <div style="font-size:1.1em;font-weight:700;color:#4ade80;">
+      <span class="zh">每日行情</span><span class="en" style="display:none">Daily Market</span>
+    </div>
+    <div style="font-size:0.85em;color:var(--text-dim);margin-top:4px;">
+      <span class="zh">美股 · A股 · 港股 — 每晚9点自动分析</span>
+      <span class="en" style="display:none">US · China · HK — Nightly analysis at 9 PM</span>
+    </div>
+  </div>
+  <div style="color:#4ade80;font-size:1.2em;">→</div>
+</a>
+
 <!-- ⚙ Prompt Hub Banner -->
 <a href="prompts/index.html" class="prompt-banner" style="
   display:flex; align-items:center; gap:16px;
