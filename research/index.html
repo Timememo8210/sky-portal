@@ -260,7 +260,7 @@ function buildNav() {
       const day = dt.getDate();
       const wd = currentLang === 'zh' ? '周' + WEEKDAYS_ZH[dt.getDay()] : WEEKDAYS_EN[dt.getDay()];
       const label = suffix ? (currentLang === 'zh' ? ({am:'上午',pm:'午后',morning:'晨',afternoon:'午后',evening:'晚'}[suffix.toLowerCase()]||suffix) : suffix.toUpperCase()) : '';
-      const isLatest = dateStr === REPORTS[REPORTS.length - 1];
+      const isLatest = dateStr === REPORTS[0];
       const idx = REPORTS.indexOf(dateStr);
 
       const item = document.createElement('div');
