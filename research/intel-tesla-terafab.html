@@ -341,6 +341,9 @@ footer{
     <a href="#risks">
       <span class="zh">风险展望</span><span class="en">Risks</span>
     </a>
+    <a href="#insights">
+      <span class="zh">💡 感悟</span><span class="en">💡 Insights</span>
+    </a>
     <a href="#news">
       <span class="zh">新闻追踪</span><span class="en">News Tracker</span>
     </a>
@@ -1621,6 +1624,121 @@ footer{
       <span class="en"><strong>Key Milestone:</strong>Intel earnings on April 23 — watch for updated backlog figures and 18A yield data. If external revenue reaches 10-15% of foundry totals, the business could flip from drag to driver.</span>
     </div>
     <div class="who">247 Wall St Analysis</div>
+  </div>
+</section>
+
+<!-- ==================== INSIGHTS ==================== -->
+<section class="section" id="insights">
+  <div class="section-title">
+    <span>💡</span>
+    <span class="zh">行业从业者感悟</span><span class="en">Industry Practitioner Insights</span>
+  </div>
+  <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:24px;">
+    <span class="zh">来自半导体行业从业者的第一性原理分析。点击展开查看完整内容。</span>
+    <span class="en">First principles analysis from a semiconductor industry practitioner. Click to expand.</span>
+  </p>
+
+  <style>
+    .insight-card{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:var(--radius);padding:20px;margin-bottom:20px;
+      transition:all .3s;
+    }
+    .insight-card:hover{background:var(--card-hover);}
+    .insight-date{font-size:.72rem;color:var(--accent);font-weight:600;margin-bottom:8px;}
+    .insight-title{font-size:1.05rem;font-weight:700;margin-bottom:12px;line-height:1.4;}
+    .insight-content{font-size:.88rem;color:var(--text-dim);display:none;padding-top:8px;line-height:1.8;}
+    .insight-card.open .insight-content{display:block;}
+    .insight-toggle{
+      font-size:.78rem;color:var(--accent);cursor:pointer;
+      border:1px solid var(--accent);border-radius:100px;
+      background:none;padding:4px 16px;font-family:inherit;
+      transition:all .2s;margin-top:8px;
+    }
+    .insight-toggle:hover{background:rgba(59,158,255,0.1);}
+    .insight-content p{margin-bottom:12px;}
+    .insight-content ul{padding-left:20px;margin-bottom:12px;}
+    .insight-content li{margin-bottom:6px;}
+  </style>
+
+  <div class="insight-card" id="insight1">
+    <div class="insight-date">📅 2026-04-17</div>
+    <div class="insight-title">
+      <span class="zh">算力飞轮：为什么Musk自有的AI算力至关重要</span>
+      <span class="en">The Compute Flywheel: Why Musk's Self-Owned AI Power Matters</span>
+    </div>
+    <button class="insight-toggle" onclick="document.getElementById('insight1').classList.toggle('open');this.textContent=this.textContent.includes('▾')?'收起 ▴':'展开 ▾'">
+      <span class="zh">展开 ▾</span><span class="en">Expand ▾</span>
+    </button>
+    <div class="insight-content">
+      <span class="zh">
+        <p>半导体行业长期以来依赖人类工程师完成研发的每一步——设计实验、分析TEM截面、关联数据、做决策。但从本质上讲，研发就是数据：有逻辑关系、因果链条和隐藏模式的数据。</p>
+        <p>Musk的独特之处不仅在于他拥有全球最大的AI算力集群（xAI Colossus：55.5万GPU，计划扩展到90万），更在于他可以以接近边际成本的价格使用这些算力来加速自己的业务。台积电也在用AI做EDA和光刻优化，但他们需要从OpenAI等外部供应商购买算力。Musk的算力是自己的，成本差距巨大。</p>
+        <p>这创造了一个飞轮：<strong>更多算力→更好的AI→更快的芯片设计→更好的芯片→更多算力需求→更多算力投入</strong>。行业内没有其他人拥有这种自我强化的循环。</p>
+        <p>Jensen Huang本人称Musk为"终极GPU"客户，并对xAI 19天建成10万GPU集群感到震惊。</p>
+      </span>
+      <span class="en">
+        <p>The semiconductor industry has long relied on human engineers for every step of R&D — designing experiments, analyzing TEM cross-sections, correlating data, and making decisions. But at its core, R&D is fundamentally about data: data that has logical relationships, causal chains, and hidden patterns.</p>
+        <p>What makes Musk uniquely positioned is not just that he owns the world's largest AI compute cluster (xAI Colossus: 555,000 GPUs, expanding to 900,000), but that he can use this compute to accelerate his own businesses at near-marginal cost. TSMC also uses AI for EDA and lithography optimization, but they must purchase compute from external providers like OpenAI. Musk's compute is his own, and the cost difference is enormous.</p>
+        <p>This creates a flywheel: <strong>more compute → better AI → faster chip design → better chips → more compute demand → more compute investment</strong>. Nobody else in the industry has this self-reinforcing loop.</p>
+        <p>Jensen Huang himself called Musk "the ultimate GPU" customer, and was stunned by xAI's ability to build a 100,000-GPU cluster in just 19 days.</p>
+      </span>
+    </div>
+  </div>
+
+  <div class="insight-card" id="insight2">
+    <div class="insight-date">📅 2026-04-17</div>
+    <div class="insight-title">
+      <span class="zh">第一性原理：半导体研发就是数据——AI能读懂全部</span>
+      <span class="en">First Principles: Semiconductor R&D is Just Data — and AI Can Read It All</span>
+    </div>
+    <button class="insight-toggle" onclick="document.getElementById('insight2').classList.toggle('open');this.textContent=this.textContent.includes('▾')?'收起 ▴':'展开 ▾'">
+      <span class="zh">展开 ▾</span><span class="en">Expand ▾</span>
+    </button>
+    <div class="insight-content">
+      <span class="zh">
+        <p>用第一性原理分析半导体研发，揭示了一个基本事实：<strong>一切都是数据</strong>。</p>
+        <p>今天的研发流程是这样的：设计实验→执行→收集数据（包括TEM截面）→人类工程师分析→搜索数据库找相关性→假设因果因素→调参→发现良率提升了但性能下降了→再迭代。一个循环需要几周甚至几个月。</p>
+        <p>瓶颈不是物理——是数据接口。行业在每个工序步骤都收集大量数据，但真正参与决策的极少。为什么？因为人类处理不了那么多数据。工程师分析的数据已经过高度过滤和提炼。被忽略的那1-2%的数据可能包含决定良率或器件性能的隐藏因素。</p>
+        <p>比喻：所有这些数据库就像锁在图书馆里的书。AI是一个天才学者站在门外，进不去。现在的任务是三步：</p>
+        <ol>
+          <li><strong>数字化</strong>：把"纸质书"变成"电子书"——甚至用机器人来扫描物理记录</li>
+          <li><strong>开放API</strong>：连接所有数据库，让AI能访问</li>
+          <li><strong>让AI分析</strong>：从人类模板起步，然后快速超越人类能力</li>
+        </ol>
+        <p>API连通后，AI可以：</p>
+        <ul>
+          <li>秒级分析TEM/SEM图像（像AI看医疗扫描）</li>
+          <li>自动追踪整个工艺流程的因果链</li>
+          <li>发现人类从未注意到的隐藏因素（像"破解DNA"）</li>
+          <li>同时优化多个目标（良率+性能+可靠性）</li>
+          <li>甚至指导设备厂商设计新机台</li>
+        </ul>
+        <p>AI不需要休息。它单个任务可能不是最快的，但它7×24不停。一旦新数据通过连通的API流入，立即就是"电子版"——不需要再扫描。</p>
+        <p>这就是为什么Terafab可能是革命性的：不是因为Musk会复制TSMC的流程，而是因为他会从零开始重新设计整个数据流和决策链。先建API层，然后让AI驱动分析和决策。<strong>这是架构级重构，不是渐进式改进。</strong></p>
+      </span>
+      <span class="en">
+        <p>Applying first principles thinking to semiconductor R&D reveals a fundamental truth: <strong>everything is data</strong>.</p>
+        <p>Today's R&D process works like this: design an experiment → execute → collect data (including TEM cross-sections) → human engineers analyze → search databases for correlations → hypothesize causal factors → adjust parameters → discover yield improved but performance degraded → iterate again. One cycle takes weeks or months.</p>
+        <p>The bottleneck isn't the physics — it's the data interface. The industry collects enormous amounts of data at every process step, but very little of it actually informs decisions. Why? Because humans can't process that much data. What engineers analyze is already heavily filtered and distilled. The 1-2% of data that gets ignored might contain the hidden factors that determine yield or device performance.</p>
+        <p>The analogy: all these databases are like books locked in a library. AI is a genius scholar standing outside, unable to get in. The task now is threefold:</p>
+        <ol>
+          <li><strong>Digitize</strong>: Convert "paper books" to "e-books" — even use robots to scan physical records</li>
+          <li><strong>Open APIs</strong>: Connect all databases so AI can access them</li>
+          <li><strong>Let AI analyze</strong>: Start from human templates, then rapidly surpass human capability</li>
+        </ol>
+        <p>Once APIs are connected, AI can:</p>
+        <ul>
+          <li>Analyze TEM/SEM images in seconds (like AI reading medical scans)</li>
+          <li>Automatically trace causal chains across the entire process</li>
+          <li>Find hidden factors humans never noticed (like "cracking DNA")</li>
+          <li>Optimize multiple objectives simultaneously (yield + performance + reliability)</li>
+          <li>Even guide equipment manufacturers on new tool designs</li>
+        </ul>
+        <p>AI doesn't need to rest. It may not be the fastest at any single task, but it works 24/7. And once new data flows in through connected APIs, it's immediately "electronic" — no more scanning needed.</p>
+        <p>This is why Terafab could be transformative: not because Musk will copy TSMC's process, but because he'll redesign the entire data flow and decision chain from scratch. API layer first, then let AI drive analysis and decisions. <strong>This is architectural restructuring, not incremental improvement.</strong></p>
+      </span>
+    </div>
   </div>
 </section>
 
