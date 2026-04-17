@@ -116,7 +116,10 @@ body.lang-en .zh { display:none !important; }
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .layout { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
+  .sidebar-header { display: none; }
+  .sidebar { background: transparent; border-right: none; overflow: visible; }
+  .sidebar-nav { padding: 0; }
+  .month-label { text-align: center; }
   .content { padding: 20px; }
 }
 </style>
