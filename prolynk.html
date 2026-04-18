@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProLynk — 🏠 家居维修服务平台</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-hover: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.08);
+    --text: #e8e8ed;
+    --text-dim: #8888a0;
+    --accent: #6c8aff;
+    --accent-glow: rgba(108,138,255,0.15);
+    --green: #4ade80;
+    --orange: #fb923c;
+    --pink: #f472b6;
+    --cyan: #22d3ee;
+    --purple: #a78bfa;
+    --red: #f87171;
+    --yellow: #facc15;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  body.lang-zh .en { display:none !important; }
+  body.lang-en .zh { display:none !important; }
+
+  /* Nav */
+  .nav {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; border-bottom:1px solid var(--border);
+    background:rgba(10,10,15,0.85); backdrop-filter:blur(16px);
+    position:sticky; top:0; z-index:100;
+  }
+  .nav a { color:var(--accent); text-decoration:none; font-size:0.9em; display:flex; align-items:center; gap:6px; }
+  .nav a:hover { text-decoration:underline; }
+  .nav-title { font-weight:700; font-size:1.1em; }
+
+  /* Lang toggle */
+  .lang-toggle {
+    display:flex; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
+    border-radius:100px; overflow:hidden;
+  }
+  .lang-toggle button {
+    padding:5px 12px; border:none; background:transparent;
+    color:var(--text-dim); font-size:0.75rem; cursor:pointer; transition:all 0.25s; font-family:inherit;
+  }
+  .lang-toggle button.active { background:var(--accent); color:#fff; }
+
+  /* Hero */
+  .hero {
+    text-align:center; padding:50px 20px 30px; position:relative;
+  }
+  .hero::before {
+    content:''; position:absolute; top:0; left:50%;
+    transform:translateX(-50%); width:500px; height:500px;
+    background:radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events:none; z-index:0;
+  }
+  .hero h1 { font-size:2.4em; font-weight:700; letter-spacing:-0.02em; position:relative; z-index:1; }
+  .hero .subtitle { color:var(--text-dim); font-size:1.05em; margin-top:10px; position:relative; z-index:1; }
+  .hero .status-badge {
+    display:inline-block; margin-top:16px; padding:6px 16px; border-radius:100px;
+    background:rgba(251,146,60,0.15); color:var(--orange); font-size:0.85em; font-weight:500;
+    position:relative; z-index:1;
+  }
+
+  .container { max-width:960px; margin:0 auto; padding:0 20px 60px; }
+  .section-title {
+    font-size:1.25em; font-weight:600; margin:40px 0 16px;
+    display:flex; align-items:center; gap:10px;
+  }
+
+  /* Link cards */
+  .link-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:14px; }
+  .link-card {
+    background:var(--card-bg); border:1px solid var(--border); border-radius:14px;
+    padding:20px; text-decoration:none; color:var(--text);
+    transition:all 0.25s ease; display:flex; align-items:center; gap:14px;
+  }
+  .link-card:hover { background:var(--card-hover); border-color:var(--accent); transform:translateY(-2px); box-shadow:0 8px 30px rgba(108,138,255,0.1); }
+  .link-icon { font-size:1.8em; flex-shrink:0; }
+  .link-title { font-weight:600; font-size:0.95em; }
+  .link-url { color:var(--text-dim); font-size:0.78em; margin-top:3px; word-break:break-all; }
+
+  /* Test report */
+  .report-card {
+    background:var(--card-bg); border:1px solid var(--border); border-radius:16px;
+    padding:28px; margin-top:12px;
+  }
+  .report-card h3 { font-size:1.05em; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .check-list { list-style:none; padding:0; }
+  .check-list li { padding:6px 0; font-size:0.9em; color:var(--text); display:flex; gap:8px; align-items:flex-start; line-height:1.5; }
+  .check-list li .icon { flex-shrink:0; }
+  .warn-list { list-style:none; padding:0; margin-top:8px; }
+  .warn-list li { padding:6px 0; font-size:0.9em; display:flex; gap:8px; align-items:flex-start; line-height:1.5; }
+  .warn-list li .num { flex-shrink:0; font-weight:700; color:var(--orange); min-width:20px; }
+  .score-bar {
+    margin-top:18px; display:flex; align-items:center; gap:14px;
+    padding-top:16px; border-top:1px solid var(--border);
+  }
+  .score-num { font-size:2em; font-weight:700; color:var(--yellow); }
+  .score-label { color:var(--text-dim); font-size:0.85em; }
+
+  /* Launch plan */
+  .plan-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:16px; margin-top:12px; }
+  .plan-card {
+    background:var(--card-bg); border:1px solid var(--border); border-radius:14px;
+    padding:22px; position:relative;
+  }
+  .plan-card h3 { font-size:1em; font-weight:600; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .plan-card .highlight { color:var(--green); font-weight:700; }
+  .cost-row { display:flex; justify-content:space-between; padding:4px 0; font-size:0.88em; border-bottom:1px solid var(--border); }
+  .cost-row:last-child { border-bottom:none; }
+  .cost-row .label { color:var(--text-dim); }
+  .cost-total { margin-top:12px; padding-top:10px; border-top:2px solid var(--accent); display:flex; justify-content:space-between; font-weight:700; font-size:1em; color:var(--green); }
+
+  /* Timeline */
+  .timeline-wrapper { margin-top:12px; }
+  .week-label { font-size:1em; font-weight:600; margin:20px 0 10px; color:var(--cyan); }
+  .week-label:first-child { margin-top:0; }
+  .day-row {
+    display:flex; align-items:center; gap:12px; padding:10px 14px;
+    background:var(--card-bg); border:1px solid var(--border); border-radius:10px;
+    margin-bottom:6px; font-size:0.88em; transition:background 0.2s;
+  }
+  .day-row:hover { background:var(--card-hover); }
+  .day-num { font-weight:700; color:var(--accent); min-width:55px; }
+  .day-task { flex:1; }
+  .day-who { color:var(--text-dim); min-width:80px; text-align:center; }
+  .day-cost { color:var(--green); min-width:60px; text-align:right; font-weight:500; }
+
+  /* Role cards */
+  .role-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:12px; margin-top:12px; }
+  .role-card {
+    background:var(--card-bg); border:1px solid var(--border); border-radius:12px;
+    padding:18px;
+  }
+  .role-card .role-icon { font-size:1.4em; margin-bottom:6px; }
+  .role-card .role-name { font-weight:600; margin-bottom:6px; }
+  .role-card .role-tasks { color:var(--text-dim); font-size:0.85em; line-height:1.6; }
+
+  /* Total invest */
+  .invest-card {
+    background:linear-gradient(135deg, rgba(108,138,255,0.1), rgba(108,138,255,0.03));
+    border:1px solid rgba(108,138,255,0.2); border-radius:14px;
+    padding:22px; margin-top:16px;
+  }
+  .invest-card h3 { font-size:1em; font-weight:600; margin-bottom:12px; }
+  .invest-row { display:flex; justify-content:space-between; padding:6px 0; font-size:0.9em; }
+  .invest-row .label { color:var(--text-dim); }
+  .invest-row .value { font-weight:600; }
+
+  .footer { text-align:center; padding:40px 20px; color:var(--text-dim); font-size:0.85em; border-top:1px solid var(--border); }
+  .footer a { color:var(--accent); text-decoration:none; }
+  .footer a:hover { text-decoration:underline; }
+
+  @media (max-width:640px) {
+    .hero h1 { font-size:1.8em; }
+    .plan-grid { grid-template-columns:1fr; }
+    .link-grid { grid-template-columns:1fr; }
+    .role-grid { grid-template-columns:1fr; }
+    .day-row { flex-wrap:wrap; gap:6px; }
+    .day-who, .day-cost { min-width:auto; text-align:left; }
+    .nav { padding:12px 16px; }
+  }
+</style>
+</head>
+<body class="lang-zh">
+
+<div class="nav">
+  <a href="index.html">← <span class="zh">Sky Portal</span><span class="en">Sky Portal</span></a>
+  <span class="nav-title">🏠 ProLynk</span>
+  <div class="lang-toggle">
+    <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>🏠 ProLynk</h1>
+  <div class="subtitle">
+    <span class="zh">家居维修服务平台 — 连接房主与专业维修师傅</span>
+    <span class="en">Home Repair Service Platform — Connecting Homeowners with Pros</span>
+  </div>
+  <div class="status-badge">
+    <span class="zh">🔧 工程调试中</span>
+    <span class="en">🔧 Engineering Debug</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Section 1: Overview & Links -->
+  <div class="section-title">
+    <span>📋</span>
+    <span class="zh">项目概览 & 快速链接</span>
+    <span class="en">Project Overview & Quick Links</span>
+  </div>
+  <div style="margin-bottom:16px;color:var(--text-dim);font-size:0.9em;">
+    <span class="zh">合作方：<strong style="color:var(--text);">Daniel Zhu (瑜杰)</strong></span>
+    <span class="en">Partner: <strong style="color:var(--text);">Daniel Zhu (瑜杰)</strong></span>
+  </div>
+  <div class="link-grid">
+    <a class="link-card" href="https://lynksync.ie" target="_blank">
+      <div class="link-icon">🌐</div>
+      <div>
+        <div class="link-title"><span class="zh">工程调试版</span><span class="en">Engineering Build</span></div>
+        <div class="link-url">lynksync.ie</div>
+      </div>
+    </a>
+    <a class="link-card" href="https://prolynk-report.vercel.app" target="_blank">
+      <div class="link-icon">📊</div>
+      <div>
+        <div class="link-title"><span class="zh">市场调研报告</span><span class="en">Market Research Report</span></div>
+        <div class="link-url">prolynk-report.vercel.app</div>
+      </div>
+    </a>
+    <a class="link-card" href="research/prolynk-market-analysis.html">
+      <div class="link-icon">📋</div>
+      <div>
+        <div class="link-title"><span class="zh">竞品深度分析</span><span class="en">Competitor Deep Analysis</span></div>
+        <div class="link-url">sky-portal/research/prolynk-market-analysis.html</div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Section 2: Test Report -->
+  <div class="section-title">
+    <span>🔍</span>
+    <span class="zh">网站测试报告</span>
+    <span class="en">Website Test Report</span>
+    <span style="color:var(--text-dim);font-size:0.8em;font-weight:400;">2026-04-17</span>
+  </div>
+  <div class="report-card">
+    <h3 style="color:var(--green);">✅ <span class="zh">做得好的</span><span class="en">What's Good</span></h3>
+    <ul class="check-list">
+      <li><span class="icon">✅</span><span class="zh">干净清爽的设计，配色舒适</span><span class="en">Clean design with comfortable color palette</span></li>
+      <li><span class="icon">✅</span><span class="zh">服务分类丰富（Plumbing/Electrical/Building等18个分类）</span><span class="en">Rich service categories (Plumbing/Electrical/Building, 18 total)</span></li>
+      <li><span class="icon">✅</span><span class="zh">搜索框 + Eircode 定位</span><span class="en">Search box + Eircode location</span></li>
+      <li><span class="icon">✅</span><span class="zh">Before & After 对比滑块功能很酷</span><span class="en">Before & After comparison slider — very cool</span></li>
+      <li><span class="icon">✅</span><span class="zh">Smart Quote 示例展示很直观</span><span class="en">Smart Quote demo is intuitive</span></li>
+      <li><span class="icon">✅</span><span class="zh">项目进度追踪清晰</span><span class="en">Clear project progress tracking</span></li>
+      <li><span class="icon">✅</span><span class="zh">Cookie consent、ToS、Privacy Policy 都有</span><span class="en">Cookie consent, ToS, Privacy Policy all present</span></li>
+      <li><span class="icon">✅</span><span class="zh">Homeowner 注册流程简洁，支持 Google 登录</span><span class="en">Simple homeowner registration with Google login</span></li>
+      <li><span class="icon">✅</span><span class="zh">Pro 端三步注册流程清晰</span><span class="en">Pro 3-step registration is clear</span></li>
+      <li><span class="icon">✅</span><span class="zh">密码验证实时反馈</span><span class="en">Real-time password validation feedback</span></li>
+    </ul>
+
+    <h3 style="color:var(--orange);margin-top:20px;">⚠️ <span class="zh">待修复（优先级排序）</span><span class="en">To Fix (Priority Order)</span></h3>
+    <ol class="warn-list">
+      <li><span class="num">1.</span><span class="zh"><strong>Signup 链接跳转 bug</strong>（跳到 Tesla 网站）— 需要修复 href</span><span class="en"><strong>Signup link redirect bug</strong> (goes to Tesla site) — fix href</span></li>
+      <li><span class="num">2.</span><span class="zh"><strong>/pro-registration 需要登录才能访问</strong> — 应允许未登录用户进入</span><span class="en"><strong>/pro-registration requires login</strong> — should allow unauthenticated access</span></li>
+      <li><span class="num">3.</span><span class="zh"><strong>Home Passport 功能尚未在页面上看到</strong></span><span class="en"><strong>Home Passport feature not visible on site</strong></span></li>
+      <li><span class="num">4.</span><span class="zh"><strong>首页文案本地化</strong>（Maynooth/Kildare/Dublin）需美国版</span><span class="en"><strong>Homepage localization</strong> (Maynooth/Kildare/Dublin) needs US version</span></li>
+    </ol>
+
+    <div class="score-bar">
+      <div class="score-num">7.5<span style="font-size:0.5em;color:var(--text-dim);">/10</span></div>
+      <div class="score-label"><span class="zh">整体评分 — 基础扎实，修复细节后可上线</span><span class="en">Overall — solid foundation, ready after fixes</span></div>
+    </div>
+  </div>
+
+  <!-- Section 3: US Launch Plan -->
+  <div class="section-title">
+    <span>🚀</span>
+    <span class="zh">美国启动计划</span>
+    <span class="en">US Launch Plan</span>
+  </div>
+
+  <!-- LLC + Cost + Total cards -->
+  <div class="plan-grid">
+    <!-- LLC Card -->
+    <div class="plan-card">
+      <h3>🏛️ <span class="zh">注册公司（Oregon LLC）</span><span class="en">Company Registration (Oregon LLC)</span></h3>
+      <div class="cost-row"><span class="label"><span class="zh">LLC 注册费</span><span class="en">LLC Filing Fee</span></span><span>$100 <span class="zh">（一次性）</span><span class="en">(one-time)</span></span></div>
+      <div class="cost-row"><span class="label"><span class="zh">年报费</span><span class="en">Annual Report</span></span><span>$100/<span class="zh">年</span><span class="en">yr</span></span></div>
+      <div class="cost-row"><span class="label">EIN</span><span class="zh" style="color:var(--green);">免费在线申请</span><span class="en" style="color:var(--green);">Free online</span></div>
+      <div class="cost-row"><span class="label"><span class="zh">Registered Agent</span><span class="en">Registered Agent</span></span><span class="zh" style="color:var(--green);">用自己地址（免费）</span><span class="en" style="color:var(--green);">Own address (free)</span></div>
+      <div class="cost-row"><span class="label"><span class="zh">批准时间</span><span class="en">Approval</span></span><span>1-3 <span class="zh">个工作日</span><span class="en">business days</span></span></div>
+    </div>
+
+    <!-- Monthly Cost Card -->
+    <div class="plan-card">
+      <h3>💰 <span class="zh">月度最低运营成本</span><span class="en">Min Monthly Operating Cost</span></h3>
+      <div class="cost-row"><span class="label"><span class="zh">LLC 年报摊月</span><span class="en">LLC Annual (monthly)</span></span><span>$8</span></div>
+      <div class="cost-row"><span class="label"><span class="zh">域名</span><span class="en">Domain</span></span><span>$1</span></div>
+      <div class="cost-row"><span class="label"><span class="zh">服务器</span><span class="en">Server</span></span><span>$0-20</span></div>
+      <div class="cost-row"><span class="label"><span class="zh">支付处理</span><span class="en">Payment Processing</span></span><span class="zh" style="color:var(--green);">按交易，无月费</span><span class="en" style="color:var(--green);">Per txn, no monthly</span></div>
+      <div class="cost-row"><span class="label"><span class="zh">广告（最低）</span><span class="en">Ads (minimum)</span></span><span>$100-300</span></div>
+      <div class="cost-total"><span><span class="zh">月度总计</span><span class="en">Monthly Total</span></span><span>$110-380</span></div>
+    </div>
+
+    <!-- Total Investment Card -->
+    <div class="plan-card">
+      <h3>📊 <span class="zh">总投入概算</span><span class="en">Total Investment Estimate</span></h3>
+      <div class="cost-row"><span class="label"><span class="zh">晓波时间</span><span class="en">Xiaobo's Time</span></span><span><span class="zh">15-20小时</span><span class="en">15-20 hrs</span></span></div>
+      <div class="cost-row"><span class="label"><span class="zh">节奏</span><span class="en">Pace</span></span><span><span class="zh">两周，每天1-1.5小时</span><span class="en">2 weeks, 1-1.5 hrs/day</span></span></div>
+      <div class="cost-row"><span class="label"><span class="zh">首月现金</span><span class="en">First Month Cash</span></span><span>$210-610</span></div>
+      <div class="cost-total"><span><span class="zh">最小试错成本</span><span class="en">Min Trial Cost</span></span><span class="highlight">$210<span class="zh">起</span><span class="en">+</span></span></div>
+    </div>
+  </div>
+
+  <!-- 14-Day Action Plan Timeline -->
+  <div class="section-title" style="margin-top:36px;">
+    <span>📅</span>
+    <span class="zh">14 天行动计划</span>
+    <span class="en">14-Day Action Plan</span>
+  </div>
+  <div class="timeline-wrapper">
+    <div class="week-label">🏗️ Week 1 — <span class="zh">基础设施</span><span class="en">Infrastructure</span></div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 1</span><span class="en">Day 1</span></span>
+      <span class="day-task"><span class="zh">确认公司名 + 提交 Oregon LLC 注册</span><span class="en">Confirm name + file Oregon LLC</span></span>
+      <span class="day-who">👤 <span class="zh">晓波</span><span class="en">Xiaobo</span></span>
+      <span class="day-cost">$100</span>
+    </div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 2</span><span class="en">Day 2</span></span>
+      <span class="day-task"><span class="zh">申请 EIN + 注册域名</span><span class="en">Apply EIN + register domain</span></span>
+      <span class="day-who">👤🤖</span>
+      <span class="day-cost">$12</span>
+    </div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 3</span><span class="en">Day 3</span></span>
+      <span class="day-task"><span class="zh">开商业银行账户 + 起草 ToS/Privacy Policy</span><span class="en">Open biz bank + draft ToS/Privacy</span></span>
+      <span class="day-who">👤🤖</span>
+      <span class="day-cost">$0</span>
+    </div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 4</span><span class="en">Day 4</span></span>
+      <span class="day-task"><span class="zh">设置 Google Business + 社交媒体</span><span class="en">Set up Google Business + social</span></span>
+      <span class="day-who">🤖 Sky</span>
+      <span class="day-cost">$0</span>
+    </div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 5</span><span class="en">Day 5</span></span>
+      <span class="day-task"><span class="zh">对接合作方网站需求 + 确认支付方案</span><span class="en">Align with partner on site + payment</span></span>
+      <span class="day-who">👤🤝</span>
+      <span class="day-cost">$0</span>
+    </div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 6-7</span><span class="en">Day 6-7</span></span>
+      <span class="day-task"><span class="zh">准备营销素材 + 等待网站</span><span class="en">Prep marketing assets + wait for site</span></span>
+      <span class="day-who">🤖 Sky</span>
+      <span class="day-cost">$0</span>
+    </div>
+
+    <div class="week-label">🚀 Week 2 — <span class="zh">上线准备</span><span class="en">Launch Prep</span></div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 8</span><span class="en">Day 8</span></span>
+      <span class="day-task"><span class="zh">审核网站 + 反馈修改</span><span class="en">Review site + give feedback</span></span>
+      <span class="day-who">👤 <span class="zh">晓波</span><span class="en">Xiaobo</span></span>
+      <span class="day-cost">$0</span>
+    </div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 9</span><span class="en">Day 9</span></span>
+      <span class="day-task"><span class="zh">写 Pro 招募文案 + 设置广告</span><span class="en">Write Pro recruitment copy + setup ads</span></span>
+      <span class="day-who">🤖👤</span>
+      <span class="day-cost">$0</span>
+    </div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 10</span><span class="en">Day 10</span></span>
+      <span class="day-task"><span class="zh">手动招募前 10 个 Pro</span><span class="en">Manually recruit first 10 Pros</span></span>
+      <span class="day-who">👤🤖</span>
+      <span class="day-cost">$0</span>
+    </div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 11</span><span class="en">Day 11</span></span>
+      <span class="day-task"><span class="zh">本地 SEO 优化</span><span class="en">Local SEO optimization</span></span>
+      <span class="day-who">🤖 Sky</span>
+      <span class="day-cost">$0</span>
+    </div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 12</span><span class="en">Day 12</span></span>
+      <span class="day-task"><span class="zh">发布到 Facebook 本地群组</span><span class="en">Post to local Facebook groups</span></span>
+      <span class="day-who">🤖 Sky</span>
+      <span class="day-cost">$0</span>
+    </div>
+    <div class="day-row">
+      <span class="day-num"><span class="zh">Day 13</span><span class="en">Day 13</span></span>
+      <span class="day-task"><span class="zh">最终测试 + Bug 修复</span><span class="en">Final testing + bug fixes</span></span>
+      <span class="day-who">👤🤝</span>
+      <span class="day-cost">$0</span>
+    </div>
+    <div class="day-row" style="border-color:var(--green);background:rgba(74,222,128,0.06);">
+      <span class="day-num" style="color:var(--green);"><span class="zh">Day 14</span><span class="en">Day 14</span></span>
+      <span class="day-task"><span class="zh">🎉 Soft Launch！</span><span class="en">🎉 Soft Launch!</span></span>
+      <span class="day-who">👤 <span class="zh">晓波</span><span class="en">Xiaobo</span></span>
+      <span class="day-cost">$100-300</span>
+    </div>
+  </div>
+
+  <!-- Who Does What -->
+  <div class="section-title" style="margin-top:36px;">
+    <span>👥</span>
+    <span class="zh">谁做什么</span>
+    <span class="en">Who Does What</span>
+  </div>
+  <div class="role-grid">
+    <div class="role-card">
+      <div class="role-icon">👤</div>
+      <div class="role-name"><span class="zh">晓波</span><span class="en">Xiaobo</span></div>
+      <div class="role-tasks"><span class="zh">签署文件、申请 EIN、开银行账户、最终决策</span><span class="en">Sign docs, apply EIN, open bank, final decisions</span></div>
+    </div>
+    <div class="role-card">
+      <div class="role-icon">🤖</div>
+      <div class="role-name">Sky</div>
+      <div class="role-tasks"><span class="zh">起草法律文档、调研竞品、注册域名、SEO、营销文案、社交媒体</span><span class="en">Draft legal docs, competitor research, domain reg, SEO, marketing, social</span></div>
+    </div>
+    <div class="role-card">
+      <div class="role-icon">🤝</div>
+      <div class="role-name"><span class="zh">合作方</span><span class="en">Partner</span></div>
+      <div class="role-tasks"><span class="zh">网站开发、技术维护、支付系统</span><span class="en">Site dev, tech maintenance, payment system</span></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>☁️ Powered by Sky · <a href="index.html"><span class="zh">返回 Portal</span><span class="en">Back to Portal</span></a></p>
+</div>
+
+<script>
+function setLang(l){
+  document.body.className='lang-'+l;
+  document.getElementById('btn-zh').className=l==='zh'?'active':'';
+  document.getElementById('btn-en').className=l==='en'?'active':'';
+  try{localStorage.setItem('sky-lang',l)}catch(e){}
+}
+try{var s=localStorage.getItem('sky-lang');if(s)setLang(s)}catch(e){}
+</script>
+</body>
+</html>
