@@ -202,6 +202,7 @@
     <a href="#wafer"><span class="zh-only">📊 晶圆需求</span><span class="en-only">📊 Wafer Demand</span></a>
     <a href="#tech"><span class="zh-only">⚗️ 技术要求</span><span class="en-only">⚗️ Tech Specs</span></a>
     <a href="#opportunity"><span class="zh-only">💡 机会分析</span><span class="en-only">💡 Opportunities</span></a>
+    <a href="#arch-history"><span class="zh-only">📐 架构演进</span><span class="en-only">📐 Arch Evolution</span></a>
     <a href="#failures"><span class="zh-only">🚨 历史事故</span><span class="en-only">🚨 Failure Cases</span></a>
     <a href="#conclusion"><span class="zh-only">✅ 结论</span><span class="en-only">✅ Conclusion</span></a>
   </div>
@@ -1170,6 +1171,117 @@
         <li><span class="zh-only">ESD（CDM+HBM）双模式验证，边角I/O专项检查</span><span class="en-only">Dual-mode ESD validation (CDM+HBM), corner I/O dedicated review</span></li>
       </ul>
     </div>
+  </div>
+</section>
+
+<!-- ===== GPU架构演进 ===== -->
+<section class="section" id="arch-history">
+  <h2><span>📐</span><span class="zh-only">NVIDIA GPU 架构演进史（2006–2026）</span><span class="en-only">NVIDIA GPU Architecture Evolution (2006–2026)</span></h2>
+
+  <div class="alert alert-blue">
+    <span>📊</span>
+    <div><span class="zh-only">以下数据来自NVIDIA官方发布信息整理，覆盖从Tesla到Rubin共12代架构演进。</span><span class="en-only">Data compiled from NVIDIA official releases, covering 12 architecture generations from Tesla to Rubin.</span></div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th><span class="zh-only">年份</span><span class="en-only">Year</span></th>
+        <th><span class="zh-only">架构</span><span class="en-only">Architecture</span></th>
+        <th><span class="zh-only">代表芯片</span><span class="en-only">Representative Chip</span></th>
+        <th><span class="zh-only">支持数据格式</span><span class="en-only">Data Formats</span></th>
+        <th><span class="zh-only">主要特性 Highlight</span><span class="en-only">Key Highlight</span></th>
+      </tr>
+      <tr>
+        <td class="hl">2006</td>
+        <td>Tesla <span class="zh-only">特斯拉</span></td>
+        <td>Tesla C870</td>
+        <td>FP32</td>
+        <td><span class="zh-only">CUDA 与 GPGPU 架构，开启通用计算平台</span><span class="en-only">CUDA & GPGPU architecture, launched general-purpose computing platform</span></td>
+      </tr>
+      <tr>
+        <td class="hl">2010</td>
+        <td>Fermi <span class="zh-only">费米</span></td>
+        <td>Tesla M2050</td>
+        <td>FP32 · FP64 · INT32</td>
+        <td><span class="zh-only">ECC、FP64 与内存修复，GPU 成为科学计算与数据中心专用领域</span><span class="en-only">ECC, FP64 & memory resilience — GPU enters scientific computing & data center</span></td>
+      </tr>
+      <tr>
+        <td class="hl">2012</td>
+        <td>Kepler <span class="zh-only">开普勒</span></td>
+        <td>Tesla K20X</td>
+        <td>FP32 · INT32</td>
+        <td><span class="zh-only">纹理单元、Dynamic Parallelism，大规模并行计算优化</span><span class="en-only">Texture units, Dynamic Parallelism, large-scale parallel computing optimization</span></td>
+      </tr>
+      <tr>
+        <td class="hl">2014</td>
+        <td>Maxwell <span class="zh-only">马克斯韦</span></td>
+        <td>Tesla M40</td>
+        <td>FP32 · FP64(1/32)</td>
+        <td><span class="zh-only">SMM 结构，极致能效，GPU 更高效</span><span class="en-only">SMM structure, extreme energy efficiency, more efficient GPU</span></td>
+      </tr>
+      <tr>
+        <td class="hl">2016</td>
+        <td>Pascal <span class="zh-only">帕斯卡</span></td>
+        <td>Tesla P100</td>
+        <td>FP32 · FP16(1/2) · INT32</td>
+        <td><span class="zh-only">HBM2 与 NVLink，变革数据中心与高性能计算</span><span class="en-only">HBM2 & NVLink, revolutionized data center & HPC</span></td>
+      </tr>
+      <tr>
+        <td class="hl">2017</td>
+        <td>Volta <span class="zh-only">伏特</span></td>
+        <td>Tesla V100</td>
+        <td>FP32 · FP16(1/2) · INT32</td>
+        <td><span class="zh-only"><strong style="color:#f5a623;">Tensor Core 首次引入</strong>，AI 计算加速</span><span class="en-only"><strong style="color:#f5a623;">Tensor Core first introduced</strong>, AI compute acceleration</span></td>
+      </tr>
+      <tr>
+        <td class="hl">2018</td>
+        <td>Turing <span class="zh-only">图灵</span></td>
+        <td>RTX 2080 Ti</td>
+        <td>FP32 · FP16 · INT4</td>
+        <td><span class="zh-only">RT Core + Tensor Core，光线追踪与 AI 计算融合</span><span class="en-only">RT Core + Tensor Core, ray tracing & AI fusion</span></td>
+      </tr>
+      <tr>
+        <td class="hl">2020</td>
+        <td>Ampere <span class="zh-only">安培</span></td>
+        <td>A100</td>
+        <td>FP32 · TF32/BF16 · INT8/INT4</td>
+        <td><span class="zh-only">TF32 结构优化，MLG、cp_async 等新特性，提升 AI 性能</span><span class="en-only">TF32 optimization, MLG, cp_async, improved AI performance</span></td>
+      </tr>
+      <tr>
+        <td class="hl">2022</td>
+        <td>Hopper <span class="zh-only">霍珀</span></td>
+        <td>H100</td>
+        <td>FP32 · BF16/FP16 · INT8 · INT4</td>
+        <td><span class="zh-only">Transformer Engine、TMA 等技术，优化大模型训练与推理</span><span class="en-only">Transformer Engine, TMA, optimized for LLM training & inference</span></td>
+      </tr>
+      <tr>
+        <td class="hl">2022</td>
+        <td>Ada <span class="zh-only">艾达</span></td>
+        <td>RTX 4090 / 4080</td>
+        <td>FP32 · INT8 · INT4</td>
+        <td><span class="zh-only">DLSS 3/3.5、Optical Flow，光线追踪与 AI 深度融合</span><span class="en-only">DLSS 3/3.5, Optical Flow, deep ray tracing & AI integration</span></td>
+      </tr>
+      <tr>
+        <td class="hl" style="color:#f5a623;">2024–2025</td>
+        <td>Blackwell <span class="zh-only">布莱克威尔</span></td>
+        <td>B200 / GB200</td>
+        <td>FP32 · BF16 · INT8 · INT4 · <strong style="color:#76b900;">FP4/FP8</strong></td>
+        <td><span class="zh-only">FP4/FP8、集成 NVLink、HBM3e，提升带宽与能效</span><span class="en-only">FP4/FP8, integrated NVLink, HBM3e, improved bandwidth & efficiency</span></td>
+      </tr>
+      <tr style="background:rgba(118,185,0,0.06);">
+        <td class="hl" style="color:#76b900;">2026</td>
+        <td style="color:#76b900;"><strong>Rubin <span class="zh-only">鲁宾</span></strong></td>
+        <td>Vera Rubin (R100)</td>
+        <td>FP32 · BF16 · FP8 · <strong style="color:#76b900;">FP4</strong></td>
+        <td><span class="zh-only"><strong style="color:#76b900;">HBM4、NVLink、下一代能效/制程，支持更复杂模型与计算</strong></span><span class="en-only"><strong style="color:#76b900;">HBM4, NVLink, next-gen efficiency/process, supports more complex models</strong></span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="alert alert-green" style="margin-top:14px;">
+    <span>📊</span>
+    <div><span class="zh-only"><strong>关键趋势：</strong>从2006年仅支持FP32，到2026年Rubin支持FP4低精度计算，每代架构都在扩展数据格式支持。2017年Volta首次引入Tensor Core是分水岭——此后NVIDIA GPU从通用计算转向AI专用加速。消费级GPU（Ada→Blackwell）同样受益于这一演进。</span><span class="en-only"><strong>Key Trend:</strong> From FP32-only in 2006 to FP4 in 2026 Rubin, each generation extends data format support. Volta 2017's Tensor Core introduction was the watershed — NVIDIA GPUs shifted from general computing to AI acceleration. Consumer GPUs (Ada→Blackwell) benefit from this evolution too.</span></div>
   </div>
 </section>
 
