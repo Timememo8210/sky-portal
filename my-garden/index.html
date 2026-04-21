@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 我的花园 — Sky Portal</title>
+<style>
+:root{--bg:#0a0a0f;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);--text:#e0e0e8;--dim:#6b6b80;--accent:#f472b6;--green:#4ade80;--blue:#60a5fa;--red:#f87171;--purple:#a78bfa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;padding:20px}
+body.lang-zh .en{display:none!important}body.lang-en .zh{display:none!important}
+.lang-toggle{position:fixed;top:16px;right:16px;z-index:99;display:flex;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:100px;overflow:hidden}
+.lang-toggle button{padding:6px 14px;border:none;background:transparent;color:var(--dim);font-size:.78rem;cursor:pointer;transition:.25s}
+.lang-toggle button.active{background:var(--accent);color:#fff}
+.container{max-width:900px;margin:0 auto}
+h1{font-size:2em;text-align:center;margin:30px 0 10px}
+.subtitle{text-align:center;color:var(--dim);margin-bottom:8px;font-size:.95em}
+.date{text-align:center;color:var(--dim);font-size:.85em;margin-bottom:30px}
+.flower-card{display:flex;gap:24px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;align-items:flex-start;transition:border-color .3s}
+.flower-card:hover{border-color:rgba(244,114,182,0.3)}
+.flower-icon{flex-shrink:0;width:120px;height:120px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:64px}
+.flower-info{flex:1}
+.flower-name{font-size:1.4em;font-weight:700;margin-bottom:4px}
+.flower-latin{color:var(--dim);font-size:.9em;font-style:italic;margin-bottom:12px}
+.flower-desc{font-size:.95em;color:var(--text);margin-bottom:12px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.tag{display:inline-block;padding:3px 10px;border-radius:8px;font-size:.78em;font-weight:500}
+.tag-pink{background:rgba(244,114,182,0.15);color:var(--accent)}
+.tag-green{background:rgba(74,222,128,0.15);color:var(--green)}
+.tag-blue{background:rgba(96,165,250,0.15);color:var(--blue)}
+.tag-red{background:rgba(248,113,113,0.15);color:var(--red)}
+.tag-purple{background:rgba(167,139,250,0.15);color:var(--purple)}
+.care-section{margin-top:8px;padding:12px;background:rgba(74,222,128,0.06);border-radius:10px;font-size:.9em}
+.care-section strong{color:var(--green)}
+.section-divider{display:flex;align-items:center;gap:12px;margin:36px 0 20px;color:var(--accent);font-size:1.1em;font-weight:600}
+.section-divider::before,.section-divider::after{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,var(--accent),transparent)}
+.summary{background:linear-gradient(135deg,rgba(244,114,182,0.1),rgba(167,139,250,0.05));border:1px solid rgba(244,114,182,0.2);border-radius:16px;padding:24px;margin-top:30px;text-align:center}
+.summary h3{color:var(--accent);margin-bottom:12px}
+.footer{text-align:center;padding:30px 0;color:var(--dim);font-size:.85em;border-top:1px solid var(--border);margin-top:40px}
+@media(max-width:640px){.flower-card{flex-direction:column;align-items:center;text-align:center}.flower-icon{width:100px;height:100px;font-size:48px}.tags{justify-content:center}}
+</style>
+</head>
+<body class="lang-zh">
+<div class="lang-toggle">
+<button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
+<button id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+<div class="container">
+<h1>🌸 <span class="zh">我的花园</span><span class="en">My Garden</span></h1>
+<p class="subtitle"><span class="zh">Portland · Oregon — 春天种下的花</span><span class="en">Portland · Oregon — Spring Planting</span></p>
+<p class="date">2026-04-20</p>
+
+<div class="section-divider"><span class="zh">🌱 新种的花</span><span class="en">🌱 New Plantings</span></div>
+
+<!-- 绣球花 -->
+<div class="flower-card">
+<div class="flower-icon" style="background:linear-gradient(135deg,rgba(167,139,250,0.2),rgba(96,165,250,0.15))">💐</div>
+<div class="flower-info">
+<div class="flower-name"><span class="zh">绣球花 · 无尽夏</span><span class="en">Hydrangea · Endless Summer</span></div>
+<div class="flower-latin">Hydrangea macrophylla</div>
+<div class="flower-desc">
+<span class="zh">
+花球直径12-18cm，一株同时开出<strong>粉紫色和蓝紫色</strong>两种颜色！这是因为土壤pH值刚好在中性附近，铝离子吸收不完全，蓝色和粉色同时表达。花量极大，约15-18个花球同时绽放，非常壮观。属于重复开花型，新老枝都能开花。
+</span>
+<span class="en">
+Flower heads 12-18cm across, blooming in <strong>both pink-purple and blue-purple</strong> on the same plant! Soil pH near neutral causes both colors to appear simultaneously. About 15-18 flower heads in bloom. Rebloomer — flowers on both old and new wood.
+</span>
+</div>
+<div class="tags">
+<span class="tag tag-purple"><span class="zh">多年生</span><span class="en">Perennial</span></span>
+<span class="tag tag-blue"><span class="zh">半阴</span><span class="en">Part Shade</span></span>
+<span class="tag tag-green"><span class="zh">爱喝水</span><span class="en">Loves Water</span></span>
+<span class="tag tag-pink"><span class="zh">酸性土=蓝花</span><span class="en">Acid=Blue</span></span>
+</div>
+<div class="care-section">
+<strong><span class="zh">🧡 养护</span><span class="en">🧡 Care</span>：</strong>
+<span class="zh">保持土壤湿润（不能干透）；想保持蓝紫色用硫酸铝调酸；花谢后剪掉残花促进再开花；寿命20-50年。</span>
+<span class="en">Keep soil moist; use aluminum sulfate for blue color; deadhead spent blooms; lives 20-50 years.</span>
+</div>
+</div>
+</div>
+
+<!-- 杜鹃花 -->
+<div class="flower-card">
+<div class="flower-icon" style="background:linear-gradient(135deg,rgba(244,114,182,0.2),rgba(248,113,113,0.15))">🌸</div>
+<div class="flower-info">
+<div class="flower-name"><span class="zh">杜鹃花 · 久留米品种</span><span class="en">Azalea · Kurume Variety</span></div>
+<div class="flower-latin">Rhododendron (Azalea)</div>
+<div class="flower-desc">
+<span class="zh">
+鲜艳的<strong>玫红色</strong>，花量极丰，几乎覆盖整株。半重瓣品种，花瓣质感如绸缎。花朵直径约3-4cm，簇状密集排列形成花球效果。刚种下就已经盛花满枝，非常喜庆。
+</span>
+<span class="en">
+Vibrant <strong>magenta-red</strong> with profuse blooms nearly covering the entire plant. Semi-double petals with satin texture. Individual flowers 3-4cm, clustered in ball-like groups. Already in full bloom right after planting.
+</span>
+</div>
+<div class="tags">
+<span class="tag tag-red"><span class="zh">常绿</span><span class="en">Evergreen</span></span>
+<span class="tag tag-green"><span class="zh">多年生</span><span class="en">Perennial</span></span>
+<span class="tag tag-pink"><span class="zh">耐阴</span><span class="en">Shade Tolerant</span></span>
+<span class="tag tag-purple"><span class="zh">不需打药</span><span class="en">No Spray Needed</span></span>
+</div>
+<div class="care-section">
+<strong><span class="zh">🧡 养护</span><span class="en">🧡 Care</span>：</strong>
+<span class="zh">基本不用管！保持排水良好（别积水烂根）；偶尔施酸性肥；叶子发黄说明缺铁。波特兰气候完美适合杜鹃。</span>
+<span class="en">Very low maintenance! Good drainage is key; occasional acid fertilizer; yellow leaves = iron deficiency. Portland climate is perfect for azaleas.</span>
+</div>
+</div>
+</div>
+
+<!-- 月季 -->
+<div class="flower-card">
+<div class="flower-icon" style="background:linear-gradient(135deg,rgba(248,113,113,0.2),rgba(251,146,60,0.15))">🌹</div>
+<div class="flower-info">
+<div class="flower-name"><span class="zh">地毯月季 · Drift Rose</span><span class="en">Drift Rose</span></div>
+<div class="flower-latin">Rosa 'Drift' series</div>
+<div class="flower-desc">
+<span class="zh">
+<strong>粉红色</strong>小型月季，花朵密集簇生，花量惊人。Drift Rose系列是月季中的"战斗机"——抗病性强、持续开花、低矮匍匐生长，非常适合地被和花坛边缘。整个花季从春天到秋天不间断开花。
+</span>
+<span class="en">
+<strong>Pink</strong> miniature roses blooming in dense clusters. Drift Rose series are disease-resistant, continuous bloomers with low spreading habit. Perfect for borders and ground cover. Blooms from spring through fall non-stop.
+</span>
+</div>
+<div class="tags">
+<span class="tag tag-red"><span class="zh">持续开花</span><span class="en">Continuous Bloom</span></span>
+<span class="tag tag-green"><span class="zh">多年生</span><span class="en">Perennial</span></span>
+<span class="tag tag-red"><span class="zh">需打药</span><span class="en">Needs Spray</span></span>
+<span class="tag tag-blue"><span class="zh">全日照</span><span class="en">Full Sun</span></span>
+</div>
+<div class="care-section">
+<strong><span class="zh">🧡 养护</span><span class="en">🧡 Care</span>：</strong>
+<span class="zh">唯一需要打药的花！定期喷杀虫药防蚜虫和黑斑病；花谢后剪掉促进再开花；全日照位置最好。</span>
+<span class="en">The only plant that needs spraying! Regular fungicide/insecticide for aphids and black spot; deadhead to rebloom; full sun preferred.</span>
+</div>
+</div>
+</div>
+
+<!-- 六倍利 -->
+<div class="flower-card">
+<div class="flower-icon" style="background:linear-gradient(135deg,rgba(96,165,250,0.2),rgba(34,211,238,0.15))">💙</div>
+<div class="flower-info">
+<div class="flower-name"><span class="zh">六倍利</span><span class="en">Lobelia</span></div>
+<div class="flower-latin">Lobelia erinus</div>
+<div class="flower-desc">
+<span class="zh">
+<strong>蓝紫色</strong>小花密集簇生，色彩饱和度极高，像一块蓝色地毯。花型小巧精致，五瓣小花呈不规则唇形。种在花坛边缘做点缀，跟其他花形成漂亮的色彩对比。
+</span>
+<span class="en">
+<strong>Blue-purple</strong> tiny flowers in dense clusters, like a blue carpet. Delicate five-petaled irregular flowers. Planted at border edges for beautiful color contrast with other flowers.
+</span>
+</div>
+<div class="tags">
+<span class="tag tag-blue"><span class="zh">一年生</span><span class="en">Annual</span></span>
+<span class="tag tag-green"><span class="zh">超好养</span><span class="en">Easy Care</span></span>
+<span class="tag tag-purple"><span class="zh">不需打药</span><span class="en">No Spray</span></span>
+<span class="tag tag-pink"><span class="zh">半阴</span><span class="en">Part Shade</span></span>
+</div>
+<div class="care-section">
+<strong><span class="zh">🧡 养护</span><span class="en">🧡 Care</span>：</strong>
+<span class="zh">种下就忘型！保持土壤湿润，花谢剪掉会再开一波。冬天可能冻死，明年花$5再买一盆。</span>
+<span class="en">Plant and forget! Keep moist, deadhead for rebloom. May not survive winter — just buy a new $5 pot next year.</span>
+</div>
+</div>
+</div>
+
+<div class="section-divider"><span class="zh">🌳 已有的树和灌木</span><span class="en">🌳 Existing Trees & Shrubs</span></div>
+
+<!-- 玉兰 -->
+<div class="flower-card">
+<div class="flower-icon" style="background:linear-gradient(135deg,rgba(244,114,182,0.15),rgba(255,255,255,0.1))">🌺</div>
+<div class="flower-info">
+<div class="flower-name"><span class="zh">紫玉兰</span><span class="en">Purple Magnolia</span></div>
+<div class="flower-latin">Magnolia liliiflora</div>
+<div class="flower-desc">
+<span class="zh">
+春天最早开花的树之一，<strong>紫粉色</strong>大朵花苞挂在光秃枝条上，非常醒目。花瓣外侧紫红色，内侧淡粉白色。花落后才长叶子。地面上散落的花瓣也很有意境。
+</span>
+<span class="en">
+One of the first trees to bloom in spring, with <strong>purple-pink</strong> large flower buds on bare branches. Petals purple-red outside, pale pink-white inside. Leaves appear after flowers drop. Fallen petals create a poetic carpet.
+</span>
+</div>
+<div class="tags">
+<span class="tag tag-pink"><span class="zh">春天开花</span><span class="en">Spring Bloom</span></span>
+<span class="tag tag-green"><span class="zh">乔木</span><span class="en">Tree</span></span>
+<span class="tag tag-purple"><span class="zh">不需打理</span><span class="en">Low Maintenance</span></span>
+</div>
+</div>
+</div>
+
+<!-- 日本红枫 -->
+<div class="flower-card">
+<div class="flower-icon" style="background:linear-gradient(135deg,rgba(248,113,113,0.2),rgba(139,92,246,0.15))">🍁</div>
+<div class="flower-info">
+<div class="flower-name"><span class="zh">日本红枫 · 垂枝型</span><span class="en">Japanese Maple · Weeping</span></div>
+<div class="flower-latin">Acer palmatum var. dissectum</div>
+<div class="flower-desc">
+<span class="zh">
+整棵树呈<strong>深酒红色</strong>，羽状细裂叶如瀑布般垂挂，非常优雅。是庭院中的视觉焦点，跟周围的绿色和白色形成强烈对比。秋天颜色会更红。
+</span>
+<span class="en">
+Deep <strong>wine-red</strong> foliage with finely dissected leaves cascading like a waterfall. A visual focal point contrasting beautifully with surrounding green and white. Turns even more red in fall.
+</span>
+</div>
+<div class="tags">
+<span class="tag tag-red"><span class="zh">观叶</span><span class="en">Foliage</span></span>
+<span class="tag tag-green"><span class="zh">落叶乔木</span><span class="en">Deciduous</span></span>
+<span class="tag tag-purple"><span class="zh">不需打理</span><span class="en">Low Maintenance</span></span>
+</div>
+</div>
+</div>
+
+<!-- 其他植物一览 -->
+<div class="section-divider"><span class="zh">🌿 其他植物</span><span class="en">🌿 Other Plants</span></div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:24px">
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+<div style="font-size:2em">🌲</div>
+<div style="font-weight:600;margin-top:6px"><span class="zh">柱形柏树</span><span class="en">Columnar Cypress</span></div>
+<div style="font-size:.85em;color:var(--dim)"><span class="zh">常绿 · 隐私屏障</span><span class="en">Evergreen · Privacy</span></div>
+</div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+<div style="font-size:2em">🟢</div>
+<div style="font-weight:600;margin-top:6px"><span class="zh">黄杨球</span><span class="en">Boxwood Balls</span></div>
+<div style="font-size:.85em;color:var(--dim)"><span class="zh">常绿 · 修剪造型</span><span class="en">Evergreen · Topiary</span></div>
+</div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+<div style="font-size:2em">🔴</div>
+<div style="font-weight:600;margin-top:6px"><span class="zh">紫叶小檗</span><span class="en">Purple Barberry</span></div>
+<div style="font-size:.85em;color:var(--dim)"><span class="zh">彩叶灌木 · 对比色</span><span class="en">Color Shrub · Contrast</span></div>
+</div>
+<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+<div style="font-size:2em">🌿</div>
+<div style="font-weight:600;margin-top:6px"><span class="zh">蕨类植物</span><span class="en">Fern</span></div>
+<div style="font-size:.85em;color:var(--dim)"><span class="zh">地被 · 耐阴</span><span class="en">Ground Cover · Shade</span></div>
+</div>
+</div>
+
+<div class="summary">
+<h3>🌸 <span class="zh">花园总结</span><span class="en">Garden Summary</span></h3>
+<p><span class="zh">
+<strong>4种新花 + 2棵大树 + 4种灌木</strong>，层次分明、色彩丰富。<br>
+粉红（杜鹃+月季）· 蓝紫（绣球+六倍利）· 紫粉（玉兰）· 深红（红枫+小檗）· 绿（黄杨+柏树+蕨类）<br><br>
+<strong>养护工作量：</strong>月季需要打药，其他基本浇浇水就行。整体 <strong>★★★★☆</strong> 省心指数！
+</span><span class="en">
+<strong>4 new flowers + 2 trees + 4 shrubs</strong>, well-layered with rich colors.<br>
+Pink (azalea + rose) · Blue-purple (hydrangea + lobelia) · Pink-purple (magnolia) · Deep red (maple + barberry) · Green (boxwood + cypress + fern)<br><br>
+<strong>Maintenance:</strong>Only the rose needs spraying. Everything else just needs watering. Overall ease: <strong>★★★★☆</strong>!
+</span></p>
+</div>
+
+<div class="footer">
+<p>☁️ <span class="zh">由 Sky 整理 · 基于实拍照片识别</span><span class="en">Organized by Sky · Based on photo identification</span></p>
+<p>2026-04-20 · <a href="index.html" style="color:var(--accent);text-decoration:none">← <span class="zh">返回首页</span><span class="en">Back to Home</span></a></p>
+</div>
+</div>
+<script>
+function setLang(l){document.body.className='lang-'+l;document.getElementById('btn-zh').className=l==='zh'?'active':'';document.getElementById('btn-en').className=l==='en'?'active':'';try{localStorage.setItem('garden-lang',l)}catch(e){}}
+try{var s=localStorage.getItem('garden-lang');if(s)setLang(s)}catch(e){}
+</script>
+</body>
+</html>
