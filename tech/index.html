@@ -1,123 +1,249 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>每日科技 — Sky Portal</title>
+<title>🔬 每日科技 Daily Tech — Sky Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f0f0f;color:#ccc;font-family:-apple-system,'Helvetica Neue','PingFang SC',sans-serif;line-height:1.7;padding:20px}
-.container{max-width:900px;margin:0 auto}
-h1{color:#f0a040;font-size:1.8em;text-align:center;margin:20px 0 6px}
-.subtitle{text-align:center;color:#888;font-size:0.9em;margin-bottom:28px}
-.card{display:block;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:18px 22px;margin-bottom:14px;text-decoration:none;color:#ccc;transition:all 0.25s}
-.card:hover{border-color:#f0a040;transform:translateY(-2px)}
-.card .date{color:#888;font-size:0.85em;margin-bottom:4px}
-.card h3{color:#fff;font-size:1.05em;margin-bottom:6px}
-.card p{color:#aaa;font-size:0.9em}
-.footer{text-align:center;margin-top:30px;padding:20px 0;border-top:1px solid #2a2a2a;color:#666;font-size:0.85em}
-.footer a{color:#f0a040;text-decoration:none}
-@media(max-width:768px){.container{padding:0 12px}}
+:root {
+  --bg: #0a0a0f;
+  --sidebar-bg: #0f0f18;
+  --content-bg: #0a0a0f;
+  --card: rgba(255,255,255,0.04);
+  --card-hover: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.08);
+  --text: #e0e0e8;
+  --text-dim: #6b6b80;
+  --accent: #f0a040;
+  --accent-glow: rgba(240,160,64,0.12);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans SC', -apple-system, sans-serif;
+  background: var(--bg); color: var(--text);
+  height: 100vh; overflow: hidden;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  height: 100vh;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.sidebar-header {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-header h1 {
+  font-size: 1.15em; font-weight: 700;
+  color: var(--accent);
+  display: flex; align-items: center; gap: 8px;
+}
+.sidebar-header .home-link {
+  font-size: 0.78em; color: var(--text-dim);
+  text-decoration: none; margin-top: 6px; display: block;
+}
+.sidebar-header .home-link:hover { color: var(--accent); }
+.sidebar-nav {
+  flex: 1; overflow-y: auto; padding: 12px 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+.month-group { margin-bottom: 4px; }
+.month-label {
+  font-size: 0.72em; font-weight: 600;
+  color: var(--text-dim); text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 20px 4px;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer; user-select: none;
+  display: flex; align-items: center; gap: 6px;
+}
+.month-label::before {
+  content: '▸'; font-size: 0.8em;
+  transition: transform 0.2s;
+}
+.month-group.open .month-label::before { transform: rotate(90deg); }
+.month-dates { display: none; }
+.month-group.open .month-dates { display: block; }
+.date-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 20px 8px 28px;
+  cursor: pointer; transition: all 0.15s;
+  border-left: 3px solid transparent;
+  font-size: 0.88em;
+}
+.date-item:hover { background: var(--card-hover); }
+.date-item.active {
+  background: var(--accent-glow);
+  border-left-color: var(--accent);
+  color: var(--accent); font-weight: 500;
+}
+.date-item .day {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1em; font-weight: 600;
+  width: 28px; text-align: center;
+}
+.date-item .weekday { font-size: 0.78em; color: var(--text-dim); }
+.date-item.active .weekday { color: var(--accent); opacity: 0.7; }
+.badge-new {
+  font-size: 0.6em; background: var(--accent);
+  color: #000; padding: 1px 5px; border-radius: 3px;
+  font-weight: 700; margin-left: auto;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+/* ── Content ── */
+.content-area { display: flex; flex-direction: column; overflow: hidden; }
+.content-toolbar {
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,0.02);
+}
+.content-toolbar .current-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9em; color: var(--accent); font-weight: 600;
+}
+.content-toolbar .nav-btn {
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--text-dim); padding: 4px 10px;
+  border-radius: 6px; cursor: pointer; font-size: 0.82em;
+  transition: all 0.15s;
+}
+.content-toolbar .nav-btn:hover { background: var(--card-hover); color: var(--text); }
+.content-toolbar .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.report-frame { flex: 1; border: none; width: 100%; background: var(--content-bg); }
+.empty-state {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: var(--text-dim); gap: 12px;
+}
+.empty-state .icon { font-size: 3em; opacity: 0.3; }
+
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .sidebar { height: auto; max-height: 45vh; border-right: none; border-bottom: 1px solid var(--border); }
+  .sidebar-nav { max-height: 35vh; }
+}
 </style>
 </head>
 <body>
-<div class="container">
-<h1>🔬 每日科技</h1>
-<div class="subtitle">Daily Tech · Sky Portal</div>
-
-<a class="card" href="tech-2026-04-28.html">
-<div class="date">2026-04-28 · 星期二</div>
-<h3>SRAM缓存瓶颈、台积电A13绕过High-NA EUV、长电科技TGV突破、量子纠错十亿分之一</h3>
-<p>📚 每日一课：SRAM缓存为什么缩不动了？ · 🔬 台积电A13工艺/京瓷多层陶瓷基板/长电TGV射频IPD/太赫兹芯片成像 · 📊 Omdia上调半导体预测至+62.7%/ASML跌3.63%/江波龙Q1暴增2644%/摩尔线程首盈利/A股芯片ETF新高 · ⚛️ 量子纠错10⁻⁸突破/容错时代来临/Cisco量子交换机/反物质波动行为</p>
-</a>
-
-<a class="card" href="tech-2026-04-27.html">
-<div class="date">2026-04-27 · 星期一</div>
-<h3>CoWoS先进封装、TSMC下一代路线图、Cerebras IPO、NVIDIA Ising量子模型</h3>
-<p>📚 每日一课：CoWoS先进封装 · 🔬 TSMC 14+ Reticle CoWoS路线图/Google TPU v8e用Intel EMIB/MicroLED RGB突破/石墨烯互连 · 📊 Cerebras IPO/摩尔线程首盈利/TEL商业间谍案/A股半导体大涨/Intel+Terafab · ⚛️ NVIDIA Ising量子模型/Cisco量子交换机/华尔街量子分歧/Project Eleven量子挑战</p>
-</a>
-
-<a class="card" href="tech-2026-04-26.html">
-<div class="date">2026-04-26 · 星期日</div>
-<h3>硅光子学、Caltech万量子比特突破、NVIDIA 5万亿市值、Samsung大罢工</h3>
-<p>📚 每日一课：硅光子学(Silicon Photonics) · 🔬 Caltech万量子比特/D-Wave超超算/QUBT光子平台 · 📊 NVIDIA破5万亿/Intel暴涨24%/Samsung罢工/HBM博弈 · ⚛️ Caltech突破/D-Wave Adv2/Grover算法边界</p>
-</a>
-
-<a class="card" href="tech-2026-04-25.html">
-<div class="date">2026-04-25 · 星期六</div>
-<h3>CXL互联协议、中国2D芯片1000倍生长、英特尔暴涨23%创纪录、量子破解ECC密钥</h3>
-<p>📚 每日一课：CXL(Compute Express Link) · 🔬 2D芯片1000倍加速/NEO 3D X-DRAM/NVIDIA Ising量子模型/光子Bell态突破 · 📊 英伟达重返5万亿+Intel暴涨23%/NVIDIA Feynman用Intel Foundry/TSMC TGV 2027量产/熊本效应 · ⚛️ 量子破解15-bit ECC赢1BTC/光子量子纠错突破</p>
-</a>
-
-<a class="card" href="tech-2026-04-24.html">
-<div class="date">2026-04-24 · 星期五</div>
-<h3>背面供电BSPDN、中国2D芯片1000倍提速、Intel财报超预期、Cisco量子交换机</h3>
-<p>📚 每日一课：Backside Power Delivery · 🔬 2D芯片突破 · 📊 Intel复苏+TSMC推迟High NA EUV · ⚛️ Quantinuum IPO</p>
-</a>
-
-<a class="card" href="tech-2026-04-23.html">
-<div class="date">2026-04-23 · 星期四</div>
-<h3>TSMC A13工艺、类脑芯片降能耗70%、Intel 14A首客特斯拉、IonQ容错路线</h3>
-<p>📚 每日一课：TSMC A13工艺 · 🔬 剑桥类脑芯片降能耗70%/TSMC A13发布/Google TPU v8 · 📊 TSMC Q1净利+58%/Intel 14A+特斯拉/九峰山化合物半导体 · ⚛️ IonQ容错路线/QUBT光子AI卡/量子SAT突破</p>
-</a>
-
-<a class="card" href="tech-2026-04-22.html">
-<div class="date">2026-04-22 · 星期三</div>
-<h3>背面供电BSPDN、Google新TPU、TSMC产能瓶颈、Pasqal量子路线</h3>
-<p>📚 每日一课：背面供电(BSPDN) · 🔬 Google新一代TPU/Siemens+TSMC AI设计/印度3D玻璃半导体 · 📊 TSMC产能短缺至2027/CPU涨价10%/Intel 18A受瞩目 · ⚛️ Pasqal 150领袖峰会/OVHcloud量子云/OrangeQS €15M融资</p>
-</a>
-
-<a class="card" href="tech-2026-04-21.html">
-<div class="date">2026-04-21 · 星期一</div>
-<h3>Chiplet架构、TSMC冲刺sub-1nm、Qualcomm三星2nm、IonQ光子互联</h3>
-<p>📚 每日一课：什么是Chiplet · 🔬 TSMC sub-1nm目标/Applied+Advantest合作/RoboSense LiDAR SoC · 📊 Qualcomm三星2nm/Marvell+Google AI芯片/TSMC AI占1/3 · ⚛️ IonQ光子互联/Sygaldry融资$139M/Pasqal年度大会/LLNL量子磁体</p>
-</a>
-
-<a class="card" href="tech-2026-04-20.html">
-<div class="date">2026-04-20 · 星期日</div>
-<h3>背面供电BSPDN、TSMC 1.4nm路线图、三星Taylor厂投产、IonQ暴涨60%</h3>
-<p>📚 每日一课：背面供电(BSPDN) · 🔬 TSMC 1.4nm 2028量产/三星Taylor厂/Marvell+Google · 📊 TSMC Q1 $359亿创纪录/封测产能竞赛/IDC Foundry+17% · ⚛️ IonQ暴涨60%/华盛顿投资/IBM量子医疗</p>
-</a>
-
-<a class="card" href="tech-2026-04-19.html">
-<div class="date">2026-04-19 · 星期六</div>
-<h3>CPO光电合封、印度3D封装厂、中国半导体三重共振、Google Willow开放</h3>
-<p>📚 每日一课：CPO光电合封 · 🔬 印度首座3D封装厂/CPO量产爆发/BofA上调TSMC · 📊 中国半导体三重共振/ASML EUV垄断 · ⚛️ Google Willow开放/IonQ DARPA合同/量子威胁比特币</p>
-</a>
-
-<a class="card" href="tech-2026-04-18.html">
-<div class="date">2026-04-18 · 星期六</div>
-<h3>统一内存UMA、VLSI TSA量子架构、AMD+6%、NVIDIA Ising量子模型</h3>
-<p>📚 每日一课：统一内存(UMA) · 🔬 VLSI TSA 2026/NVIDIA Ising开源 · 📊 AMD法国合作/欧洲AI芯片融资/游戏玩家裂痕 · ⚛️ 量子股票爆发/D-Wave ChatGPT时刻/DARPA混合量子</p>
-</a>
-
-<a class="card" href="tech-2026-04-17.html">
-<div class="date">2026-04-17 · 星期五</div>
-<h3>Chiplet架构、Nuvacore重塑CPU、TSMC利润暴增58%、NVIDIA Ising量子模型</h3>
-<p>📚 每日一课：什么是Chiplet · 🔬 Nuvacore AI-CPU/迪山2nm · 📊 TSMC创纪录+520亿capex · ⚛️ NVIDIA Ising开源/DARPA混合量子</p>
-</a>
-
-<a class="card" href="tech-2026-04-16.html">
-<div class="date">2026-04-16 · 星期四</div>
-<h3>GAA晶体管、TSMC 58%增长、ASML预测、量子AI挑战</h3>
-<p>📚 每日一课：Gate-All-Around晶体管 · 🔬 TSMC创纪录Q1业绩 · 📊 AI驱动产业扩张 · ⚛️ 全球量子AI挑战启动</p>
-</a>
-
-<a class="card" href="tech-2026-04-15.html">
-<div class="date">2026-04-15 · 周三</div>
-<h3>背面供电、2D芯片1000倍加速、ASML上调展望、NVIDIA量子纠错</h3>
-<p>📚 每日一课：Backside Power Delivery · 🔬 中国2D芯片突破 · 📊 ASML Q1超预期+EUV+25% · ⚛️ NVIDIA Ising量子模型</p>
-</a>
-
-<a class="card" href="tech-2026-04-14.html">
-<div class="date">2026-04-14 · 周二</div>
-<h3>Chiplet技术、3D芯片、HBM4E、量子加密突破</h3>
-<p>📚 每日一课：Chiplet是什么？ · 🔬 斯坦福3D芯片 · 📊 三星HBM4E与SK海力豪投资 · ⚛️ D-Wave量子技术突破</p>
-</a>
-
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>🔬 每日科技</h1>
+      <a class="home-link" href="../index.html">← 返回 Sky Portal</a>
+    </div>
+    <nav class="sidebar-nav" id="nav"></nav>
+  </aside>
+  <main class="content-area">
+    <div class="content-toolbar">
+      <button class="nav-btn" id="prevBtn" onclick="navigateDay(-1)">◀ 前一天</button>
+      <span class="current-date" id="currentDate">—</span>
+      <button class="nav-btn" id="nextBtn" onclick="navigateDay(1)">后一天 ▶</button>
+    </div>
+    <iframe class="report-frame" id="reportFrame"></iframe>
+    <div class="empty-state" id="emptyState" style="display:none">
+      <div class="icon">🔬</div>
+      <p>选择左侧日期查看科技日报</p>
+    </div>
+  </main>
 </div>
-<div class="footer">
-<p>☁️ Sky Portal · <a href="https://timememo8210.github.io/sky-portal/">返回主页</a></p>
-</div>
+
+<script>
+const REPORTS = [
+  '2026-04-28', '2026-04-27', '2026-04-26', '2026-04-25',
+  '2026-04-24', '2026-04-23', '2026-04-22', '2026-04-21',
+  '2026-04-20', '2026-04-19', '2026-04-18', '2026-04-17',
+  '2026-04-16', '2026-04-15', '2026-04-14'
+];
+
+const WEEKDAYS_ZH = ['日','一','二','三','四','五','六'];
+const MONTHS_ZH = ['','1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+let currentIndex = 0;
+
+function buildNav() {
+  const months = {};
+  REPORTS.forEach(d => {
+    const key = d.substring(0, 7);
+    if (!months[key]) months[key] = [];
+    months[key].push(d);
+  });
+
+  const nav = document.getElementById('nav');
+  nav.innerHTML = '';
+  const sortedMonths = Object.keys(months).sort().reverse();
+
+  sortedMonths.forEach((monthKey, mi) => {
+    const [y, m] = monthKey.split('-');
+    const group = document.createElement('div');
+    group.className = 'month-group' + (mi === 0 ? ' open' : '');
+
+    const label = document.createElement('div');
+    label.className = 'month-label';
+    label.textContent = `${y} 年 ${parseInt(m)} 月`;
+    label.onclick = () => group.classList.toggle('open');
+    group.appendChild(label);
+
+    const dates = document.createElement('div');
+    dates.className = 'month-dates';
+
+    months[monthKey].sort().reverse().forEach(dateStr => {
+      const dt = new Date(dateStr + 'T12:00:00');
+      const day = dt.getDate();
+      const wd = '周' + WEEKDAYS_ZH[dt.getDay()];
+      const isLatest = dateStr === REPORTS[0];
+      const idx = REPORTS.indexOf(dateStr);
+
+      const item = document.createElement('div');
+      item.className = 'date-item' + (idx === currentIndex ? ' active' : '');
+      item.dataset.index = idx;
+      item.innerHTML = `
+        <span class="day">${day}</span>
+        <span class="weekday">${wd}</span>
+        ${isLatest ? '<span class="badge-new">NEW</span>' : ''}
+      `;
+      item.onclick = () => loadReport(idx);
+      dates.appendChild(item);
+    });
+
+    group.appendChild(dates);
+    nav.appendChild(group);
+  });
+}
+
+function loadReport(index) {
+  if (index < 0 || index >= REPORTS.length) return;
+  currentIndex = index;
+  const dateStr = REPORTS[index];
+  document.getElementById('reportFrame').src = `tech-${dateStr}.html`;
+  document.getElementById('reportFrame').style.display = 'block';
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('currentDate').textContent = dateStr;
+  document.getElementById('prevBtn').disabled = (index === 0);
+  document.getElementById('nextBtn').disabled = (index === REPORTS.length - 1);
+  document.querySelectorAll('.date-item').forEach(el => {
+    el.classList.toggle('active', parseInt(el.dataset.index) === index);
+  });
+}
+
+function navigateDay(delta) { loadReport(currentIndex + delta); }
+
+// Init
+buildNav();
+loadReport(0);
+</script>
 </body>
 </html>
