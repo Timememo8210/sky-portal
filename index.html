@@ -143,7 +143,6 @@
   .badge-progress { background: rgba(251,146,60,0.15); color: var(--orange); }
   .badge-legal { background: rgba(248,113,113,0.15); color: var(--red); }
 
-  /* Non-link cards (no URL) */
   .card-nolink {
     cursor: default;
   }
@@ -197,15 +196,15 @@
   <p>晓波的数字空间 — 所有项目，一站入口</p>
   <div class="stats-bar">
     <div class="stat">
-      <div class="stat-num">10</div>
+      <div class="stat-num">11</div>
       <div class="stat-label">已发布网站</div>
     </div>
     <div class="stat">
-      <div class="stat-num">5</div>
+      <div class="stat-num">6</div>
       <div class="stat-label">进行中项目</div>
     </div>
     <div class="stat">
-      <div class="stat-num">43</div>
+      <div class="stat-num">74</div>
       <div class="stat-label">天 · 从2/15起</div>
     </div>
   </div>
@@ -222,179 +221,10 @@
       <div class="desc">个人知识库 · 按主题分类 · 持续更新 — 芒格误判心理学、职场策略、行业洞察等</div>
       <div class="meta">
         <span>11/∞ 条已完成</span>
-        <span class="badge badge-latest">进行中</span>
+        <span class="badge badge-latest">🆕 NEW</span>
       </div>
     </a>
   </div>
-
-  <!-- ====== Sky 技能 ====== -->
-  <div class="section-title"><span>🧩</span> Sky 技能全家福</div>
-  <div class="cards">
-    <a class="card" href="skills.html">
-      <div class="icon">☁️</div>
-      <div class="title">Sky 技能全家福</div>
-      <div class="desc">30+ 技能一览：沟通、操控、邮件、搜索、创作、自动化、记忆、进化 — 持续更新中</div>
-      <div class="badge" style="background:rgba(108,138,255,0.15);color:#6c8aff;">🆕 新页面</div>
-    </a>
-  </div>
-
-  <!-- ====== 个人 ====== -->
-    z-index: 1;
-  }
-  .stats-bar {
-    display: flex;
-    justify-content: center;
-    gap: 32px;
-    margin-top: 24px;
-    position: relative;
-    z-index: 1;
-  }
-  .stat {
-    text-align: center;
-  }
-  .stat-num {
-    font-size: 1.8em;
-    font-weight: 700;
-    color: var(--accent);
-  }
-  .stat-label {
-    font-size: 0.8em;
-    color: var(--text-dim);
-    margin-top: 2px;
-  }
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 20px 60px;
-  }
-  .section-title {
-    font-size: 1.3em;
-    font-weight: 600;
-    margin: 40px 0 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-  }
-  .card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    text-decoration: none;
-    color: var(--text);
-    transition: all 0.25s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    position: relative;
-    overflow: hidden;
-  }
-  .card:hover {
-    background: var(--card-hover);
-    border-color: var(--accent);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(108,138,255,0.1);
-  }
-  .card .icon { font-size: 2em; margin-bottom: 4px; }
-  .card .title { font-size: 1.15em; font-weight: 600; }
-  .card .desc { color: var(--text-dim); font-size: 0.9em; line-height: 1.5; }
-  .card .meta {
-    color: var(--text-dim);
-    font-size: 0.78em;
-    margin-top: auto;
-    padding-top: 8px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-size: 0.72em;
-    font-weight: 500;
-  }
-  .badge-latest { background: rgba(74,222,128,0.15); color: var(--green); }
-  .badge-active { background: rgba(34,211,238,0.15); color: var(--cyan); }
-  .badge-archive { background: rgba(136,136,160,0.15); color: var(--text-dim); }
-  .badge-progress { background: rgba(251,146,60,0.15); color: var(--orange); }
-  .badge-legal { background: rgba(248,113,113,0.15); color: var(--red); }
-
-  /* Non-link cards (no URL) */
-  .card-nolink {
-    cursor: default;
-  }
-  .card-nolink:hover {
-    transform: none;
-    border-color: var(--border);
-    box-shadow: none;
-  }
-
-  .timeline {
-    margin-top: 8px;
-    padding: 0;
-    list-style: none;
-  }
-  .timeline li {
-    padding: 5px 0;
-    font-size: 0.82em;
-    color: var(--text-dim);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-  }
-  .timeline li:last-child { border-bottom: none; }
-  .timeline a { color: var(--accent); text-decoration: none; }
-  .timeline a:hover { text-decoration: underline; }
-
-  .footer {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-dim);
-    font-size: 0.85em;
-    border-top: 1px solid var(--border);
-  }
-  .footer a { color: var(--accent); text-decoration: none; }
-  .footer a:hover { text-decoration: underline; }
-
-  @media (max-width: 640px) {
-    .hero h1 { font-size: 2em; }
-    .cards { grid-template-columns: 1fr; }
-    .hero { padding: 40px 20px 15px; }
-    .stats-bar { gap: 20px; }
-    .stat-num { font-size: 1.4em; }
-  }
-</style>
-</head>
-<body>
-
-<div class="hero">
-  <h1>☁️ Sky Portal</h1>
-  <p>晓波的数字空间 — 所有项目，一站入口</p>
-  <div class="stats-bar">
-    <div class="stat">
-      <div class="stat-num">10</div>
-      <div class="stat-label">已发布网站</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">5</div>
-      <div class="stat-label">进行中项目</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">42</div>
-      <div class="stat-label">天 · 从2/15起</div>
-    </div>
-  </div>
-</div>
-
-<div class="container">
 
   <!-- ====== Sky 技能 ====== -->
   <div class="section-title"><span>🧩</span> Sky 技能全家福</div>
@@ -630,7 +460,7 @@
   <p>☁️ Powered by Sky · Built with ❤️ for 晓波</p>
   <p style="margin-top:8px;">
     <a href="https://github.com/Timememo8210">GitHub</a> ·
-    最后更新 2026-03-29
+    最后更新 2026-04-29
   </p>
 </div>
 
