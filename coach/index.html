@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>私人教练 · Sky Portal</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-hover: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.08);
+    --text: #e8e8ed;
+    --text-dim: #8888a0;
+    --accent: #6c8aff;
+    --accent-glow: rgba(108,138,255,0.15);
+    --green: #4ade80;
+    --orange: #fb923c;
+    --pink: #f472b6;
+    --cyan: #22d3ee;
+    --purple: #a78bfa;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  .hero {
+    text-align: center;
+    padding: 60px 20px 20px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero h1 {
+    font-size: 2.8em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 1;
+  }
+  .hero p {
+    color: var(--text-dim);
+    font-size: 1.1em;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+  .section-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover {
+    background: var(--card-hover);
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(108,138,255,0.1);
+  }
+  .card .icon { font-size: 2em; margin-bottom: 4px; }
+  .card .title { font-size: 1.15em; font-weight: 600; }
+  .card .desc { color: var(--text-dim); font-size: 0.9em; line-height: 1.5; }
+  .card .meta {
+    color: var(--text-dim);
+    font-size: 0.78em;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.72em;
+    font-weight: 500;
+  }
+  .badge-latest { background: rgba(74,222,128,0.15); color: var(--green); }
+  .badge-active { background: rgba(34,211,238,0.15); color: var(--cyan); }
+  .badge-progress { background: rgba(251,146,60,0.15); color: var(--orange); }
+
+  .card-nolink {
+    cursor: default;
+  }
+  .card-nolink:hover {
+    transform: none;
+    border-color: var(--border);
+    box-shadow: none;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-dim);
+    font-size: 0.85em;
+    border-top: 1px solid var(--border);
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 2em; }
+    .cards { grid-template-columns: 1fr; }
+    .hero { padding: 40px 20px 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>📚 私人教练</h1>
+  <p>个人知识库 · 按主题分类 · 持续更新</p>
+</div>
+
+<div class="container">
+
+  <!-- ====== 芒格误判心理学 ====== -->
+  <div class="section-title"><span>🧠</span> 芒格误判心理学</div>
+  <div class="cards">
+    <a class="card" href="munger.html">
+      <div class="icon">⚖️</div>
+      <div class="title">芒格误判心理学 · 每日一课</div>
+      <div class="desc">从2026-04-11起，每天一条芒格误判心理学要点，共11条已完成。按日期排列，可展开查看完整内容。</div>
+      <div class="meta">
+        <span>11/∞ 条已完成</span>
+        <span class="badge badge-latest">进行中</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ====== 未来话题（预留） ====== -->
+  <div class="section-title"><span>📅</span> 其他话题</div>
+  <div class="cards">
+    <div class="card card-nolink">
+      <div class="icon">💼</div>
+      <div class="title">职场策略</div>
+      <div class="desc">行业洞察 · 职场沟通 · 决策框架</div>
+      <div class="meta">
+        <span>0/∞ 条已完成</span>
+        <span class="badge badge-progress">待开始</span>
+      </div>
+    </div>
+
+    <div class="card card-nolink">
+      <div class="icon">🌍</div>
+      <div class="title">行业洞察</div>
+      <div class="desc">半导体 · AI · 全球经济</div>
+      <div class="meta">
+        <span>0/∞ 条已完成</span>
+        <span class="badge badge-progress">待开始</span>
+      </div>
+    </div>
+
+    <div class="card card-nolink">
+      <div class="icon">🤝</div>
+      <div class="title">人际关系</div>
+      <div class="desc">沟通技巧 · 社交策略 · 合作原则</div>
+      <div class="meta">
+        <span>0/∞ 条已完成</span>
+        <span class="badge badge-progress">待开始</span>
+      </div>
+    </div>
+
+    <div class="card card-nolink">
+      <div class="icon">💡</div>
+      <div class="title">决策思维</div>
+      <div class="desc">理性决策 · 风险管理 · 机会识别</div>
+      <div class="meta">
+        <span>0/∞ 条已完成</span>
+        <span class="badge badge-progress">待开始</span>
+      </div>
+    </div>
+
+    <div class="card card-nolink">
+      <div class="icon">🎯</div>
+      <div class="title">目标达成</div>
+      <div class="desc">时间管理 · 习惯养成 · 行动力提升</div>
+      <div class="meta">
+        <span>0/∞ 条已完成</span>
+        <span class="badge badge-progress">待开始</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>📚 私人教练 · 个人知识库 · 持续积累</p>
+  <p style="margin-top:8px;">
+    <a href="..">← 返回 Sky Portal 主页</a>
+  </p>
+</div>
+
+</body>
+</html>

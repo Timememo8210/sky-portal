@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>芒格误判心理学 · 每日一课</title>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-hover: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.08);
+    --text: #e8e8ed;
+    --text-dim: #8888a0;
+    --accent: #6c8aff;
+    --accent-glow: rgba(108,138,255,0.15);
+    --green: #4ade80;
+    --orange: #fb923c;
+    --pink: #f472b6;
+    --cyan: #22d3ee;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  .hero {
+    text-align: center;
+    padding: 60px 20px 20px;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero h1 {
+    font-size: 2.2em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 1;
+  }
+  .hero p {
+    color: var(--text-dim);
+    font-size: 1.1em;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+  .progress-bar {
+    margin: 30px 0;
+    padding: 16px 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .progress-bar h3 {
+    font-size: 0.9em;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .progress-stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 12px;
+  }
+  .progress-stat {
+    text-align: center;
+  }
+  .progress-stat .num {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .progress-stat .label {
+    font-size: 0.8em;
+    color: var(--text-dim);
+  }
+  .lesson-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.25s ease;
+  }
+  .lesson-card:hover {
+    background: var(--card-hover);
+    border-color: var(--accent);
+  }
+  .lesson-header {
+    padding: 20px 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+  }
+  .lesson-number {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 40px;
+  }
+  .lesson-info {
+    flex: 1;
+  }
+  .lesson-title {
+    font-size: 1.15em;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .lesson-date {
+    font-size: 0.85em;
+    color: var(--text-dim);
+  }
+  .lesson-toggle {
+    font-size: 1.2em;
+    color: var(--text-dim);
+    transition: transform 0.3s ease;
+  }
+  .lesson-card.expanded .lesson-toggle {
+    transform: rotate(180deg);
+  }
+  .lesson-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    padding: 0 24px;
+  }
+  .lesson-card.expanded .lesson-content {
+    max-height: 2000px;
+    padding: 0 24px 24px;
+  }
+  .lesson-body {
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    margin-top: 16px;
+  }
+  .lesson-section {
+    margin-bottom: 16px;
+  }
+  .lesson-section h4 {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .lesson-section p {
+    font-size: 0.95em;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+  .lesson-section ul {
+    margin-left: 20px;
+    margin-bottom: 8px;
+  }
+  .lesson-section li {
+    font-size: 0.95em;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 4px;
+  }
+  .lesson-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8em;
+    font-weight: 500;
+    background: rgba(108,138,255,0.15);
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-dim);
+    font-size: 0.85em;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  .footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.8em; }
+    .lesson-header { padding: 16px 20px; }
+    .lesson-number { font-size: 1.3em; }
+    .lesson-title { font-size: 1.05em; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>⚖️ 芒格误判心理学 · 每日一课</h1>
+  <p>每天一条心理学要点，从2026-04-11起</p>
+</div>
+
+<div class="container">
+
+  <!-- 进度条 -->
+  <div class="progress-bar">
+    <h3>完成进度</h3>
+    <div class="progress-stats">
+      <div class="progress-stat">
+        <div class="num">11</div>
+        <div class="label">已完成</div>
+      </div>
+      <div class="progress-stat">
+        <div class="num">∞</div>
+        <div class="label">持续更新</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第1课 -->
+  <div class="lesson-card" data-lesson="1">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">01</div>
+      <div class="lesson-info">
+        <div class="lesson-title">奖励驱动的偏见</div>
+        <div class="lesson-date">2026-04-11</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">基本认知偏差</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>当个体获得的奖励与某行为直接相关时，大脑会产生强烈的偏向性，导致决策时过度依赖这些奖励信号。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>在股市中，因为最近盈利而过度自信，忽视风险</li>
+            <li>在工作中，为了绩效奖金而偏离长期目标</li>
+            <li>在投资中，因单笔交易获利而频繁交易</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>建立"奖励-行为分离"的意识框架</li>
+            <li>设定不以短期奖励为导向的长期目标</li>
+            <li>定期回顾决策过程，而非结果</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波经常因为"赚到了"而自信爆棚，这时候要警惕：这可能是奖励驱动偏见的触发。问问自己：如果这次结果是亏损，我会怎么做？如果答案不同，说明决策已经偏离理性。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第2课 -->
+  <div class="lesson-card" data-lesson="2">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">02</div>
+      <div class="lesson-info">
+        <div class="lesson-title">喜欢/热爱倾向</div>
+        <div class="lesson-date">2026-04-12</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">情感偏差</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>我们倾向于喜欢那些与我们自身相似、或者能够带来积极情感体验的人事物，并由此产生"光环效应"。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>盲目相信熟人推荐，忽视客观事实</li>
+            <li>对喜欢的人/公司过度容忍错误</li>
+            <li>因为情感偏好而忽略明显的风险信号</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>建立"事实优先"的决策框架</li>
+            <li>列出喜欢的人/事物清单，定期审视</li>
+            <li>用结构化工具评估决策，而非直觉</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波最近对某几个朋友/项目投入极大，这种情感偏好可能是"喜欢/热爱倾向"的体现。试着强迫自己用冷数据评估：如果这个人/项目现在出现严重问题，我会坚持投资吗？</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第3课 -->
+  <div class="lesson-card" data-lesson="3">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">03</div>
+      <div class="lesson-info">
+        <div class="lesson-title">讨厌/憎恨倾向</div>
+        <div class="lesson-date">2026-04-13</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">情感偏差</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>相反地，我们也会讨厌那些与我们不同、或者带来负面情感体验的人事物，并由此产生"偏见强化"。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>因为不喜欢某人的性格而忽视其观点</li>
+            <li>因为过往负面体验而对某个行业/公司产生系统性偏见</li>
+            <li>因为情感厌恶而拒绝学习某些领域</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>建立"观点来源，非观点本身"的判断标准</li>
+            <li>在重大决策前强制阅读反对意见</li>
+            <li>用结构化工具评估决策，而非直觉</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波对某个竞争对手/行业有强烈负面情绪，这可能影响你的投资决策。试着强迫自己列出这个对象的3个优点，再列出3个缺点。注意感受：哪个清单更长？</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第4课 -->
+  <div class="lesson-card" data-lesson="4">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">04</div>
+      <div class="lesson-info">
+        <div class="lesson-title">避免怀疑倾向</div>
+        <div class="lesson-date">2026-04-14</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">认知偏差</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>人类大脑天生厌恶不确定性和怀疑，因此会寻求确定性、简化信息，避免思考复杂问题。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>因为不知道答案而选择"假装知道"</li>
+            <li>依赖直觉而非分析，因为思考太累</li>
+            <li>因为害怕犯错而避免尝试新事物</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>建立"知道什么，不知道什么"的坦诚意识</li>
+            <li>把思考当作游戏而非负担</li>
+            <li>培养"不确定也无妨"的心理安全区</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波经常说"我不确定，但我觉得..."，这是避免怀疑倾向的表现。下次出现这种情况，强迫自己说："我不知道，让我查一下数据再回答。"这会建立更强的决策可信度。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第5课 -->
+  <div class="lesson-card" data-lesson="5">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">05</div>
+      <div class="lesson-info">
+        <div class="lesson-title">避免不一致倾向</div>
+        <div class="lesson-date">2026-04-15</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">认知偏差</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>人类讨厌不一致，已经做出的决策会持续影响后续决策，即使新证据表明应该改变。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>因为已经投入大量时间而拒绝止损</li>
+            <li>因为已经做出了某个选择而忽视其他选项</li>
+            <li>即使知道方向错误也继续前进</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>建立"决策-结果-复盘"的定期循环</li>
+            <li>设定明确的止损/止盈标准</li>
+            <li>在重大决策前写下所有可能的后果</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波经常因为"已经投了很多钱"而不肯放弃失败的项目。这是避免不一致倾向的典型表现。问自己：如果现在重新评估，我会选择继续还是退出？答案应该独立于历史投入。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第6课 -->
+  <div class="lesson-card" data-lesson="6">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">06</div>
+      <div class="lesson-info">
+        <div class="lesson-title">好奇心倾向</div>
+        <div class="lesson-date">2026-04-16</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">正面特质</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>好奇心是人类探索未知、学习新知识的核心驱动力，也是持续成长的基础。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>因为好奇心而学习新技能</li>
+            <li>因为好奇而阅读不同领域的书籍</li>
+            <li>因为好奇而与不同背景的人交流</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>每天固定时间专门用于好奇心的探索</li>
+            <li>记录"为什么"的问题列表</li>
+            <li>主动寻找与自己专业完全不同的领域</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波对AI/半导体领域有很强的好奇心，这是非常宝贵的特质。继续保持，但要注意不要让好奇心变成"什么都想学，什么都浅尝辄止"。问自己：我对哪个具体问题产生了最强烈的"为什么"？深入挖下去。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第7课 -->
+  <div class="lesson-card" data-lesson="7">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">07</div>
+      <div class="lesson-info">
+        <div class="lesson-title">康德式公平倾向</div>
+        <div class="lesson-date">2026-04-17</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">社会心理</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>人类天生希望公平，偏好可预期的、有规律的互动模式，并对不公平行为产生强烈反应。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>期待"投入-产出"的公平交换</li>
+            <li>对不劳而获产生强烈反感</li>
+            <li>在工作中要求公平的回报机制</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>建立明确的"公平标准"清单</li>
+            <li>在商业谈判中明确交换条件</li>
+            <li>定期评估自己的公平感是否被忽视</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波对"被公平对待"有强烈需求，这可能影响你的商业谈判。记住：商业的核心不是公平，而是"价值交换"。问自己：对方获得了什么价值？我获得了什么价值？如果双方都觉得公平，交易就成立。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第8课 -->
+  <div class="lesson-card" data-lesson="8">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">08</div>
+      <div class="lesson-info">
+        <div class="lesson-title">嫉妒倾向</div>
+        <div class="lesson-date">2026-04-18</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">社会心理</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>嫉妒是人类最强烈的负面情绪之一，会扭曲对现实的判断，导致非理性的决策行为。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>因为别人成功而自我贬低</li>
+            <li>因为别人的成就而拒绝承认自己的优势</li>
+            <li>因为嫉妒而疏远成功的朋友/同事</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>建立"自己的节奏"认知框架</li>
+            <li>把嫉妒转化为学习的动力</li>
+            <li>记录自己的成就清单，定期回顾</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波最近对某个朋友的成功产生强烈嫉妒情绪，这可能影响你们的关系。试着写一封信给这个朋友，承认他的成功，同时表达你的感受。然后烧掉这封信。这个仪式会帮助你释放嫉妒，并重建关系。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第9课 -->
+  <div class="lesson-card" data-lesson="9">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">09</div>
+      <div class="lesson-info">
+        <div class="lesson-title">回馈倾向</div>
+        <div class="lesson-date">2026-04-19</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">社会心理</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>人类天生有"回报他人善意"的倾向，即使对方并未明确表示需要回报。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>对陌生人的善意产生强烈的回报欲望</li>
+            <li>在工作中因为同事的帮助而产生责任感</li>
+            <li>在商业中因为对方的让步而做出让步</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>建立"回报阈值"标准，不盲目回报</li>
+            <li>区分"帮助"和"讨好"</li>
+            <li>在商业谈判中先让对方付出，再回报</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波经常因为别人的帮助而过度承诺，这是回馈倾向的表现。记住：帮助别人应该是出于善意，而非债务。下次有人帮你，先问自己：我愿意无条件帮助他吗？如果答案是否，不要承诺回报。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第10课 -->
+  <div class="lesson-card" data-lesson="10">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">10</div>
+      <div class="lesson-info">
+        <div class="lesson-title">受简单联想影响的倾向</div>
+        <div class="lesson-date">2026-04-20</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">认知偏差</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>因为两个事物在时间上或概念上接近，我们会错误地认为它们有因果关系。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>因为某事发生A，接着发生B，就认为A导致B</li>
+            <li>因为某个品牌声音很好听就认为产品好</li>
+            <li>因为某个名人推荐就盲目购买</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>建立"相关性不等于因果性"的意识</li>
+            <li>在判断因果关系前，询问"为什么"</li>
+            <li>用数据而非直觉验证假设</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波经常把"时间上接近"当作"因果关系"。比如"我刚做某个决定，接下来就发生了不好的事"。问自己：在这之前，同样的事件发生过吗？如果没有，很可能只是巧合。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 第11课 -->
+  <div class="lesson-card" data-lesson="11">
+    <div class="lesson-header" onclick="toggleLesson(this)">
+      <div class="lesson-number">11</div>
+      <div class="lesson-info">
+        <div class="lesson-title">简单的、避免痛苦的心理否认</div>
+        <div class="lesson-date">2026-04-21</div>
+      </div>
+      <div class="lesson-toggle">▼</div>
+    </div>
+    <div class="lesson-content">
+      <div class="lesson-body">
+        <span class="lesson-tag">深度心理</span>
+
+        <div class="lesson-section">
+          <h4>核心定义</h4>
+          <p>这是最危险的心理否认：即使面对明确的事实，也会通过"重新解释"来避免接受痛苦的真相。</p>
+        </div>
+
+        <div class="lesson-section">
+          <h4>实际表现</h4>
+          <ul>
+            <li>把失败解释为"外部因素"，而非自身问题</li>
+            <li>用"这次只是运气不好"来解释连续失败</li>
+            <li>对明显的警告信号视而不见</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>应对策略</h4>
+          <ul>
+            <li>建立"痛苦信号是数据，不是阻碍"的认知</li>
+            <li>定期进行"最坏情况"推演</li>
+            <li>在决策时强制列出所有可能的负面后果</li>
+          </ul>
+        </div>
+
+        <div class="lesson-section">
+          <h4>💡 晓波特别提示</h4>
+          <p>晓波最近经常用"中国背景天花板"来解释事业发展的停滞。这是典型的心理否认：用外部解释替代更痛苦的内部归因。试着问问自己：如果排除所有外部因素，我现在能做什么改变？这个问题的答案，往往比外部归因更有价值。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <div class="footer">
+    <p>从 2026-04-11 起，每天一条芒格误判心理学要点</p>
+    <p style="margin-top:8px;">
+      <a href="index.html">← 返回私人教练主页</a>
+    </p>
+  </div>
+
+</div>
+
+<script>
+function toggleLesson(header) {
+  const card = header.parentElement;
+  card.classList.toggle('expanded');
+}
+</script>
+
+</body>
+</html>
