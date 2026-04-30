@@ -179,21 +179,26 @@ footer{text-align:center;padding:1.6rem 1rem;color:var(--muted);font-size:.75rem
 }
 </style>
 </head>
-<body class="lang-zh">
+<body class="lang-en">
 <div id="gate">
   <div id="gate-box">
+    <div style="position:absolute;top:12px;right:12px;display:flex;gap:4px">
+      <button onclick="setGateLang('en')" style="padding:2px 8px;border:1px solid rgba(255,255,255,.2);border-radius:4px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);font-size:.7rem;cursor:pointer;font-family:inherit">EN</button>
+      <button onclick="setGateLang('zh')" style="padding:2px 8px;border:1px solid rgba(255,255,255,.2);border-radius:4px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);font-size:.7rem;cursor:pointer;font-family:inherit">中文</button>
+    </div>
     <h2>🔒 <span class="zh">访问验证</span><span class="en">Access Verification</span></h2>
     <p><span class="zh">请输入密码查看内容</span><span class="en">Enter password to view content</span></p>
     <input type="password" id="gate-input" placeholder="Password" autocomplete="off">
     <button id="gate-btn" onclick="checkGate()"><span class="zh">确认</span><span class="en">Confirm</span></button>
-    <div id="gate-err"></div>
+    <div id="gate-err" class="en"></div>
+    <div id="gate-err-zh" class="zh" style="color:var(--red);font-size:.78rem;margin-top:.6rem;min-height:1.2em"></div>
   </div>
 </div>
 
 <!-- Language Toggle -->
 <div class="lang-toggle">
-  <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
-  <button id="btn-en" onclick="setLang('en')">EN</button>
+  <button id="btn-zh" onclick="setLang('zh')">中文</button>
+  <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
 </div>
 
 <!-- Hamburger -->
@@ -664,11 +669,13 @@ footer{text-align:center;padding:1.6rem 1rem;color:var(--muted);font-size:.75rem
 // ── Language Switch ──
 function setLang(l){
   document.body.className='lang-'+l;
+  document.getElementById('gate-err').textContent='';
+  if(document.getElementById('gate-err-zh'))document.getElementById('gate-err-zh').textContent='';
   document.getElementById('btn-zh').className=l==='zh'?'active':'';
   document.getElementById('btn-en').className=l==='en'?'active':'';
   try{localStorage.setItem('sky-lang',l)}catch(e){}
 }
-try{var s=localStorage.getItem('sky-lang');if(s)setLang(s)}catch(e){}
+try{var s=localStorage.getItem('sky-lang');if(s)setLang(s);else setLang('en')}catch(e){}
 
 // ── Sidebar smooth scroll ──
 document.querySelectorAll('.sb-link').forEach(function(link){
@@ -718,10 +725,11 @@ function toggleSidebar(){
     const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v));
     const h=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
     if(h===PASS_HASH){sessionStorage.setItem('gate-ok','1');const g=document.getElementById('gate');g.classList.add('hide');setTimeout(()=>g.style.display='none',500)}
-    else{document.getElementById('gate-err').textContent='密码错误 / Wrong password';document.getElementById('gate-input').value='';document.getElementById('gate-input').focus()}
+    else{document.getElementById('gate-err').textContent='Wrong password';if(document.getElementById('gate-err-zh'))document.getElementById('gate-err-zh').textContent='密码错误';document.getElementById('gate-input').value='';document.getElementById('gate-input').focus()}
   };
   document.getElementById('gate-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkGate()});
   document.getElementById('gate-input').focus();
+  window.setGateLang=function(l){document.body.className='lang-'+l;document.getElementById('gate-input').focus()};
 })();
 </script>
 </body>
