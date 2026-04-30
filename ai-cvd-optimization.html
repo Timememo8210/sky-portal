@@ -7,6 +7,17 @@
 <title>AI赋能半导体设备优化 | AI-Powered Semiconductor Equipment Optimization</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+/* ── Password Gate ── */
+#gate{position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;background:var(--ink);transition:opacity .5s}
+#gate.hide{opacity:0;pointer-events:none}
+#gate-box{text-align:center;padding:2.5rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;backdrop-filter:blur(16px);max-width:380px;width:90%}
+#gate-box h2{font-family:'Noto Serif SC',serif;font-weight:700;color:#fff;font-size:1.2rem;margin-bottom:.4rem}
+#gate-box p{color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:1.4rem}
+#gate-input{width:100%;padding:10px 14px;border:1px solid rgba(255,255,255,.15);border-radius:8px;background:rgba(255,255,255,.06);color:#fff;font-size:.95rem;text-align:center;outline:none;font-family:inherit;transition:border .3s}
+#gate-input:focus{border-color:var(--accent)}
+#gate-btn{margin-top:1rem;width:100%;padding:10px;border:none;border-radius:8px;background:var(--gradient);color:#fff;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .3s}
+#gate-btn:hover{opacity:.85}
+#gate-err{color:var(--red);font-size:.78rem;margin-top:.6rem;min-height:1.2em}
 :root{--ink:#0a0f1a;--paper:#f5f3ee;--card:#fff;--accent:#0068b5;--accent2:#00a3e0;--green:#1a8754;--red:#d94040;--orange:#e87722;--purple:#6b4fa0;--muted:#6b7280;--border:#d6d3cc;--sidebar-w:240px;--shadow:0 2px 16px rgba(0,0,0,.06);--gradient:linear-gradient(135deg,#0068b5,#00a3e0)}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:20px}
@@ -169,6 +180,15 @@ footer{text-align:center;padding:1.6rem 1rem;color:var(--muted);font-size:.75rem
 </style>
 </head>
 <body class="lang-zh">
+<div id="gate">
+  <div id="gate-box">
+    <h2>🔒 <span class="zh">访问验证</span><span class="en">Access Verification</span></h2>
+    <p><span class="zh">请输入密码查看内容</span><span class="en">Enter password to view content</span></p>
+    <input type="password" id="gate-input" placeholder="Password" autocomplete="off">
+    <button id="gate-btn" onclick="checkGate()"><span class="zh">确认</span><span class="en">Confirm</span></button>
+    <div id="gate-err"></div>
+  </div>
+</div>
 
 <!-- Language Toggle -->
 <div class="lang-toggle">
@@ -687,6 +707,22 @@ function toggleSidebar(){
   document.getElementById('sidebarOverlay').classList.toggle('show');
   document.getElementById('hamburger').classList.toggle('open');
 }
+</script>
+<script>
+(function(){
+  // Password gate - SHA-256 of 'xiaobo'
+  const PASS_HASH='18d77a13c81e8a427cb57b6ab14960927accfb970c1a069e405a15b20d51db13';
+  if(sessionStorage.getItem('gate-ok')==='1'){document.getElementById('gate').style.display='none';return}
+  window.checkGate=async function(){
+    const v=document.getElementById('gate-input').value;
+    const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v));
+    const h=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    if(h===PASS_HASH){sessionStorage.setItem('gate-ok','1');const g=document.getElementById('gate');g.classList.add('hide');setTimeout(()=>g.style.display='none',500)}
+    else{document.getElementById('gate-err').textContent='密码错误 / Wrong password';document.getElementById('gate-input').value='';document.getElementById('gate-input').focus()}
+  };
+  document.getElementById('gate-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkGate()});
+  document.getElementById('gate-input').focus();
+})();
 </script>
 </body>
 </html>
