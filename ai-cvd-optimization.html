@@ -3,896 +3,281 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI赋能半导体CVD工艺优化 | AI-Empowered Semiconductor CVD Process Optimization</title>
+<title>AI赋能CVD工艺优化 | AI-Powered CVD Optimization</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0a0f1a;--paper:#f5f3ee;--card:#fffdf9;--accent:#0068b5;--accent2:#00a3e0;--green:#1a8754;--red:#d94040;--orange:#e87722;--purple:#6b4fa0;--muted:#6b7280;--border:#d6d3cc;--shadow:0 2px 16px rgba(0,0,0,.06);--gradient:linear-gradient(135deg,#0068b5,#00a3e0);--dark-bg:linear-gradient(135deg,#0a1628,#0d1f3c)}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--paper);color:var(--ink);line-height:1.75;overflow-x:hidden}
+:root{--ink:#0a0f1a;--paper:#f5f3ee;--card:#fff;--accent:#0068b5;--accent2:#00a3e0;--green:#1a8754;--red:#d94040;--orange:#e87722;--purple:#6b4fa0;--muted:#6b7280;--border:#d6d3cc;--shadow:0 2px 16px rgba(0,0,0,.06);--gradient:linear-gradient(135deg,#0068b5,#00a3e0)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--paper);color:var(--ink);line-height:1.75;overflow-x:hidden}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-
-/* === LANGUAGE === */
-body.lang-zh .en{display:none!important}
-body.lang-en .zh{display:none!important}
+body.lang-zh .en{display:none!important}body.lang-en .zh{display:none!important}
+.back-link{position:fixed;top:16px;left:16px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(10,15,26,.85);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:100px;color:rgba(255,255,255,.7);font-size:.8rem;transition:all .3s}.back-link:hover{background:rgba(0,104,181,.9);color:#fff;text-decoration:none}
 .lang-toggle{position:fixed;top:16px;right:16px;z-index:9999;display:flex;background:rgba(10,15,26,.85);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:100px;overflow:hidden}
-.lang-toggle button{padding:6px 14px;border:none;background:transparent;color:rgba(255,255,255,.5);font-size:.78rem;cursor:pointer;transition:all .25s;font-family:inherit}
-.lang-toggle button.active{background:var(--accent);color:#fff}
-
-/* === BACK LINK === */
-.back-link{position:fixed;top:16px;left:16px;z-index:9999;display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(10,15,26,.85);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:100px;color:rgba(255,255,255,.7);font-size:.8rem;transition:all .3s}
-.back-link:hover{background:rgba(0,104,181,.9);color:#fff;text-decoration:none}
-
-/* === HERO === */
-.hero{position:relative;min-height:60vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--ink)}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 50%,rgba(0,104,181,.22),transparent 60%),radial-gradient(ellipse at 75% 30%,rgba(0,163,224,.12),transparent 50%),repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,.015) 59px,rgba(255,255,255,.015) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,.015) 59px,rgba(255,255,255,.015) 60px);animation:gridPulse 8s ease-in-out infinite alternate}
-@keyframes gridPulse{0%{opacity:.5}100%{opacity:1}}
-.hero-content{position:relative;z-index:2;text-align:center;padding:3rem 2rem;max-width:900px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,104,181,.2);border:1px solid rgba(0,163,224,.3);padding:6px 18px;border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent2);letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;animation:fadeSlideUp .8s ease-out}
-.hero-badge .dot{width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(2rem,5.5vw,3.8rem);color:#fff;line-height:1.2;margin-bottom:1.2rem;animation:fadeSlideUp 1s ease-out .15s both}
-.hero h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{color:rgba(255,255,255,.55);font-size:1.05rem;font-weight:300;max-width:640px;margin:0 auto;animation:fadeSlideUp 1s ease-out .3s both}
-@keyframes fadeSlideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-
-/* === TICKER === */
-.ticker-wrap{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);overflow:hidden;padding:12px 0}
-.ticker{display:flex;white-space:nowrap;animation:scroll 35s linear infinite;gap:3rem}
-.ticker span{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:rgba(255,255,255,.35);letter-spacing:.05em}
-.ticker .up{color:var(--green)}.ticker .tag{color:var(--accent2)}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* === MAIN === */
-.main{max-width:1100px;margin:0 auto;padding:3rem 1.5rem 4rem}
-
-/* === EXEC SUMMARY === */
-.exec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin:2rem 0}
-.exec-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:all .3s;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-.exec-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.1)}
-.exec-card .ec-icon{font-size:2rem;margin-bottom:.6rem;display:block}
-.exec-card .ec-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:.95rem;margin-bottom:.5rem;color:var(--ink)}
-.exec-card .ec-body{font-size:.85rem;color:#4a4a4a;line-height:1.7}
-.exec-card .ec-body strong{color:var(--accent)}
-.exec-card.ec-problem{border-top:3px solid var(--red)}
-.exec-card.ec-insight{border-top:3px solid var(--orange)}
-.exec-card.ec-ref{border-top:3px solid var(--accent)}
-.exec-card.ec-plan{border-top:3px solid var(--green)}
-.exec-card.ec-cost{border-top:3px solid var(--purple)}
-.exec-card.ec-bottleneck{border-top:3px solid var(--muted)}
-
-/* === SECTION HEAD === */
-.section-head{display:flex;align-items:center;gap:1rem;margin:3.5rem 0 1.8rem;padding-bottom:.8rem;border-bottom:2px solid var(--ink)}
-.section-num{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--accent);background:rgba(0,104,181,.08);padding:4px 10px;border-radius:4px;letter-spacing:.1em}
-.section-head h2{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.5rem;flex:1}
-
-/* === CARD === */
-.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem 1.8rem;margin-bottom:1rem;transition:all .3s;position:relative;overflow:hidden;box-shadow:var(--shadow)}
-.card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gradient);opacity:0;transition:opacity .3s}
-.card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.1);border-color:var(--accent)}
-.card:hover::before{opacity:1}
-.card h3{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.05rem;margin-bottom:.6rem;line-height:1.5}
-.card p,.card li{color:#4a4a4a;font-size:.9rem;line-height:1.8}
-.card ul{padding-left:1.2rem}
-
-.card-highlight{background:var(--dark-bg);color:#fff;border-color:rgba(0,104,181,.3)}
-.card-highlight::before{opacity:1}
-.card-highlight h3{color:#fff}
-.card-highlight p,.card-highlight li{color:rgba(255,255,255,.75)}
-
-.card-meta{display:flex;align-items:center;gap:.8rem;margin-bottom:.6rem;flex-wrap:wrap}
-.card-date{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted)}
-.card-tag{font-size:.68rem;padding:2px 8px;border-radius:4px;font-weight:500;letter-spacing:.04em}
-.tag-industry{background:rgba(0,104,181,.1);color:var(--accent)}
-.tag-tech{background:rgba(26,135,84,.1);color:var(--green)}
-.tag-data{background:rgba(232,119,34,.1);color:var(--orange)}
-.tag-ai{background:rgba(107,79,160,.1);color:var(--purple)}
-
-/* === STATS === */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin:1.5rem 0}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.4rem;text-align:center;box-shadow:var(--shadow);transition:transform .2s}
-.stat-card:hover{transform:translateY(-2px)}
-.stat-num{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.stat-label{font-size:.82rem;color:var(--muted);margin-top:4px}
-
-/* === TABLE === */
-.table-wrap{overflow-x:auto;margin:1rem 0;border-radius:10px;border:1px solid var(--border);background:var(--card)}
-table{width:100%;border-collapse:collapse;font-size:.85rem}
-thead{background:rgba(0,104,181,.06)}
-th{text-align:left;padding:12px 14px;font-weight:600;border-bottom:2px solid var(--border);white-space:nowrap}
-td{padding:10px 14px;border-bottom:1px solid var(--border);color:#4a4a4a}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(0,104,181,.03)}
-
-/* === FLOW === */
-.flow-container{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin:1.5rem 0;justify-content:center}
-.flow-step{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.2rem;text-align:center;min-width:110px;box-shadow:var(--shadow)}
-.flow-step .icon{font-size:1.5rem;margin-bottom:4px}
-.flow-step .label{font-size:.78rem;font-weight:600}
-.flow-step .desc{font-size:.7rem;color:var(--muted);margin-top:2px}
-.flow-arrow{font-size:1.2rem;color:var(--accent);flex-shrink:0}
-
-/* === PHASE BOX === */
-.phase-box{border-left:4px solid var(--accent);background:var(--card);border-radius:0 10px 10px 0;padding:1.4rem 1.6rem;margin-bottom:1rem;box-shadow:var(--shadow)}
-.phase-box h4{font-size:.95rem;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.phase-box p,.phase-box li{font-size:.85rem;color:#4a4a4a}
-.phase-box ul{padding-left:1.2rem;margin-top:6px}
-.phase-green{border-left-color:var(--green)}
-.phase-blue{border-left-color:var(--accent)}
-.phase-purple{border-left-color:var(--purple)}
-
-/* === BADGE === */
-.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:600}
-.badge-green{background:rgba(26,135,84,.12);color:var(--green)}
-.badge-red{background:rgba(217,64,64,.12);color:var(--red)}
-.badge-orange{background:rgba(232,119,34,.12);color:var(--orange)}
-.badge-blue{background:rgba(0,104,181,.12);color:var(--accent)}
-.badge-purple{background:rgba(107,79,160,.12);color:var(--purple)}
-
-/* === CONCLUSION === */
-.conclusion-box{background:linear-gradient(135deg,rgba(0,104,181,.06),rgba(0,163,224,.04));border:2px solid rgba(0,104,181,.15);border-radius:12px;padding:2rem;margin:2rem 0}
-.conclusion-box h3{font-family:'Noto Serif SC',serif;font-size:1.2rem;margin-bottom:1rem}
-
-/* === TIMELINE === */
-.timeline{position:relative;padding-left:2rem;margin:1.5rem 0}
-.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--gradient)}
-.timeline-item{position:relative;margin-bottom:1.5rem;padding-left:1.2rem}
-.timeline-item::before{content:'';position:absolute;left:-2rem;top:6px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--paper);z-index:1}
-.timeline-item.done::before{background:var(--green)}
-.timeline-item.current::before{background:var(--orange);animation:blink 1.5s infinite}
-.timeline-item h4{font-size:.9rem;margin-bottom:2px}
-.timeline-item p{font-size:.82rem;color:var(--muted)}
-
-/* === COST === */
-.cost-highlight{background:rgba(0,104,181,.04);border:1px solid rgba(0,104,181,.12);border-radius:10px;padding:1.2rem;margin:1rem 0}
-.cost-highlight strong{color:var(--accent)}
-
-/* === SVG CHARTS === */
-.chart-container{margin:1.5rem 0;padding:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow)}
-.chart-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:.95rem;margin-bottom:1rem}
-
-/* === VALUE CHAIN (SVG) === */
-.value-chain{margin:1.5rem 0;padding:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow)}
-.value-chain .chain-title{font-family:'Noto Serif SC',serif;font-weight:700;font-size:.95rem;margin-bottom:1rem}
-
-/* === FOOTER === */
-footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border);margin-top:3rem}
-
-/* === RESPONSIVE === */
-@media(max-width:768px){.stats-grid{grid-template-columns:1fr 1fr}.exec-grid{grid-template-columns:1fr}.flow-container{flex-direction:column}.flow-arrow{transform:rotate(90deg)}.hero h1{font-size:1.6rem}.section-head h2{font-size:1.2rem}}
-@media(max-width:480px){.stats-grid{grid-template-columns:1fr}table{font-size:.75rem}th,td{padding:8px 10px}}
+.lang-toggle button{padding:6px 14px;border:none;background:transparent;color:rgba(255,255,255,.5);font-size:.78rem;cursor:pointer;transition:all .25s;font-family:inherit}.lang-toggle button.active{background:var(--accent);color:#fff}
+.hero{position:relative;min-height:50vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--ink)}.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(0,104,181,.2),transparent 60%),radial-gradient(ellipse at 70% 30%,rgba(0,163,224,.12),transparent 50%);animation:gp 8s ease-in-out infinite alternate}@keyframes gp{0%{opacity:.6}100%{opacity:1}}
+.hero-content{position:relative;z-index:2;text-align:center;padding:3rem 2rem;max-width:860px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,104,181,.2);border:1px solid rgba(0,163,224,.3);padding:6px 18px;border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--accent2);letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem;animation:fsu .8s ease-out}.hero-badge .dot{width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:bl 2s infinite}@keyframes bl{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(1.8rem,5vw,3.2rem);color:#fff;line-height:1.2;margin-bottom:1rem;animation:fsu 1s ease-out .15s both}.hero h1 span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:rgba(255,255,255,.55);font-size:1rem;font-weight:300;max-width:640px;margin:0 auto;animation:fsu 1s ease-out .3s both}@keyframes fsu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.ticker-wrap{background:var(--ink);border-top:1px solid rgba(255,255,255,.08);overflow:hidden;padding:10px 0}.ticker{display:flex;white-space:nowrap;animation:sc 35s linear infinite;gap:2.5rem}.ticker span{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:rgba(255,255,255,.35)}.ticker .up{color:var(--green)}.ticker .tg{color:var(--accent2)}@keyframes sc{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.main{max-width:1080px;margin:0 auto;padding:2.5rem 1.5rem 3rem}
+.exec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:2rem 0}
+.exec-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.4rem;box-shadow:var(--shadow);border-top:4px solid var(--accent);transition:transform .2s}.exec-card:hover{transform:translateY(-3px)}.exec-card.green{border-top-color:var(--green)}.exec-card.orange{border-top-color:var(--orange)}.exec-card.purple{border-top-color:var(--purple)}.exec-card .ec-icon{font-size:1.8rem;margin-bottom:.5rem}.exec-card h4{font-size:.92rem;margin-bottom:.4rem}.exec-card p{font-size:.82rem;color:var(--muted);line-height:1.7}.exec-card strong{color:var(--ink)}
+.section-head{display:flex;align-items:center;gap:1rem;margin:3rem 0 1.5rem;padding-bottom:.7rem;border-bottom:2px solid var(--ink)}.section-head:first-child{margin-top:0}.section-num{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--accent);background:rgba(0,104,181,.08);padding:4px 10px;border-radius:4px;letter-spacing:.1em}.section-head h2{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.4rem;flex:1}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.4rem 1.6rem;margin-bottom:1rem;transition:all .3s;position:relative;overflow:hidden;box-shadow:var(--shadow)}.card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gradient);opacity:0;transition:opacity .3s}.card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.1);border-color:var(--accent)}.card:hover::before{opacity:1}.card h3{font-family:'Noto Serif SC',serif;font-weight:700;font-size:1.02rem;margin-bottom:.5rem;line-height:1.5}.card p,.card li{color:#4a4a4a;font-size:.88rem;line-height:1.8}.card ul{padding-left:1.2rem}
+.card-hl{background:linear-gradient(135deg,#0a1628,#0d1f3c);color:#fff;border-color:rgba(0,104,181,.3)}.card-hl::before{opacity:1}.card-hl h3{color:#fff}.card-hl p,.card-hl li{color:rgba(255,255,255,.75)}
+.tw{overflow-x:auto;margin:.8rem 0;border-radius:10px;border:1px solid var(--border);background:var(--card)}table{width:100%;border-collapse:collapse;font-size:.82rem}thead{background:rgba(0,104,181,.06)}th{text-align:left;padding:10px 12px;font-weight:600;border-bottom:2px solid var(--border);white-space:nowrap}td{padding:9px 12px;border-bottom:1px solid var(--border);color:#4a4a4a}tr:last-child td{border-bottom:none}tr:hover td{background:rgba(0,104,181,.03)}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem;margin:1.2rem 0}.sc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;text-align:center;box-shadow:var(--shadow);transition:transform .2s}.sc:hover{transform:translateY(-2px)}.sn{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.sl{font-size:.78rem;color:var(--muted);margin-top:3px}
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:.4rem;margin:1.2rem 0;justify-content:center}.fs{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.8rem 1rem;text-align:center;min-width:100px;box-shadow:var(--shadow)}.fs .fi{font-size:1.3rem;margin-bottom:3px}.fs .fl{font-size:.75rem;font-weight:600}.fs .fd{font-size:.68rem;color:var(--muted);margin-top:2px}.fa{font-size:1.1rem;color:var(--accent);flex-shrink:0}
+.pb{border-left:4px solid var(--accent);background:var(--card);border-radius:0 10px 10px 0;padding:1.2rem 1.4rem;margin-bottom:.8rem;box-shadow:var(--shadow)}.pb h4{font-size:.9rem;margin-bottom:4px}.pb p{font-size:.82rem;color:#4a4a4a}.po{border-left-color:var(--orange)}.pp{border-left-color:var(--purple)}
+.badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:.7rem;font-weight:600}.bg{background:rgba(26,135,84,.12);color:var(--green)}.br{background:rgba(217,64,64,.12);color:var(--red)}.bo{background:rgba(232,119,34,.12);color:var(--orange)}.bbl{background:rgba(0,104,181,.12);color:var(--accent)}
+.cb{background:linear-gradient(135deg,rgba(0,104,181,.06),rgba(0,163,224,.04));border:2px solid rgba(0,104,181,.15);border-radius:12px;padding:1.8rem;margin:1.5rem 0}.cb h3{font-family:'Noto Serif SC',serif;font-size:1.15rem;margin-bottom:.8rem}
+.tl{position:relative;padding-left:1.8rem;margin:1.2rem 0}.tl::before{content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--gradient)}.ti{position:relative;margin-bottom:1.2rem;padding-left:1rem}.ti::before{content:'';position:absolute;left:-1.8rem;top:5px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--paper);z-index:1}.ti.done::before{background:var(--green)}.ti h4{font-size:.85rem;margin-bottom:2px}.ti p{font-size:.78rem;color:var(--muted)}
+.ch{background:rgba(0,104,181,.04);border:1px solid rgba(0,104,181,.12);border-radius:10px;padding:1rem;margin:.8rem 0}.ch strong{color:var(--accent)}
+.vs-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1rem 0}.vs-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;box-shadow:var(--shadow)}.vs-card h4{font-size:.88rem;margin-bottom:.5rem;display:flex;align-items:center;gap:6px}.vs-card ul{font-size:.8rem;color:#4a4a4a;padding-left:1rem;line-height:1.7}
+footer{text-align:center;padding:1.8rem 1rem;color:var(--muted);font-size:.78rem;border-top:1px solid var(--border);margin-top:2rem}
+@media(max-width:768px){.sg{grid-template-columns:1fr 1fr}.flow{flex-direction:column}.fa{transform:rotate(90deg)}.hero h1{font-size:1.5rem}.section-head h2{font-size:1.15rem}.vs-grid{grid-template-columns:1fr}.exec-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.sg{grid-template-columns:1fr}table{font-size:.72rem}th,td{padding:7px 8px}.exec-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body class="lang-zh">
-
-<!-- LANGUAGE TOGGLE -->
-<div class="lang-toggle">
-  <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
-  <button id="btn-en" onclick="setLang('en')">EN</button>
-</div>
-
-<!-- BACK LINK -->
 <a href="index.html" class="back-link">← Sky Portal</a>
-
-<!-- ==================== HERO ==================== -->
+<div class="lang-toggle"><button id="btn-zh" class="active" onclick="setLang('zh')">中文</button><button id="btn-en" onclick="setLang('en')">EN</button></div>
 <section class="hero"><div class="hero-content">
-<div class="hero-badge"><span class="dot"></span> STRATEGIC PROPOSAL · 2026</div>
-<h1><span class="zh">AI赋能半导体<span>CVD工艺优化</span><br>落地方案</span><span class="en">AI-Empowered Semiconductor<br><span>CVD Process Optimization</span></span></h1>
-<p class="hero-sub"><span class="zh">基于AI大数据分析的CVD制程参数优化、缺陷模式识别与良率提升解决方案<br>面向中国半导体薄膜沉积设备厂商的实战路径</span><span class="en">AI-driven CVD process parameter optimization, defect pattern recognition &amp; yield enhancement<br>A practical roadmap for Chinese semiconductor thin-film deposition equipment manufacturers</span></p>
+<div class="hero-badge"><span class="dot"></span> STRATEGIC PROPOSAL · 2026.04</div>
+<h1><span class="zh">AI赋能半导体</span><span class="en">AI-Empowered Semiconductor</span> <span><span class="zh">CVD工艺优化</span><span class="en">CVD Optimization</span></span><br><span class="zh">落地方案</span><span class="en">Implementation Proposal</span></h1>
+<p class="hero-sub"><span class="zh">基于AI大数据分析的CVD制程参数优化、缺陷模式识别与良率提升 · 面向中国半导体薄膜沉积设备厂商</span><span class="en">AI-driven CVD process optimization, defect pattern recognition & yield improvement · For Chinese thin-film deposition equipment vendors</span></p>
 </div></section>
 
-<!-- ==================== TICKER ==================== -->
 <div class="ticker-wrap"><div class="ticker">
-<span>2025 全球半导体 $792B <span class="up">▲25.6%</span></span><span class="tag">|</span>
-<span><span class="zh">AI缺陷检测准确率</span><span class="en">AI defect detection accuracy</span> <span class="up">>99%</span></span><span class="tag">|</span>
-<span><span class="zh">虚拟量测减少物理量测</span><span class="en">Virtual metrology reduces physical measurement</span> <span class="up">50-70%</span></span><span class="tag">|</span>
-<span><span class="zh">AI加速良率爬坡</span><span class="en">AI accelerates yield ramp</span> <span class="up">20-30%</span></span><span class="tag">|</span>
-<span>Lam Fabtex™ Yield Optimizer 2025</span><span class="tag">|</span>
-<span><span class="zh">国产CVD设备国产化率</span><span class="en">Domestic CVD equipment share</span> <span class="up">&lt;25%</span></span><span class="tag">|</span>
-<span>2026.04 <span class="zh">华虹半导体禁运</span><span class="en">Hua Hong export restriction</span></span><span class="tag">|</span>
-<span>SEMI: <span class="zh">AI投资年增速</span><span class="en">AI investment YoY growth</span> <span class="up">>25%</span></span><span class="tag">|</span>
-<span>2025 全球半导体 $792B <span class="up">▲25.6%</span></span><span class="tag">|</span>
-<span><span class="zh">AI缺陷检测准确率</span><span class="en">AI defect detection accuracy</span> <span class="up">>99%</span></span><span class="tag">|</span>
-<span><span class="zh">虚拟量测减少物理量测</span><span class="en">Virtual metrology reduces physical measurement</span> <span class="up">50-70%</span></span><span class="tag">|</span>
-<span><span class="zh">AI加速良率爬坡</span><span class="en">AI accelerates yield ramp</span> <span class="up">20-30%</span></span><span class="tag">|</span>
-<span>Lam Fabtex™ Yield Optimizer 2025</span><span class="tag">|</span>
-<span><span class="zh">国产CVD设备国产化率</span><span class="en">Domestic CVD equipment share</span> <span class="up">&lt;25%</span></span><span class="tag">|</span>
-<span>2026.04 <span class="zh">华虹半导体禁运</span><span class="en">Hua Hong export restriction</span></span><span class="tag">|</span>
-<span>SEMI: <span class="zh">AI投资年增速</span><span class="en">AI investment YoY growth</span> <span class="up">>25%</span></span>
+<span>2025 Semi $792B <span class="up">▲25.6%</span></span><span class="tg">|</span><span>AI Defect <span class="up">>99%</span></span><span class="tg">|</span><span>VM <span class="up">50-70%</span></span><span class="tg">|</span><span>Lam Fabtex™ 2025</span><span class="tg">|</span><span>AMAT AIx <span class="up">+30%</span></span><span class="tg">|</span><span><span class="zh">华虹禁运 2026.04</span><span class="en">Hua Hong Ban</span></span><span class="tg">|</span><span><span class="zh">江丰电子¥46亿</span><span class="en">Jiangfeng ¥4.6B</span></span><span class="tg">|</span>
+<span>2025 Semi $792B <span class="up">▲25.6%</span></span><span class="tg">|</span><span>AI Defect <span class="up">>99%</span></span><span class="tg">|</span><span>VM <span class="up">50-70%</span></span><span class="tg">|</span><span>Lam Fabtex™ 2025</span><span class="tg">|</span><span>AMAT AIx <span class="up">+30%</span></span><span class="tg">|</span><span><span class="zh">华虹禁运 2026.04</span><span class="en">Hua Hong Ban</span></span><span class="tg">|</span><span><span class="zh">江丰电子¥46亿</span><span class="en">Jiangfeng ¥4.6B</span></span><span class="tg">|</span>
 </div></div>
 
-<!-- ==================== MAIN ==================== -->
 <div class="main">
 
-<!-- ===== SECTION 0: EXECUTIVE SUMMARY ===== -->
-<div class="section-head"><span class="section-num">00</span><h2><span class="zh">执行摘要</span><span class="en">Executive Summary</span></h2></div>
-
+<!-- EXECUTIVE SUMMARY -->
+<div class="section-head"><span class="section-num">00</span><h2><span class="zh">概览 Executive Summary</span><span class="en">Executive Summary</span></h2></div>
 <div class="exec-grid">
-<div class="exec-card ec-problem">
-  <span class="ec-icon">🔴</span>
-  <div class="ec-title"><span class="zh">核心问题</span><span class="en">Core Problem</span></div>
-  <div class="ec-body"><span class="zh">中国CVD设备厂商在<strong>variation（均匀性）、yield（良率）、particle（颗粒缺陷）</strong>上落后于国际竞争对手，但<strong>无法定位根因</strong>——"知道差，不知道为什么差"</span><span class="en">Chinese CVD equipment makers lag behind global peers (AMAT/Lam/TEL) in <strong>uniformity, yield, and particle defects</strong>, yet <strong>cannot identify root causes</strong> — "we know we're behind, but not why"</span></div>
+<div class="exec-card"><div class="ec-icon">🔴</div><h4><span class="zh">核心问题</span><span class="en">Core Problem</span></h4><p><span class="zh">中国CVD厂商在<strong>variation/yield/particle</strong>落后国际水平，无法定位根因，反馈回路慢</span><span class="en">Chinese CVD vendors lag in <strong>variation/yield/particle</strong>, cannot identify root causes, slow feedback loops</span></p></div>
+<div class="exec-card green"><div class="ec-icon">💡</div><h4><span class="zh">关键洞察</span><span class="en">Key Insight</span></h4><p><span class="zh">AI可发现<strong>Hidden Factors</strong>，VM替代<strong>50-70%</strong>物理量测。Lam/AMAT已验证路径。<strong>2026.04华虹禁运</strong>使国产替代加速</span><span class="en">AI discovers <strong>Hidden Factors</strong>, VM replaces <strong>50-70%</strong> physical metrology. Lam/AMAT proven. <strong>Apr 2026 Hua Hong ban</strong> accelerates domestic substitution</span></p></div>
+<div class="exec-card orange"><div class="ec-icon">🏗️</div><h4><span class="zh">我们的方案</span><span class="en">Our Approach</span></h4><p><span class="zh"><strong>4步走</strong>：①全参数AI分析 ②VM+实时闭环 ③缺陷知识库 ④配方优化。对标Lam Fabtex/AMAT AIx</span><span class="en"><strong>4 steps</strong>: ①Full AI analysis ②VM+feedback ③Defect KB ④Recipe optimization. Benchmarked vs Lam/AMAT</span></p></div>
+<div class="exec-card purple"><div class="ec-icon">🚀</div><h4><span class="zh">启动资源</span><span class="en">Launch Resources</span></h4><p><span class="zh"><strong>最小</strong>：3人+¥30万 · <strong>全程</strong>：¥85-200万/6-8月 · <strong>关键瓶颈</strong>：数据接口打通</span><span class="en"><strong>Min</strong>: 3 people+¥300K · <strong>Full</strong>: ¥850K-2M/6-8mo · <strong>Key bottleneck</strong>: Data interface integration</span></p></div>
 </div>
-<div class="exec-card ec-insight">
-  <span class="ec-icon">💡</span>
-  <div class="ec-title"><span class="zh">关键洞察</span><span class="en">Key Insights</span></div>
-  <div class="ec-body"><span class="zh">• AI可通过<strong>全参数采集+相关性分析</strong>发现Hidden Factors<br>• <strong>虚拟量测</strong>可实现<strong>50-70%</strong>物理量测替代<br>• 行业已有<strong>Lam Fabtex</strong>/<strong>AMAT AIx</strong>等成熟方案验证可行</span><span class="en">• AI can discover <strong>hidden factors</strong> via full-parameter correlation analysis<br>• <strong>Virtual metrology</strong> can replace <strong>50-70%</strong> of physical measurements<br>• Proven by <strong>Lam Fabtex</strong> &amp; <strong>AMAT AIx</strong> — mature industry solutions exist</span></div>
+<div class="ch"><strong><span class="zh">⚡ 立即可做：选1台CVD设备→导出3月FDC数据→XGBoost+SHAP→3天发现第一个Hidden Factor</span><span class="en">⚡ Start now: Pick 1 CVD tool → export 3mo FDC data → XGBoost+SHAP → discover first Hidden Factor in 3 days</span></strong></div>
+
+<!-- 01 -->
+<div class="section-head"><span class="section-num">01</span><h2><span class="zh">行业背景</span><span class="en">Industry Background</span></h2></div>
+<div class="sg">
+<div class="sc"><div class="sn">$792B</div><div class="sl"><span class="zh">2025全球半导体</span><span class="en">2025 Global Semi</span></div></div>
+<div class="sc"><div class="sn">42%</div><div class="sl"><span class="zh">NAND设备增速</span><span class="en">NAND Capex Growth</span></div></div>
+<div class="sc"><div class="sn">>99%</div><div class="sl"><span class="zh">AI缺陷检测</span><span class="en">AI Defect Accuracy</span></div></div>
+<div class="sc"><div class="sn">30%</div><div class="sl"><span class="zh">AMAT AIx效率</span><span class="en">AMAT AIx Efficiency</span></div></div>
 </div>
-<div class="exec-card ec-ref">
-  <span class="ec-icon">🏛️</span>
-  <div class="ec-title"><span class="zh">行业方案参考</span><span class="en">Industry Benchmarks</span></div>
-  <div class="ec-body"><span class="zh">• <strong>Lam Fabtex™ Yield Optimizer</strong>：虚拟硅数字孪生+物理建模+ML→系统性良率优化<br>• <strong>Applied Materials AIx™</strong>：实时监控+百万级测量→fab效率<strong>↑30%</strong></span><span class="en">• <strong>Lam Fabtex™ Yield Optimizer</strong>: Virtual silicon digital twins + physics + ML → systematic yield optimization<br>• <strong>Applied Materials AIx™</strong>: Real-time monitoring + million-level measurements → fab efficiency <strong>↑30%</strong></span></div>
-</div>
-<div class="exec-card ec-plan">
-  <span class="ec-icon">🗺️</span>
-  <div class="ec-title"><span class="zh">我们的方案</span><span class="en">Our Approach</span></div>
-  <div class="ec-body"><span class="zh"><strong>数据打通 → AI分析 → 闭环执行</strong><br>分4阶段实施，借鉴Lam/AMAT方法论</span><span class="en"><strong>Data Integration → AI Analysis → Closed-Loop Execution</strong><br>4-phase implementation, borrowing from Lam/AMAT methodologies</span></div>
-</div>
-<div class="exec-card ec-cost">
-  <span class="ec-icon">💰</span>
-  <div class="ec-title"><span class="zh">启动资源</span><span class="en">Startup Resources</span></div>
-  <div class="ec-body"><span class="zh">• 最小<strong>3人</strong> + <strong>¥30万</strong>即可启动Phase 1<br>• 全程<strong>¥85-200万</strong> / <strong>6-8个月</strong></span><span class="en">• Minimum <strong>3 people</strong> + <strong>¥300K</strong> to start Phase 1<br>• Full program <strong>¥850K-2M</strong> / <strong>6-8 months</strong></span></div>
-</div>
-<div class="exec-card ec-bottleneck">
-  <span class="ec-icon">🔑</span>
-  <div class="ec-title"><span class="zh">关键瓶颈</span><span class="en">Key Bottleneck</span></div>
-  <div class="ec-body"><span class="zh"><strong>数据接口打通</strong><br>FDC / 量测 / 缺陷 / 良率数据——数据质量决定AI效果的90%</span><span class="en"><strong>Data Interface Integration</strong><br>FDC / Metrology / Defect / Yield data — data quality determines 90% of AI effectiveness</span></div>
-</div>
+<div class="card"><p><span class="zh">2025年全球半导体<strong>$792B</strong>（WSTS,+25.6%）。<strong>Lam Research</strong>发布Fabtex™ Yield Optimizer（SEMICON West 2025）——虚拟硅数字孪生+物理建模+ML。<strong>Applied Materials</strong> AIx™使fab效率提升30%（2026.02），2026.03与NVIDIA合作加速材料模拟。Endura Volta Selective CVD+TSMC实现2nm铜电阻降30%+。行业从"描述性→预测性→<strong>处方性分析</strong>"演进。CVD市场AMAT/Lam/TEL占全球~70%。</span><span class="en">2025 global semiconductor <strong>$792B</strong> (WSTS, +25.6%). <strong>Lam Research</strong> launched Fabtex™ Yield Optimizer (SEMICON West 2025) — virtual silicon twins + physics modeling + ML. <strong>Applied Materials</strong> AIx™ boosted fab efficiency 30% (Feb 2026), partnered with NVIDIA Mar 2026. Endura Volta Selective CVD + TSMC achieved 30%+ Cu resistance reduction at 2nm. Industry evolving: descriptive → predictive → <strong>prescriptive analytics</strong>. CVD market: AMAT/Lam/TEL ~70% global share.</span></p></div>
+<div class="card card-hl"><ul>
+<li><span class="zh">单座先进晶圆厂日产<strong>数十TB</strong>数据</span><span class="en">Advanced fab generates <strong>tens of TB</strong> daily</span></li>
+<li><span class="zh"><strong>2026.04.28</strong>美国暂停向华虹供货→国产替代窗口开启</span><span class="en"><strong>Apr 28, 2026</strong> US halts equipment to Hua Hong → substitution window opens</span></li>
+<li><span class="zh">2024→2030: $630-680B → <strong>$1-1.1T</strong>（McKinsey）</span><span class="en">2024→2030: $630-680B → <strong>$1-1.1T</strong> (McKinsey)</span></li></ul></div>
+
+<!-- 02 -->
+<div class="section-head"><span class="section-num">02</span><h2><span class="zh">行业标杆：Lam & AMAT</span><span class="en">Benchmarks: Lam & AMAT</span></h2></div>
+<div class="vs-grid">
+<div class="vs-card" style="border-top:3px solid var(--accent)"><h4>🔵 Lam Research</h4><ul>
+<li><strong>Fabtex™</strong> (SEMICON West 2025)</li>
+<li><span class="zh">虚拟硅孪生(SEMulator3D®)+fab数据+ML</span><span class="en">Virtual silicon twins(SEMulator3D®)+fab data+ML</span></li>
+<li><span class="zh">全flow模拟→Pareto→根因回溯→因果推断</span><span class="en">Full-flow sim→Pareto→root cause→causal inference</span></li>
+<li><span class="zh"><strong>独特</strong>：物理+ML双驱动，非纯黑箱</span><span class="en"><strong>Unique</strong>: Physics+ML dual-driven, not black box</span></li></ul></div>
+<div class="vs-card" style="border-top:3px solid var(--green)"><h4>🟢 Applied Materials</h4><ul>
+<li><strong>AIx™</strong><span class="zh">：实时工艺可视化</span><span class="en">: Real-time process visualization</span></li>
+<li><span class="zh">百万级测量，优化<strong>数千变量</strong>，fab效率+30%</span><span class="en">Millions measurements, <strong>thousands variables</strong>, +30% efficiency</span></li>
+<li><span class="zh">2026.03+NVIDIA材料模拟</span><span class="en">Mar 2026+NVIDIA materials simulation</span></li>
+<li>Endura Volta CVD+TSMC: 2nm <span class="zh">铜电阻-30%</span><span class="en">Cu resistance -30%</span></li></ul></div>
+<div class="vs-card" style="border-top:3px solid var(--orange)"><h4>🟠 <span class="zh">我们可借鉴</span><span class="en">Our Learnings</span></h4><ul>
+<li><span class="zh">①虚拟孪生+物理+ML三合一</span><span class="en">①Virtual twins+physics+ML triple</span></li>
+<li><span class="zh">②实时数据+多设备协同</span><span class="en">②Real-time+multi-tool coordination</span></li>
+<li><span class="zh">③因果推断（非纯相关性）</span><span class="en">③Causal inference (not just correlation)</span></li>
+<li><span class="zh">④R&D到HVM全流程覆盖</span><span class="en">④R&D to HVM full coverage</span></li>
+<li><span class="zh">⑤设备+量测+检测一体化</span><span class="en">⑤Equipment+metrology+inspection integrated</span></li></ul></div>
 </div>
 
-<!-- ===== SECTION 1: 行业背景与市场动态 ===== -->
-<div class="section-head"><span class="section-num">01</span><h2><span class="zh">行业背景与市场动态</span><span class="en">Industry Background &amp; Market Dynamics</span></h2></div>
-
-<div class="stats-grid">
-<div class="stat-card"><div class="stat-num">$792B</div><div class="stat-label"><span class="zh">2025全球半导体市场（WSTS，+25.6%）</span><span class="en">2025 Global Semiconductor Market (WSTS, +25.6%)</span></div></div>
-<div class="stat-card"><div class="stat-num">42%</div><div class="stat-label"><span class="zh">2025 NAND设备支出增速（SEMI）</span><span class="en">2025 NAND Equipment Spending Growth (SEMI)</span></div></div>
-<div class="stat-card"><div class="stat-num">>99%</div><div class="stat-label"><span class="zh">AI缺陷检测准确率（秒级响应）</span><span class="en">AI Defect Detection Accuracy (Real-time)</span></div></div>
-<div class="stat-card"><div class="stat-num">20-30%</div><div class="stat-label"><span class="zh">AI加速新工艺良率爬坡</span><span class="en">AI Accelerates New Process Yield Ramp</span></div></div>
-</div>
-
-<!-- SVG: Semiconductor Market Trend -->
-<div class="chart-container">
-  <div class="chart-title"><span class="zh">📈 全球半导体市场规模趋势（WSTS）</span><span class="en">📈 Global Semiconductor Market Trend (WSTS)</span></div>
-  <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
-    <defs><linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(0,104,181,0.3)"/><stop offset="100%" stop-color="rgba(0,104,181,0)"/></linearGradient></defs>
-    <!-- Grid lines -->
-    <line x1="80" y1="20" x2="80" y2="180" stroke="#d6d3cc" stroke-width="1"/>
-    <line x1="80" y1="180" x2="670" y2="180" stroke="#d6d3cc" stroke-width="1"/>
-    <line x1="80" y1="135" x2="670" y2="135" stroke="#eee" stroke-width=".5" stroke-dasharray="4"/>
-    <line x1="80" y1="90" x2="670" y2="90" stroke="#eee" stroke-width=".5" stroke-dasharray="4"/>
-    <line x1="80" y1="45" x2="670" y2="45" stroke="#eee" stroke-width=".5" stroke-dasharray="4"/>
-    <!-- Y-axis labels -->
-    <text x="72" y="183" text-anchor="end" font-size="11" fill="#6b7280" font-family="JetBrains Mono">$400B</text>
-    <text x="72" y="138" text-anchor="end" font-size="11" fill="#6b7280" font-family="JetBrains Mono">$500B</text>
-    <text x="72" y="93" text-anchor="end" font-size="11" fill="#6b7280" font-family="JetBrains Mono">$600B</text>
-    <text x="72" y="48" text-anchor="end" font-size="11" fill="#6b7280" font-family="JetBrains Mono">$700B</text>
-    <!-- X-axis labels -->
-    <text x="110" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2020</text>
-    <text x="210" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2021</text>
-    <text x="310" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2022</text>
-    <text x="410" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2023</text>
-    <text x="510" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2024</text>
-    <text x="610" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2025</text>
-    <!-- Area fill -->
-    <polygon points="110,155 210,95 310,110 410,130 510,80 610,40 610,180 110,180" fill="url(#chartGrad)"/>
-    <!-- Line -->
-    <polyline points="110,155 210,95 310,110 410,130 510,80 610,40" fill="none" stroke="#0068b5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Dots -->
-    <circle cx="110" cy="155" r="4" fill="#0068b5"/><text x="110" y="170" text-anchor="middle" font-size="10" fill="#6b7280">$440B</text>
-    <circle cx="210" cy="95" r="4" fill="#0068b5"/><text x="210" y="110" text-anchor="middle" font-size="10" fill="#6b7280">$556B</text>
-    <circle cx="310" cy="110" r="4" fill="#0068b5"/><text x="310" y="125" text-anchor="middle" font-size="10" fill="#6b7280">$574B</text>
-    <circle cx="410" cy="130" r="4" fill="#0068b5"/><text x="410" y="145" text-anchor="middle" font-size="10" fill="#6b7280">$527B</text>
-    <circle cx="510" cy="80" r="4" fill="#0068b5"/><text x="510" y="72" text-anchor="middle" font-size="10" fill="#6b7280">$631B</text>
-    <circle cx="610" cy="40" r="5" fill="#d94040"/><text x="610" y="32" text-anchor="middle" font-size="11" fill="#d94040" font-weight="700">$792B</text>
-  </svg>
-</div>
-
+<!-- 03 -->
+<div class="section-head"><span class="section-num">03</span><h2><span class="zh">问题诊断</span><span class="en">Problem Diagnosis</span></h2></div>
+<div class="card" style="border-left:4px solid var(--red)"><h3><span class="zh">中国CVD厂商在variation/yield/particle落后，无法定位根因</span><span class="en">Chinese CVD vendors lag in variation/yield/particle, cannot pinpoint root causes</span></h3></div>
 <div class="card">
-<div class="card-meta"><span class="card-tag tag-industry"><span class="zh">行业趋势</span><span class="en">Industry Trends</span></span><span class="card-date"><span class="zh">数据源：WSTS / SEMI / IEEE / 公司财报</span><span class="en">Sources: WSTS / SEMI / IEEE / Company Reports</span></span></div>
-<h3><span class="zh">半导体制造正在经历AI驱动的深刻变革</span><span class="en">Semiconductor Manufacturing is Undergoing an AI-Driven Transformation</span></h3>
-<p><span class="zh">2025年全球半导体市场规模达<strong>$792B</strong>（WSTS），同比增长25.6%。AI对半导体的需求已从"用芯片跑AI"扩展到"用AI造芯片"——晶圆缺陷检测、虚拟量测、工艺参数优化和良率预测，全链条正在被AI重塑。</span><span class="en">The global semiconductor market reached <strong>$792B</strong> in 2025 (WSTS), up 25.6% YoY. AI's impact on semiconductors has expanded from "using chips for AI" to "using AI to make chips" — wafer defect detection, virtual metrology, process parameter optimization, and yield prediction are being reshaped by AI across the entire chain.</span></p>
-<ul style="margin-top:10px">
-<li><strong>Lam Research</strong> <span class="zh">2025年SEMICON West发布 <strong>Fabtex™ Yield Optimizer</strong>：结合虚拟硅数字孪生、在线数据和优化算法，CVP David Fried指出传统方法"慢、迭代、昂贵"，而Fabtex可同时针对所有良率限制因素进行系统性优化</span><span class="en">launched <strong>Fabtex™ Yield Optimizer</strong> at SEMICON West 2025: combining virtual silicon digital twins, online data, and optimization algorithms. CVP David Fried stated traditional methods are "slow, iterative, expensive," while Fabtex enables systematic optimization across all yield limiters simultaneously</span></li>
-<li><strong>Applied Materials</strong> <span class="zh">2026财年半导体业务预期增长<strong>>20%</strong>，AIx™平台使fab效率提升<strong>30%</strong>（2026.02 LinkedIn报告）；2026.03与NVIDIA合作加速材料模拟；Endura Volta Selective CVD与TSMC合作部署用于2nm节点</span><span class="en">FY2026 semiconductor revenue expected to grow <strong>>20%</strong>; AIx™ platform drives fab efficiency <strong>+30%</strong> (Feb 2026 LinkedIn report); partnered with NVIDIA (Mar 2026) to accelerate materials simulation; Endura Volta Selective CVD deployed with TSMC for 2nm node</span></li>
-<li><strong>Gauss Labs</strong> <span class="zh">SPIE AL 2026发表虚拟量测驱动的腔室匹配（Tool-to-Tool Matching）框架，实现早期偏差检测</span><span class="en">published virtual metrology-driven chamber matching framework at SPIE AL 2026, enabling early deviation detection</span></li>
-<li><span class="zh">IEEE/ResearchGate 2024综述：AI技术已在ALD/CVD的材料发现、工艺优化和缺陷减少中取得显著进展，<strong>AI增强机器视觉对&lt;50nm缺陷检测改善30%</strong></span><span class="en">IEEE/ResearchGate 2024 review: AI technologies have achieved significant progress in ALD/CVD materials discovery, process optimization, and defect reduction — <strong>AI-enhanced machine vision improves &lt;50nm defect detection by 30%</strong></span></li>
-<li><span class="zh">CVD设备市场：AMAT、Lam、TEL三大厂商占全球约<strong>70%</strong>份额；中国厂商在28nm+已初步覆盖，先进节点仍在追赶</span><span class="en">CVD equipment market: AMAT, Lam, and TEL hold ~<strong>70%</strong> global share; Chinese makers cover 28nm+ nodes, still catching up at advanced nodes</span></li>
-</ul>
+<div class="pb" style="border-left-color:var(--red)"><h4><span class="zh">❶ 反馈回路太慢</span><span class="en">❶ Slow Feedback Loop</span></h4><p><span class="zh">问题→调整以天/周计，数据散落无法实时关联</span><span class="en">Detection→adjustment takes days/weeks, data scattered</span></p></div>
+<div class="pb po"><h4><span class="zh">❷ 隐藏参数未捕获</span><span class="en">❷ Hidden Parameters Uncaptured</span></h4><p><span class="zh">常规参数在范围但particle高，可能有未采集的隐藏变量</span><span class="en">Standard params OK but particle high, hidden variables may exist</span></p></div>
+<div class="pb pp"><h4><span class="zh">❸ 缺乏缺陷模式知识库</span><span class="en">❸ No Defect Pattern Knowledge Base</span></h4><p><span class="zh">设备"个性"未数字化，经验只在老工程师脑中</span><span class="en">Tool "personality" not digitized, experience only in senior engineers</span></p></div>
 </div>
 
-<div class="card card-highlight">
-<h3>🔍 <span class="zh">关键趋势</span><span class="en">Key Trends</span></h3>
+<!-- 04 -->
+<div class="section-head"><span class="section-num">04</span><h2><span class="zh">AI解决方案</span><span class="en">AI Solutions</span></h2></div>
+<div class="card"><div class="flow">
+<div class="fs"><div class="fi">📡</div><div class="fl"><span class="zh">采集</span><span class="en">Collect</span></div><div class="fd">FDC/Sensor</div></div><div class="fa">→</div>
+<div class="fs"><div class="fi">🔗</div><div class="fl"><span class="zh">打通</span><span class="en">Integrate</span></div><div class="fd"><span class="zh">跨系统</span><span class="en">Cross-system</span></div></div><div class="fa">→</div>
+<div class="fs"><div class="fi">🧠</div><div class="fl"><span class="zh">分析</span><span class="en">Analyze</span></div><div class="fd">ML</div></div><div class="fa">→</div>
+<div class="fs"><div class="fi">⚡</div><div class="fl"><span class="zh">执行</span><span class="en">Execute</span></div><div class="fd"><span class="zh">自动调参</span><span class="en">Auto-tune</span></div></div><div class="fa">→</div>
+<div class="fs"><div class="fi">📊</div><div class="fl"><span class="zh">沉淀</span><span class="en">Knowledge</span></div><div class="fd"><span class="zh">模式库</span><span class="en">Pattern KB</span></div></div>
+</div></div>
+<div class="card"><h3><span class="zh">① 全参数AI分析→发现Hidden Factors</span><span class="en">① Full-parameter AI → discover Hidden Factors</span></h3><ul><li><span class="zh">XGBoost+SHAP自动识别Top-N参数，搜索数百变量交互效应</span><span class="en">XGBoost+SHAP auto-identify Top-N parameters, search interactions across hundreds of variables</span></li></ul></div>
+<div class="card"><h3><span class="zh">② VM+实时闭环 → 天/周→小时/分钟</span><span class="en">② VM + real-time feedback → days/weeks → hours/minutes</span></h3><ul><li><span class="zh">VM即时预测薄膜参数，<strong>减少50-70%物理量测</strong>。FDC秒级检测漂移→APC闭环</span><span class="en">VM instantly predicts film params, <strong>reduces 50-70% physical metrology</strong>. FDC detects drift in seconds → APC</span></li></ul></div>
+<div class="card"><h3><span class="zh">③ 机台级缺陷识别+企业知识库</span><span class="en">③ Tool-level defect recognition + enterprise KB</span></h3><ul><li><span class="zh">AI聚类识别设备"指纹"，建立"缺陷→根因→修正"映射表</span><span class="en">AI clustering identifies tool "fingerprint", build "defect→root cause→fix" mapping</span></li></ul></div>
+<div class="card"><h3><span class="zh">④ 工艺配方优化（对标Fabtex）</span><span class="en">④ Recipe optimization (benchmark Fabtex)</span></h3><ul><li><span class="zh">代理模型+贝叶斯优化/RL搜索最优工艺窗口</span><span class="en">Surrogate model + Bayesian optimization/RL search optimal process window</span></li></ul></div>
+<!-- 05 国内竞争格局 -->
+<div class="section-head"><span class="section-num">05</span><h2><span class="zh">国内CVD设备竞争格局</span><span class="en">Domestic CVD Landscape</span></h2></div>
+<div class="card"><p><span class="zh"><strong>国产化率<25%</strong>（智研咨询2025），但已形成国产梯队：</span><span class="en"><strong>Localization rate <25%</strong> (Zhiyan 2025), but domestic players emerging:</span></p>
+<div class="tw"><table>
+<thead><tr><th><span class="zh">公司</span><span class="en">Company</span></th><th><span class="zh">产品线</span><span class="en">Products</span></th><th><span class="zh">地位</span><span class="en">Position</span></th></tr></thead>
+<tbody>
+<tr><td><strong><span class="zh">拓荆科技(688072)</span><span class="en">Piotech</span></strong></td><td>PECVD/ALD/SACVD/HDPCVD</td><td><span class="zh">薄膜沉积布局最全</span><span class="en">Most comprehensive thin-film</span></td></tr>
+<tr><td><strong><span class="zh">北方华创(002371)</span><span class="en">Naura</span></strong></td><td>PVD/CVD/<span class="zh">刻蚀</span><span class="en">Etch</span></td><td><span class="zh">平台龙头，PECVD 10-20%</span><span class="en">Platform leader, PECVD 10-20%</span></td></tr>
+<tr><td><strong><span class="zh">中微公司(688012)</span><span class="en">AMEC</span></strong></td><td>LPCVD/ALD</td><td><span class="zh">2025Q3进入市场，性能达国际水平</span><span class="en">2025Q3 market entry, intl-level</span></td></tr>
+<tr><td><strong><span class="zh">微导纳米(688147)</span><span class="en">Leadmicro</span></strong></td><td>ALD</td><td>DRAM/3D NAND</td></tr>
+<tr><td><strong><span class="zh">盛美上海</span><span class="en">ACM Research</span></strong></td><td><span class="zh">部分CVD</span><span class="en">Partial CVD</span></td><td><span class="zh">差异化</span><span class="en">Differentiated</span></td></tr>
+</tbody></table></div>
+<div class="ch"><strong><span class="zh">💡 AI赋能的差异化价值：不只追赶到"可用"，而是通过数据驱动优化达到"好用"，在禁运环境下建立长期竞争力</span><span class="en">💡 AI differentiation: Not just reaching "usable" but achieving "competitive" through data-driven optimization, building long-term competitiveness under export restrictions</span></strong></div>
+</div>
+
+<!-- 06 华虹禁运 -->
+<div class="section-head"><span class="section-num">06</span><h2><span class="zh">华虹禁运与国产替代战略</span><span class="en">Hua Hong Ban & Substitution Strategy</span></h2></div>
+<div class="card" style="border-left:4px solid var(--red)"><h3><span class="zh">🔴 <strong>2026.04.28</strong>：美国商务部要求设备商暂停向华虹半导体（中国第二大芯片制造商）两家工厂供货（限制7nm相关设备）。外交部4.29回应。</span><span class="en">🔴 <strong>Apr 28, 2026</strong>: US Commerce Dept orders equipment vendors to halt shipments to Hua Hong Semiconductor (China's #2 chipmaker) at two fabs (7nm-related). MFA responded Apr 29.</span></h3></div>
+<div class="card"><ul>
+<li><span class="zh"><strong>历史性机遇</strong>：禁运→国内晶圆厂必须加速国产设备导入</span><span class="en"><strong>Historic opportunity</strong>: Ban → domestic fabs must accelerate domestic equipment adoption</span></li>
+<li><span class="zh">不能只靠"可用"，必须做到<strong>"好用"</strong>→AI赋能是关键差异化</span><span class="en">Must go beyond "usable" to <strong>"competitive"</strong> → AI is key differentiator</span></li>
+<li><span class="zh">AI赋能的<strong>长期护城河</strong>：数据驱动的持续优化 > 纯硬件追赶</span><span class="en">AI's <strong>long-term moat</strong>: Data-driven continuous optimization > pure hardware catch-up</span></li>
+<li><span class="zh">最终目标：不只是追赶者，而是AI时代设备<strong>新范式定义者</strong></span><span class="en">Ultimate goal: Not just a follower, but <strong>new paradigm definer</strong> in AI-era equipment</span></li>
+</ul></div>
+
+<!-- 07 江丰电子靶材 -->
+<div class="section-head"><span class="section-num">07</span><h2><span class="zh">供应链合作：江丰电子靶材</span><span class="en">Supply Chain: Jiangfeng Electronics Targets</span></h2></div>
+<div class="card"><p><span class="zh"><strong>江丰电子(300666)</strong> — 2025年报数据（2026.04发布）：</span><span class="en"><strong>Jiangfeng Electronics (300666)</strong> — 2025 annual report (released Apr 2026):</span></p>
+<div class="tw"><table>
+<thead><tr><th><span class="zh">指标</span><span class="en">Metric</span></th><th><span class="zh">数据</span><span class="en">Data</span></th></tr></thead>
+<tbody>
+<tr><td><span class="zh">总营收</span><span class="en">Total Revenue</span></td><td><strong>¥46.04亿</strong>（同比稳健增长）</td></tr>
+<tr><td><span class="zh">靶材营收</span><span class="en">Target Revenue</span></td><td><strong>¥28.50亿</strong>（+22.13%）</td></tr>
+<tr><td><span class="zh">精密零部件</span><span class="en">Precision Parts</span></td><td><strong>¥10.84亿</strong>（+22.24%）</td></tr>
+<tr><td><span class="zh">全球地位</span><span class="en">Global Position</span></td><td><span class="zh">全球晶圆制造溅射靶材份额持续扩大，技术跻身全球领先</span><span class="en">Global wafer sputtering target share expanding, tech among global leaders</span></td></tr>
+<tr><td><span class="zh">CVD靶材</span><span class="en">CVD Targets</span></td><td><span class="zh">CVD用靶材均匀性达国际领先水平</span><span class="en">CVD target uniformity reaches international leading level</span></td></tr>
+<tr><td><span class="zh">技术认证</span><span class="en">Tech Certification</span></td><td><span class="zh">国家技术发明二等奖（超高纯Al/Ti/Cu/Ta靶材制备技术）</span><span class="en">National Technology Invention Award (Ultra-pure Al/Ti/Cu/Ta targets)</span></td></tr>
+</tbody></table></div></div>
+<div class="card"><h3><span class="zh">靶材对CVD性能的影响 & AI合作机会</span><span class="en">Target Impact on CVD Performance & AI Collaboration Opportunities</span></h3>
 <ul>
-<li><span class="zh">单座先进制程晶圆厂日产<strong>数十TB</strong>工艺数据，传统统计方法已无法应对高维非线性工艺控制挑战</span><span class="en">A single advanced-node fab generates <strong>dozens of TB</strong> of process data daily; traditional statistical methods cannot handle high-dimensional nonlinear process control challenges</span></li>
-<li><span class="zh">行业正从"描述性分析"（SPC控制图）→"预测性分析"（良率预测）→"<strong>处方性分析</strong>"（自动调参、排程优化）演进，<strong>真正的竞争优势来自第三层</strong></span><span class="en">The industry is evolving from "descriptive analytics" (SPC charts) → "predictive analytics" (yield prediction) → "<strong>prescriptive analytics</strong>" (auto-tuning, scheduling optimization). <strong>Real competitive advantage comes from the third level</strong></span></li>
-<li><span class="zh">中国半导体设备厂商正处于AI转型的<strong>战略窗口期</strong>，且2026.04华虹禁运进一步加速国产替代需求</span><span class="en">Chinese semiconductor equipment makers are in a <strong>strategic window</strong> for AI transformation, and the Apr 2026 Hua Hong export restriction further accelerates domestic substitution demand</span></li>
-</ul>
+<li><span class="zh"><strong>靶材纯度</strong>→ 薄膜缺陷密度 · <strong>均匀性</strong>→ 薄膜均匀性 · <strong>寿命</strong>→ 生产稳定性</span><span class="en"><strong>Target purity</strong> → film defect density · <strong>Uniformity</strong> → film uniformity · <strong>Lifetime</strong> → production stability</span></li>
+<li><span class="zh">AI可在<strong>靶材研发</strong>（材料模拟）和<strong>工艺适配</strong>中发挥关键作用</span><span class="en">AI plays key role in <strong>target R&D</strong> (materials simulation) and <strong>process adaptation</strong></span></li>
+<li><span class="zh"><strong>合作模式</strong>：靶材-CVD工艺联合优化 → AI关联模型 → 战略供应+数据共享</span><span class="en"><strong>Collaboration</strong>: Joint target-CVD optimization → AI correlation model → Strategic supply + data sharing</span></li>
+<li><span class="zh">江丰已是国内多家设备厂商<strong>核心供应商</strong>，精密零部件业务快速增长</span><span class="en">Jiangfeng already <strong>core supplier</strong> to multiple domestic equipment vendors, precision parts growing fast</span></li>
+</ul></div>
+<div class="card"><h3><span class="zh">上下游整合价值链</span><span class="en">Upstream-Downstream Integration Value Chain</span></h3>
+<div class="flow">
+<div class="fs"><div class="fi">🔬</div><div class="fl"><span class="zh">靶材供应商</span><span class="en">Target Vendor</span></div><div class="fd"><span class="zh">江丰电子等</span><span class="en">Jiangfeng etc</span></div></div><div class="fa">→</div>
+<div class="fs"><div class="fi">⚙️</div><div class="fl"><span class="zh">CVD设备</span><span class="en">CVD Equipment</span></div><div class="fd"><span class="zh">AI优化</span><span class="en">AI Optimized</span></div></div><div class="fa">→</div>
+<div class="fs"><div class="fi">🏭</div><div class="fl"><span class="zh">晶圆厂</span><span class="en">Fab/Foundry</span></div><div class="fd"><span class="zh">数据反馈</span><span class="en">Data Feedback</span></div></div><div class="fa">→</div>
+<div class="fs"><div class="fi">📊</div><div class="fl"><span class="zh">AI平台</span><span class="en">AI Platform</span></div><div class="fd"><span class="zh">全链条优化</span><span class="en">Full-chain</span></div></div>
+</div>
+<p style="margin-top:.8rem;font-size:.82rem;color:var(--muted)"><span class="zh">光靠一家闷头做没用。要和<strong>上下游结合</strong>——工厂端提供数据和需求，供应商端提供材料和工艺协同。AI是贯穿全链条的"神经系统"。</span><span class="en">Working alone is not enough. <strong>Integrate upstream & downstream</strong> — fabs provide data and requirements, suppliers provide materials and process synergy. AI is the "nervous system" across the entire chain.</span></p>
 </div>
 
-<!-- ===== SECTION 2: 行业标杆研究 ===== -->
-<div class="section-head"><span class="section-num">02</span><h2><span class="zh">行业标杆研究：Lam Research &amp; Applied Materials的AI方法论</span><span class="en">Industry Benchmarks: AI Methodologies of Lam Research &amp; Applied Materials</span></h2></div>
-
-<div class="card">
-<div class="card-meta"><span class="card-tag tag-ai">Lam Research</span><span class="card-tag tag-industry">Semiverse® / Fabtex™</span></div>
-<h3><span class="zh">🏗️ Lam Research — 虚拟硅数字孪生 + 物理建模 + ML</span><span class="en">🏗️ Lam Research — Virtual Silicon Digital Twins + Physics Modeling + ML</span></h3>
-<p><span class="zh"><strong>核心理念：</strong>虚拟硅数字孪生（Virtual Silicon Digital Twins）+ 真实fab数据 + ML优化三合一。Fabtex™ Yield Optimizer基于SEMulator3D®物理建模平台，实现系统性process variation建模。</span><span class="en"><strong>Core Philosophy:</strong> Virtual Silicon Digital Twins + real fab data + ML optimization. Fabtex™ Yield Optimizer, built on the SEMulator3D® physics modeling platform, enables systematic process variation modeling.</span></p>
-<div class="flow-container" style="margin-top:1rem">
-<div class="flow-step"><div class="icon">🔬</div><div class="label"><span class="zh">物理建模</span><span class="en">Physics Modeling</span></div><div class="desc">SEMulator3D®</div></div>
-<div class="flow-arrow">→</div>
-<div class="flow-step"><div class="icon">🔄</div><div class="label"><span class="zh">全flow模拟</span><span class="en">Full-Flow Simulation</span></div><div class="desc"><span class="zh">工艺链虚拟化</span><span class="en">Process Virtualization</span></div></div>
-<div class="flow-arrow">→</div>
-<div class="flow-step"><div class="icon">📊</div><div class="label"><span class="zh">Pareto分析</span><span class="en">Pareto Analysis</span></div><div class="desc"><span class="zh">根因排序</span><span class="en">Root Cause Ranking</span></div></div>
-<div class="flow-arrow">→</div>
-<div class="flow-step"><div class="icon">🎯</div><div class="label"><span class="zh">虚拟量测</span><span class="en">Virtual Metrology</span></div><div class="desc"><span class="zh">预测+优化</span><span class="en">Predict+Optimize</span></div></div>
-</div>
-<ul style="margin-top:1rem">
-<li><span class="zh"><strong>独特优势：</strong>不同于纯ML方法，Fabtex整合物理仿真，提供因果推断和根因分析</span><span class="en"><strong>Unique Advantage:</strong> Unlike pure ML approaches, Fabtex integrates physics simulation for causal inference and root cause analysis</span></li>
-<li><span class="zh"><strong>客户价值：</strong>减少系统失效、加速上市、降低制造成本</span><span class="en"><strong>Customer Value:</strong> Reduced system failures, faster time-to-market, lower manufacturing costs</span></li>
-<li><span class="zh">CVP David Fried：<strong>"传统方法慢、迭代、昂贵"</strong></span><span class="en">CVP David Fried: <strong>"Traditional methods are slow, iterative, expensive"</strong></span></li>
-</ul>
-<div class="cost-highlight"><strong><span class="zh">💡 学习要点：</span><span class="en">💡 Key Takeaway:</span></strong> <span class="zh">虚拟孪生 + 物理建模 + ML 三合一，超越纯数据驱动方法</span><span class="en">Virtual twins + physics modeling + ML combined — surpassing purely data-driven approaches</span></div>
-</div>
-
-<div class="card">
-<div class="card-meta"><span class="card-tag tag-tech">Applied Materials</span><span class="card-tag tag-ai">AIx™ + Endura</span></div>
-<h3><span class="zh">⚡ Applied Materials — 实时数据 + 多设备协同 + 全流程覆盖</span><span class="en">⚡ Applied Materials — Real-time Data + Multi-Tool Collaboration + Full-Flow Coverage</span></h3>
-<p><span class="zh"><strong>AIx™ (Actionable Insight Accelerator)：</strong>实时工艺可视化、百万级测量、千级变量优化。</span><span class="en"><strong>AIx™ (Actionable Insight Accelerator):</strong> Real-time process visualization, million-level measurements, thousand-variable optimization.</span></p>
-<ul style="margin-top:8px">
-<li><span class="zh">Viva™ copper deposition + Endura® platform：2nm铜电阻降低<strong>30%+</strong></span><span class="en">Viva™ copper deposition + Endura® platform: 2nm copper resistance reduced by <strong>30%+</strong></span></li>
-<li><span class="zh">2026.03与<strong>NVIDIA合作</strong>加速材料模拟（AI加速计算）</span><span class="en">Mar 2026 partnership with <strong>NVIDIA</strong> to accelerate materials simulation (AI-accelerated computing)</span></li>
-<li><span class="zh">AIx使fab效率提升<strong>30%</strong>（2026.02 LinkedIn报告）</span><span class="en">AIx drives fab efficiency <strong>+30%</strong> (Feb 2026 LinkedIn report)</span></li>
-<li><span class="zh">Endura Volta Selective CVD与<strong>TSMC</strong>合作部署用于2nm节点</span><span class="en">Endura Volta Selective CVD deployed with <strong>TSMC</strong> for 2nm node</span></li>
-<li><span class="zh">2026财年半导体收入预期增长<strong>>20%</strong></span><span class="en">FY2026 semiconductor revenue expected growth <strong>>20%</strong></span></li>
-</ul>
-<div class="cost-highlight"><strong><span class="zh">💡 学习要点：</span><span class="en">💡 Key Takeaway:</span></strong> <span class="zh">实时数据 + 多设备协同 + 从R&D到HVM全流程覆盖</span><span class="en">Real-time data + multi-tool collaboration + coverage from R&amp;D to HVM</span></div>
-</div>
-
-<!-- Methodology Comparison Table -->
-<div class="card">
-<h3><span class="zh">📋 方法论对比：Lam vs AMAT vs 可借鉴方向</span><span class="en">📋 Methodology Comparison: Lam vs AMAT vs Actionable Directions</span></h3>
-<div class="table-wrap"><table>
-<thead><tr>
-<th><span class="zh">维度</span><span class="en">Dimension</span></th>
-<th>Lam Fabtex™</th>
-<th>AMAT AIx™</th>
-<th><span class="zh">我们可借鉴</span><span class="en">Our Borrowed Approach</span></th>
-</tr></thead>
+<!-- 08 技术路线 -->
+<div class="section-head"><span class="section-num">08</span><h2><span class="zh">技术路线 & 实施计划</span><span class="en">Tech Roadmap & Implementation Plan</span></h2></div>
+<div class="card"><h3><span class="zh">技术栈</span><span class="en">Tech Stack</span></h3>
+<div class="tw"><table>
+<thead><tr><th><span class="zh">层级</span><span class="en">Layer</span></th><th><span class="zh">选型</span><span class="en">Choice</span></th></tr></thead>
 <tbody>
-<tr><td><strong><span class="zh">核心方法</span><span class="en">Core Method</span></strong></td><td><span class="zh">物理仿真+ML</span><span class="en">Physics + ML</span></td><td><span class="zh">实时数据+ML</span><span class="en">Real-time Data + ML</span></td><td><span class="zh">数据驱动+领域知识</span><span class="en">Data-driven + Domain Knowledge</span></td></tr>
-<tr><td><strong><span class="zh">数据策略</span><span class="en">Data Strategy</span></strong></td><td><span class="zh">虚拟数据+在线数据</span><span class="en">Virtual + Online Data</span></td><td><span class="zh">百万级实时测量</span><span class="en">Million-level Real-time</span></td><td><span class="zh">FDC+量测+缺陷全打通</span><span class="en">FDC + Metrology + Defect</span></td></tr>
-<tr><td><strong><span class="zh">优势</span><span class="en">Strength</span></strong></td><td><span class="zh">因果推断能力</span><span class="en">Causal Inference</span></td><td><span class="zh">实时性+规模</span><span class="en">Real-time + Scale</span></td><td><span class="zh">灵活适配+低成本</span><span class="en">Flexible + Low Cost</span></td></tr>
-<tr><td><strong><span class="zh">适用阶段</span><span class="en">Phase</span></strong></td><td><span class="zh">工艺开发+优化</span><span class="en">Process Dev + Opt</span></td><td><span class="zh">量产监控+优化</span><span class="en">HVM Monitor + Opt</span></td><td><span class="zh">全阶段</span><span class="en">All Phases</span></td></tr>
-</tbody></table></div>
-</div>
+<tr><td><span class="zh">数据采集</span><span class="en">Collection</span></td><td>SECS/GEM + OPC UA</td></tr>
+<tr><td><span class="zh">时序存储</span><span class="en">Time-series DB</span></td><td>InfluxDB / TimescaleDB</td></tr>
+<tr><td><span class="zh">数据管道</span><span class="en">Data Pipeline</span></td><td>Apache Kafka / EMQX</td></tr>
+<tr><td><span class="zh">ML平台</span><span class="en">ML Platform</span></td><td>MLflow + scikit-learn/XGBoost/PyTorch</td></tr>
+<tr><td><span class="zh">可视化</span><span class="en">Visualization</span></td><td>Grafana + Dashboard</td></tr>
+<tr><td><span class="zh">边缘推理</span><span class="en">Edge Inference</span></td><td>ONNX Runtime / TensorRT</td></tr>
+</tbody></table></div></div>
+<div class="card"><h3><span class="zh">实施时间线</span><span class="en">Implementation Timeline</span></h3>
+<div class="tl">
+<div class="ti done"><h4><span class="zh">Phase 0 · 调研（2周）</span><span class="en">Phase 0 · Research (2wk)</span></h4><p><span class="zh">数据现状梳理、场景确定、团队组建</span><span class="en">Data audit, scenario definition, team formation</span></p></div>
+<div class="ti"><h4><span class="zh">Phase 1 · 数据打通（1-3月）</span><span class="en">Phase 1 · Data Integration (1-3mo)</span></h4><p><span class="zh">FDC标准化→数据湖→量测接口→历史导入</span><span class="en">FDC standardization→data lake→metrology API→history import</span></p></div>
+<div class="ti"><h4><span class="zh">Phase 2 · AI开发（2-5月）</span><span class="en">Phase 2 · AI Development (2-5mo)</span></h4><p><span class="zh">Hidden因子→VM→FDC异常→缺陷聚类</span><span class="en">Hidden factors→VM→FDC anomaly→defect clustering</span></p></div>
+<div class="ti"><h4><span class="zh">Phase 3 · 集成上线（4-7月）</span><span class="en">Phase 3 · Integration (4-7mo)</span></h4><p><span class="zh">实时推理→Dashboard→报警→APC试点</span><span class="en">Real-time inference→Dashboard→alerting→APC pilot</span></p></div>
+<div class="ti"><h4><span class="zh">Phase 4 · 持续优化（6月+）</span><span class="en">Phase 4 · Continuous (6mo+)</span></h4><p><span class="zh">知识库→工艺优化→预测性维护→新工艺加速</span><span class="en">KB→process optimization→predictive maint→new process accel</span></p></div>
+</div></div>
 
-<!-- ===== SECTION 3: 问题诊断 ===== -->
-<div class="section-head"><span class="section-num">03</span><h2><span class="zh">问题诊断：中国CVD设备厂商的瓶颈</span><span class="en">Problem Diagnosis: Bottlenecks of Chinese CVD Equipment Makers</span></h2></div>
-
-<div class="card" style="border-left:4px solid var(--red)">
-<h3>🔴 <span class="zh">核心痛点</span><span class="en">Core Pain Points</span></h3>
-<p><span class="zh">中国某CVD薄膜沉积设备厂商，在<strong>variation（均匀性）、良率、particle（颗粒缺陷）</strong>等关键指标上落后于国际竞争对手（AMAT/Lam/TEL），但<strong>无法准确定位差距根因</strong>，陷入"知道差，不知道为什么差"的困境。</span><span class="en">A Chinese CVD thin-film deposition equipment maker lags behind global competitors (AMAT/Lam/TEL) in <strong>uniformity, yield, and particle defects</strong>, yet <strong>cannot accurately identify root causes</strong> — stuck in the "we know we're behind, but not why" dilemma.</span></p>
-</div>
-
-<div class="card">
-<h3><span class="zh">三大核心问题拆解</span><span class="en">Three Core Problems Breakdown</span></h3>
-<div class="phase-box" style="border-left-color:var(--red)">
-<h4>❶ <span class="zh">反馈回路太慢</span><span class="en">Feedback Loop Too Slow</span></h4>
-<p><span class="zh"><strong>看见了问题 → 反应了 → 但correction执行太慢</strong></span><span class="en"><strong>Saw the problem → Reacted → But correction too slow</strong></span></p>
-<ul><li><span class="zh">从发现问题到完成工艺调整，周期以<strong>天/周</strong>计</span><span class="en">From problem detection to process adjustment: <strong>days/weeks</strong></span></li>
-<li><span class="zh">数据散落在FDC、量测系统、MES等不同系统中，<strong>无法实时关联</strong></span><span class="en">Data scattered across FDC, metrology, MES — <strong>cannot correlate in real-time</strong></span></li>
-<li><span class="zh">工程师依赖经验和手工分析，<strong>响应速度跟不上工艺漂移速度</strong></span><span class="en">Engineers rely on experience and manual analysis — <strong>response speed can't keep up with process drift</strong></span></li></ul>
-</div>
-<div class="phase-box" style="border-left-color:var(--orange)">
-<h4>❷ <span class="zh">隐藏关键参数未被捕获</span><span class="en">Hidden Key Parameters Not Captured</span></h4>
-<p><span class="zh"><strong>一直监控的参数可能不是真正的根因</strong></span><span class="en"><strong>The parameters being monitored may not be the real root cause</strong></span></p>
-<ul><li><span class="zh">常规参数（压力、温度）在范围内，但<strong>particle依然偏高</strong></span><span class="en">Standard parameters (pressure, temp) within spec, but <strong>particle still high</strong></span></li>
-<li><span class="zh">可能存在<strong>未被采集的隐藏变量</strong>（气体管路微泄漏、腔室壁面沉积状态、RF功率瞬态波动等）</span><span class="en">Potential <strong>uncaptured hidden variables</strong> (gas line micro-leaks, chamber wall deposition, RF power transients, etc.)</span></li>
-<li><span class="zh">高维参数空间中，<strong>变量间交互效应</strong>是传统DOE难以穷举的</span><span class="en">In high-dimensional parameter space, <strong>interaction effects</strong> are beyond traditional DOE's capability</span></li></ul>
-</div>
-<div class="phase-box" style="border-left-color:var(--purple)">
-<h4>❸ <span class="zh">缺乏系统性缺陷模式知识库</span><span class="en">No Systematic Defect Pattern Knowledge Base</span></h4>
-<p><span class="zh"><strong>每个机台的"个性"没有被数字化沉淀</strong></span><span class="en"><strong>Each tool's "personality" not digitally captured</strong></span></p>
-<ul><li><span class="zh">不同机台有<strong>特定的缺陷模式</strong>，经验只存在于老工程师脑中</span><span class="en">Different tools have <strong>specific defect patterns</strong>; experience exists only in senior engineers' minds</span></li>
-<li><span class="zh">没有统一的<strong>缺陷模式→根因→修正措施</strong>映射系统</span><span class="en">No unified <strong>defect pattern → root cause → corrective action</strong> mapping system</span></li>
-<li><span class="zh">机台老化、部件磨损导致的<strong>渐进性劣化</strong>缺乏预测</span><span class="en"><strong>Gradual degradation</strong> from tool aging and component wear lacks prediction</span></li></ul>
-</div>
-</div>
-
-<!-- ===== SECTION 4: AI解决方案框架 ===== -->
-<div class="section-head"><span class="section-num">04</span><h2><span class="zh">AI解决方案框架</span><span class="en">AI Solution Framework</span></h2></div>
-
-<div class="card">
-<h3><span class="zh">🏗️ 整体架构：从数据采集到智能决策</span><span class="en">🏗️ Overall Architecture: From Data Collection to Intelligent Decision</span></h3>
-<div class="flow-container">
-<div class="flow-step"><div class="icon">📡</div><div class="label"><span class="zh">数据采集</span><span class="en">Data Collection</span></div><div class="desc">FDC/Sensor/MES</div></div>
-<div class="flow-arrow">→</div>
-<div class="flow-step"><div class="icon">🔗</div><div class="label"><span class="zh">数据打通</span><span class="en">Data Integration</span></div><div class="desc"><span class="zh">跨系统整合</span><span class="en">Cross-system</span></div></div>
-<div class="flow-arrow">→</div>
-<div class="flow-step"><div class="icon">🧠</div><div class="label"><span class="zh">AI分析</span><span class="en">AI Analysis</span></div><div class="desc"><span class="zh">ML建模+推理</span><span class="en">ML + Inference</span></div></div>
-<div class="flow-arrow">→</div>
-<div class="flow-step"><div class="icon">⚡</div><div class="label"><span class="zh">决策执行</span><span class="en">Action</span></div><div class="desc"><span class="zh">自动调参/报警</span><span class="en">Auto-tune/Alert</span></div></div>
-<div class="flow-arrow">→</div>
-<div class="flow-step"><div class="icon">📊</div><div class="label"><span class="zh">知识沉淀</span><span class="en">Knowledge Base</span></div><div class="desc"><span class="zh">模式库/经验库</span><span class="en">Pattern Library</span></div></div>
-</div>
-</div>
-
-<div class="card">
-<div class="card-meta"><span class="card-tag tag-ai"><span class="zh">核心方案</span><span class="en">Core Solution</span></span><span class="card-tag tag-data"><span class="zh">数据驱动</span><span class="en">Data-Driven</span></span></div>
-<h3><span class="zh">方案一：全参数采集 + AI相关性分析</span><span class="en">Solution 1: Full-Parameter Collection + AI Correlation Analysis</span></h3>
-<p><span class="zh"><strong>目标：发现隐藏的关键因子（Hidden Key Factors）</strong></span><span class="en"><strong>Goal: Discover hidden key factors</strong></span></p>
-<ul style="margin-top:8px">
-<li><span class="zh">采集CVD过程中<strong>所有可获取参数</strong>：压力、各气体MFC流量、多zone温度、RF功率、沉积时间等</span><span class="en">Collect <strong>all available parameters</strong> during CVD process: pressure, MFC flows, multi-zone temps, RF power, deposition time, etc.</span></li>
-<li><span class="zh">与<strong>前层工艺参数</strong>和<strong>后续检测结果</strong>关联拟合</span><span class="en">Correlate with <strong>upstream process parameters</strong> and <strong>downstream inspection results</strong></span></li>
-<li><span class="zh">使用<strong>随机森林/XGBoost/神经网络</strong>进行特征重要性排序（<strong>借鉴Lam Fabtex的Pareto分析方法</strong>）</span><span class="en">Use <strong>Random Forest/XGBoost/Neural Networks</strong> for feature importance ranking (<strong>borrowing Lam Fabtex's Pareto analysis approach</strong>)</span></li>
-<li><span class="zh">自动化搜索变量间<strong>交互效应</strong>（传统DOE只能处理3-5个变量，AI可同时处理数百个）</span><span class="en">Automatically search for <strong>interaction effects</strong> (traditional DOE handles 3-5 variables; AI handles hundreds)</span></li></ul>
-</div>
-
-<div class="card">
-<div class="card-meta"><span class="card-tag tag-ai"><span class="zh">实时反馈</span><span class="en">Real-time Feedback</span></span><span class="card-tag tag-tech"><span class="zh">快速闭环</span><span class="en">Fast Closed-Loop</span></span></div>
-<h3><span class="zh">方案二：实时反馈 + 快速调整闭环</span><span class="en">Solution 2: Real-time Feedback + Rapid Adjustment Closed-Loop</span></h3>
-<p><span class="zh"><strong>目标：将"发现问题→修正"从天/周缩短到小时/分钟</strong></span><span class="en"><strong>Goal: Reduce "detection → correction" from days/weeks to hours/minutes</strong></span></p>
-<ul style="margin-top:8px">
-<li><span class="zh">建立<strong>虚拟量测（Virtual Metrology）</strong>：利用FDC实时传感器数据即时预测薄膜厚度/均匀性——可<strong>减少50-70%物理量测需求</strong>（<strong>借鉴AMAT AIx百万级测量方法论</strong>）</span><span class="en">Build <strong>Virtual Metrology (VM)</strong>: use FDC real-time sensor data to predict film thickness/uniformity instantly — <strong>reduces 50-70% physical measurement needs</strong> (<strong>borrowing AMAT AIx's million-level measurement methodology</strong>)</span></li>
-<li><span class="zh">VM预测偏离目标时<strong>自动触发</strong>报警和微调（APC闭环控制）</span><span class="en">Auto-trigger alerts and fine-tuning when VM predictions deviate from target (APC closed-loop control)</span></li>
-<li><span class="zh">建立<strong>FDC（Fault Detection &amp; Classification）</strong>系统：秒级检测设备状态漂移，自动暂停防止整批报废（<strong>Gauss Labs 2026已验证腔室匹配方法</strong>）</span><span class="en">Build <strong>FDC</strong> system: second-level detection of tool drift, auto-stop to prevent batch loss (<strong>Gauss Labs 2026 verified chamber matching method</strong>)</span></li>
-</ul>
-</div>
-
-<div class="card">
-<div class="card-meta"><span class="card-tag tag-ai"><span class="zh">知识管理</span><span class="en">Knowledge Mgmt</span></span><span class="card-tag tag-industry"><span class="zh">企业级</span><span class="en">Enterprise</span></span></div>
-<h3><span class="zh">方案三：机台级缺陷模式识别 + 企业级知识库</span><span class="en">Solution 3: Tool-Level Defect Pattern Recognition + Enterprise Knowledge Base</span></h3>
-<p><span class="zh"><strong>目标：将"老工程师经验"转化为"可复用的数字化知识"</strong></span><span class="en"><strong>Goal: Transform "senior engineer experience" into "reusable digital knowledge"</strong></span></p>
-<ul style="margin-top:8px">
-<li><span class="zh"><strong>机台级</strong>：AI聚类分析自动识别每台设备的特有缺陷模式，建立"机台指纹"</span><span class="en"><strong>Tool-level:</strong> AI clustering auto-identifies each tool's unique defect patterns, creating "tool fingerprints"</span></li>
-<li><span class="zh"><strong>部件级</strong>：关联缺陷模式与具体部件状态，实现<strong>预测性维护</strong>（<strong>借鉴Lam Fabtex根因回溯能力</strong>）</span><span class="en"><strong>Component-level:</strong> correlate defect patterns with component status for <strong>predictive maintenance</strong> (<strong>borrowing Lam Fabtex's root cause traceability</strong>)</span></li>
-<li><span class="zh"><strong>企业级知识库</strong>：建立<strong>"缺陷模式→根因→修正措施"</strong>映射表</span><span class="en"><strong>Enterprise KB:</strong> Build <strong>"defect pattern → root cause → corrective action"</strong> mapping table</span></li>
-</ul>
-</div>
-
-<div class="card">
-<div class="card-meta"><span class="card-tag tag-tech"><span class="zh">进阶应用</span><span class="en">Advanced</span></span></div>
-<h3><span class="zh">方案四：工艺配方优化 + 新工艺开发加速</span><span class="en">Solution 4: Recipe Optimization + New Process Development Acceleration</span></h3>
-<p><span class="zh"><strong>目标：不仅"纠错"，更要"优化"</strong></span><span class="en"><strong>Goal: Not just "fix errors" but "optimize"</strong></span></p>
-<ul style="margin-top:8px">
-<li><span class="zh">利用大量工艺数据训练<strong>工艺代理模型（Surrogate Model）</strong>，AI模拟不同参数组合效果，减少DOE实验次数（<strong>借鉴Lam SEMulator3D虚拟制造理念</strong>）</span><span class="en">Train <strong>surrogate models</strong> on process data; AI simulates parameter combinations to reduce DOE experiments (<strong>borrowing Lam SEMulator3D virtual manufacturing concept</strong>)</span></li>
-<li><span class="zh">通过<strong>贝叶斯优化/强化学习</strong>自动搜索最优工艺窗口（<strong>借鉴AMAT AIx千级变量优化</strong>）</span><span class="en">Auto-search optimal process windows via <strong>Bayesian optimization / reinforcement learning</strong> (<strong>borrowing AMAT AIx's thousand-variable optimization</strong>)</span></li>
-</ul>
-</div>
-
-<!-- ===== SECTION 5: 国内CVD设备竞争格局 ===== -->
-<div class="section-head"><span class="section-num">05</span><h2><span class="zh">国内CVD设备竞争格局</span><span class="en">Domestic CVD Equipment Competitive Landscape</span></h2></div>
-
-<!-- SVG: Domestic Substitution Trend -->
-<div class="chart-container">
-  <div class="chart-title"><span class="zh">📈 中国半导体设备国产化率趋势（智研咨询2025）</span><span class="en">📈 China Semiconductor Equipment Domestic Substitution Rate (Zhiyan Consulting 2025)</span></div>
-  <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
-    <defs><linearGradient id="domGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(26,135,84,0.3)"/><stop offset="100%" stop-color="rgba(26,135,84,0)"/></linearGradient></defs>
-    <line x1="80" y1="20" x2="80" y2="180" stroke="#d6d3cc" stroke-width="1"/>
-    <line x1="80" y1="180" x2="670" y2="180" stroke="#d6d3cc" stroke-width="1"/>
-    <line x1="80" y1="135" x2="670" y2="135" stroke="#eee" stroke-width=".5" stroke-dasharray="4"/>
-    <line x1="80" y1="90" x2="670" y2="90" stroke="#eee" stroke-width=".5" stroke-dasharray="4"/>
-    <line x1="80" y1="45" x2="670" y2="45" stroke="#eee" stroke-width=".5" stroke-dasharray="4"/>
-    <text x="72" y="183" text-anchor="end" font-size="11" fill="#6b7280" font-family="JetBrains Mono">0%</text>
-    <text x="72" y="138" text-anchor="end" font-size="11" fill="#6b7280" font-family="JetBrains Mono">10%</text>
-    <text x="72" y="93" text-anchor="end" font-size="11" fill="#6b7280" font-family="JetBrains Mono">20%</text>
-    <text x="72" y="48" text-anchor="end" font-size="11" fill="#6b7280" font-family="JetBrains Mono">30%</text>
-    <text x="135" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2020</text>
-    <text x="245" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2021</text>
-    <text x="355" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2022</text>
-    <text x="465" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2023</text>
-    <text x="575" y="200" text-anchor="middle" font-size="11" fill="#6b7280">2024</text>
-    <!-- Domestic rate: ~7%→9%→12%→15%→18% -->
-    <polygon points="135,165 245,157 355,146 465,138 575,128 575,180 135,180" fill="url(#domGrad)"/>
-    <polyline points="135,165 245,157 355,146 465,138 575,128" fill="none" stroke="#1a8754" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="135" cy="165" r="4" fill="#1a8754"/><text x="135" y="178" text-anchor="middle" font-size="10" fill="#6b7280">7%</text>
-    <circle cx="245" cy="157" r="4" fill="#1a8754"/><text x="245" y="170" text-anchor="middle" font-size="10" fill="#6b7280">9%</text>
-    <circle cx="355" cy="146" r="4" fill="#1a8754"/><text x="355" y="160" text-anchor="middle" font-size="10" fill="#6b7280">12%</text>
-    <circle cx="465" cy="138" r="4" fill="#1a8754"/><text x="465" y="130" text-anchor="middle" font-size="10" fill="#6b7280">15%</text>
-    <circle cx="575" cy="128" r="4" fill="#1a8754"/><text x="575" y="120" text-anchor="middle" font-size="10" fill="#1a8754" font-weight="700">~18%</text>
-    <!-- CVD-specific dashed line at ~25% -->
-    <line x1="80" y1="97" x2="670" y2="97" stroke="#e87722" stroke-width="1" stroke-dasharray="6,3"/>
-    <text x="674" y="100" font-size="10" fill="#e87722"><span class="zh">CVD国产化率&lt;25%</span></span>
-  </svg>
-</div>
-
-<div class="card">
-<h3><span class="zh">国内主要CVD设备厂商</span><span class="en">Major Domestic CVD Equipment Manufacturers</span></h3>
-<div class="table-wrap"><table>
-<thead><tr>
-<th><span class="zh">公司</span><span class="en">Company</span></th>
-<th><span class="zh">产品线</span><span class="en">Product Line</span></th>
-<th><span class="zh">市场地位</span><span class="en">Market Position</span></th>
-<th><span class="zh">技术特点</span><span class="en">Technical Features</span></th>
-</tr></thead>
+<!-- 09 预算 -->
+<div class="section-head"><span class="section-num">09</span><h2><span class="zh">预算与团队</span><span class="en">Budget & Team</span></h2></div>
+<div class="card"><div class="tw"><table>
+<thead><tr><th><span class="zh">阶段</span><span class="en">Phase</span></th><th><span class="zh">内容</span><span class="en">Content</span></th><th><span class="zh">人力</span><span class="en">Team</span></th><th><span class="zh">资金</span><span class="en">Budget</span></th></tr></thead>
 <tbody>
-<tr><td><strong><span class="zh">拓荆科技</span><span class="en">Piotech</span></strong><br><span style="font-family:JetBrains Mono;font-size:.72rem;color:var(--muted)">688072</span></td><td><span class="zh">PECVD/ALD/SACVD/HDPCVD</span><span class="en">PECVD/ALD/SACVD/HDPCVD</span></td><td><span class="zh">薄膜沉积布局最全</span><span class="en">Most comprehensive thin-film portfolio</span></td><td><span class="zh">深耕薄膜沉积，产品线最完整</span><span class="en">Deep focus on thin-film deposition, most complete product line</span></td></tr>
-<tr><td><strong><span class="zh">北方华创</span><span class="en">NAURA</span></strong><br><span style="font-family:JetBrains Mono;font-size:.72rem;color:var(--muted)">002371</span></td><td><span class="zh">PVD/CVD/刻蚀/扩散</span><span class="en">PVD/CVD/Etch/Diffusion</span></td><td><span class="zh">平台化龙头，PECVD 10-20%份额</span><span class="en">Platform leader, PECVD 10-20% share</span></td><td><span class="zh">多品类全覆盖，平台化优势明显</span><span class="en">Full product coverage, strong platform advantage</span></td></tr>
-<tr><td><strong><span class="zh">中微公司</span><span class="en">AMEC</span></strong><br><span style="font-family:JetBrains Mono;font-size:.72rem;color:var(--muted)">688012</span></td><td><span class="zh">LPCVD/ALD/刻蚀</span><span class="en">LPCVD/ALD/Etch</span></td><td><span class="zh">2025Q3多款薄膜设备进入市场</span><span class="en">Multiple thin-film tools entered market Q3 2025</span></td><td><span class="zh">性能达到国际领先水平</span><span class="en">Performance reaching international leading level</span></td></tr>
-<tr><td><strong><span class="zh">微导纳米</span><span class="en">Ncd</span></strong><br><span style="font-family:JetBrains Mono;font-size:.72rem;color:var(--muted)">688147</span></td><td><span class="zh">ALD设备</span><span class="en">ALD Equipment</span></td><td><span class="zh">DRAM/3D NAND领域应用</span><span class="en">Applied in DRAM/3D NAND</span></td><td><span class="zh">高k栅电容介质层等</span><span class="en">High-k gate capacitor dielectric layers</span></td></tr>
-<tr><td><strong><span class="zh">盛美上海</span><span class="en">ACM Research</span></strong></td><td><span class="zh">部分CVD产品</span><span class="en">Partial CVD products</span></td><td><span class="zh">清洗设备龙头</span><span class="en">Cleaning equipment leader</span></td><td><span class="zh">以清洗为主，CVD为辅</span><span class="en">Primarily cleaning, CVD as supplement</span></td></tr>
+<tr><td>Phase 0</td><td><span class="zh">调研</span><span class="en">Research</span></td><td>2-3人</td><td>¥5-10万</td></tr>
+<tr><td>Phase 1</td><td><span class="zh">数据打通</span><span class="en">Integration</span></td><td>3-4人</td><td>¥30-80万</td></tr>
+<tr><td>Phase 2</td><td><span class="zh">AI开发</span><span class="en">AI Dev</span></td><td>2-3人</td><td>¥20-50万</td></tr>
+<tr><td>Phase 3</td><td><span class="zh">集成上线</span><span class="en">Deployment</span></td><td>3-4人</td><td>¥30-60万</td></tr>
+<tr style="background:rgba(0,104,181,.04)"><td colspan="3"><strong><span class="zh">总计 6-8个月</span><span class="en">Total 6-8 months</span></strong></td><td><strong>¥85-200万</strong></td></tr>
 </tbody></table></div>
-</div>
+<p><span class="zh"><strong>核心团队最小配置</strong>：PM + 工艺专家 + 1名数据/AI工程师 = <strong>3人</strong>即可启动。数据工程和ML可通过外部合作。</span><span class="en"><strong>Min team</strong>: PM + Process Expert + 1 Data/AI Engineer = <strong>3 people</strong> to start. Data engineering and ML can be outsourced.</span></p></div>
 
-<div class="card card-highlight">
-<h3>🚀 <span class="zh">国产替代机遇</span><span class="en">Domestic Substitution Opportunities</span></h3>
+<!-- 10 未来畅想 -->
+<div class="section-head"><span class="section-num">10</span><h2><span class="zh">未来畅想：AI化制造中的设备厂商定位</span><span class="en">Future Vision: Equipment Vendor in AI-Native Manufacturing</span></h2></div>
+<div class="card card-hl"><h3><span class="zh">🚀 完全AI化的晶圆厂（Autonomous Fab）愿景</span><span class="en">🚀 Autonomous Fab Vision</span></h3>
 <ul>
-<li><span class="zh"><strong>国产化率 &lt; 25%</strong>（智研咨询2025数据），CVD设备市场空间巨大</span><span class="en"><strong>Domestic substitution rate &lt; 25%</strong> (Zhiyan Consulting 2025), enormous CVD equipment market opportunity</span></li>
-<li><span class="zh">2026.04华虹禁运事件加速国内晶圆厂对国产设备的<strong>紧急导入需求</strong></span><span class="en">Apr 2026 Hua Hong export restriction accelerates domestic fabs' <strong>urgent need</strong> for domestic equipment</span></li>
-<li><span class="zh">国产设备不仅要做到"可用"，必须通过AI赋能做到"好用"，才能建立<strong>长期护城河</strong></span><span class="en">Domestic equipment must not just be "usable" but "excellent" — AI empowerment is the key to building a <strong>long-term moat</strong></span></li>
-</ul>
-</div>
-
-<!-- ===== SECTION 6: 华虹禁运与国产替代战略 ===== -->
-<div class="section-head"><span class="section-num">06</span><h2><span class="zh">华虹禁运与国产替代战略</span><span class="en">Hua Hong Export Restriction &amp; Domestic Substitution Strategy</span></h2></div>
-
-<div class="card" style="border-left:4px solid var(--red)">
-<div class="card-meta"><span class="card-tag tag-industry"><span class="zh">重大事件</span><span class="en">Major Event</span></span><span class="card-date">2026.04.28-29</span></div>
-<h3>📰 <span class="zh">美国商务部要求暂停向华虹半导体供货</span><span class="en">U.S. Commerce Dept. Orders Halt of Shipments to Hua Hong Semiconductor</span></h3>
-<p><span class="zh"><strong>2026年4月28日</strong>，美国商务部要求多家美国设备商<strong>暂停向华虹半导体</strong>（中国第二大芯片制造商）两家工厂供货。<strong>4月29日</strong>，中国外交部回应称此举"严重破坏全球半导体产业链供应链稳定"。</span><span class="en">On <strong>April 28, 2026</strong>, the U.S. Commerce Department ordered multiple American equipment suppliers to <strong>halt shipments to Hua Hong Semiconductor</strong> (China's 2nd largest chipmaker) at two fabs. On <strong>April 29</strong>, China's Foreign Ministry responded, calling it "a serious disruption to global semiconductor supply chain stability."</span></p>
-<ul style="margin-top:8px">
-<li><span class="zh">限制针对<strong>7nm工艺相关设备</strong></span><span class="en">Restrictions target <strong>7nm process-related equipment</strong></span></li>
-<li><span class="zh">华虹是中国第二大芯片制造商，月产能约<strong>20万片</strong>（8寸等效）</span><span class="en">Hua Hong is China's 2nd largest chipmaker with ~<strong>200K wafers/month</strong> (8-inch equivalent)</span></li>
-</ul>
-</div>
-
-<div class="card">
-<h3><span class="zh">🎯 对国产设备厂商的战略意义</span><span class="en">🎯 Strategic Implications for Domestic Equipment Makers</span></h3>
-<div class="phase-box phase-green">
-<h4>✅ <span class="zh">历史性机遇窗口</span><span class="en">Historic Opportunity Window</span></h4>
-<p><span class="zh">美国设备禁运 → 国内晶圆厂<strong>必须</strong>加速国产设备导入。这不是选择题，而是<strong>必答题</strong>。</span><span class="en">U.S. equipment export ban → domestic fabs <strong>must</strong> accelerate adoption of domestic equipment. This is not optional — it's <strong>imperative</strong>.</span></p>
-</div>
-<div class="phase-box" style="border-left-color:var(--orange)">
-<h4>⚠️ <span class="zh">从"可用"到"好用"</span><span class="en">From "Usable" to "Excellent"</span></h4>
-<p><span class="zh">国产设备不能只靠"可用"生存，必须做到"好用"。<strong>AI赋能是关键差异化因素</strong>——通过数据驱动的持续优化缩小与国际差距。</span><span class="en">Domestic equipment can't survive on just being "usable" — must achieve "excellence." <strong>AI empowerment is the key differentiator</strong> — data-driven continuous optimization narrows the gap with international peers.</span></p>
-</div>
-<div class="phase-box phase-purple">
-<h4>🏰 <span class="zh">AI赋能的长期护城河</span><span class="en">AI Empowerment: Long-term Moat</span></h4>
-<p><span class="zh">不仅仅是填补空白，而是通过数据驱动的持续优化，在性能上缩小甚至超越国际竞争对手。数据积累越多，AI模型越精准，形成<strong>正向飞轮效应</strong>。</span><span class="en">Not just filling the gap, but surpassing international competitors through data-driven optimization. More data → better AI models → stronger <strong>positive flywheel effect</strong>.</span></p>
-</div>
-</div>
-
-<!-- ===== SECTION 7: 供应链合作：江丰电子 ===== -->
-<div class="section-head"><span class="section-num">07</span><h2><span class="zh">供应链合作：江丰电子靶材调研</span><span class="en">Supply Chain Partnership: Jiangfeng Electronics Sputtering Target Research</span></h2></div>
-
-<div class="card">
-<div class="card-meta"><span class="card-tag tag-industry"><span class="zh">供应链</span><span class="en">Supply Chain</span></span><span class="card-date">江丰电子 (300666) · <span class="zh">2025年报 2026.04发布</span><span class="en">2025 Annual Report Published Apr 2026</span></span></div>
-<h3><span class="zh">📊 江丰电子核心数据</span><span class="en">📊 Jiangfeng Electronics Key Data</span></h3>
-<div class="stats-grid">
-<div class="stat-card"><div class="stat-num">¥46.04<span style="font-size:1rem">亿</span></div><div class="stat-label"><span class="zh">2025年营收</span><span class="en">2025 Revenue (CNY)</span></div></div>
-<div class="stat-card"><div class="stat-num">¥28.50<span style="font-size:1rem">亿</span></div><div class="stat-label"><span class="zh">溅射靶材收入（同比+22.13%）</span><span class="en">Sputtering Target Revenue (+22.13% YoY)</span></div></div>
-<div class="stat-card"><div class="stat-num">¥10.84<span style="font-size:1rem">亿</span></div><div class="stat-label"><span class="zh">精密零部件收入（+22.24%）</span><span class="en">Precision Components Revenue (+22.24%)</span></div></div>
-</div>
-<ul style="margin-top:1rem">
-<li><span class="zh">在全球晶圆制造溅射靶材市场份额<strong>进一步扩大</strong>，技术跻身全球领先</span><span class="en">Global wafer fab sputtering target market share <strong>further expanded</strong>, technology reaches world-leading level</span></li>
-<li><span class="zh">成为<strong>国内多家设备厂商</strong>及<strong>国际头部芯片企业</strong>核心供应商</span><span class="en">Core supplier to <strong>multiple domestic equipment makers</strong> and <strong>leading international chip companies</strong></span></li>
-<li><span class="zh">"超高纯铝、钛、铜、钽溅射靶材制备技术及应用"获<strong>国家技术发明二等奖</strong></span><span class="en">"Ultra-high purity Al, Ti, Cu, Ta sputtering target preparation technology" won <strong>National Technology Invention Award (2nd Class)</strong></span></li>
-<li><span class="zh">CVD用靶材均匀性达到<strong>国际领先水平</strong></span><span class="en">CVD sputtering target uniformity reaches <strong>world-leading level</strong></span></li>
-</ul>
-</div>
-
-<!-- Value Chain SVG -->
-<div class="value-chain">
-<div class="chain-title"><span class="zh">🔗 上下游整合价值链</span><span class="en">🔗 Upstream-Downstream Value Chain Integration</span></div>
-<svg viewBox="0 0 700 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
-  <!-- Chain boxes -->
-  <rect x="10" y="20" width="130" height="60" rx="8" fill="#0a1628" stroke="#00a3e0" stroke-width="1.5"/>
-  <text x="75" y="45" text-anchor="middle" fill="#00a3e0" font-size="11" font-weight="600"><span class="zh">靶材研发</span><span class="en">Target R&amp;D</span></text>
-  <text x="75" y="62" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="9">江丰电子</text>
-
-  <line x1="145" y1="50" x2="180" y2="50" stroke="#00a3e0" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
-  <text x="162" y="42" text-anchor="middle" fill="#e87722" font-size="9" font-weight="600">AI</text>
-
-  <rect x="185" y="20" width="130" height="60" rx="8" fill="#0a1628" stroke="#00a3e0" stroke-width="1.5"/>
-  <text x="250" y="45" text-anchor="middle" fill="#00a3e0" font-size="11" font-weight="600"><span class="zh">CVD设备制造</span><span class="en">CVD Equipment</span></text>
-  <text x="250" y="62" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="9"><span class="zh">国产设备厂商</span><span class="en">Domestic Makers</span></text>
-
-  <line x1="320" y1="50" x2="355" y2="50" stroke="#00a3e0" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
-  <text x="337" y="42" text-anchor="middle" fill="#e87722" font-size="9" font-weight="600">AI</text>
-
-  <rect x="360" y="20" width="130" height="60" rx="8" fill="#0a1628" stroke="#00a3e0" stroke-width="1.5"/>
-  <text x="425" y="45" text-anchor="middle" fill="#00a3e0" font-size="11" font-weight="600"><span class="zh">晶圆制造</span><span class="en">Wafer Fab</span></text>
-  <text x="425" y="62" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="9"><span class="zh">国内晶圆厂</span><span class="en">Domestic Fabs</span></text>
-
-  <line x1="495" y1="50" x2="530" y2="50" stroke="#00a3e0" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
-  <text x="512" y="42" text-anchor="middle" fill="#e87722" font-size="9" font-weight="600">AI</text>
-
-  <rect x="535" y="20" width="155" height="60" rx="8" fill="#0a1628" stroke="#1a8754" stroke-width="1.5"/>
-  <text x="612" y="45" text-anchor="middle" fill="#1a8754" font-size="11" font-weight="600"><span class="zh">最终芯片产品</span><span class="en">Final IC Products</span></text>
-  <text x="612" y="62" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="9"><span class="zh">国产替代闭环</span><span class="en">Domestic Loop</span></text>
-
-  <!-- Feedback arrow -->
-  <path d="M 612 85 Q 612 105 350 105 Q 75 105 75 85" fill="none" stroke="#e87722" stroke-width="1.2" stroke-dasharray="5,3"/>
-  <text x="350" y="115" text-anchor="middle" fill="#e87722" font-size="9"><span class="zh">数据反馈 + AI优化闭环</span><span class="en">Data Feedback + AI Optimization Loop</span></text>
-
-  <defs><marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#00a3e0"/></marker></defs>
-</svg>
-</div>
-
-<div class="card">
-<h3><span class="zh">🤝 合作模式建议</span><span class="en">🤝 Recommended Partnership Model</span></h3>
-<ul>
-<li><span class="zh"><strong>靶材-CVD工艺联合优化：</strong>AI驱动靶材研发+CVD工艺参数协同</span><span class="en"><strong>Target-CVD Process Joint Optimization:</strong> AI-driven target R&amp;D + CVD parameter synergy</span></li>
-<li><span class="zh"><strong>AI关联模型：</strong>建立靶材性能-CVD成膜质量的AI关联模型</span><span class="en"><strong>AI Correlation Model:</strong> Build AI model linking target performance → CVD film quality</span></li>
-<li><span class="zh"><strong>联合实验室：</strong>联合建立AI驱动的靶材研发实验室</span><span class="en"><strong>Joint Lab:</strong> Co-establish AI-driven target R&amp;D laboratory</span></li>
-<li><span class="zh"><strong>数据共享：</strong>战略供应协议+数据共享机制</span><span class="en"><strong>Data Sharing:</strong> Strategic supply agreement + data sharing mechanism</span></li>
-</ul>
-</div>
-
-<div class="card">
-<h3><span class="zh">🎯 靶材对CVD性能的影响</span><span class="en">🎯 Target Impact on CVD Performance</span></h3>
-<div class="table-wrap"><table>
-<thead><tr><th><span class="zh">靶材属性</span><span class="en">Target Property</span></th><th><span class="zh">影响维度</span><span class="en">Impact Dimension</span></th><th><span class="zh">AI应用</span><span class="en">AI Application</span></th></tr></thead>
+<li><span class="zh">设备自我诊断+自我优化</span><span class="en">Self-diagnosing + self-optimizing equipment</span></li>
+<li><span class="zh">数字孪生实时映射每台设备状态</span><span class="en">Digital twins mapping every tool's state in real-time</span></li>
+<li><span class="zh">工艺配方AI自动生成+自动调优</span><span class="en">AI auto-generation + auto-tuning of recipes</span></li>
+<li><span class="zh">全厂级AI调度和排产</span><span class="en">Fab-wide AI scheduling and production planning</span></li>
+</ul></div>
+<div class="card"><h3><span class="zh">设备厂商的AI竞争维度</span><span class="en">AI Competition Dimensions for Equipment Vendors</span></h3>
+<div class="tw"><table>
+<thead><tr><th><span class="zh">维度</span><span class="en">Dimension</span></th><th><span class="zh">Phase 1</span><span class="en">Phase 1</span></th><th><span class="zh">Phase 2</span><span class="en">Phase 2</span></th><th><span class="zh">Phase 3</span><span class="en">Phase 3</span></th></tr></thead>
 <tbody>
-<tr><td><span class="zh">靶材纯度</span><span class="en">Purity</span></td><td>→ <span class="zh">薄膜缺陷密度</span><span class="en">Film defect density</span></td><td><span class="zh">材料模拟+纯度预测</span><span class="en">Materials simulation + purity prediction</span></td></tr>
-<tr><td><span class="zh">靶材均匀性</span><span class="en">Uniformity</span></td><td>→ <span class="zh">薄膜均匀性</span><span class="en">Film uniformity</span></td><td><span class="zh">AI关联建模</span><span class="en">AI correlation modeling</span></td></tr>
-<tr><td><span class="zh">靶材寿命</span><span class="en">Lifetime</span></td><td>→ <span class="zh">生产稳定性</span><span class="en">Production stability</span></td><td><span class="zh">预测性维护+寿命预估</span><span class="en">Predictive maintenance + lifetime estimation</span></td></tr>
+<tr><td><span class="zh">硬件性能</span><span class="en">Hardware</span></td><td><span class="zh">基础门槛</span><span class="en">Baseline</span></td><td><span class="zh">持续改进</span><span class="en">Improve</span></td><td><span class="zh">一流水平</span><span class="en">World-class</span></td></tr>
+<tr><td><span class="zh">软件智能</span><span class="en">Software AI</span></td><td><span class="zh">AI辅助</span><span class="en">AI-assisted</span></td><td><span class="zh">AI优化</span><span class="en">AI-optimized</span></td><td><span class="zh">AI自主</span><span class="en">AI-autonomous</span></td></tr>
+<tr><td><span class="zh">数据生态</span><span class="en">Data Ecosystem</span></td><td><span class="zh">数据采集</span><span class="en">Data collection</span></td><td><span class="zh">数据平台</span><span class="en">Data platform</span></td><td><span class="zh">数据网络</span><span class="en">Data network</span></td></tr>
+<tr><td><span class="zh">供应链整合</span><span class="en">Supply Chain</span></td><td><span class="zh">单点合作</span><span class="en">Point partnership</span></td><td><span class="zh">战略协同</span><span class="en">Strategic synergy</span></td><td><span class="zh">生态联盟</span><span class="en">Ecosystem alliance</span></td></tr>
+</tbody></table></div>
+<p style="margin-top:.5rem"><span class="zh"><strong>最终目标</strong>：从"追赶者"到AI时代半导体设备的<strong>新范式定义者</strong>——不只是卖设备，而是卖"设备+AI+数据+供应链"的整体解决方案。</span><span class="en"><strong>Ultimate goal</strong>: From "follower" to <strong>new paradigm definer</strong> in AI-era semiconductor equipment — not just selling equipment, but "equipment + AI + data + supply chain" integrated solutions.</span></p>
+</div>
+
+<!-- 11 结论 -->
+<div class="section-head"><span class="section-num">11</span><h2><span class="zh">结论与建议</span><span class="en">Conclusions & Recommendations</span></h2></div>
+<div class="cb">
+<h3><span class="zh">执行总结</span><span class="en">Executive Summary</span></h3>
+<p><span class="zh"><strong>1. 现阶段评估：</strong>AI赋能CVD工艺优化技术上完全可行（Lam Fabtex/AMAT AIx已验证），核心瓶颈在<strong>数据打通</strong>。2026.04华虹禁运使国产替代窗口开启。</span><span class="en"><strong>1. Assessment:</strong> AI-powered CVD optimization is technically proven (Lam Fabtex/AMAT AIx). Core bottleneck is <strong>data integration</strong>. Apr 2026 Hua Hong ban opens domestic substitution window.</span></p>
+<p><span class="zh"><strong>2. 推荐路径：</strong>先数据打通→再AI分析→最后闭环执行。同时建立<strong>供应链合作</strong>（如江丰电子靶材协同优化）。</span><span class="en"><strong>2. Path:</strong> Data integration first → AI analysis → closed-loop execution. Build <strong>supply chain partnerships</strong> (e.g., Jiangfeng target co-optimization) simultaneously.</span></p>
+<p><span class="zh"><strong>3. 预期回报：</strong>缺陷检测+30% / 物理量测-50-70% / 良率爬坡+20-30% / 问题定位从天→分钟。</span><span class="en"><strong>3. Expected ROI:</strong> Defect detection +30% / Physical metrology -50-70% / Yield ramp +20-30% / Problem detection from days to minutes.</span></p>
+</div>
+<div class="card"><h3><span class="zh">需要支持</span><span class="en">Required Support</span></h3>
+<div class="tw"><table>
+<thead><tr><th><span class="zh">类型</span><span class="en">Type</span></th><th><span class="zh">内容</span><span class="en">Content</span></th><th><span class="zh">优先级</span><span class="en">Priority</span></th></tr></thead>
+<tbody>
+<tr><td><span class="zh">💰 资金</span><span class="en">💰 Funding</span></td><td>Phase 1启动 ¥30-80万</td><td><span class="badge br"><span class="zh">关键</span><span class="en">Critical</span></span></td></tr>
+<tr><td><span class="zh">📊 FDC数据</span><span class="en">📊 FDC Data</span></td><td><span class="zh">SECS/GEM接口开放</span><span class="en">SECS/GEM access</span></td><td><span class="badge br"><span class="zh">关键</span><span class="en">Critical</span></span></td></tr>
+<tr><td><span class="zh">📊 量测数据</span><span class="en">📊 Metrology</span></td><td><span class="zh">厚度/均匀性/particle API</span><span class="en">Thickness/uniformity/particle API</span></td><td><span class="badge bo"><span class="zh">高</span><span class="en">High</span></span></td></tr>
+<tr><td><span class="zh">👨‍🔬 工艺专家</span><span class="en">👨‍🔬 Process Expert</span></td><td><span class="zh">CVD工艺知识</span><span class="en">CVD process knowledge</span></td><td><span class="badge br"><span class="zh">关键</span><span class="en">Critical</span></span></td></tr>
+<tr><td><span class="zh">🔗 供应链</span><span class="en">🔗 Supply Chain</span></td><td><span class="zh">江丰电子等靶材合作</span><span class="en">Jiangfeng target partnership</span></td><td><span class="badge bo"><span class="zh">高</span><span class="en">High</span></span></td></tr>
+<tr><td><span class="zh">🔓 管理</span><span class="en">🔓 Management</span></td><td><span class="zh">跨部门协调+允许试错</span><span class="en">Cross-dept coordination + trial tolerance</span></td><td><span class="badge bo"><span class="zh">高</span><span class="en">High</span></span></td></tr>
 </tbody></table></div>
 </div>
 
-<!-- ===== SECTION 8: 数据打通 + 技术路线 ===== -->
-<div class="section-head"><span class="section-num">08</span><h2><span class="zh">数据打通 + 技术路线</span><span class="en">Data Integration + Technical Roadmap</span></h2></div>
-
-<div class="card card-highlight">
-<h3>🔑 <span class="zh">核心前提：数据是一切的基础</span><span class="en">🔑 Core Prerequisite: Data is the Foundation of Everything</span></h3>
-<p><span class="zh">AI方案能否成功，<strong>90%取决于数据质量和数据打通程度</strong>。当前最大挑战不是算法，而是<strong>数据接口</strong>——数据API没有打开，AI被锁在"图书馆"门外。</span><span class="en">Whether AI succeeds, <strong>90% depends on data quality and integration level</strong>. The biggest challenge isn't algorithms — it's <strong>data interfaces</strong>. Without data APIs, AI is locked outside the "library."</span></p>
-</div>
-
-<div class="card">
-<h3><span class="zh">需要打通的数据源</span><span class="en">Data Sources to Integrate</span></h3>
-<div class="table-wrap"><table>
-<thead><tr><th><span class="zh">数据源</span><span class="en">Data Source</span></th><th><span class="zh">数据类型</span><span class="en">Data Type</span></th><th><span class="zh">频率</span><span class="en">Frequency</span></th><th><span class="zh">当前状态</span><span class="en">Current Status</span></th></tr></thead>
-<tbody>
-<tr><td><strong>FDC</strong></td><td><span class="zh">传感器时序数据</span><span class="en">Sensor time-series</span></td><td><span class="zh">秒级</span><span class="en">Second-level</span></td><td><span class="badge badge-orange"><span class="zh">部分采集</span><span class="en">Partial</span></span></td></tr>
-<tr><td><strong>MES</strong></td><td><span class="zh">生产批次/流程</span><span class="en">Production lots/flow</span></td><td><span class="zh">批次级</span><span class="en">Lot-level</span></td><td><span class="badge badge-green"><span class="zh">已有</span><span class="en">Available</span></span></td></tr>
-<tr><td><strong><span class="zh">量测系统</span><span class="en">Metrology</span></strong></td><td><span class="zh">薄膜厚度/均匀性/折射率</span><span class="en">Film thickness/uniformity/RI</span></td><td><span class="zh">批次采样</span><span class="en">Lot sampling</span></td><td><span class="badge badge-orange"><span class="zh">需打通</span><span class="en">To integrate</span></span></td></tr>
-<tr><td><strong><span class="zh">缺陷检测</span><span class="en">Defect Inspection</span></strong></td><td><span class="zh">particle/缺陷类型/wafer map</span><span class="en">Particle/defect type/wafer map</span></td><td><span class="zh">每片/每批</span><span class="en">Per wafer/lot</span></td><td><span class="badge badge-orange"><span class="zh">需打通</span><span class="en">To integrate</span></span></td></tr>
-<tr><td><strong>WAT/CP</strong></td><td><span class="zh">电性参数/bin分类</span><span class="en">Electrical params/bin sort</span></td><td><span class="zh">批次级</span><span class="en">Lot-level</span></td><td><span class="badge badge-red"><span class="zh">未打通</span><span class="en">Not integrated</span></span></td></tr>
-<tr><td><strong>YMS</strong></td><td><span class="zh">良率/die fail map</span><span class="en">Yield/die fail map</span></td><td><span class="zh">批次级</span><span class="en">Lot-level</span></td><td><span class="badge badge-red"><span class="zh">未打通</span><span class="en">Not integrated</span></span></td></tr>
-<tr><td><strong><span class="zh">维护记录</span><span class="en">Maintenance</span></strong></td><td><span class="zh">PM/部件更换/chamber clean</span><span class="en">PM/component replace/clean</span></td><td><span class="zh">事件级</span><span class="en">Event-level</span></td><td><span class="badge badge-orange"><span class="zh">需结构化</span><span class="en">Needs structuring</span></span></td></tr>
-</tbody></table></div>
-</div>
-
-<div class="card">
-<h3><span class="zh">数据打通路径</span><span class="en">Data Integration Roadmap</span></h3>
-<div class="phase-box phase-green">
-<h4><span class="zh">第一阶段：设备级数据整合</span><span class="en">Phase 1: Equipment-Level Data Integration</span></h4>
-<ul><li><span class="zh">FDC数据标准化：统一时间戳、采样率、参数命名</span><span class="en">FDC data standardization: unified timestamps, sampling rates, parameter naming</span></li>
-<li><span class="zh">建立<strong>数据湖/时序数据库</strong>（InfluxDB/TimescaleDB）</span><span class="en">Build <strong>data lake / time-series DB</strong> (InfluxDB/TimescaleDB)</span></li>
-<li><span class="zh">每片wafer建立<strong>唯一数据ID</strong></span><span class="en">Assign <strong>unique data ID</strong> to each wafer</span></li></ul>
-</div>
-<div class="phase-box phase-blue">
-<h4><span class="zh">第二阶段：跨工序数据关联</span><span class="en">Phase 2: Cross-Process Data Correlation</span></h4>
-<ul><li><span class="zh">打通量测→缺陷→电性→良率的数据链路</span><span class="en">Connect metrology → defect → electrical → yield data chain</span></li>
-<li><span class="zh">建立<strong>wafer-level追溯体系</strong></span><span class="en">Build <strong>wafer-level traceability system</strong></span></li></ul>
-</div>
-<div class="phase-box phase-purple">
-<h4><span class="zh">第三阶段：全数据AI分析平台</span><span class="en">Phase 3: Full-Data AI Analytics Platform</span></h4>
-<ul><li><span class="zh">部署ML平台（MLflow/Kubeflow），管理模型训练/部署/监控</span><span class="en">Deploy ML platform (MLflow/Kubeflow) for model training/deployment/monitoring</span></li>
-<li><span class="zh">建立实时数据管道，支持<strong>在线推理</strong></span><span class="en">Build real-time data pipeline for <strong>online inference</strong></span></li></ul>
-</div>
-</div>
-
-<div class="card">
-<h3><span class="zh">推荐技术栈</span><span class="en">Recommended Tech Stack</span></h3>
-<div class="table-wrap"><table>
-<thead><tr><th><span class="zh">层级</span><span class="en">Layer</span></th><th><span class="zh">技术选型</span><span class="en">Technology</span></th><th><span class="zh">说明</span><span class="en">Description</span></th></tr></thead>
-<tbody>
-<tr><td><span class="zh">数据采集</span><span class="en">Collection</span></td><td>SECS/GEM + OPC UA</td><td><span class="zh">半导体设备标准通信</span><span class="en">Standard semiconductor equipment communication</span></td></tr>
-<tr><td><span class="zh">时序存储</span><span class="en">Time-series DB</span></td><td>InfluxDB / TimescaleDB</td><td><span class="zh">高效存储高频传感器数据</span><span class="en">Efficient high-frequency sensor data storage</span></td></tr>
-<tr><td><span class="zh">数据管道</span><span class="en">Data Pipeline</span></td><td>Apache Kafka / EMQX</td><td><span class="zh">实时数据流处理</span><span class="en">Real-time data stream processing</span></td></tr>
-<tr><td><span class="zh">ML平台</span><span class="en">ML Platform</span></td><td>MLflow + Python</td><td>scikit-learn / XGBoost / PyTorch</td></tr>
-<tr><td><span class="zh">AI模型</span><span class="en">AI Models</span></td><td>XGBoost / LSTM / Transformer</td><td><span class="zh">回归、分类、时序预测</span><span class="en">Regression, classification, time-series</span></td></tr>
-<tr><td><span class="zh">可视化</span><span class="en">Visualization</span></td><td>Grafana + Custom Dashboard</td><td><span class="zh">实时监控/报警</span><span class="en">Real-time monitoring/alerting</span></td></tr>
-<tr><td><span class="zh">边缘推理</span><span class="en">Edge Inference</span></td><td>ONNX Runtime / TensorRT</td><td><span class="zh">设备端低延迟推理</span><span class="en">On-tool low-latency inference</span></td></tr>
-</tbody></table></div>
-</div>
-
-<div class="card">
-<h3><span class="zh">关键AI模型与应用场景映射</span><span class="en">Key AI Models &amp; Application Mapping</span></h3>
-<div class="table-wrap"><table>
-<thead><tr><th><span class="zh">应用场景</span><span class="en">Application</span></th><th><span class="zh">推荐模型</span><span class="en">Recommended Model</span></th><th><span class="zh">输出</span><span class="en">Output</span></th></tr></thead>
-<tbody>
-<tr><td><span class="zh">隐藏因子发现</span><span class="en">Hidden Factor Discovery</span></td><td>XGBoost + SHAP</td><td><span class="zh">特征重要性排序</span><span class="en">Feature importance ranking</span></td></tr>
-<tr><td><span class="zh">虚拟量测</span><span class="en">Virtual Metrology</span></td><td>LSTM / Transformer</td><td><span class="zh">实时预测薄膜厚度/均匀性</span><span class="en">Real-time film thickness/uniformity prediction</span></td></tr>
-<tr><td><span class="zh">故障检测FDC</span><span class="en">FDC Fault Detection</span></td><td>Autoencoder / One-Class SVM</td><td><span class="zh">异常报警+分类</span><span class="en">Anomaly alert + classification</span></td></tr>
-<tr><td><span class="zh">缺陷模式识别</span><span class="en">Defect Pattern Recognition</span></td><td>CNN / UMAP + DBSCAN</td><td><span class="zh">自动聚类+模式归类</span><span class="en">Auto-clustering + pattern classification</span></td></tr>
-<tr><td><span class="zh">良率预测</span><span class="en">Yield Prediction</span></td><td>Gradient Boosting / GNN</td><td><span class="zh">批次良率预测</span><span class="en">Lot yield prediction</span></td></tr>
-<tr><td><span class="zh">根因定位</span><span class="en">Root Cause Analysis</span></td><td><span class="zh">贝叶斯网络/因果推断</span><span class="en">Bayesian Network / Causal Inference</span></td><td><span class="zh">缺陷→设备/参数根因</span><span class="en">Defect → tool/parameter root cause</span></td></tr>
-<tr><td><span class="zh">预测性维护</span><span class="en">Predictive Maintenance</span></td><td>LSTM / Survival Analysis</td><td><span class="zh">部件剩余寿命预估</span><span class="en">Component remaining life estimation</span></td></tr>
-<tr><td><span class="zh">工艺优化</span><span class="en">Process Optimization</span></td><td><span class="zh">贝叶斯优化/强化学习</span><span class="en">Bayesian Opt / RL</span></td><td><span class="zh">最优参数窗口推荐</span><span class="en">Optimal parameter window recommendation</span></td></tr>
-</tbody></table></div>
-</div>
-
-<!-- ===== SECTION 9: 未来畅想 ===== -->
-<div class="section-head"><span class="section-num">09</span><h2><span class="zh">未来畅想：AI化半导体制造中的设备厂商定位</span><span class="en">Future Vision: Equipment Maker Positioning in AI-Driven Semiconductor Manufacturing</span></h2></div>
-
-<!-- SVG: Market Projection -->
-<div class="chart-container">
-  <div class="chart-title"><span class="zh">📈 全球半导体市场展望（McKinsey）</span><span class="en">📈 Global Semiconductor Market Outlook (McKinsey)</span></div>
-  <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
-    <defs><linearGradient id="futureGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(107,79,160,0.2)"/><stop offset="100%" stop-color="rgba(107,79,160,0)"/></linearGradient></defs>
-    <line x1="80" y1="20" x2="80" y2="160" stroke="#d6d3cc" stroke-width="1"/>
-    <line x1="80" y1="160" x2="670" y2="160" stroke="#d6d3cc" stroke-width="1"/>
-    <line x1="80" y1="120" x2="670" y2="120" stroke="#eee" stroke-width=".5" stroke-dasharray="4"/>
-    <line x1="80" y1="80" x2="670" y2="80" stroke="#eee" stroke-width=".5" stroke-dasharray="4"/>
-    <text x="72" y="163" text-anchor="end" font-size="10" fill="#6b7280" font-family="JetBrains Mono">$0.5T</text>
-    <text x="72" y="123" text-anchor="end" font-size="10" fill="#6b7280" font-family="JetBrains Mono">$0.75T</text>
-    <text x="72" y="83" text-anchor="end" font-size="10" fill="#6b7280" font-family="JetBrains Mono">$1.0T</text>
-    <text x="72" y="43" text-anchor="end" font-size="10" fill="#6b7280" font-family="JetBrains Mono">$1.1T</text>
-    <text x="180" y="180" text-anchor="middle" font-size="11" fill="#6b7280">2024</text>
-    <text x="380" y="180" text-anchor="middle" font-size="11" fill="#6b7280">2027</text>
-    <text x="580" y="180" text-anchor="middle" font-size="11" fill="#6b7280">2030</text>
-    <!-- Solid: historical -->
-    <polygon points="180,128 380,98 380,160 180,160" fill="url(#futureGrad)"/>
-    <line x1="180" y1="128" x2="380" y2="98" stroke="#6b4fa0" stroke-width="2.5"/>
-    <circle cx="180" cy="128" r="4" fill="#6b4fa0"/><text x="180" y="142" text-anchor="middle" font-size="10" fill="#6b7280">$630-680B</text>
-    <!-- Dashed: projection -->
-    <polygon points="380,98 580,42 580,160 380,160" fill="rgba(232,119,34,0.08)"/>
-    <line x1="380" y1="98" x2="580" y2="42" stroke="#e87722" stroke-width="2.5" stroke-dasharray="8,4"/>
-    <circle cx="580" cy="42" r="5" fill="#e87722"/><text x="580" y="35" text-anchor="middle" font-size="11" fill="#e87722" font-weight="700">$1-1.1T</text>
-    <text x="480" y="145" text-anchor="middle" font-size="10" fill="#e87722"><span class="zh">预测区间（McKinsey）</span><span class="en">Projected (McKinsey)</span></text>
-  </svg>
-</div>
-
-<div class="card card-highlight">
-<h3><span class="zh">🏭 完全AI化的晶圆厂（Autonomous Fab）愿景</span><span class="en">🏭 Autonomous Fab Vision</span></h3>
-<ul>
-<li>🤖 <span class="zh"><strong>设备自我诊断+自我优化：</strong>每台设备实时监测自身状态，自动调整参数维持最优性能</span><span class="en"><strong>Self-diagnosis + self-optimization:</strong> Each tool monitors its own status in real-time, auto-adjusting parameters for optimal performance</span></li>
-<li>🔵 <span class="zh"><strong>数字孪生实时映射：</strong>每台设备状态、每片wafer进度实时数字化呈现（<strong>借鉴Lam Fabtex虚拟硅理念</strong>）</span><span class="en"><strong>Digital twin real-time mapping:</strong> Every tool state, every wafer progress rendered digitally in real-time (<strong>borrowing Lam Fabtex virtual silicon concept</strong>)</span></li>
-<li>🧠 <span class="zh"><strong>工艺配方AI自动生成：</strong>AI根据目标规格自动搜索最优工艺窗口（<strong>借鉴AMAT AIx千变量优化</strong>）</span><span class="en"><strong>AI-generated recipes:</strong> AI auto-searches optimal process windows based on target specs (<strong>borrowing AMAT AIx thousand-variable optimization</strong>)</span></li>
-<li>📊 <span class="zh"><strong>全厂级AI调度和排产：</strong>跨设备、跨工序的智能排产和资源分配</span><span class="en"><strong>Fab-wide AI scheduling:</strong> Cross-tool, cross-process intelligent scheduling and resource allocation</span></li>
-</ul>
-</div>
-
-<div class="card">
-<h3><span class="zh">🏆 设备厂商的AI竞争四维度</span><span class="en">🏆 Four Dimensions of AI Competition for Equipment Makers</span></h3>
-<div class="table-wrap"><table>
-<thead><tr><th><span class="zh">维度</span><span class="en">Dimension</span></th><th><span class="zh">定位</span><span class="en">Role</span></th><th><span class="zh">说明</span><span class="en">Description</span></th></tr></thead>
-<tbody>
-<tr><td>1️⃣ <strong><span class="zh">硬件性能</span><span class="en">Hardware</span></strong></td><td><span class="zh">基础门槛</span><span class="en">Baseline</span></td><td><span class="zh">必须达标，但不足以拉开差距</span><span class="en">Must meet specs, but insufficient for differentiation</span></td></tr>
-<tr><td>2️⃣ <strong><span class="zh">软件智能</span><span class="en">Software Intelligence</span></strong></td><td><span class="zh">差异化</span><span class="en">Differentiator</span></td><td><span class="zh">AI驱动的工艺优化、缺陷诊断</span><span class="en">AI-driven process optimization, defect diagnosis</span></td></tr>
-<tr><td>3️⃣ <strong><span class="zh">数据生态</span><span class="en">Data Ecosystem</span></strong></td><td><span class="zh">护城河</span><span class="en">Moat</span></td><td><span class="zh">数据积累越多，模型越精准（飞轮效应）</span><span class="en">More data → better models (flywheel effect)</span></td></tr>
-<tr><td>4️⃣ <strong><span class="zh">供应链整合</span><span class="en">Supply Chain Integration</span></strong></td><td><span class="zh">壁垒</span><span class="en">Barrier</span></td><td><span class="zh">上下游数据打通+协同优化（如江丰靶材+CVD设备）</span><span class="en">Upstream-downstream data integration + joint optimization</span></td></tr>
-</tbody></table></div>
-</div>
-
-<div class="card">
-<h3><span class="zh">🚀 国产设备厂商的战略路径</span><span class="en">🚀 Strategic Roadmap for Domestic Equipment Makers</span></h3>
-<div class="flow-container">
-<div class="flow-step" style="border-top:3px solid var(--red)"><div class="icon">📍</div><div class="label"><span class="zh">Phase 1</span><span class="en">Phase 1</span></div><div class="desc"><span class="zh">用AI缩小与<br>AMAT/Lam差距</span><span class="en">AI narrows gap<br>with AMAT/Lam</span></div></div>
-<div class="flow-arrow">→</div>
-<div class="flow-step" style="border-top:3px solid var(--orange)"><div class="icon">🏗️</div><div class="label"><span class="zh">Phase 2</span><span class="en">Phase 2</span></div><div class="desc"><span class="zh">建立自主<br>AI+工艺平台</span><span class="en">Build own AI +<br>process platform</span></div></div>
-<div class="flow-arrow">→</div>
-<div class="flow-step" style="border-top:3px solid var(--green)"><div class="icon">🏆</div><div class="label"><span class="zh">Phase 3</span><span class="en">Phase 3</span></div><div class="desc"><span class="zh">成为"AI-defined<br>equipment"引领者</span><span class="en">Become "AI-defined<br>equipment" leader</span></div></div>
-</div>
-<div class="cost-highlight"><strong><span class="zh">🎯 最终目标：</span><span class="en">🎯 Ultimate Goal:</span></strong> <span class="zh">不只是追赶者，而是AI时代半导体设备的<strong>新范式定义者</strong></span><span class="en">Not just a follower, but a <strong>new paradigm definer</strong> for semiconductor equipment in the AI era</span></div>
-</div>
-
-<!-- ===== SECTION 10: 实施计划与预算 ===== -->
-<div class="section-head"><span class="section-num">10</span><h2><span class="zh">实施计划与预算</span><span class="en">Implementation Plan &amp; Budget</span></h2></div>
-
-<div class="card">
-<h3><span class="zh">📅 分阶段实施时间线</span><span class="en">📅 Phased Implementation Timeline</span></h3>
-<div class="timeline">
-<div class="timeline-item done"><h4><span class="zh">Phase 0 · 需求调研（第1-2周）</span><span class="en">Phase 0 · Requirements Assessment (Week 1-2)</span></h4><p><span class="zh">梳理数据现状、确定优先场景、组建团队</span><span class="en">Assess data status, prioritize use cases, form team</span></p></div>
-<div class="timeline-item"><h4><span class="zh">Phase 1 · 数据打通（第1-3个月）</span><span class="en">Phase 1 · Data Integration (Month 1-3)</span></h4><p><span class="zh">FDC标准化 → 时序数据库 → 量测/缺陷接口 → 历史数据导入</span><span class="en">FDC standardization → Time-series DB → Metrology/Defect APIs → Historical data import</span></p></div>
-<div class="timeline-item"><h4><span class="zh">Phase 2 · AI模型开发（第2-5个月）</span><span class="en">Phase 2 · AI Model Development (Month 2-5)</span></h4><p><span class="zh">隐藏因子分析 → 虚拟量测 → FDC异常检测 → 缺陷模式聚类</span><span class="en">Hidden factor analysis → Virtual metrology → FDC anomaly detection → Defect pattern clustering</span></p></div>
-<div class="timeline-item"><h4><span class="zh">Phase 3 · 集成上线（第4-7个月）</span><span class="en">Phase 3 · Integration &amp; Launch (Month 4-7)</span></h4><p><span class="zh">实时推理管道 → Dashboard → 报警系统 → APC闭环试点</span><span class="en">Real-time inference pipeline → Dashboard → Alerting → APC closed-loop pilot</span></p></div>
-<div class="timeline-item"><h4><span class="zh">Phase 4 · 持续优化（第6个月起）</span><span class="en">Phase 4 · Continuous Optimization (Month 6+)</span></h4><p><span class="zh">知识库积累 → 工艺优化 → 预测性维护 → 新工艺开发加速</span><span class="en">Knowledge base accumulation → Process optimization → Predictive maintenance → New process acceleration</span></p></div>
-</div>
-</div>
-
-<div class="card">
-<h3><span class="zh">💰 预算估算</span><span class="en">💰 Budget Estimate</span></h3>
-<div class="cost-highlight"><strong><span class="zh">关键原则：分阶段投入，快速验证ROI</span><span class="en">Key Principle: Phased investment, fast ROI validation</span></strong></div>
-<div class="table-wrap"><table>
-<thead><tr><th><span class="zh">阶段</span><span class="en">Phase</span></th><th><span class="zh">内容</span><span class="en">Content</span></th><th><span class="zh">人力</span><span class="en">Team</span></th><th><span class="zh">资金</span><span class="en">Budget</span></th><th><span class="zh">周期</span><span class="en">Duration</span></th></tr></thead>
-<tbody>
-<tr><td><strong>Phase 0</strong><br><span class="zh">需求调研</span><span class="en">Assessment</span></td><td><span class="zh">数据摸底、方案设计</span><span class="en">Data audit, solution design</span></td><td>2-3人</td><td><strong><span class="zh">¥5-10万</span><span class="en">¥50-100K</span></strong></td><td><span class="zh">2周</span><span class="en">2 weeks</span></td></tr>
-<tr><td><strong>Phase 1</strong><br><span class="zh">数据打通</span><span class="en">Data Integration</span></td><td><span class="zh">FDC标准化、数据湖、接口</span><span class="en">FDC standardization, data lake, APIs</span></td><td>3-4人</td><td><strong><span class="zh">¥30-80万</span><span class="en">¥300-800K</span></strong></td><td><span class="zh">2-3月</span><span class="en">2-3 months</span></td></tr>
-<tr><td><strong>Phase 2</strong><br><span class="zh">AI开发</span><span class="en">AI Development</span></td><td><span class="zh">模型开发、训练、验证</span><span class="en">Model dev, training, validation</span></td><td>2-3人</td><td><strong><span class="zh">¥20-50万</span><span class="en">¥200-500K</span></strong></td><td><span class="zh">3月</span><span class="en">3 months</span></td></tr>
-<tr><td><strong>Phase 3</strong><br><span class="zh">集成上线</span><span class="en">Integration</span></td><td><span class="zh">实时管道、Dashboard、APC</span><span class="en">Real-time pipeline, dashboard, APC</span></td><td>3-4人</td><td><strong><span class="zh">¥30-60万</span><span class="en">¥300-600K</span></strong></td><td><span class="zh">3月</span><span class="en">3 months</span></td></tr>
-<tr style="background:rgba(0,104,181,.04)"><td colspan="3"><strong><span class="zh">总计（6-8个月）</span><span class="en">Total (6-8 months)</span></strong></td><td><strong><span class="zh">¥85-200万</span><span class="en">¥850K-2M</span></strong></td><td><strong>~8<span class="zh">个月</span><span class="en"> months</span></strong></td></tr>
-</tbody></table></div>
-</div>
-
-<div class="card">
-<h3><span class="zh">👥 团队配置建议</span><span class="en">👥 Recommended Team Structure</span></h3>
-<div class="table-wrap"><table>
-<thead><tr><th><span class="zh">角色</span><span class="en">Role</span></th><th><span class="zh">人数</span><span class="en">Count</span></th><th><span class="zh">可否内部培养</span><span class="en">Internal?</span></th></tr></thead>
-<tbody>
-<tr><td><span class="zh">项目经理（PM）</span><span class="en">Project Manager</span></td><td>1</td><td>✅</td></tr>
-<tr><td><span class="zh">工艺专家</span><span class="en">Process Expert</span></td><td>1-2</td><td>✅ <span class="zh">必须内部</span><span class="en">Must internal</span></td></tr>
-<tr><td><span class="zh">数据工程师</span><span class="en">Data Engineer</span></td><td>1-2</td><td>⚠️ <span class="zh">可外聘</span><span class="en">Can hire</span></td></tr>
-<tr><td><span class="zh">ML/AI工程师</span><span class="en">ML/AI Engineer</span></td><td>1-2</td><td>⚠️ <span class="zh">可外聘/合作</span><span class="en">Can hire/partner</span></td></tr>
-<tr><td><span class="zh">SECS/GEM工程师</span><span class="en">SECS/GEM Engineer</span></td><td>1</td><td>⚠️ <span class="zh">可外包</span><span class="en">Can outsource</span></td></tr>
-</tbody></table></div>
-<p style="margin-top:10px"><span class="zh"><strong>核心团队最小配置：</strong>PM + 工艺专家 + 1名数据/AI工程师 = <strong>3人</strong>即可启动</span><span class="en"><strong>Minimum core team:</strong> PM + Process Expert + 1 Data/AI Engineer = <strong>3 people</strong> to start</span></p>
-</div>
-
-<!-- ===== SECTION 11: 结论与建议 ===== -->
-<div class="section-head"><span class="section-num">11</span><h2><span class="zh">结论与建议</span><span class="en">Conclusions &amp; Recommendations</span></h2></div>
-
-<div class="conclusion-box">
-<h3>📋 <span class="zh">执行总结</span><span class="en">Executive Summary</span></h3>
-<p style="font-size:.95rem;line-height:2">
-<span class="zh"><strong>1. 现阶段评估：</strong>AI赋能CVD工艺优化，技术上完全可行，行业已有成熟案例（Lam Fabtex™、AMAT AIx™等）。核心瓶颈不在算法，在于<strong>数据打通</strong>——必须先解决数据采集和跨系统整合的问题。<br><br>
-<strong>2. 推荐启动路径：</strong>分三步走——<strong>先数据打通，再AI分析，最后闭环执行</strong>。不要试图一步到位，Phase 1完成后就能看到初步价值。<br><br>
-<strong>3. 预计投入：</strong>Phase 1-3总计 <strong>¥85-200万</strong>，周期 <strong>6-8个月</strong>。最小启动配置只需 <strong>3人 + ¥30万</strong>。<br><br>
-<strong>4. 预期回报：</strong></span><span class="en"><strong>1. Assessment:</strong> AI-empowered CVD optimization is technically feasible with proven industry cases (Lam Fabtex™, AMAT AIx™). The core bottleneck is not algorithms but <strong>data integration</strong>.<br><br>
-<strong>2. Recommended Path:</strong> Three steps — <strong>first integrate data, then AI analysis, finally closed-loop execution</strong>. Don't try to do everything at once; Phase 1 alone delivers initial value.<br><br>
-<strong>3. Investment:</strong> Phase 1-3 total <strong>¥850K-2M</strong>, timeline <strong>6-8 months</strong>. Minimum startup: <strong>3 people + ¥300K</strong>.<br><br>
-<strong>4. Expected Returns:</strong></span>
-</p>
-<ul style="margin-top:10px;font-size:.9rem">
-<li><span class="zh">缺陷检测改善 <strong>30%+</strong></span><span class="en">Defect detection improvement <strong>30%+</strong></span></li>
-<li><span class="zh">物理量测需求减少 <strong>50-70%</strong></span><span class="en">Physical measurement reduction <strong>50-70%</strong></span></li>
-<li><span class="zh">新工艺良率爬坡加速 <strong>20-30%</strong></span><span class="en">New process yield ramp acceleration <strong>20-30%</strong></span></li>
-<li><span class="zh">问题定位时间 <strong>天/周级 → 小时/分钟级</strong></span><span class="en">Problem diagnosis time <strong>days/weeks → hours/minutes</strong></span></li>
-</ul>
-</div>
-
-<div class="card">
-<h3><span class="zh">🤝 供应链合作建议</span><span class="en">🤝 Supply Chain Partnership Recommendations</span></h3>
-<ul>
-<li><span class="zh"><strong>与江丰电子建立战略合作：</strong>靶材-CVD工艺联合优化，数据共享，共同建立AI驱动的联合实验室</span><span class="en"><strong>Strategic partnership with Jiangfeng Electronics:</strong> Target-CVD joint optimization, data sharing, co-establish AI-driven joint lab</span></li>
-<li><span class="zh"><strong>靶材性能-CVD成膜质量AI关联模型：</strong>通过数据打通实现上下游协同优化</span><span class="en"><strong>AI correlation model for target performance → CVD film quality:</strong> Achieve upstream-downstream synergy through data integration</span></li>
-<li><span class="zh"><strong>供应链数据闭环：</strong>从靶材研发到最终芯片产品的全链路数据打通，形成<strong>正向飞轮</strong></span><span class="en"><strong>Supply chain data closed-loop:</strong> Full-chain data integration from target R&amp;D to final IC products, creating a <strong>positive flywheel</strong></span></li>
-</ul>
-</div>
-
-<div class="card" style="border-left:4px solid var(--green)">
-<h3>🚀 <span class="zh">立即可做的第一步</span><span class="en">Immediate First Step</span></h3>
-<ol style="padding-left:1.2rem;font-size:.9rem;line-height:2">
-<li><span class="zh"><strong>选定1台CVD设备作为试点</strong>，导出近3个月FDC原始数据</span><span class="en"><strong>Select 1 CVD tool as pilot</strong>, export 3 months of FDC raw data</span></li>
-<li><span class="zh"><strong>收集对应时段的量测数据</strong>（薄膜厚度、均匀性）和缺陷数据</span><span class="en"><strong>Collect corresponding metrology data</strong> (film thickness, uniformity) and defect data</span></li>
-<li><span class="zh"><strong>用Python + XGBoost做一次初步分析</strong>：将所有FDC参数作为特征，看哪些参数最重要</span><span class="en"><strong>Run initial analysis with Python + XGBoost:</strong> all FDC params as features, identify which matter most</span></li>
-<li><span class="zh"><strong>用SHAP值可视化</strong>：直观展示每个参数的影响程度</span><span class="en"><strong>Visualize with SHAP values:</strong> intuitively show each parameter's impact</span></li>
-<li><span class="zh"><strong>如果看到明显异常</strong>：恭喜，你刚发现了第一个Hidden Factor——这足以证明AI方案的价值</span><span class="en"><strong>If you spot anomalies:</strong> Congratulations, you just discovered your first Hidden Factor — enough to prove AI's value</span></li>
-</ol>
-<p style="margin-top:10px;color:var(--muted);font-size:.85rem"><span class="zh">💡 这一步不需要任何额外投资，只需要一个Python工程师和3天时间。</span><span class="en">💡 This requires zero additional investment — just one Python engineer and 3 days.</span></p>
-</div>
-
-<!-- ===== REFERENCES ===== -->
-<div class="section-head"><span class="section-num">REF</span><h2><span class="zh">参考来源</span><span class="en">References</span></h2></div>
-
-<div class="card" style="border-color:rgba(232,119,34,.2)">
-<h3>📌 <span class="zh">数据来源与参考文献</span><span class="en">Data Sources &amp; References</span></h3>
-<ul style="font-size:.82rem;line-height:2">
-<li>WSTS Global Semiconductor Market Data — SemiWiki (2026.03): <span class="zh">2025全球半导体$792B，+25.6%</span><span class="en">2025 global semiconductor $792B, +25.6%</span></li>
-<li>Lam Research Fabtex™ Yield Optimizer — <a href="https://newsroom.lamresearch.com/" style="color:var(--accent)">newsroom.lamresearch.com</a> (SEMICON West 2025.10): <span class="zh">虚拟硅数字孪生+物理建模+ML</span><span class="en">Virtual silicon twins + physics + ML</span></li>
-<li>Lam Research CVP David Fried: <span class="zh">"传统方法慢、迭代、昂贵"</span><span class="en">"Traditional methods are slow, iterative, expensive"</span></li>
-<li>Applied Materials AIx™ (Actionable Insight Accelerator) — LinkedIn (2026.02): <span class="zh">fab效率提升30%</span><span class="en">fab efficiency +30%</span></li>
-<li>Applied Materials + NVIDIA Partnership — (2026.03): <span class="zh">AI加速材料模拟</span><span class="en">AI-accelerated materials simulation</span></li>
-<li>Applied Materials Endura Volta Selective CVD — TSMC 2nm合作部署</li>
-<li>Applied Materials FY2026: <span class="zh">半导体收入预期增长>20%</span><span class="en">Semiconductor revenue expected growth >20%</span></li>
-<li>Gauss Labs — SPIE AL 2026: <span class="zh">虚拟量测腔室匹配</span><span class="en">Virtual metrology chamber matching</span></li>
-<li>IEEE/ResearchGate 2024 Review: <span class="zh">AI增强<50nm缺陷检测改善30%</span><span class="en">AI-enhanced <50nm defect detection +30%</span></li>
-<li>McKinsey: <span class="zh">2030全球半导体市场$1-1.1T</span><span class="en">2030 global semiconductor market $1-1.1T</span></li>
-<li>SEMI World Fab Forecast &amp; AI Investment Report (2025.09): <span class="zh">NAND设备支出增速42%</span><span class="en">NAND equipment spending growth 42%</span></li>
-<li>智研咨询 (2025): <span class="zh">国产CVD设备国产化率<25%</span><span class="en">Domestic CVD equipment share <25%</span></li>
-<li>江丰电子 2025年报 (2026.04): <span class="zh">营收¥46.04亿，靶材¥28.50亿(+22.13%)</span><span class="en">Revenue ¥4.604B, Targets ¥2.85B (+22.13%)</span></li>
-<li>华虹半导体禁运 — <span class="zh">2026.04.28新闻，外交部4.29回应</span><span class="en">Apr 28, 2026 news, MFA response Apr 29</span></li>
-<li>CVD设备市场份额：AMAT/Lam/TEL占全球~70%</li>
-</ul>
-</div>
-
-<div class="card" style="border-color:rgba(232,119,34,.2)">
-<p style="font-size:.82rem;color:var(--muted)">
-<strong><span class="zh">免责声明：</span><span class="en">Disclaimer:</span></strong>
-<span class="zh">本报告基于2026年4月的公开资料编制，数据来源包括WSTS、SEMI、IEEE、ResearchGate、各公司新闻稿和财报。行业案例中的改善比例为行业平均值，实际效果取决于具体设备和数据质量。预算估算为参考范围，实际以供应商报价为准。</span>
-<span class="en">This report is compiled from publicly available information as of April 2026. Data sources include WSTS, SEMI, IEEE, ResearchGate, company press releases, and financial reports. Industry improvement percentages are averages; actual results depend on specific equipment and data quality. Budget estimates are reference ranges.</span>
-</p>
-</div>
+<div class="card"><h3><span class="zh">参考来源</span><span class="en">References</span></h3>
+<ul style="font-size:.8rem;color:var(--muted)">
+<li>Lam Research Fabtex™ Yield Optimizer — <a href="https://www.lamresearch.com/product/fabtex-yield-optimizer/">lamresearch.com</a> (2025.10)</li>
+<li>Applied Materials AIx™ — <a href="https://www.appliedmaterials.com/us/en/semiconductor/solutions-and-software/ai-x.html">appliedmaterials.com</a></li>
+<li>AMAT + NVIDIA Materials Simulation — <a href="https://www.appliedmaterials.com/us/en/newsroom/quick-takes/applied-materials-collaborates-nvidia-ai-era.html">appliedmaterials.com</a> (2026.03)</li>
+<li>AMAT AIx +30% Efficiency — LinkedIn (2026.02)</li>
+<li>华虹禁运 — RFI/新浪/观察者网 (2026.04.28-29)</li>
+<li>江丰电子2025年报 — 新浪财经 (2026.04.16)</li>
+<li>国内CVD厂商 — 智研咨询 (2025.11) / 投资界 (2026.01) / 深芯盟 (2025.09)</li>
+<li>WSTS/SEMI市场数据 — SemiWiki (2026.03) / SEMI (2025.09)</li>
+<li>McKinsey半导体市场预测 — McKinsey Insights</li>
+<li>AI in CVD/ALD — IEEE/ResearchGate (2024.12) / Meta-Intelligence (2025.07)</li>
+</ul></div>
 
 </div>
 
 <footer>
-<p>Sky Portal · <span class="zh">AI赋能CVD工艺优化方案</span><span class="en">AI-Empowered CVD Process Optimization</span> · 2026.04.30</p>
-<p style="margin-top:4px"><a href="index.html"><span class="zh">← 返回 Sky Portal</span><span class="en">← Back to Sky Portal</span></a></p>
+<p><span class="zh">Sky Portal · AI赋能CVD工艺优化方案 · 2026.04.30</span><span class="en">Sky Portal · AI-Powered CVD Optimization · 2026.04.30</span></p>
+<p><a href="index.html">← Sky Portal</a> · <a href="semiconductor-equipment-ai.html"><span class="zh">半导体设备AI安全方案 →</span><span class="en">Semiconductor Equipment AI Security →</span></a></p>
 </footer>
 
 <script>
-function setLang(lang){document.body.classList.remove('lang-zh','lang-en');document.body.classList.add('lang-'+lang);document.getElementById('btn-zh').classList.toggle('active',lang==='zh');document.getElementById('btn-en').classList.toggle('active',lang==='en')}
+function setLang(l){document.body.className='lang-'+l;document.getElementById('btn-zh').className=l==='zh'?'active':'';document.getElementById('btn-en').className=l==='en'?'active':'';try{localStorage.setItem('sky-lang',l)}catch(e){}}
+try{var s=localStorage.getItem('sky-lang');if(s)setLang(s)}catch(e){}
 </script>
 </body>
 </html>
