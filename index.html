@@ -35,24 +35,55 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  /* Background rotation */
+  /* Background rotation with Ken Burns effect */
   .bg-rotator {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     z-index: -1;
+    overflow: hidden;
+  }
+  .bg-rotator .bg-slide {
+    position: absolute;
+    top: -5%; left: -5%; right: -5%; bottom: -5%;
     background-size: cover;
     background-position: center;
+    opacity: 0;
     transition: opacity 2s ease-in-out;
+    animation: kenBurns 30s ease-in-out infinite alternate;
+  }
+  .bg-rotator .bg-slide.active { opacity: 1; }
+  .bg-rotator .bg-slide:nth-child(odd) {
+    animation-name: kenBurns1;
+  }
+  .bg-rotator .bg-slide:nth-child(even) {
+    animation-name: kenBurns2;
+  }
+  @keyframes kenBurns1 {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.12) translate(-2%, -1%); }
+  }
+  @keyframes kenBurns2 {
+    0% { transform: scale(1.08) translate(-1%, 0); }
+    100% { transform: scale(1) translate(1%, -2%); }
   }
   .bg-rotator::after {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(234, 236, 241, 0.82);
-    backdrop-filter: blur(2px);
+    background: rgba(15, 20, 35, 0.35);
+    z-index: 1;
   }
-  @media (max-width: 768px) {
-    .bg-rotator::after { background: rgba(234, 236, 241, 0.88); }
+  /* Glass morphism for sidebar */
+  .sidebar {
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+  /* Cards with glass effect */
+  .card, .content-card {
+    background: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
 
   body {
@@ -417,7 +448,7 @@
 </style>
 </head>
 <body class="lang-zh">
-<div class="bg-rotator"></div>
+<div class="bg-rotator"><div class="bg-slide active"></div><div class="bg-slide"></div></div>
 
 <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">☰</button>
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
@@ -1034,30 +1065,33 @@ document.querySelectorAll('.nav-sub a').forEach(function(a) {
   });
 });
 
-// Background photo rotation
+// Background photo rotation with crossfade & Ken Burns
 (function() {
   var photos = [];
   for (var i = 1; i <= 11; i++) {
     photos.push('images/backgrounds/bg' + String(i).padStart(2, '0') + '.jpg');
   }
+  var slides = document.querySelectorAll('.bg-slide');
+  if (!slides.length) return;
   var current = Math.floor(Math.random() * photos.length);
-  var rotator = document.querySelector('.bg-rotator');
-  if (!rotator) return;
-  rotator.style.backgroundImage = 'url(' + photos[current] + ')';
+  var activeIdx = 0;
+  slides[0].style.backgroundImage = 'url(' + photos[current] + ')';
 
-  // Rotate every 30 seconds
+  // Preload next image
+  function preload(url) {
+    var img = new Image();
+    img.src = url;
+  }
+
   setInterval(function() {
-    var next = (current + 1) % photos.length;
-    // Shuffle occasionally
-    if (Math.random() < 0.5) {
-      next = Math.floor(Math.random() * photos.length);
-    }
-    rotator.style.opacity = '0';
-    setTimeout(function() {
-      current = next;
-      rotator.style.backgroundImage = 'url(' + photos[current] + ')';
-      rotator.style.opacity = '1';
-    }, 2000);
+    var next = Math.floor(Math.random() * photos.length);
+    var nextIdx = activeIdx === 0 ? 1 : 0;
+    preload(photos[next]);
+    slides[nextIdx].style.backgroundImage = 'url(' + photos[next] + ')';
+    slides[activeIdx].classList.remove('active');
+    slides[nextIdx].classList.add('active');
+    activeIdx = nextIdx;
+    current = next;
   }, 30000);
 })();
 </script>
