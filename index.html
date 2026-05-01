@@ -35,6 +35,26 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  /* Background rotation */
+  .bg-rotator {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 2s ease-in-out;
+  }
+  .bg-rotator::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(234, 236, 241, 0.82);
+    backdrop-filter: blur(2px);
+  }
+  @media (max-width: 768px) {
+    .bg-rotator::after { background: rgba(234, 236, 241, 0.88); }
+  }
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
     background: var(--bg);
@@ -397,6 +417,7 @@
 </style>
 </head>
 <body class="lang-zh">
+<div class="bg-rotator"></div>
 
 <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">☰</button>
 <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
@@ -1012,6 +1033,33 @@ document.querySelectorAll('.nav-sub a').forEach(function(a) {
     }
   });
 });
+
+// Background photo rotation
+(function() {
+  var photos = [];
+  for (var i = 1; i <= 11; i++) {
+    photos.push('images/backgrounds/bg' + String(i).padStart(2, '0') + '.jpg');
+  }
+  var current = Math.floor(Math.random() * photos.length);
+  var rotator = document.querySelector('.bg-rotator');
+  if (!rotator) return;
+  rotator.style.backgroundImage = 'url(' + photos[current] + ')';
+
+  // Rotate every 30 seconds
+  setInterval(function() {
+    var next = (current + 1) % photos.length;
+    // Shuffle occasionally
+    if (Math.random() < 0.5) {
+      next = Math.floor(Math.random() * photos.length);
+    }
+    rotator.style.opacity = '0';
+    setTimeout(function() {
+      current = next;
+      rotator.style.backgroundImage = 'url(' + photos[current] + ')';
+      rotator.style.opacity = '1';
+    }, 2000);
+  }, 30000);
+})();
 </script>
 </body>
 </html>
