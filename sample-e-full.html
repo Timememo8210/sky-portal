@@ -274,22 +274,21 @@ body.lang-en .zh { display: none !important; }
 .feat a:hover { color: var(--text); border-color: var(--text); }
 
 /* ── Section ── */
-.sec { padding: 44px 0; border-bottom: 1px solid var(--line); }
+.sec { padding: 40px 0; border-bottom: 1px solid var(--line); }
 .sec-head {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
   margin-bottom: 20px;
 }
-.sec-num {
-  font-size: 4em;
+.sec-info h3 {
+  font-size: 1.8em;
   font-weight: 700;
-  line-height: 1;
-  color: var(--line);
-  letter-spacing: -0.05em;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
 }
-.sec-info h3 { font-size: 1.2em; font-weight: 700; letter-spacing: -0.02em; }
-.sec-info p { font-size: 0.75em; color: var(--text-2); margin-top: 2px; }
+.sec-head[data-color="blue"] .sec-info h3 { color: #2563EB; }
+.sec-head[data-color="violet"] .sec-info h3 { color: #7C3AED; }
+.sec-head[data-color="green"] .sec-info h3 { color: #16A34A; }
+.sec-head[data-color="amber"] .sec-info h3 { color: #D97706; }
+.sec-info p { font-size: 0.78em; color: var(--text-2); margin-top: 4px; }
 
 /* ── Sub-section ── */
 .subsec { margin-bottom: 24px; }
@@ -385,19 +384,20 @@ body.lang-en .zh { display: none !important; }
   .foot { padding: 24px 20px; }
   .hero { padding: 40px 0 32px; }
   .hero h2 { font-size: 2.6em; }
-  .sec-num { font-size: 3em; }
+  .sec-info h3 { font-size: 1.4em; }
 }
 @media (max-width: 480px) {
   .hero h2 { font-size: 2em; }
   .hero-stats { gap: 16px; flex-wrap: wrap; }
   .head-right { display: none; }
+  .sec-info h3 { font-size: 1.2em; }
 }
 /* Landscape phone */
 @media (max-height: 500px) and (orientation: landscape) {
   .hero { padding: 24px 0 16px; }
   .hero h2 { font-size: 2em; }
   .sec { padding: 24px 0; }
-  .sec-num { font-size: 2.5em; }
+  .sec-info h3 { font-size: 1.2em; }
   .feat h3 { font-size: 1.5em; }
 }
 </style>
@@ -500,8 +500,7 @@ body.lang-en .zh { display: none !important; }
 
     <!-- ═══ 01. Daily ═══ -->
     <div class="sec" id="daily">
-      <div class="sec-head">
-        <div class="sec-num">01</div>
+      <div class="sec-head" data-color="blue">
         <div class="sec-info">
           <h3><span class="zh">每日更新</span><span class="en">Daily Updates</span></h3>
           <p><span class="zh">自动化的日常信息流</span><span class="en">Automated daily information flow</span></p>
@@ -518,8 +517,7 @@ body.lang-en .zh { display: none !important; }
 
     <!-- ═══ 02. Research ═══ -->
     <div class="sec" id="research">
-      <div class="sec-head">
-        <div class="sec-num">02</div>
+      <div class="sec-head" data-color="violet">
         <div class="sec-info">
           <h3><span class="zh">研究</span><span class="en">Research</span></h3>
           <p><span class="zh">半导体与AI的深度思考</span><span class="en">Deep insights on semiconductors & AI</span></p>
@@ -559,8 +557,7 @@ body.lang-en .zh { display: none !important; }
 
     <!-- ═══ 03. Life ═══ -->
     <div class="sec" id="life">
-      <div class="sec-head">
-        <div class="sec-num">03</div>
+      <div class="sec-head" data-color="green">
         <div class="sec-info">
           <h3><span class="zh">生活</span><span class="en">Life</span></h3>
           <p><span class="zh">个人与家庭</span><span class="en">Personal & Family</span></p>
@@ -598,8 +595,7 @@ body.lang-en .zh { display: none !important; }
 
     <!-- ═══ 04. Projects ═══ -->
     <div class="sec" id="projects">
-      <div class="sec-head">
-        <div class="sec-num">04</div>
+      <div class="sec-head" data-color="amber">
         <div class="sec-info">
           <h3><span class="zh">项目 & 工具</span><span class="en">Projects & Tools</span></h3>
           <p><span class="zh">自动化、游戏、创业</span><span class="en">Automation, Games, Startups</span></p>
