@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Receipt Scanner · Home Passport</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { font-family: 'Inter', sans-serif; }
+.fade-in { animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { animation: spin 1s linear infinite; }
+.upload-zone.dragover { border-color: #059669; background: #ecfdf5; }
+</style>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        brand: { 50: '#ecfdf5', 100: '#d1fae5', 500: '#10b981', 600: '#059669', 700: '#047857' }
+      }
+    }
+  }
+}
+</script>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+<div class="max-w-lg mx-auto px-4 py-6 pb-24">
+  <!-- Header -->
+  <div class="flex items-center gap-3 mb-6">
+    <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white text-lg">🏠</div>
+    <div>
+      <h1 class="text-lg font-bold text-slate-900">Receipt Scanner</h1>
+      <p class="text-xs text-slate-500">Home Passport</p>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex bg-white rounded-xl p-1 shadow-sm border border-slate-200 mb-6">
+    <button id="tabUpload" onclick="switchTab('upload')" class="flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all bg-brand-600 text-white">
+      📤 Upload
+    </button>
+    <button id="tabHistory" onclick="switchTab('history')" class="flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all text-slate-600">
+      📋 History
+    </button>
+  </div>
+
+  <!-- Upload View -->
+  <div id="viewUpload">
+    <div id="uploadZone" class="upload-zone border-2 border-dashed border-slate-300 rounded-2xl bg-white p-8 text-center cursor-pointer transition-all hover:border-brand-600 hover:bg-brand-50">
+      <div class="text-4xl mb-3">📸</div>
+      <p class="text-slate-700 font-medium mb-1">Tap to scan a receipt</p>
+      <p class="text-slate-400 text-sm">or drag & drop an image here</p>
+      <p class="text-slate-400 text-xs mt-2">JPG · PNG · PDF</p>
+      <input id="fileInput" type="file" accept="image/*,.pdf" capture="environment" class="hidden">
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="hidden mt-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 text-center">
+        <div class="w-10 h-10 border-3 border-brand-600 border-t-transparent rounded-full spinner mx-auto mb-3" style="border-width:3px"></div>
+        <p class="text-slate-700 font-medium">Analyzing receipt...</p>
+        <p class="text-slate-400 text-sm mt-1">Gemini AI is extracting data</p>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div id="resultView" class="hidden mt-6 fade-in"></div>
+  </div>
+
+  <!-- History View -->
+  <div id="viewHistory" class="hidden">
+    <div id="historyList"></div>
+    <div id="historyEmpty" class="text-center py-12">
+      <div class="text-4xl mb-3">📋</div>
+      <p class="text-slate-500">No receipts scanned yet</p>
+      <p class="text-slate-400 text-sm mt-1">Upload your first receipt to get started</p>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div id="detailModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end justify-center">
+  <div class="bg-slate-50 w-full max-w-lg rounded-t-3xl max-h-[90vh] overflow-y-auto">
+    <div class="sticky top-0 bg-slate-50 p-4 flex justify-between items-center border-b border-slate-200">
+      <h3 class="font-semibold text-slate-900">Receipt Details</h3>
+      <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600">✕</button>
+    </div>
+    <div id="detailContent" class="p-4"></div>
+  </div>
+</div>
+
+<script>
+const API_KEY = 'AIzaSyAfw5iZ-KEvNK78H9VitHCxaWv_1BpwtMg';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+
+const CATEGORIES = {
+  'Plumbing': { icon: '🔧', color: 'bg-blue-100 text-blue-700' },
+  'Electrical': { icon: '⚡', color: 'bg-yellow-100 text-yellow-700' },
+  'HVAC': { icon: '🌡️', color: 'bg-orange-100 text-orange-700' },
+  'Roofing': { icon: '🏠', color: 'bg-slate-100 text-slate-700' },
+  'Landscaping': { icon: '🌿', color: 'bg-green-100 text-green-700' },
+  'Painting': { icon: '🎨', color: 'bg-purple-100 text-purple-700' },
+  'Cleaning': { icon: '🧹', color: 'bg-cyan-100 text-cyan-700' },
+  'General Maintenance': { icon: '🔨', color: 'bg-amber-100 text-amber-700' },
+  'Other': { icon: '📋', color: 'bg-slate-100 text-slate-600' }
+};
+
+function getCat(category) {
+  return CATEGORIES[category] || CATEGORIES['Other'];
+}
+
+// Tab switching
+function switchTab(tab) {
+  const isUpload = tab === 'upload';
+  document.getElementById('viewUpload').classList.toggle('hidden', !isUpload);
+  document.getElementById('viewHistory').classList.toggle('hidden', isUpload);
+  document.getElementById('tabUpload').className = `flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${isUpload ? 'bg-brand-600 text-white' : 'text-slate-600'}`;
+  document.getElementById('tabHistory').className = `flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${isUpload ? 'text-slate-600' : 'bg-brand-600 text-white'}`;
+  if (!isUpload) renderHistory();
+}
+
+// Upload zone
+const uploadZone = document.getElementById('uploadZone');
+const fileInput = document.getElementById('fileInput');
+
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', e => { if (e.target.files.length) handleFile(e.target.files[0]); });
+
+async function handleFile(file) {
+  document.getElementById('loadingState').classList.remove('hidden');
+  document.getElementById('resultView').classList.add('hidden');
+  uploadZone.classList.add('hidden');
+
+  try {
+    const base64 = await toBase64(file);
+    const data = await callGemini(file.type || 'image/jpeg', base64);
+    showResult(data, base64, file.type);
+  } catch (err) {
+    alert('Error: ' + err.message);
+    resetUpload();
+  }
+}
+
+function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function callGemini(mimeType, base64) {
+  const prompt = `You are a receipt/invoice data extraction specialist. Extract all relevant information from this document image.
+
+Return a JSON object with these fields:
+- documentType: "receipt" | "invoice" | "estimate" | "other"
+- date: in YYYY-MM-DD format
+- vendor: { name, address, phone }
+- items: array of { description, quantity, unitPrice, total }
+- subtotal: number
+- tax: number
+- total: number
+- currency: ISO code
+- category: one of Plumbing, Electrical, HVAC, Roofing, Landscaping, Painting, Cleaning, General Maintenance, Other
+- paymentMethod: string or null
+- notes: string or null
+- confidenceScore: 0-1
+
+Rules:
+- If a field is not clearly visible, set to null
+- Normalize dates to YYYY-MM-DD
+- Normalize amounts to numbers (no $ sign)
+- Infer category from vendor name and line items`;
+
+  const resp = await fetch(GEMINI_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [
+        { text: prompt },
+        { inlineData: { mimeType, data: base64 } }
+      ]}],
+      generationConfig: { responseMimeType: 'application/json', temperature: 0.1 }
+    })
+  });
+
+  if (!resp.ok) throw new Error(`API error ${resp.status}`);
+  const json = await resp.json();
+  const text = json.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) throw new Error('No response from AI');
+  return JSON.parse(text);
+}
+
+function showResult(data, imageBase64, mimeType) {
+  document.getElementById('loadingState').classList.add('hidden');
+  const resultView = document.getElementById('resultView');
+  resultView.classList.remove('hidden');
+
+  const cat = getCat(data.category);
+  const date = data.date ? formatDate(data.date) : 'Unknown date';
+  const confidence = data.confidenceScore ?? 0;
+  const confColor = confidence >= 0.8 ? 'text-green-600' : confidence >= 0.5 ? 'text-yellow-600' : 'text-red-600';
+  const confBg = confidence >= 0.8 ? 'bg-green-50' : confidence >= 0.5 ? 'bg-yellow-50' : 'bg-red-50';
+
+  resultView.innerHTML = `
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden fade-in">
+      <!-- Key Info -->
+      <div class="p-5">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl ${cat.color} flex items-center justify-center text-lg">${cat.icon}</span>
+            <div>
+              <p class="font-semibold text-slate-900">${data.category || 'Other'}</p>
+              <p class="text-sm text-slate-500">${date}</p>
+            </div>
+          </div>
+          <p class="text-xl font-bold text-slate-900">${fmtMoney(data.total, data.currency)}</p>
+        </div>
+        <div class="space-y-2">
+          ${data.vendor?.name ? `<div class="flex items-center gap-2 text-sm"><span class="text-slate-400">🏪</span><span class="text-slate-700 font-medium">${esc(data.vendor.name)}</span></div>` : ''}
+          ${data.vendor?.phone ? `<div class="flex items-center gap-2 text-sm"><span class="text-slate-400">📞</span><a href="tel:${data.vendor.phone}" class="text-brand-600">${esc(data.vendor.phone)}</a></div>` : ''}
+        </div>
+      </div>
+
+      <!-- Expandable Details -->
+      <div class="border-t border-slate-100">
+        <button onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.chevron').classList.toggle('rotate-180')" class="w-full px-5 py-3 flex items-center justify-between text-sm text-slate-500 hover:bg-slate-50">
+          <span>View details</span>
+          <span class="chevron transition-transform">▾</span>
+        </button>
+        <div class="hidden px-5 pb-5 space-y-4">
+          ${data.items?.length ? `
+            <div>
+              <p class="text-xs font-medium text-slate-400 uppercase mb-2">Line Items</p>
+              <div class="space-y-2">
+                ${data.items.map(it => `
+                  <div class="flex justify-between text-sm">
+                    <span class="text-slate-700">${esc(it.description)}${it.quantity > 1 ? ` × ${it.quantity}` : ''}</span>
+                    <span class="text-slate-900 font-medium">${fmtMoney(it.total, data.currency)}</span>
+                  </div>
+                `).join('')}
+              </div>
+              ${data.subtotal != null ? `<div class="flex justify-between text-sm mt-2 pt-2 border-t border-slate-100"><span class="text-slate-500">Subtotal</span><span>${fmtMoney(data.subtotal, data.currency)}</span></div>` : ''}
+              ${data.tax != null ? `<div class="flex justify-between text-sm"><span class="text-slate-500">Tax</span><span>${fmtMoney(data.tax, data.currency)}</span></div>` : ''}
+            </div>
+          ` : ''}
+          ${data.vendor?.address ? `<div><p class="text-xs font-medium text-slate-400 uppercase mb-1">Address</p><p class="text-sm text-slate-600">${esc(data.vendor.address)}</p></div>` : ''}
+          ${data.paymentMethod ? `<div><p class="text-xs font-medium text-slate-400 uppercase mb-1">Payment</p><p class="text-sm text-slate-600">${esc(data.paymentMethod)}</p></div>` : ''}
+          ${data.notes ? `<div><p class="text-xs font-medium text-slate-400 uppercase mb-1">Notes</p><p class="text-sm text-slate-600">${esc(data.notes)}</p></div>` : ''}
+        </div>
+      </div>
+
+      <!-- System Info -->
+      <div class="border-t border-slate-100 px-5 py-3 flex items-center justify-between">
+        <span class="text-xs text-slate-400">${data.documentType || 'document'}</span>
+        <span class="text-xs ${confColor} ${confBg} px-2 py-0.5 rounded-full font-medium">${Math.round(confidence * 100)}% confidence</span>
+      </div>
+
+      <!-- Actions -->
+      <div class="border-t border-slate-100 p-4 flex gap-3">
+        <button onclick="saveReceipt()" class="flex-1 bg-brand-600 text-white py-2.5 rounded-xl text-sm font-medium hover:bg-brand-700 transition-colors">Save to History</button>
+        <button onclick="resetUpload()" class="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">New Scan</button>
+      </div>
+    </div>
+  `;
+
+  // Store temporarily for saving
+  window._pendingReceipt = { ...data, imageBase64, mimeType, savedAt: new Date().toISOString() };
+}
+
+function saveReceipt() {
+  if (!window._pendingReceipt) return;
+  const history = JSON.parse(localStorage.getItem('hp_receipts') || '[]');
+  // Don't store full image in localStorage to save space — store a thumbnail flag
+  const entry = { ...window._pendingReceipt };
+  delete entry.imageBase64; // too large for localStorage
+  history.unshift(entry);
+  localStorage.setItem('hp_receipts', JSON.stringify(history));
+  window._pendingReceipt = null;
+
+  // Show confirmation
+  const btn = document.querySelector('#resultView button');
+  if (btn) { btn.textContent = '✓ Saved'; btn.disabled = true; btn.classList.replace('bg-brand-600', 'bg-slate-300'); }
+}
+
+function resetUpload() {
+  document.getElementById('loadingState').classList.add('hidden');
+  document.getElementById('resultView').classList.add('hidden');
+  uploadZone.classList.remove('hidden');
+  fileInput.value = '';
+  window._pendingReceipt = null;
+}
+
+// History
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem('hp_receipts') || '[]');
+  const list = document.getElementById('historyList');
+  const empty = document.getElementById('historyEmpty');
+
+  if (!history.length) { list.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+
+  list.innerHTML = history.map((r, i) => {
+    const cat = getCat(r.category);
+    const date = r.date ? formatDate(r.date) : '';
+    return `
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 mb-3 overflow-hidden fade-in" style="animation-delay:${i * 50}ms">
+        <div class="p-4 flex items-center gap-3 cursor-pointer" onclick="showDetail(${i})">
+          <span class="w-10 h-10 rounded-xl ${cat.color} flex items-center justify-center text-lg shrink-0">${cat.icon}</span>
+          <div class="flex-1 min-w-0">
+            <p class="font-medium text-slate-900 text-sm truncate">${esc(r.vendor?.name || r.category || 'Receipt')}</p>
+            <p class="text-xs text-slate-500">${date}${r.category ? ' · ' + r.category : ''}</p>
+          </div>
+          <div class="text-right shrink-0">
+            <p class="font-semibold text-slate-900">${fmtMoney(r.total, r.currency)}</p>
+            <p class="text-xs text-slate-400">▸</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Summary
+  const total = history.reduce((s, r) => s + (r.total || 0), 0);
+  list.innerHTML = `
+    <div class="bg-brand-50 rounded-2xl p-4 mb-4 border border-brand-100">
+      <div class="flex justify-between items-center">
+        <div>
+          <p class="text-sm text-brand-700 font-medium">${history.length} receipt${history.length > 1 ? 's' : ''}</p>
+          <p class="text-xs text-brand-600/70">Total spending</p>
+        </div>
+        <p class="text-xl font-bold text-brand-700">${fmtMoney(total)}</p>
+      </div>
+    </div>
+  ` + list.innerHTML;
+}
+
+function showDetail(index) {
+  const history = JSON.parse(localStorage.getItem('hp_receipts') || '[]');
+  const r = history[index];
+  if (!r) return;
+
+  const cat = getCat(r.category);
+  const confidence = r.confidenceScore ?? 0;
+  const confColor = confidence >= 0.8 ? 'text-green-600 bg-green-50' : confidence >= 0.5 ? 'text-yellow-600 bg-yellow-50' : 'text-red-600 bg-red-50';
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="space-y-4">
+      <!-- Header -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-12 h-12 rounded-xl ${cat.color} flex items-center justify-center text-2xl">${cat.icon}</span>
+          <div class="flex-1">
+            <p class="font-bold text-slate-900 text-lg">${esc(r.vendor?.name || 'Unknown')}</p>
+            <p class="text-sm text-slate-500">${r.date ? formatDate(r.date) : ''}</p>
+          </div>
+        </div>
+        <div class="flex justify-between items-end">
+          <div class="space-y-1">
+            ${r.vendor?.phone ? `<p class="text-sm text-slate-600">📞 <a href="tel:${r.vendor.phone}" class="text-brand-600">${esc(r.vendor.phone)}</a></p>` : ''}
+            ${r.vendor?.address ? `<p class="text-sm text-slate-600">📍 ${esc(r.vendor.address)}</p>` : ''}
+          </div>
+          <p class="text-2xl font-bold text-slate-900">${fmtMoney(r.total, r.currency)}</p>
+        </div>
+      </div>
+
+      <!-- Items -->
+      ${r.items?.length ? `
+      <div class="bg-white rounded-2xl p-5 border border-slate-200">
+        <p class="text-xs font-medium text-slate-400 uppercase mb-3">Line Items</p>
+        <div class="space-y-3">
+          ${r.items.map(it => `
+            <div class="flex justify-between text-sm">
+              <div>
+                <p class="text-slate-700">${esc(it.description)}</p>
+                ${it.quantity > 1 ? `<p class="text-xs text-slate-400">${it.quantity} × ${fmtMoney(it.unitPrice, r.currency)}</p>` : ''}
+              </div>
+              <span class="font-medium text-slate-900">${fmtMoney(it.total, r.currency)}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="border-t border-slate-100 mt-3 pt-3 space-y-1">
+          ${r.subtotal != null ? `<div class="flex justify-between text-sm"><span class="text-slate-500">Subtotal</span><span>${fmtMoney(r.subtotal, r.currency)}</span></div>` : ''}
+          ${r.tax != null ? `<div class="flex justify-between text-sm"><span class="text-slate-500">Tax</span><span>${fmtMoney(r.tax, r.currency)}</span></div>` : ''}
+          <div class="flex justify-between text-sm font-semibold"><span>Total</span><span>${fmtMoney(r.total, r.currency)}</span></div>
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Meta -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200">
+        <div class="grid grid-cols-2 gap-3 text-sm">
+          <div><p class="text-xs text-slate-400 uppercase">Category</p><p class="text-slate-700">${cat.icon} ${r.category || 'Other'}</p></div>
+          <div><p class="text-xs text-slate-400 uppercase">Type</p><p class="text-slate-700">${r.documentType || '—'}</p></div>
+          ${r.paymentMethod ? `<div><p class="text-xs text-slate-400 uppercase">Payment</p><p class="text-slate-700">${esc(r.paymentMethod)}</p></div>` : ''}
+          <div><p class="text-xs text-slate-400 uppercase">Confidence</p><p class="${confColor} inline-block px-2 py-0.5 rounded-full text-xs font-medium">${Math.round(confidence * 100)}%</p></div>
+        </div>
+        ${r.notes ? `<div class="mt-3 pt-3 border-t border-slate-100"><p class="text-xs text-slate-400 uppercase mb-1">Notes</p><p class="text-sm text-slate-600">${esc(r.notes)}</p></div>` : ''}
+      </div>
+
+      <!-- Delete -->
+      <button onclick="deleteReceipt(${index})" class="w-full py-3 text-red-500 text-sm font-medium hover:bg-red-50 rounded-xl transition-colors">Delete Receipt</button>
+    </div>
+  `;
+
+  document.getElementById('detailModal').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('detailModal').classList.add('hidden');
+}
+
+function deleteReceipt(index) {
+  if (!confirm('Delete this receipt?')) return;
+  const history = JSON.parse(localStorage.getItem('hp_receipts') || '[]');
+  history.splice(index, 1);
+  localStorage.setItem('hp_receipts', JSON.stringify(history));
+  closeModal();
+  renderHistory();
+}
+
+// Close modal on backdrop click
+document.getElementById('detailModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+
+// Helpers
+function formatDate(dateStr) {
+  try {
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch { return dateStr; }
+}
+
+function fmtMoney(amount, currency) {
+  if (amount == null) return '—';
+  const sym = currency === 'EUR' ? '€' : currency === 'GBP' ? '£' : '$';
+  return sym + Number(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function esc(str) {
+  if (!str) return '';
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+</script>
+</body>
+</html>
