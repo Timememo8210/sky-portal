@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sky Portal — 晓波的数字空间</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+    /* ─── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #f9f6f0;
+      --cream-dk: #f0ebe1;
+      --sand:     #e8e0d0;
+      --ink:      #2c2c2c;
+      --ink-light:#6b6560;
+      --copper:   #c5794a;
+      --copper-lt:#d9956a;
+      --copper-dk:#a35e35;
+      --white:    #ffffff;
+      --rule:     #d8d0c4;
+      --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --sans:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --transition: 0.22s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── Nav ───────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--cream);
+      border-bottom: 1px solid var(--rule);
+      padding: 0 32px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--ink);
+    }
+    .nav-brand span {
+      color: var(--copper);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      color: var(--ink-light);
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .nav-links a:hover {
+      color: var(--ink);
+      border-bottom-color: var(--copper);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .lang-toggle {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--ink-light);
+      border: 1px solid var(--rule);
+      padding: 4px 10px;
+      border-radius: 2px;
+      cursor: pointer;
+      background: transparent;
+      font-family: var(--sans);
+      transition: background var(--transition), color var(--transition);
+    }
+    .lang-toggle:hover {
+      background: var(--ink);
+      color: var(--cream);
+      border-color: var(--ink);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--ink);
+      transition: all 0.3s;
+    }
+
+    /* Mobile nav drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 56px;
+      left: 0;
+      right: 0;
+      background: var(--cream);
+      border-bottom: 1px solid var(--rule);
+      padding: 24px 32px;
+      z-index: 99;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-size: 15px;
+      letter-spacing: 0.05em;
+      color: var(--ink-light);
+      padding: 4px 0;
+      border-bottom: 1px solid var(--sand);
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+
+    /* ─── Hero ──────────────────────────────────────── */
+    .hero {
+      padding: 80px 48px 64px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
+      align-items: end;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hero-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-label::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--copper);
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(52px, 7vw, 96px);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--copper);
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      letter-spacing: 0.05em;
+      color: var(--ink-light);
+      line-height: 1.8;
+      max-width: 480px;
+    }
+
+    .hero-issue {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .hero-issue-num {
+      font-family: var(--serif);
+      font-size: 80px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--sand);
+      letter-spacing: -0.04em;
+      display: block;
+    }
+
+    .hero-issue-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-top: 4px;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .stat-item {
+      flex: 1;
+      padding: 0 24px;
+      border-right: 1px solid var(--rule);
+    }
+    .stat-item:first-child { padding-left: 0; }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-top: 2px;
+    }
+
+    /* ─── Section Layout ────────────────────────────── */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px 80px;
+    }
+
+    .section {
+      padding: 56px 0 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+
+    .section-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .section-count {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--ink-light);
+      margin-left: auto;
+      text-transform: uppercase;
+    }
+
+    /* Sub-section */
+    .subsection {
+      margin-top: 40px;
+    }
+
+    .subsection-title {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .subsection-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--sand);
+    }
+
+    /* ─── Cards ─────────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+
+    .card {
+      background: var(--cream);
+      padding: 28px 32px;
+      display: flex;
+      flex-direction: column;
+      transition: background var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      background: var(--white);
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--copper);
+      transition: height var(--transition);
+    }
+    .card:hover::after {
+      height: 100%;
+    }
+
+    .card-tag {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-family: var(--serif);
+      font-size: 19px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--ink-light);
+      line-height: 1.7;
+      flex: 1;
+    }
+
+    .card-link {
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 2px;
+      transition: color var(--transition), border-color var(--transition);
+      align-self: flex-start;
+    }
+    .card-link:hover {
+      color: var(--copper);
+      border-bottom-color: var(--copper);
+    }
+    .card-link svg {
+      transition: transform var(--transition);
+    }
+    .card-link:hover svg {
+      transform: translateX(3px);
+    }
+
+    /* Featured card (full width) */
+    .card.featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      padding: 40px 40px;
+    }
+    .card.featured .card-title {
+      font-size: 28px;
+    }
+    .card.featured .card-visual {
+      background: var(--cream-dk);
+      border: 1px solid var(--sand);
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .card.featured .card-visual-label {
+      font-family: var(--serif);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--sand);
+      letter-spacing: -0.03em;
+    }
+    .card.featured .card-visual-tag {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--copper);
+    }
+
+    /* 3-col card grid for dense sections */
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+
+    /* ─── Daily cards – horizontal list style ───────── */
+    .daily-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+
+    /* ─── Divider ────────────────────────────────────── */
+    .section-divider {
+      margin: 56px 0 0;
+      border: none;
+      border-top: 1px solid var(--rule);
+    }
+
+    /* ─── Footer ─────────────────────────────────────── */
+    .footer {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 40px 48px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-brand {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .footer-brand span { color: var(--copper-lt); }
+
+    .footer-copy {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: #8a8480;
+    }
+
+    .footer-rule {
+      width: 1px;
+      height: 32px;
+      background: #4a4440;
+    }
+
+    /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 48px 24px 40px;
+        gap: 24px;
+      }
+      .hero-issue { text-align: left; }
+      .hero-issue-num { font-size: 48px; }
+      .stats-bar { padding: 16px 24px; gap: 0; }
+      .stat-item { padding: 0 16px; }
+      .main-content { padding: 0 24px 60px; }
+      .card-grid, .daily-list { grid-template-columns: 1fr; }
+      .card-grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .card.featured {
+        grid-column: span 1;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    @media (max-width: 560px) {
+      .card-grid-3 { grid-template-columns: 1fr; }
+      .stats-bar { flex-wrap: wrap; gap: 12px; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--rule); padding: 0 0 12px; flex: none; width: 50%; }
+      .stat-item:nth-child(odd) { padding-right: 16px; }
+      .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-rule { width: 48px; height: 1px; }
+    }
+
+    /* ─── Animations ─────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-text { animation: fadeUp 0.6s ease both; }
+    .hero-text > * { animation: fadeUp 0.6s ease both; }
+    .hero-text > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero-text > *:nth-child(2) { animation-delay: 0.15s; }
+    .hero-text > *:nth-child(3) { animation-delay: 0.25s; }
+
+    /* ─── Scroll cue ─────────────────────────────────── */
+    .scroll-cue {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 36px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      cursor: pointer;
+    }
+    .scroll-cue-line {
+      width: 40px;
+      height: 1px;
+      background: var(--rule);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Navigation ──────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-brand">Sky <em><span>Portal</span></em></div>
+
+  <ul class="nav-links">
+    <li><a href="#daily">每日更新</a></li>
+    <li><a href="#research">研究</a></li>
+    <li><a href="#life">生活</a></li>
+    <li><a href="#tools">项目&amp;工具</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="lang-toggle" onclick="toggleLang(this)">中 / EN</button>
+    <div class="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#daily" onclick="closeMobileNav()">每日更新</a>
+  <a href="#research" onclick="closeMobileNav()">研究</a>
+  <a href="#life" onclick="closeMobileNav()">生活</a>
+  <a href="#tools" onclick="closeMobileNav()">项目&amp;工具</a>
+</div>
+
+<!-- ─── Hero ─────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="hero-label">Personal Digital Space · 2026</p>
+    <h1 class="hero-title">Sky<br><em>Portal</em></h1>
+    <p class="hero-subtitle">晓波的数字空间 · 研究 · 工具 · 记录<br>A personal archive of research, tools &amp; daily intelligence.</p>
+    <div class="scroll-cue" onclick="document.getElementById('daily').scrollIntoView({behavior:'smooth'})">
+      <span class="scroll-cue-line"></span>
+      探索内容
+    </div>
+  </div>
+
+  <div class="hero-issue">
+    <span class="hero-issue-num">2026</span>
+    <p class="hero-issue-label">Year of Record</p>
+  </div>
+</section>
+
+<!-- Stats bar -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">11</div>
+    <div class="stat-label">已发布</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">5</div>
+    <div class="stat-label">进行中</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" id="dayCounter">—</div>
+    <div class="stat-label">建站天数</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">2026</div>
+    <div class="stat-label">当前年份</div>
+  </div>
+</div>
+
+<!-- ─── Main Content ──────────────────────────────────── -->
+<main class="main-content">
+
+  <!-- ── Section: 每日更新 ──────────────────────────── -->
+  <section class="section" id="daily">
+    <div class="section-header">
+      <span class="section-icon">📡</span>
+      <h2 class="section-title">每日更新</h2>
+      <span class="section-count">Daily Dispatches</span>
+    </div>
+
+    <div class="daily-list">
+      <a href="research/index.html" class="card">
+        <span class="card-tag">Research · Daily</span>
+        <h3 class="card-title">每日研报</h3>
+        <p class="card-desc">AI生成的每日行业研究报告，涵盖半导体、科技趋势与市场动态。深度解读，精选信息。</p>
+        <span class="card-link">
+          阅读今日研报
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a href="tech/index.html" class="card">
+        <span class="card-tag">Technology · Daily</span>
+        <h3 class="card-title">每日科技</h3>
+        <p class="card-desc">科技前沿资讯精编。人工智能、芯片、软件工程——每日更新，保持信息敏锐度。</p>
+        <span class="card-link">
+          查看科技动态
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a href="market/index.html" class="card">
+        <span class="card-tag">Markets · Daily</span>
+        <h3 class="card-title">每日行情</h3>
+        <p class="card-desc">全球市场数据概览，股票、加密货币与宏观经济指标，一目了然。</p>
+        <span class="card-link">
+          查看市场行情
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a href="science/index.html" class="card">
+        <span class="card-tag">Science · Weekly</span>
+        <h3 class="card-title">每周科学前沿</h3>
+        <p class="card-desc">精选本周全球科研突破与学术亮点，从量子计算到生命科学，保持科学视野。</p>
+        <span class="card-link">
+          阅读本周前沿
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a href="prompts/index.html" class="card" style="grid-column: span 2;">
+        <span class="card-tag">AI Tools · Library</span>
+        <h3 class="card-title">Prompt 库</h3>
+        <p class="card-desc">精心整理的 AI 提示词库。涵盖研究、写作、分析与日常效率场景，持续更新优化中的个人知识资产。</p>
+        <span class="card-link">
+          浏览 Prompt 库
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ── Section: 研究 ──────────────────────────────── -->
+  <section class="section" id="research">
+    <div class="section-header">
+      <span class="section-icon">🔬</span>
+      <h2 class="section-title">研究</h2>
+      <span class="section-count">Research &amp; Analysis</span>
+    </div>
+
+    <!-- Sub: 半导体&行业 -->
+    <div class="subsection">
+      <p class="subsection-title">半导体 &amp; 行业 · Semiconductor &amp; Industry</p>
+
+      <div class="card-grid">
+        <a href="ai-cvd-optimization.html" class="card featured">
+          <div>
+            <span class="card-tag">AI · CVD · Research</span>
+            <h3 class="card-title">AI赋能半导体<br>设备优化</h3>
+            <p class="card-desc">深度研究报告：AI技术在化学气相沉积（CVD）设备优化中的应用前景，涵盖工艺参数智能调控、良率提升与设备健康管理。</p>
+            <span class="card-link">
+              阅读报告
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+          <div class="card-visual">
+            <span class="card-visual-label">CVD</span>
+            <span class="card-visual-tag">Semiconductor AI</span>
+          </div>
+        </a>
+
+        <a href="semiconductor-equipment-ai.html" class="card">
+          <span class="card-tag">Security · AI · Semiconductor</span>
+          <h3 class="card-title">半导体设备AI安全方案</h3>
+          <p class="card-desc">针对半导体制造设备的AI安全防护架构研究，分析潜在风险与防御策略。</p>
+          <span class="card-link">
+            查看方案
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+
+        <a href="research/intel-tesla-terafab.html" class="card">
+          <span class="card-tag">Intel · Tesla · Strategy</span>
+          <h3 class="card-title">Intel × Tesla Terafab</h3>
+          <p class="card-desc">Intel与Tesla Terafab战略合作深度分析，探讨超大规模半导体制造的未来格局。</p>
+          <span class="card-link">
+            阅读分析
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+
+        <a href="nvidia-report.html" class="card">
+          <span class="card-tag">NVIDIA · Foundry · v2.2</span>
+          <h3 class="card-title">NVIDIA Foundry 战略 v2.2</h3>
+          <p class="card-desc">NVIDIA代工战略最新版本详解，分析其在全球半导体生态中的定位演进与竞争优势。</p>
+          <span class="card-link">
+            阅读报告
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+
+        <a href="intel-news-2026.html" class="card">
+          <span class="card-tag">Intel · 2026 · News</span>
+          <h3 class="card-title">Intel 2026 新闻</h3>
+          <p class="card-desc">Intel 2026年重要动态汇编：产品发布、战略调整、财务表现与竞争格局变化追踪。</p>
+          <span class="card-link">
+            查看新闻
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Sub: AI&技术 -->
+    <div class="subsection">
+      <p class="subsection-title">AI &amp; 技术 · Artificial Intelligence &amp; Technology</p>
+
+      <div class="card-grid">
+        <a href="ai/index.html" class="card">
+          <span class="card-tag">AI · Archive · Interviews</span>
+          <h3 class="card-title">AI 访谈档案</h3>
+          <p class="card-desc">与各类AI模型的深度对话记录存档。GPT-4、Claude、Gemini等——思想碰撞的第一手档案。</p>
+          <span class="card-link">
+            浏览档案
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+
+        <a href="ai-life.html" class="card">
+          <span class="card-tag">AI · Life · Reflection</span>
+          <h3 class="card-title">AI 生活</h3>
+          <p class="card-desc">记录AI如何渗透日常生活的观察与思考——工作流、创作辅助、决策支持，以及人机协作的边界探索。</p>
+          <span class="card-link">
+            阅读随笔
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ── Section: 生活 ──────────────────────────────── -->
+  <section class="section" id="life">
+    <div class="section-header">
+      <span class="section-icon">👤</span>
+      <h2 class="section-title">生活</h2>
+      <span class="section-count">Life &amp; Personal</span>
+    </div>
+
+    <div class="card-grid">
+      <a href="investment.html" class="card">
+        <span class="card-tag">Finance · Decision Tools</span>
+        <h3 class="card-title">投资决策工具</h3>
+        <p class="card-desc">个人投资分析框架与决策辅助工具，整合市场数据与风险评估，支持理性的资产配置决策。</p>
+        <span class="card-link">
+          打开工具
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a href="my-garden/" class="card">
+        <span class="card-tag">Garden · Life</span>
+        <h3 class="card-title">我的花园</h3>
+        <p class="card-desc">Portland家庭花园记录——种植日志、植物档案、季节变化与园艺心得。慢生活的绿色角落。</p>
+        <span class="card-link">
+          进入花园
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a href="naturalization.html" class="card">
+        <span class="card-tag">Immigration · Journey</span>
+        <h3 class="card-title">入籍之路</h3>
+        <p class="card-desc">美国入籍申请全程记录：材料清单、时间线、面试备忘与心路历程。给同路人的参考档案。</p>
+        <span class="card-link">
+          查看进展
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a href="travel.html" class="card">
+        <span class="card-tag">Travel · 2026</span>
+        <h3 class="card-title">旅行</h3>
+        <p class="card-desc">旅行计划、行程记录与游记。2026夏季欧洲之行筹备中——路线、预算、文化攻略全记录。</p>
+        <span class="card-link">
+          查看行程
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a href="worldcup-2026.html" class="card" style="grid-column: span 2;">
+        <span class="card-tag">World Cup · 2026 · USA·Canada·Mexico</span>
+        <h3 class="card-title">2026 世界杯</h3>
+        <p class="card-desc">2026 FIFA世界杯深度追踪。北美主办，64支球队，晓波的赛程分析、赛事预测与现场观赛规划。本届世界杯有望成为史上最盛大的足球盛宴。</p>
+        <span class="card-link">
+          查看赛事
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+
+  <!-- ── Section: 项目&工具 ─────────────────────────── -->
+  <section class="section" id="tools">
+    <div class="section-header">
+      <span class="section-icon">🛠️</span>
+      <h2 class="section-title">项目 &amp; 工具</h2>
+      <span class="section-count">Projects &amp; Tools</span>
+    </div>
+
+    <div class="card-grid-3">
+      <a href="prolynk.html" class="card">
+        <span class="card-tag">Project · SaaS</span>
+        <h3 class="card-title">ProLynk</h3>
+        <p class="card-desc">个人创业项目——职业人脉智能管理平台。AI驱动的关系图谱与职场社交工具。</p>
+        <span class="card-link">
+          查看项目
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a href="skills.html" class="card">
+        <span class="card-tag">Skills · Profile</span>
+        <h3 class="card-title">Skills</h3>
+        <p class="card-desc">技能图谱与能力档案。技术栈、研究专长、语言能力与跨领域知识积累的可视化呈现。</p>
+        <span class="card-link">
+          查看技能
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+
+      <a href="car-decision.html" class="card">
+        <span class="card-tag">Decision · Auto</span>
+        <h3 class="card-title">汽车决策</h3>
+        <p class="card-desc">购车决策分析工具。对比选项、总拥有成本计算与个人使用场景匹配——理性购车的辅助框架。</p>
+        <span class="card-link">
+          查看分析
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M9 1l4 4-4 4M1 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ─── Footer ───────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">Sky <span>Portal</span></div>
+    <div class="footer-rule"></div>
+    <p class="footer-copy">Sky Portal © 2026 · Built with AI assistance · Portland, Oregon</p>
+  </div>
+</footer>
+
+<script>
+  // ── Day counter ──────────────────────────────────────
+  (function() {
+    var launch = new Date('2026-02-15T00:00:00');
+    var now    = new Date();
+    var days   = Math.floor((now - launch) / (1000 * 60 * 60 * 24));
+    var el     = document.getElementById('dayCounter');
+    if (el) el.textContent = days >= 0 ? days : 0;
+  })();
+
+  // ── Mobile nav ───────────────────────────────────────
+  function toggleMobileNav() {
+    var nav = document.getElementById('mobileNav');
+    nav.classList.toggle('open');
+    var hb = document.querySelector('.hamburger');
+    hb.classList.toggle('active');
+  }
+  function closeMobileNav() {
+    document.getElementById('mobileNav').classList.remove('open');
+    document.querySelector('.hamburger').classList.remove('active');
+  }
+
+  // Close on outside click
+  document.addEventListener('click', function(e) {
+    var nav = document.getElementById('mobileNav');
+    var hb  = document.querySelector('.hamburger');
+    if (nav.classList.contains('open') && !nav.contains(e.target) && !hb.contains(e.target)) {
+      closeMobileNav();
+    }
+  });
+
+  // ── Lang toggle stub ─────────────────────────────────
+  function toggleLang(btn) {
+    // Visual toggle only – full i18n can be added later
+    var current = btn.dataset.lang || 'zh';
+    if (current === 'zh') {
+      btn.dataset.lang = 'en';
+      btn.textContent = 'EN / 中';
+    } else {
+      btn.dataset.lang = 'zh';
+      btn.textContent = '中 / EN';
+    }
+  }
+
+  // ── Smooth scroll for all anchor links ───────────────
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var id = this.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ── Hamburger animation ──────────────────────────────
+  var style = document.createElement('style');
+  style.textContent = '.hamburger.active span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}.hamburger.active span:nth-child(2){opacity:0}.hamburger.active span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}';
+  document.head.appendChild(style);
+</script>
+
+</body>
+</html>
