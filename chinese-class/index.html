@@ -142,6 +142,58 @@
   .info-box .value { font-size: 1.3em; font-weight: 700; }
   .info-box .label { font-size: 0.8em; color: var(--text-dim); margin-top: 4px; }
 
+  /* 折叠面板样式 */
+  .unit-details { cursor: pointer; }
+  .unit-summary {
+    font-size: 1em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    user-select: none;
+  }
+  .unit-summary::-webkit-details-marker { display: none; }
+  .unit-summary::before {
+    content: '▶';
+    font-size: 0.7em;
+    color: var(--text-dim);
+    transition: transform 0.2s;
+  }
+  .unit-details[open] .unit-summary::before {
+    transform: rotate(90deg);
+  }
+  .unit-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: rgba(251,146,60,0.15);
+    color: var(--orange);
+    font-size: 0.85em;
+    font-weight: 700;
+  }
+  .unit-content { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .lesson {
+    margin-bottom: 18px;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+  }
+  .lesson:last-child { margin-bottom: 0; }
+  .lesson h4 {
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .lesson p {
+    color: var(--text-dim);
+    font-size: 0.88em;
+    line-height: 1.7;
+    margin-bottom: 2px;
+  }
+  .lesson p strong { color: var(--text); }
+
   .links-section { margin-top: 20px; }
   .link-item {
     display: flex;
@@ -323,20 +375,302 @@
     <div class="progress-bar"><div class="progress-fill" style="width: 0%"></div></div>
   </div>
 
-  <!-- 相关文档/链接（待晓波补充） -->
-  <div class="section-title">📎 相关文档与链接</div>
-  <div class="card" id="links-area">
-    <p style="color: var(--text-dim); font-size: 0.9em;">待晓波补充文档和链接（作文课相关材料等）</p>
-    <!--
-      添加链接模板：
-      <a class="link-item" href="URL" target="_blank">
-        <div class="link-icon">📄</div>
-        <div class="link-info">
-          <div class="link-title">文档标题</div>
-          <div class="link-desc">描述</div>
-        </div>
-      </a>
-    -->
+  <!-- 8单元复习课件内容 -->
+  <div class="section-title">📖 二年级语文园地复习课件（8单元）</div>
+  <p style="color: var(--text-dim); font-size: 0.88em; margin-bottom: 16px;">老师整理的核心复习内容 — 「捞干的」过重点。完整PPT课件可<a href="yuwen-review-grade2.pptx" download style="color: var(--accent);">点此下载</a>。</p>
+
+  <!-- 第一单元 -->
+  <details class="card unit-details">
+    <summary class="unit-summary"><span class="unit-num">一</span> 第一单元 · 春夏秋冬 → 猜字谜</summary>
+    <div class="unit-content">
+      <div class="lesson">
+        <h4>🌨️ 春夏秋冬</h4>
+        <p><strong>我会认：</strong>霜、吹、落、降、飘、游、池、入</p>
+        <p><strong>我会写：</strong>春、风、花、入、冬、雪、飞</p>
+        <p><strong>偏旁：</strong>⻗、阝</p>
+      </div>
+      <div class="lesson">
+        <h4>📜 姓氏歌</h4>
+        <p><strong>我会认：</strong>姓、氏、李、张、古、吴、赵、钱、孙、周、王、官</p>
+        <p><strong>我会写：</strong>姓、什、么、双、国、王、方</p>
+        <p><strong>偏旁：</strong>弓、走、钅</p>
+      </div>
+      <div class="lesson">
+        <h4>🐸 小青蛙</h4>
+        <p><strong>我会认：</strong>清、晴、眼、睛、保、护、害、事、情、请、让、病</p>
+        <p><strong>我会写：</strong>青、气、清、晴、情、请、生</p>
+        <p><strong>偏旁：</strong>疒</p>
+      </div>
+      <div class="lesson">
+        <h4>❓ 猜字谜</h4>
+        <p><strong>我会认：</strong>相、遇、喜、欢、怕、言、互、令、动、万、纯、净</p>
+        <p><strong>我会写：</strong>左、右、红、时、动、万</p>
+        <p><strong>偏旁：</strong>又、冫</p>
+      </div>
+      <div class="lesson">
+        <h4>📌 语文园地一</h4>
+        <p><strong>我会认：</strong>阴、雷、电、阵、冰、冻、夹 / 册、支、铅</p>
+        <p><strong>我会写：</strong>白、回、国</p>
+        <p><strong>词语：</strong>春回大地、万物复苏、柳绿花红、莺歌燕舞、冰雪融化、泉水叮咚、百花齐放、百鸟争鸣</p>
+        <p><strong>词语：</strong>减法、算式、品德、姿势、经历 / 计算、排列、家庭、尊重、预防</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- 第二单元 -->
+  <details class="card unit-details">
+    <summary class="unit-summary"><span class="unit-num">二</span> 第二单元 · 我多想去看看 → 四个太阳</summary>
+    <div class="unit-content">
+      <div class="lesson">
+        <h4>🏔️ 我多想去看看</h4>
+        <p><strong>我会认：</strong>想、告、诉、路、京、安、门、广、非、常、壮、观</p>
+        <p><strong>我会写：</strong>会、走、北、京、门、广</p>
+        <p><strong>偏旁：</strong>足字旁</p>
+      </div>
+      <div class="lesson">
+        <h4>💭 一个接一个</h4>
+        <p><strong>我会认：</strong>接、觉、再、做、各、种、样、梦、伙、伴、却、趣、这</p>
+        <p><strong>我会写：</strong>各、种、样、伙、伴、过、这</p>
+      </div>
+      <div class="lesson">
+        <h4>☀️ 四个太阳</h4>
+        <p><strong>我会认：</strong>太、阳、道、送、忙、尝、香、甜、温、暖、该、颜、因</p>
+        <p><strong>我会写：</strong>太、阳、片、金、秋、因、为</p>
+        <p><strong>偏旁：</strong>舌字旁、页字边</p>
+      </div>
+      <div class="lesson">
+        <h4>📌 语文园地二</h4>
+        <p><strong>我会认：</strong>辆、匹、棵、架</p>
+        <p><strong>量词练习：</strong>一（辆）车、一（匹）马、一（本）书、一（支）铅笔、一（棵）树、一（架）飞机</p>
+        <p><strong>古诗：</strong>春晓（唐）孟浩然 — 春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- 第三单元 -->
+  <details class="card unit-details">
+    <summary class="unit-summary"><span class="unit-num">三</span> 第三单元 · 小公鸡和小鸭子 → 怎么都快乐</summary>
+    <div class="unit-content">
+      <div class="lesson">
+        <h4>🐔 小公鸡和小鸭子</h4>
+        <p><strong>我会认：</strong>块、捉、急、直、河、行、死、信、跟、忽、喊、身</p>
+        <p><strong>我会写：</strong>他、河、说、也、地、听、哥</p>
+        <p><strong>分辨：</strong>的、地、得</p>
+      </div>
+      <div class="lesson">
+        <h4>🌳 树和喜鹊</h4>
+        <p><strong>我会认：</strong>只、窝、孤、单、种、都、邻、居、招、呼、静、乐</p>
+        <p><strong>我会写：</strong>单、居、招、呼、快、乐</p>
+        <p><strong>词语：</strong>叽叽喳喳、安安静静</p>
+        <p><strong>思考：</strong>什么是孤单？</p>
+      </div>
+      <div class="lesson">
+        <h4>😄 怎么都快乐</h4>
+        <p><strong>我会认：</strong>怎、独、跳、绳、讲、得、羽、球、戏、排、篮、连、运</p>
+        <p><strong>我会写：</strong>玩、很、当、音、讲、行、许</p>
+      </div>
+      <div class="lesson">
+        <h4>📌 语文园地三</h4>
+        <p><strong>我会认：</strong>池、漂、机、首</p>
+        <p><strong>古诗：</strong>赠汪伦（唐）李白 — 桃花潭水深千尺，不及汪伦送我情。</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- 第四单元 -->
+  <details class="card unit-details">
+    <summary class="unit-summary"><span class="unit-num">四</span> 第四单元 · 静夜思 → 彩虹</summary>
+    <div class="unit-content">
+      <div class="lesson">
+        <h4>🌙 静夜思</h4>
+        <p><strong>我会认：</strong>夜、思、床、光、疑、举、望、低、故</p>
+        <p><strong>我会写：</strong>思、前、床、光、低、故、乡</p>
+        <p><strong>思考：</strong>你在想念家人时会怎么做？</p>
+      </div>
+      <div class="lesson">
+        <h4>🌃 夜色</h4>
+        <p><strong>我会认：</strong>胆、敢、往、外、勇、窗、乱、偏、散、原、像、微</p>
+        <p><strong>我会写：</strong>色、外、看、笑、爸、晚、再</p>
+        <p><strong>偏旁：</strong>厂</p>
+        <p><strong>词语：</strong>ABAB — 很小很小、再黑再黑</p>
+      </div>
+      <div class="lesson">
+        <h4>🎋 端午粽</h4>
+        <p><strong>我会认：</strong>端、粽、节、总、米、间、分、豆、肉、带、知、据、念</p>
+        <p><strong>我会写：</strong>午、节、叶、真、米、分、豆</p>
+        <p><strong>偏旁：</strong>立、米</p>
+        <p><strong>思考：</strong>端午节在哪一天？有什么习俗？</p>
+      </div>
+      <div class="lesson">
+        <h4>🌈 彩虹</h4>
+        <p><strong>我会认：</strong>虹、座、浇、提、洒、挑、兴、镜、拿、照、千、裙</p>
+        <p><strong>我会写：</strong>那、着、到、高、兴、千、成</p>
+        <p><strong>偏旁：</strong>衣</p>
+        <p><strong>词语：</strong>V来V去 — 荡来荡去</p>
+      </div>
+      <div class="lesson">
+        <h4>📌 语文园地四</h4>
+        <p><strong>我会认：</strong>眉、鼻、嘴、脖、臂、肚、腿、脚</p>
+        <p><strong>我会写：</strong>主、门、书、我</p>
+        <p><strong>古诗：</strong>寻隐者不遇（唐）贾岛</p>
+        <p><strong>绕口令：</strong>妞妞赶牛</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- 第五单元 -->
+  <details class="card unit-details">
+    <summary class="unit-summary"><span class="unit-num">五</span> 第五单元 · 动物儿歌 → 人之初</summary>
+    <div class="unit-content">
+      <div class="lesson">
+        <h4>🦋 动物儿歌</h4>
+        <p><strong>我会认：</strong>蜻、蜓、迷、藏、造、蚂、蚁、食、粮、蜘、蛛、网</p>
+        <p><strong>我会写：</strong>间、迷、造、运、池、欢、网</p>
+        <p><strong>偏旁：</strong>辶、虫</p>
+        <p><strong>句式：</strong>谁在哪里干什么</p>
+      </div>
+      <div class="lesson">
+        <h4>🔄 古对今</h4>
+        <p><strong>我会认：</strong>圆、严、寒、酷、暑、凉、晨、细、朝、霞、夕、杨</p>
+        <p><strong>我会写：</strong>凉、古、细、夕、李、语、香</p>
+      </div>
+      <div class="lesson">
+        <h4>⚽ 操场上</h4>
+        <p><strong>我会认：</strong>操、场、拔、拍、跑、踢、铃、热、闹、锻、炼、体</p>
+        <p><strong>我会写：</strong>打、拍、跑、足、体、声、身</p>
+        <p><strong>偏旁：</strong>火</p>
+      </div>
+      <div class="lesson">
+        <h4>📚 人之初</h4>
+        <p><strong>我会认：</strong>之、初、性、善、习、教、迁、贵、专、幼、玉、器、义</p>
+        <p><strong>我会写：</strong>之、相、近、习、远、玉、义</p>
+      </div>
+      <div class="lesson">
+        <h4>📌 语文园地五</h4>
+        <p><strong>我会认：</strong>饭、能、饱、茶、泡、轻、鞭、炮</p>
+        <p><strong>歇后语：</strong>小葱拌豆腐——一清二白 / 竹篮子打水——一场空 / 芝麻开花——节节高 / 十五个吊桶打水——七上八下</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- 第六单元 -->
+  <details class="card unit-details">
+    <summary class="unit-summary"><span class="unit-num">六</span> 第六单元 · 古诗二首 → 要下雨了</summary>
+    <div class="unit-content">
+      <div class="lesson">
+        <h4>🪷 古诗二首</h4>
+        <p><strong>池上</strong>（唐 白居易）：小娃撑小艇，偷采白莲回。不解藏踪迹，浮萍一道开。</p>
+        <p><strong>小池</strong>（宋 杨万里）：泉眼无声惜细流，树阴照水爱晴柔。小荷才露尖尖角，早有蜻蜓立上头。</p>
+        <p><strong>我会写：</strong>首、采、无、树、爱、尖、角</p>
+      </div>
+      <div class="lesson">
+        <h4>🍃 荷叶圆圆</h4>
+        <p><strong>我会认：</strong>珠、摇、躺、晶、停、机、展、透、翅、膀、唱、朵</p>
+        <p><strong>我会写：</strong>亮、机、台、放、鱼、朵、美</p>
+        <p><strong>偏旁：</strong>身</p>
+        <p><strong>修辞：</strong>比喻、拟人</p>
+      </div>
+      <div class="lesson">
+        <h4>🌧️ 要下雨了</h4>
+        <p><strong>我会认：</strong>腰、坡、沉、伸、潮、湿、呢、空、闷、消、息、搬、响</p>
+        <p><strong>我会写：</strong>呢、直、呀、边、吧、吗、加</p>
+      </div>
+      <div class="lesson">
+        <h4>📌 语文园地六</h4>
+        <p><strong>我会认：</strong>棍、汤、扇、椅、萤、牵、织、斗</p>
+        <p><strong>句式：</strong>谁怎么样地在什么地方干什么</p>
+        <p><strong>标点：</strong>，。？！的用法</p>
+        <p><strong>谚语：</strong>有雨山戴帽，无雨半山腰 / 朝霞不出门，晚霞行千里 / 蚂蚁搬家蛇过道，大雨不久就来到</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- 第七单元 -->
+  <details class="card unit-details">
+    <summary class="unit-summary"><span class="unit-num">七</span> 第七单元 · 文具的家 → 小猴子下山</summary>
+    <div class="unit-content">
+      <div class="lesson">
+        <h4>✏️ 文具的家</h4>
+        <p><strong>我会认：</strong>具、次、丢、哪、新、每、平、她、些、仔、检、查、所</p>
+        <p><strong>我会写：</strong>文、次、找、平、办、让、包</p>
+        <p><strong>偏旁：</strong>斤</p>
+        <p><strong>句式：</strong>一……就……</p>
+      </div>
+      <div class="lesson">
+        <h4>⏰ 一分钟</h4>
+        <p><strong>我会认：</strong>钟、丁、元、迟、洗、背、刚、共、汽、决、定、已、经</p>
+        <p><strong>我会写：</strong>钟、丁、元、共、已、经、坐</p>
+        <p><strong>句式：</strong>要是……就……</p>
+      </div>
+      <div class="lesson">
+        <h4>🐯 动物王国开大会</h4>
+        <p><strong>我会认：</strong>物、虎、熊、通、注、意、遍、百、舌、鬼、脸、准、第</p>
+        <p><strong>我会写：</strong>要、连、百、还、舌、点</p>
+        <p><strong>偏旁：</strong>牛</p>
+        <p><strong>通知要素：</strong>时间、地点、事情、参加人</p>
+      </div>
+      <div class="lesson">
+        <h4>🐒 小猴子下山</h4>
+        <p><strong>我会认：</strong>猴、结、掰、扛、满、扔、摘、捧、瓜、抱、蹦、追</p>
+        <p><strong>我会写：</strong>块、非、常、往、瓜、进、空</p>
+        <p><strong>词语：</strong>又……又……</p>
+        <p><strong>动词：</strong>掰、扛、扔、摘、捧、抱</p>
+      </div>
+      <div class="lesson">
+        <h4>📌 语文园地七</h4>
+        <p><strong>我会认：</strong>吵、胖、岁、现、票、交、弓、甘</p>
+        <p><strong>我会写：</strong>床、左、居、包</p>
+        <p><strong>形近字：</strong>牛/午、己/已、力/刀、人/入</p>
+        <p><strong>名言：</strong>敏而好学，不耻下问 / 不知则问，不能则学 / 读书百遍，而义自见 / 读万卷书，行万里路</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- 第八单元 -->
+  <details class="card unit-details">
+    <summary class="unit-summary"><span class="unit-num">八</span> 第八单元 · 棉花姑娘 → 小壁虎借尾巴</summary>
+    <div class="unit-content">
+      <div class="lesson">
+        <h4>🌸 棉花姑娘</h4>
+        <p><strong>我会认：</strong>棉、娘、治、燕、别、干、然、奇、颗、瓢、碧、吐、啦</p>
+        <p><strong>我会写：</strong>病、医、别、干、奇、七、星</p>
+        <p><strong>句式：</strong>只会……还是……</p>
+      </div>
+      <div class="lesson">
+        <h4>🍈 咕咚</h4>
+        <p><strong>我会认：</strong>咕、咚、熟、掉、吓、羊、鹿、逃、命、象、野、拦、领</p>
+        <p><strong>我会写：</strong>吓、怕、跟、家、羊、象、都</p>
+        <p><strong>句式：</strong>一边……一边……</p>
+        <p><strong>思考：</strong>生活中如何判断事情的真假？</p>
+      </div>
+      <div class="lesson">
+        <h4>🦎 小壁虎借尾巴</h4>
+        <p><strong>我会认：</strong>壁、墙、蚊、咬、断、您、拨、甩、赶、房、傻、转</p>
+        <p><strong>我会写：</strong>捉、条、爬、姐、您、草、房</p>
+        <p><strong>偏旁：</strong>户、车</p>
+        <p><strong>练习：</strong>用礼貌用语向他人借东西</p>
+      </div>
+      <div class="lesson">
+        <h4>📌 语文园地八</h4>
+        <p><strong>我会认：</strong>卫、刷、梳、巾、擦、皂、澡、盆</p>
+        <p><strong>偏旁：</strong>鸟、虫、犭</p>
+        <p><strong>古诗：</strong>画鸡（明 唐寅）— 头上红冠不用裁，满身雪白走将来。平生不敢轻言语，一叫千门万户开。</p>
+        <p><strong>词语：</strong>高兴、生气、害怕、难过</p>
+      </div>
+    </div>
+  </details>
+
+  <!-- 文档下载 -->
+  <div class="section-title">📎 相关文档与下载</div>
+  <a class="link-item" href="yuwen-review-grade2.pptx" download>
+    <div class="link-icon">📊</div>
+    <div class="link-info">
+      <div class="link-title">二年级语文园地复习课件（8单元完整版）</div>
+      <div class="link-desc">老师整理 · PPTX · 61页 · 含课文、我会认/写、偏旁、词语</div>
+    </div>
+  </a>
+  <div id="links-area">
+    <!-- 更多文档待晓波补充 -->
   </div>
 
   <div class="footer">
