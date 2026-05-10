@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 每日行情 2026-05-09 — Sky Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0f0f;--card:#1a1a1a;--border:#2a2a2a;--text:#ccc;--dim:#888;--accent:#4ade80;--accent-glow:rgba(74,222,128,0.15);--red:#f87171;--orange:#f0a040}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',-apple-system,'Helvetica Neue','PingFang SC',sans-serif;line-height:1.7;padding:20px 16px}
+.wrap{max-width:900px;margin:0 auto}
+
+/* Lang Toggle */
+.lang-bar{text-align:right;margin-bottom:8px}
+.lang-bar button{padding:4px 12px;border-radius:4px;cursor:pointer;font-size:0.85em;border:1px solid #555;background:#333;color:#fff}
+.lang-bar button+a button{background:#222;color:#aaa;margin-left:4px}
+body.lang-en .zh{display:none!important}
+body.lang-zh .en{display:none!important}
+
+/* Header */
+h1{text-align:center;color:var(--accent);font-size:1.8em;margin-bottom:4px}
+.subtitle{text-align:center;color:var(--dim);font-size:0.9em;margin-bottom:28px}
+.subtitle a{color:var(--accent);text-decoration:none}
+
+/* Sections */
+h2{color:var(--accent);font-size:1.3em;margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{color:var(--accent);margin:16px 0 10px}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.card h4{color:#fff;font-size:1.05em;margin-bottom:8px}
+.card p{margin-bottom:6px;font-size:0.92em}
+.card .src{color:var(--dim);font-size:0.8em;margin-top:6px}
+
+/* Stock Grid */
+.stock-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}
+.stock-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center}
+.stock-ticker{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--accent);font-size:0.95em}
+.stock-price{color:#fff;font-size:1.1em;font-weight:600;margin:6px 0 4px}
+.stock-change{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:0.82em;padding:3px 10px;border-radius:5px;display:inline-block}
+.up{background:rgba(74,222,128,0.15);color:#4ade80;border:1px solid rgba(74,222,128,0.3)}
+.down{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+
+/* Poster Grid */
+.poster-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+.poster-card{border-radius:12px;padding:20px 24px;color:#fff}
+.poster-icon{font-size:2em;margin-bottom:8px}
+.poster-data{margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6}
+
+/* Kline Grid */
+.kline-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.kline-label{font-family:'JetBrains Mono',monospace;font-size:0.8em;font-weight:600;color:var(--accent);text-align:center;margin-bottom:4px;letter-spacing:0.03em}
+
+/* News Items */
+.news-item{padding:10px 0;border-bottom:1px solid #222}
+.news-item:last-child{border-bottom:none}
+
+/* Weather Box */
+.weather-box{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0}
+.weather-stat{background:#222;border-radius:10px;padding:12px 18px;flex:1;min-width:100px;text-align:center}
+.weather-val{font-size:1.5em;font-weight:700;color:#fff}
+.weather-label{font-size:0.8em;color:var(--dim);margin-top:2px}
+
+/* Footer */
+.footer{text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color:#666;font-size:0.85em}
+.footer a{color:var(--accent);text-decoration:none}
+
+/* Responsive */
+@media(max-width:768px){.stock-grid{grid-template-columns:repeat(2,1fr)}.kline-grid{grid-template-columns:1fr}.poster-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="lang-zh">
+<div class="wrap">
+
+<div class="lang-bar">
+<button onclick="switchLang('zh')" id="btn-zh">中文</button>
+<button onclick="switchLang('en')" id="btn-en">EN</button>
+</div>
+
+<!-- Poster Grid -->
+<div class="poster-grid">
+<div class="poster-card" style="background:linear-gradient(135deg,#059669 0%,#10b981 100%)">
+<div class="poster-icon">📈</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">美股六周连涨</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">US Stocks: 6-Week Streak</div>
+<div class="zh poster-data">• 标普7,399（周+2.3%）<br>• 纳指26,247（周+4.5%）<br>• SOX年内+62%</div>
+<div class="en poster-data" style="display:none">• S&P 7,399 (+2.3% week)<br>• Nasdaq 26,247 (+4.5% week)<br>• SOX +62% YTD</div>
+</div>
+<div class="poster-card" style="background:linear-gradient(135deg,#7c3aed 0%,#a78bfa 100%)">
+<div class="poster-icon">🤖</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">AI芯片狂潮</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">AI Chip Frenzy</div>
+<div class="zh poster-data">• AMD周涨19%，创历史新高<br>• 美光周涨38%，闪迪周涨31%<br>• Intel单日+13%（苹果合作传闻）</div>
+<div class="en poster-data" style="display:none">• AMD +19% week, ATH<br>• Micron +38%, Sandisk +31%<br>• Intel +13% (Apple collab)</div>
+</div>
+<div class="poster-card" style="background:linear-gradient(135deg,#dc2626 0%,#f87171 100%)">
+<div class="poster-icon">🇨🇳</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">A股港股齐涨</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">China & HK Rally</div>
+<div class="zh poster-data">• 创业板指11年新高3,833<br>• 成交连续3天破3万亿<br>• 恒生科技周涨4.75%</div>
+<div class="en poster-data" style="display:none">• ChiNext 11yr high 3,833<br>• Volume >3T, 3 days straight<br>• Hang Seng Tech +4.75% week</div>
+</div>
+<div class="poster-card" style="background:linear-gradient(135deg,#ea580c 0%,#f97316 100%)">
+<div class="poster-icon">🔮</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">下周超级周</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">Super Week Ahead</div>
+<div class="zh poster-data">• 美国CPI/PPI重磅数据<br>• 特朗普携黄仁勋访华<br>• 腾讯、阿里同日放榜</div>
+<div class="en poster-data" style="display:none">• US CPI/PPI data<br>• Trump + Jensen Huang visit China<br>• Tencent & Alibaba earnings</div>
+</div>
+</div>
+
+<h1>📊 <span class="zh">每日行情</span><span class="en" style="display:none">Daily Market</span></h1>
+<p class="subtitle">2026-05-09 · Weekend Edition · <a href="index.html"><span class="zh">所有行情</span><span class="en" style="display:none">All Markets</span></a></p>
+
+<!-- US Markets -->
+<h2>🇺🇸 <span class="zh">美股本周收盘（5/4-5/8）</span><span class="en" style="display:none">US Markets Weekly Close (5/4-5/8)</span></h2>
+
+<div class="card">
+<h4><span class="zh">三大指数六周连涨，标普纳指创2024年以来最长纪录</span><span class="en" style="display:none">Triple Index 6-Week Win Streak, Longest Since 2024</span></h4>
+<p><span class="zh">本周美股展现了极强的多头动能。标普500指数周五上涨0.84%，收报7,398.93点，本周上涨2.3%；纳斯达克综合指数周五大涨1.71%，收报26,247.08点，本周飙升4.5%；道琼斯工业平均指数周五微涨0.02%，收报49,609.16点，本周累计涨幅0.2%。标普与纳指均创下自2024年以来最长的周连涨纪录。</span><span class="en" style="display:none">US stocks showed strong bullish momentum. S&P 500 rose 0.84% Friday to 7,398.93, +2.3% for the week; Nasdaq surged 1.71% to 26,247.08, +4.5% weekly; Dow edged up 0.02% to 49,609.16, +0.2% weekly. Both S&P and Nasdaq posted their longest weekly win streaks since 2024.</span></p>
+<p class="src"><span class="zh">来源：新浪财经 / 证券时报</span><span class="en" style="display:none">Source: Sina Finance / Securities Times</span></p>
+</div>
+
+<div class="card">
+<h4><span class="zh">核心驱动因素</span><span class="en" style="display:none">Key Drivers</span></h4>
+<p><span class="zh"><b>1. 非农超预期：</b>4月非农就业+11.5万（预期5.5万），失业率稳定4.3%。"恰到好处"的报告缓解衰退担忧，未引发过热通胀恐慌。<br><b>2. AI芯片进入狂暴模式：</b>AMD CEO苏姿丰再上调增长预期；美光单日飙升15%（周涨38%），闪迪单日+16%（周涨31%）；Intel受苹果合作传闻推动单日+13%。服务器CPU产能已全部售罄，交货延至6个月。<br><b>3. 油价回落：</b>WTI收于$95.42/桶，周跌6.5%。美伊和谈有进展，库什纳起草"14点和平备忘录"。<br><b>4. 财报季亮眼：</b>82%盈利超预期，EPS同比+25.3%，营收同比+10.4%。</span><span class="en" style="display:none"><b>1. Jobs beat:</b> Apr NFP +115K (exp. 55K), unemployment steady at 4.3%. "Goldilocks" report eased recession fears without sparking inflation panic.<br><b>2. AI chip frenzy:</b> AMD CEO raised guidance; Micron +15% daily (+38% week), Sandisk +16% daily (+31% week); Intel +13% on Apple collab rumor. Server CPU capacity sold out, lead times at 6 months.<br><b>3. Oil pullback:</b> WTI at $95.42/bbl, -6.5% weekly. US-Iran talks progressing, Kushner's 14-point peace memo.<br><b>4. Strong earnings:</b> 82% beat EPS estimates, EPS +25.3% YoY, revenue +10.4% YoY.</span></p>
+<p class="src"><span class="zh">来源：BLS / CNBC / Reuters</span><span class="en" style="display:none">Source: BLS / CNBC / Reuters</span></p>
+</div>
+
+<h3>📊 <span class="zh">美股主要指数</span><span class="en" style="display:none">US Major Indices</span></h3>
+<div class="stock-grid">
+<div class="stock-item"><div class="stock-ticker">S&P 500</div><div class="stock-price">7,398.93</div><div class="stock-change up">+2.30%</div></div>
+<div class="stock-item"><div class="stock-ticker">NASDAQ</div><div class="stock-price">26,247</div><div class="stock-change up">+4.50%</div></div>
+<div class="stock-item"><div class="stock-ticker">DOW</div><div class="stock-price">49,609</div><div class="stock-change up">+0.20%</div></div>
+<div class="stock-item"><div class="stock-ticker">SOX</div><div class="stock-price">—</div><div class="stock-change up">+62% YTD</div></div>
+<div class="stock-item"><div class="stock-ticker">VIX</div><div class="stock-price">17.19</div><div class="stock-change down">↑ cautious</div></div>
+</div>
+
+<h3>🔧 <span class="zh">半导体/AI个股</span><span class="en" style="display:none">Semiconductor / AI Stocks</span></h3>
+<div class="stock-grid">
+<div class="stock-item"><div class="stock-ticker">AMD</div><div class="stock-price">ATH</div><div class="stock-change up">+19% week</div></div>
+<div class="stock-item"><div class="stock-ticker">MU</div><div class="stock-price">—</div><div class="stock-change up">+38% week</div></div>
+<div class="stock-item"><div class="stock-ticker">SNDK</div><div class="stock-price">—</div><div class="stock-change up">+31% week</div></div>
+<div class="stock-item"><div class="stock-ticker">INTC</div><div class="stock-price">—</div><div class="stock-change up">+13% Fri</div></div>
+<div class="stock-item"><div class="stock-ticker">NVDA</div><div class="stock-price">—</div><div class="stock-change up">5/20财报</div></div>
+</div>
+
+<!-- China Markets -->
+<h2>🇨🇳 <span class="zh">A股本周行情（5/5-5/9）</span><span class="en" style="display:none">A-Shares Weekly (5/5-5/9)</span></h2>
+
+<div class="card">
+<h4><span class="zh">创业板指创11年新高，A股总市值突破131万亿</span><span class="en" style="display:none">ChiNext at 11-Year High, A-Share Market Cap Tops 131T</span></h4>
+<p><span class="zh">5月7日A股继续走强，上证指数收报4,180.09点（+0.48%），深证成指+1.18%，创业板指收报3,833.06点（+1.45%），再创近11年新高。科创综指+1.99%，北证50+3.05%。成交额连续3天突破3万亿元，A股总市值突破131万亿创历史新高。融资余额创历史新高，5月6日单日增加超410亿元。<br><br>5月8日A股小幅调整，沪指几乎平盘，深成指-0.5%，创业板指-0.96%，成交30,757亿（连续3天破3万亿）。光通信、商业航天、人形机器人、PCB概念板块表现活跃。</span><span class="en" style="display:none">May 7: A-shares surged further. Shanghai Composite at 4,180.09 (+0.48%), Shenzhen +1.18%, ChiNext at 3,833.06 (+1.45%), an 11-year high. STAR 50 +1.99%, BSE 50 +3.05%. Volume exceeded 3 trillion yuan for 3 straight days. Total A-share market cap surpassed 131 trillion yuan. Margin balance hit record highs with +410B yuan in a single day on May 6.<br><br>May 8: A-shares saw slight pullback. Shanghai flat, Shenzhen -0.5%, ChiNext -0.96%. Volume at 3.076T (3rd day above 3T). Optical comms, commercial space, humanoid robots, PCB sectors active.</span></p>
+<p class="src"><span class="zh">来源：证券时报 / 东方财富 / 知乎</span><span class="en" style="display:none">Source: Securities Times / Eastmoney / Zhihu</span></p>
+</div>
+
+<h3>📊 <span class="zh">A股主要指数</span><span class="en" style="display:none">China Major Indices</span></h3>
+<div class="stock-grid">
+<div class="stock-item"><div class="stock-ticker">上证</div><div class="stock-price">4,180</div><div class="stock-change up">+0.48%</div></div>
+<div class="stock-item"><div class="stock-ticker">深成指</div><div class="stock-price">—</div><div class="stock-change up">+1.18%</div></div>
+<div class="stock-item"><div class="stock-ticker">创业板</div><div class="stock-price">3,833</div><div class="stock-change up">🔥 11yr High</div></div>
+<div class="stock-item"><div class="stock-ticker">科创50</div><div class="stock-price">—</div><div class="stock-change up">+1.99%</div></div>
+<div class="stock-item"><div class="stock-ticker">成交额</div><div class="stock-price">3.08万亿</div><div class="stock-change up">连续3天</div></div>
+</div>
+
+<!-- HK Markets -->
+<h2>🇭🇰 <span class="zh">港股本周行情</span><span class="en" style="display:none">Hong Kong Weekly</span></h2>
+
+<div class="card">
+<h4><span class="zh">恒生科技周涨4.75%，重返5100+</span><span class="en" style="display:none">Hang Seng Tech +4.75% Weekly, Back Above 5,100</span></h4>
+<p><span class="zh">港股三大指数本周集体走强。恒生指数累计上涨2.39%，报约26,626点；恒生科技指数周涨4.75%，重返5,100点上方。5月7日单日表现尤为亮眼，恒指涨1.57%，恒生科技涨3.06%。壁仞科技大涨14%，澜起科技创新高。5月8日港股小幅回调，恒指-1.09%，恒生科技-1.07%，半导体板块领跌。中信证券指出4月科技板块强势修复，硬件端显著跑赢软件端，AI算力链景气度领先。</span><span class="en" style="display:none">HK three major indices rallied. Hang Seng Index +2.39% weekly to ~26,626; Hang Seng Tech +4.75%, back above 5,100. May 7 was particularly strong: HSI +1.57%, HSTECH +3.06%. Biren Tech +14%, Montage Tech new highs. May 8 saw slight pullback with HSI -1.09%, HSTECH -1.07%, semis leading declines. CITIC Securities noted April tech sector strong recovery, hardware outperformed software, AI computing chain leading.</span></p>
+<p class="src"><span class="zh">来源：新浪财经 / 东方财富 / 中信证券</span><span class="en" style="display:none">Source: Sina Finance / Eastmoney / CITIC Securities</span></p>
+</div>
+
+<h3>📊 <span class="zh">港股主要指数</span><span class="en" style="display:none">HK Major Indices</span></h3>
+<div class="stock-grid">
+<div class="stock-item"><div class="stock-ticker">恒指</div><div class="stock-price">26,626</div><div class="stock-change up">+2.39% week</div></div>
+<div class="stock-item"><div class="stock-ticker">恒生科技</div><div class="stock-price">5,100+</div><div class="stock-change up">+4.75% week</div></div>
+<div class="stock-item"><div class="stock-ticker">恒生国企</div><div class="stock-price">—</div><div class="stock-change up">+2.1% week</div></div>
+</div>
+
+<!-- Kline Charts -->
+<h3>📊 <span class="zh">K线图</span><span class="en" style="display:none">Charts</span></h3>
+<div class="kline-grid">
+<div class="kline-item"><div class="kline-label">SPY — S&P 500</div><div id="tv-spy"></div></div>
+<div class="kline-item"><div class="kline-label">QQQ — Nasdaq 100</div><div id="tv-qqq"></div></div>
+<div class="kline-item"><div class="kline-label">SOXX — Semiconductor ETF</div><div id="tv-soxx"></div></div>
+<div class="kline-item"><div class="kline-label">NVDA — NVIDIA</div><div id="tv-nvda"></div></div>
+<div class="kline-item"><div class="kline-label">AMD</div><div id="tv-amd"></div></div>
+<div class="kline-item"><div class="kline-label">000001 — 上证指数</div><div id="tv-sse"></div></div>
+</div>
+
+<!-- Risk Warning -->
+<h2>⚠️ <span class="zh">风险提示</span><span class="en" style="display:none">Risk Warnings</span></h2>
+
+<div class="card">
+<h4><span class="zh">技术性超买 + 估值过度依赖AI叙事</span><span class="en" style="display:none">Technical Overbought + AI-Dependent Valuations</span></h4>
+<p><span class="zh"><b>技术面：</b>纳指100的RSI已触及八年高点，技术性超买极其严重。VIX周五不降反升至17.19，表明机构买保险意识增强，与表面涨势形成背离。<br><br><b>基本面：</b>目前市场估值未能反映地缘政治长期化对消费者的负面影响。经济增长高度依赖AI支出，如果没有这部分乐观预期，实体经济可能相当乏力。<br><br><b>板块风险：</b>芯片股近期乖离率过大，美光周涨38%、闪迪周涨31%，市场正在为5月20日英伟达财报进行"预演"，随时可能出现"健康的回调"。<br><br><b>地缘政治：</b>周五美伊在霍尔木兹海峡发生交火，尽管市场选择"边打边看"，但和平协议能否落地仍存不确定性。</span><span class="en" style="display:none"><b>Technical:</b> Nasdaq 100 RSI hit 8-year high, severely overbought. VIX rose to 17.19 despite rally — institutions buying insurance, divergence with surface strength.<br><br><b>Fundamental:</b> Current valuations don't reflect prolonged geopolitical impact on consumers. Growth heavily AI-dependent; without AI optimism, real economy looks weak.<br><br><b>Sector risk:</b> Chip stocks extremely extended — Micron +38% week, Sandisk +31%. Market front-running Nvidia May 20 earnings; "healthy pullback" possible anytime.<br><br><b>Geopolitics:</b> US-Iran exchange of fire in Strait of Hormuz Friday. Markets "wait and see" but peace deal uncertain.</span></p>
+<p class="src"><span class="zh">来源：新浪财经 / Distill Intelligence</span><span class="en" style="display:none">Source: Sina Finance / Distill Intelligence</span></p>
+</div>
+
+<!-- Outlook -->
+<h2>🔮 <span class="zh">下周展望（5/12-5/16）</span><span class="en" style="display:none">Week Ahead (5/12-5/16)</span></h2>
+
+<div class="card">
+<h4><span class="zh">超级周：CPI数据 + 特朗普访华 + 财报密集轰炸</span><span class="en" style="display:none">Super Week: CPI + Trump China Visit + Earnings Blitz</span></h4>
+<p><span class="zh"><b>📅 周一 5/12：</b><br>• 中国4月CPI/PPI<br>• 美国财长贝森特访日<br>• 港股：涂鸦智能财报</p>
+
+<p><b>📅 周二 5/13：</b><br>• ⭐ 美国4月CPI（预计同比3.8%）— 本周最重要数据<br>• 港股：京东、腾讯音乐财报</p>
+
+<p><b>📅 周三 5/14：</b><br>• 美国PPI<br>• ⭐ 特朗普携黄仁勋访华（苹果、波音等CEO随行）<br>• ⭐ 腾讯、阿里巴巴同日放榜 — AI收入转化率成核心看点<br>• 港股：中芯国际、华虹半导体财报</p>
+
+<p><b>📅 周四 5/15：</b><br>• 美国4月零售销售<br>• ⭐ 美联储主席鲍威尔任期到期<br>• 港股：华住、零跑汽车财报</p>
+
+<p><b>📅 英伟达财报倒计时：</b>5月20日（下下周三），市场已进入"预演模式"</span></p>
+
+<p><span class="en" style="display:none"><b>📅 Mon 5/12:</b><br>• China Apr CPI/PPI<br>• US Treasury Sec Bessent visits Japan<br>• HK: Tuya earnings</p>
+
+<p><b>📅 Tue 5/13:</b><br>• ⭐ US Apr CPI (est. 3.8% YoY) — Most important data point<br>• HK: JD.com, Tencent Music earnings</p>
+
+<p><b>📅 Wed 5/14:</b><br>• US PPI<br>• ⭐ Trump + Jensen Huang visit China (Apple, Boeing CEOs join)<br>• ⭐ Tencent & Alibaba earnings same day — AI revenue conversion key<br>• HK: SMIC, Hua Hong earnings</p>
+
+<p><b>📅 Thu 5/15:</b><br>• US Apr retail sales<br>• ⭐ Fed Chair Powell's term expires<br>• HK: Huazhu, Leapmotor earnings</p>
+
+<p><b>📅 Nvidia countdown:</b> May 20 (Wed next week), market in "preview mode"</span></p>
+<p class="src"><span class="zh">来源：华盛通 / 富途资讯 / 新浪财经</span><span class="en" style="display:none">Source: HSTong / Futu / Sina Finance</span></p>
+</div>
+
+<div class="card">
+<h4><span class="zh">走势预判</span><span class="en" style="display:none">Market Forecast</span></h4>
+<p><span class="zh"><b>标普500下周预测区间：</b>7,246 - 7,560（68%概率）/ 7,201 - 7,607（80%概率）<br><br><b>整体判断：</b>高位剧烈波动。"恐高与贪婪的博弈"——AI基础设施利好足以抵消高油价负面影响，但过热技术指标暗示盘中回撤概率加大。<br><br><b>关键变量：</b>CPI数据是核心催化剂。若通胀超预期，可能触发高估值科技股抛售；若温和，则AI主线继续推进。<br><br><b>操作建议：</b>不在此高位追涨近期暴涨芯片股（美光+38%、闪迪+31%），等CPI落地后观察关键支撑位。关注特朗普访华带来的中美贸易利好预期。</span><span class="en" style="display:none"><b>S&P 500 next week range:</b>7,246 - 7,560 (68% prob) / 7,201 - 7,607 (80% prob)<br><br><b>Overall:</b>High volatility expected. "Fear of heights vs greed" — AI infrastructure tailwinds offset high oil, but overbought indicators suggest intraday pullbacks likely.<br><br><b>Key variable:</b>CPI is the core catalyst. Above-expectation inflation could trigger tech selloff; benign data lets AI narrative continue.<br><br><b>Strategy:</b>Don't chase recent chip rockets (MU +38%, SNDK +31%). Wait for CPI, then assess support levels. Watch Trump China visit for trade optimism.</span></p>
+<p class="src"><span class="zh">来源：usoption期权 / 新浪财经</span><span class="en" style="display:none">Source: usoption / Sina Finance</span></p>
+</div>
+
+<div class="footer">
+<p>📊 Sky Portal Daily Market · <span class="zh">由</span><span class="en" style="display:none">Generated by</span> Sky ☁️ <span class="zh">自动生成</span><span class="en" style="display:none">auto-generated</span> · <a href="index.html"><span class="zh">所有行情</span><span class="en" style="display:none">All Markets</span></a> · <a href="../index.html"><span class="zh">返回首页</span><span class="en" style="display:none">Home</span></a></p>
+<p style="margin-top:8px;font-size:0.75em;color:#444"><span class="zh">数据来源：新浪财经、证券时报、华盛通、富途资讯、CNBC、Reuters、BLS</span><span class="en" style="display:none">Sources: Sina Finance, Securities Times, HSTong, Futu, CNBC, Reuters, BLS</span></p>
+</div>
+
+</div>
+
+<script>
+function switchLang(lang){
+  document.querySelectorAll('.zh').forEach(el=>el.style.display=lang==='zh'?'':'none');
+  document.querySelectorAll('.en').forEach(el=>el.style.display=lang==='en'?'':'none');
+  document.getElementById('btn-zh').style.background=lang==='zh'?'#555':'#333';
+  document.getElementById('btn-zh').style.color=lang==='zh'?'#fff':'#aaa';
+  document.getElementById('btn-en').style.background=lang==='en'?'#555':'#222';
+  document.getElementById('btn-en').style.color=lang==='en'?'#fff':'#aaa';
+  document.body.className='lang-'+lang;
+}
+</script>
+
+<!-- TradingView Widgets -->
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+<script type="text/javascript">
+var symbols=[
+  {id:'tv-spy',sym:'AMEX:SPY'},
+  {id:'tv-qqq',sym:'NASDAQ:QQQ'},
+  {id:'tv-soxx',sym:'NASDAQ:SOXX'},
+  {id:'tv-nvda',sym:'NASDAQ:NVDA'},
+  {id:'tv-amd',sym:'NASDAQ:AMD'},
+  {id:'tv-sse',sym:'SSE:000001'}
+];
+symbols.forEach(function(s){
+  new TradingView.widget({
+    symbol:s.sym,interval:'1D',height:180,width:'100%',
+    theme:'dark',style:'1',chart_type:'candlesticks',
+    hide_top_toolbar:true,hide_legend:true,save_image:false,
+    calendar:false,hide_volume:true,
+    backgroundColor:'rgba(20,20,30,1)',gridColor:'rgba(42,42,42,1)',
+    container_id:s.id
+  });
+});
+</script>
+
+</body>
+</html>
