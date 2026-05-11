@@ -220,6 +220,7 @@
       savePage({
         title: d.title,
         body: d.body,
+        fullHtml: null,  // view.html 已有 fallback 处理，优先用 fullHtml，否则用 body
         template: d.template,
         tags: d.tags
       });

@@ -7,30 +7,36 @@
 (function () {
   'use strict';
 
+  /* 转义 HTML 特殊字符，防止 XSS */
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   /* 模板 HTML 生成器 */
   var TEMPLATES = {
     diary: function (data) {
       return '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
         '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:\'Noto Serif SC\',Georgia,serif;background:#faf9f6;color:#2c2c2c;padding:40px 24px;line-height:1.9}.container{max-width:640px;margin:0 auto}.date{color:#9c958e;font-size:0.9rem;margin-bottom:8px}h1{font-size:1.8rem;margin-bottom:4px;font-weight:700}.subtitle{color:#6b6560;font-size:1.05rem;margin-bottom:32px;font-style:italic}p{margin-bottom:1.2em;font-size:1rem}h2{font-size:1.3rem;margin:1.8em 0 0.6em;color:#e85d26;font-weight:600}h3{font-size:1.1rem;margin:1.4em 0 0.4em;font-weight:600}blockquote{border-left:3px solid #e85d26;padding:12px 20px;margin:1.5em 0;background:#fef3ed;border-radius:0 12px 12px 0;font-style:italic;color:#6b6560}ul,ol{margin:0.8em 0 1.2em 1.5em}li{margin-bottom:0.4em}.tags{display:flex;gap:8px;margin-top:32px}.tag{padding:4px 14px;border-radius:999px;background:#f0ede6;font-size:0.8rem;color:#6b6560}</style></head><body>' +
-        '<div class="container"><div class="date">' + data.date + '</div><h1>' + data.title + '</h1>' +
-        '<div class="subtitle">' + data.subtitle + '</div>' + data.body +
-        '<div class="tags">' + data.tags.map(function(t){return '<span class="tag">' + t + '</span>';}).join('') + '</div>' +
+        '<div class="container"><div class="date">' + escapeHtml(data.date) + '</div><h1>' + escapeHtml(data.title) + '</h1>' +
+        '<div class="subtitle">' + escapeHtml(data.subtitle) + '</div>' + data.body +
+        '<div class="tags">' + data.tags.map(function(t){return '<span class="tag">' + escapeHtml(t) + '</span>';}).join('') + '</div>' +
         '</div></body></html>';
     },
     note: function (data) {
       return '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
         '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:\'Noto Sans SC\',system-ui,sans-serif;background:#faf9f6;color:#2c2c2c;padding:40px 24px;line-height:1.8}.container{max-width:700px;margin:0 auto;border-left:3px solid #e85d26;padding-left:28px}.date{color:#9c958e;font-size:0.85rem;margin-bottom:12px;font-family:monospace}h1{font-size:1.7rem;margin-bottom:6px;font-weight:700}.subtitle{color:#6b6560;font-size:1rem;margin-bottom:28px}p{margin-bottom:1.1em;font-size:0.95rem}h2{font-size:1.2rem;margin:1.6em 0 0.5em;color:#e85d26;font-weight:600;border-bottom:1px solid #f0ede6;padding-bottom:4px}h3{font-size:1.05rem;margin:1.2em 0 0.3em;font-weight:600}blockquote{border-left:2px solid #f4a67a;padding:10px 16px;margin:1.3em 0;color:#6b6560;font-style:italic}ul,ol{margin:0.6em 0 1em 1.3em}li{margin-bottom:0.35em;font-size:0.95rem}strong{color:#e85d26}.tags{display:flex;gap:6px;margin-top:28px;flex-wrap:wrap}.tag{padding:3px 12px;border-radius:4px;background:#f0ede6;font-size:0.78rem;color:#6b6560;font-family:monospace}</style></head><body>' +
-        '<div class="container"><div class="date">' + data.date + ' · 知识笔记</div><h1>' + data.title + '</h1>' +
-        '<div class="subtitle">' + data.subtitle + '</div>' + data.body +
-        '<div class="tags">' + data.tags.map(function(t){return '<span class="tag">#' + t + '</span>';}).join('') + '</div>' +
+        '<div class="container"><div class="date">' + escapeHtml(data.date) + ' · 知识笔记</div><h1>' + escapeHtml(data.title) + '</h1>' +
+        '<div class="subtitle">' + escapeHtml(data.subtitle) + '</div>' + data.body +
+        '<div class="tags">' + data.tags.map(function(t){return '<span class="tag">#' + escapeHtml(t) + '</span>';}).join('') + '</div>' +
         '</div></body></html>';
     },
     project: function (data) {
       return '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
         '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:\'Noto Sans SC\',system-ui,sans-serif;background:#2c2c2c;color:#f0ede6;padding:40px 24px;line-height:1.8}.container{max-width:680px;margin:0 auto}.header{background:linear-gradient(135deg,#e85d26,#f4a67a);padding:32px 28px;border-radius:16px;margin-bottom:32px;color:#fff}.date{font-size:0.85rem;opacity:0.85;margin-bottom:8px}h1{font-size:1.7rem;margin-bottom:4px;font-weight:700}.subtitle{opacity:0.9;font-size:1rem}.content{padding:0 4px}p{margin-bottom:1.1em;font-size:0.95rem}h2{font-size:1.2rem;margin:1.6em 0 0.5em;color:#f4a67a;font-weight:600}h3{font-size:1.05rem;margin:1.2em 0 0.3em;color:#e85d26;font-weight:600}blockquote{border-left:3px solid #e85d26;padding:10px 16px;margin:1.3em 0;background:rgba(232,93,38,0.1);border-radius:0 8px 8px 0;color:#f4a67a}ul,ol{margin:0.6em 0 1em 1.3em}li{margin-bottom:0.35em}strong{color:#f4a67a}.tags{display:flex;gap:8px;margin-top:28px;flex-wrap:wrap}.tag{padding:4px 12px;border-radius:999px;border:1px solid rgba(244,166,122,0.4);font-size:0.78rem;color:#f4a67a}</style></head><body>' +
-        '<div class="container"><div class="header"><div class="date">' + data.date + ' · 项目展示</div><h1>' + data.title + '</h1>' +
-        '<div class="subtitle">' + data.subtitle + '</div></div><div class="content">' + data.body +
-        '<div class="tags">' + data.tags.map(function(t){return '<span class="tag">' + t + '</span>';}).join('') + '</div></div>' +
+        '<div class="container"><div class="header"><div class="date">' + escapeHtml(data.date) + ' · 项目展示</div><h1>' + escapeHtml(data.title) + '</h1>' +
+        '<div class="subtitle">' + escapeHtml(data.subtitle) + '</div></div><div class="content">' + data.body +
+        '<div class="tags">' + data.tags.map(function(t){return '<span class="tag">' + escapeHtml(t) + '</span>';}).join('') + '</div></div>' +
         '</div></body></html>';
     }
   };
@@ -113,7 +119,11 @@
       };
     } catch (error) {
       console.error('[墨记] GLM API错误:', error);
-      return { success: false, error: error.message };
+      var errorMsg = error.message || '未知错误';
+      if (errorMsg.includes('Failed to fetch') || errorMsg.includes('NetworkError') || errorMsg.includes('Load failed') || errorMsg.includes('TypeError')) {
+        errorMsg = '网络请求失败，可能是跨域限制。请尝试在本地服务器环境使用，或联系管理员配置代理。';
+      }
+      return { success: false, error: errorMsg };
     }
   }
 
@@ -164,6 +174,7 @@
   /* ========== Step 1: 输入 ========== */
   function bindInputTabs() {
     var btns = $$('.input-tabs__btn');
+    if (btns.length === 0) return; // 无输入标签页则跳过
     var textPanel = $('.input-area');
     var voicePanel = $('.voice-panel');
 
@@ -194,6 +205,7 @@
   /* ========== 语音模拟 ========== */
   function bindVoicePanel() {
     var btn = $('.voice-panel__btn');
+    if (!btn) return; // 没有语音面板就跳过（create.html 无此元素）
     var wave = $('.voice-wave');
     var hint = $('.voice-panel__hint');
     var result = $('.voice-panel__result');
@@ -221,12 +233,16 @@
       result.textContent = text;
       result.classList.add('visible');
       $('#generateBtn').disabled = false;
+      // 更新字数计数器
+      var counter = $('.input-area__count');
+      if (counter) counter.textContent = text.length + ' 字';
     }
   }
 
   /* ========== Step 1→2: 开始生成 ========== */
   function bindGenerateBtn() {
     var btn = $('#generateBtn');
+    if (!btn) return;
     btn.addEventListener('click', function () {
       currentStep = 2;
       updateStepUI();
@@ -341,6 +357,7 @@
 
   function bindTemplateSwitcher() {
     var btns = $$('.style-switcher__btn');
+    if (btns.length === 0) return;
     btns.forEach(function (btn) {
       btn.addEventListener('click', function () {
         btns.forEach(function (b) { b.classList.remove('active'); });
@@ -439,6 +456,7 @@
   /* ========== Step 3→4: 发布（保存到 localStorage）========== */
   function bindPublishBtn() {
     var btn = $('#publishBtn');
+    if (!btn) return;
     btn.addEventListener('click', function () {
       if (!currentSample) return;
 
@@ -492,6 +510,7 @@
   /* ========== Step 4: 发布确认 ========== */
   function bindCopyBtn() {
     var btn = $('#copyBtn');
+    if (!btn) return;
     btn.addEventListener('click', function () {
       var url = $('#publishUrl').dataset.url || $('#publishUrl').textContent;
       navigator.clipboard.writeText(url).then(function () {
@@ -513,7 +532,9 @@
   }
 
   function bindShareBtns() {
-    $$('.publish-share__btn').forEach(function (btn) {
+    var shareBtns = $$('.publish-share__btn');
+    if (shareBtns.length === 0) return;
+    shareBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
         var platform = btn.dataset.platform;
         var url = $('#publishUrl').dataset.url || '';
@@ -585,6 +606,7 @@
   /* ========== 返回继续创作 ========== */
   function bindBackBtn() {
     var btn = $('#backBtn');
+    if (!btn) return;
     btn.addEventListener('click', function () {
       currentStep = 1;
       currentSample = null;
@@ -592,27 +614,27 @@
       savedPageId = null;
       savedPassword = '';
 
-      $('#inputText').value = '';
-      $('.input-area__count').textContent = '0 字';
-      $('#generateBtn').disabled = true;
+      var inputText = $('#inputText'); if (inputText) inputText.value = '';
+      var counter = $('.input-area__count'); if (counter) counter.textContent = '0 字';
+      var genBtn = $('#generateBtn'); if (genBtn) genBtn.disabled = true;
 
       $$('.style-switcher__btn').forEach(function (b) {
         b.classList.remove('active');
         if (b.dataset.style === 'minimal') b.classList.add('active');
       });
 
-      $('.html-editor').classList.remove('visible');
-      $('#editToggleBtn').textContent = '编辑 HTML';
+      var htmlEditor = $('.html-editor'); if (htmlEditor) htmlEditor.classList.remove('visible');
+      var editBtn = $('#editToggleBtn'); if (editBtn) editBtn.textContent = '编辑 HTML';
 
-      $('.voice-panel__result').classList.remove('visible');
-      $('.voice-panel__hint').textContent = '点击按钮开始录音';
+      var voiceResult = $('.voice-panel__result'); if (voiceResult) voiceResult.classList.remove('visible');
+      var voiceHint = $('.voice-panel__hint'); if (voiceHint) voiceHint.textContent = '点击按钮开始录音';
 
       $$('.input-tabs__btn').forEach(function (b) {
         b.classList.remove('active');
         if (b.dataset.mode === 'text') b.classList.add('active');
       });
-      $('.input-area').style.display = 'block';
-      $('.voice-panel').classList.remove('active');
+      var inputArea = $('.input-area'); if (inputArea) inputArea.style.display = 'block';
+      var voicePanel = $('.voice-panel'); if (voicePanel) voicePanel.classList.remove('active');
 
       // 重置密码
       var pwdCheckbox = $('#passwordToggle');

@@ -394,6 +394,26 @@
       background: #fef2f2;
     }
 
+    /* 密码按钮 */
+    .timeline__block-pwd {
+      float: right;
+      margin-right: 6px;
+      padding: 4px 12px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .timeline__block-pwd:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-bg);
+    }
+
     /* --- 空状态 --- */
     .empty-state {
       text-align: center;
@@ -758,6 +778,9 @@
 
       // 绑定编辑按钮
       bindSettings();
+
+      // 绑定密码弹窗
+      bindPasswordModal();
     }
 
     // ======== 渲染页面列表 ========
@@ -828,6 +851,7 @@
           '<div class="timeline__date">' + escapeHtml(dateStr) + '</div>' +
           '<div class="timeline__block" data-id="' + page.id + '">' +
             '<button class="timeline__block-delete" data-id="' + page.id + '" title="删除">删除</button>' +
+            '<button class="timeline__block-pwd" data-pwd-id="' + page.id + '" title="密码保护">🔒</button>' +
             '<div class="timeline__block-title">' + escapeHtml(page.title || '无标题') + '</div>' +
             '<div class="timeline__block-excerpt">' + escapeHtml(excerpt) + '</div>' +
             '<div class="timeline__block-meta">' +
@@ -849,6 +873,14 @@
 
       // 事件代理：点击时间线块
       timeline.addEventListener('click', function (e) {
+        // 密码按钮
+        var pwdBtn = e.target.closest('.timeline__block-pwd');
+        if (pwdBtn) {
+          e.stopPropagation();
+          openPasswordModal(pwdBtn.dataset.pwdId);
+          return;
+        }
+
         // 删除按钮
         var deleteBtn = e.target.closest('.timeline__block-delete');
         if (deleteBtn) {
@@ -951,13 +983,76 @@
 
     // ======== 密码弹窗 ========
 
+    var currentPasswordPageId = null;
+
+    function openPasswordModal(pageId) {
+      currentPasswordPageId = pageId;
+      var modal = $('#passwordModal');
+      var input = $('#passwordInput');
+      var removeBtn = $('#passwordRemoveBtn');
+      var titleEl = $('#passwordModalTitle');
+      var descEl = $('#passwordModalDesc');
+
+      // 检查是否已有密码
+      var page = MojiStorage.getPage(pageId);
+      var hasPwd = page && !!page.passwordHash;
+
+      if (hasPwd) {
+        titleEl.textContent = '修改密码保护';
+        descEl.textContent = '这篇内容已设置密码，可以修改或移除';
+        removeBtn.style.display = '';
+      } else {
+        titleEl.textContent = '设置密码保护';
+        descEl.textContent = '为这篇内容设置密码，访客需要输入密码才能查看';
+        removeBtn.style.display = 'none';
+      }
+
+      input.value = '';
+      modal.classList.add('visible');
+      setTimeout(function () { input.focus(); }, 200);
+    }
+
     function bindPasswordModal() {
       var modal = $('#passwordModal');
       var input = $('#passwordInput');
-      var currentPasswordPageId = null;
 
-      // 事件委托：密码设置按钮（由页面列表触发）
-      // 暂时由内联调用处理
+      // 确认按钮
+      $('#passwordSaveBtn').addEventListener('click', function () {
+        var pwd = input.value.trim();
+        if (!pwd) {
+          input.focus();
+          return;
+        }
+        if (currentPasswordPageId) {
+          MojiStorage.setPassword(currentPasswordPageId, pwd);
+        }
+        modal.classList.remove('visible');
+        renderPages();
+      });
+
+      // 取消按钮
+      $('#passwordCancelBtn').addEventListener('click', function () {
+        modal.classList.remove('visible');
+      });
+
+      // 移除密码按钮
+      $('#passwordRemoveBtn').addEventListener('click', function () {
+        if (currentPasswordPageId) {
+          MojiStorage.removePassword(currentPasswordPageId);
+        }
+        modal.classList.remove('visible');
+        renderPages();
+      });
+
+      // 点击 overlay 关闭
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.classList.remove('visible');
+      });
+
+      // Enter 键确认
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') $('#passwordSaveBtn').click();
+      });
     }
 
     // ======== 工具函数 ========

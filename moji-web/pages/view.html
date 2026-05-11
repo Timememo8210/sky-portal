@@ -25,6 +25,27 @@
     .lucide { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; vertical-align: middle; }
     .lucide-sm { width: 18px; height: 18px; }
     .lucide-inline { display: inline-block; vertical-align: -3px; }
+
+    /* 简化顶部栏 */
+    .view-topbar {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px;
+      background: var(--card, #fff);
+      border-bottom: 1px solid var(--border-light, #f0ede6);
+      backdrop-filter: blur(8px);
+    }
+    .view-topbar__logo {
+      font-family: var(--font-display, serif); font-size: 1.3rem; font-weight: 700;
+      color: var(--text, #2c2c2c); text-decoration: none;
+    }
+    .view-topbar__cta {
+      padding: 6px 16px; border-radius: 999px;
+      background: var(--accent, #e85d26); color: #fff;
+      font-size: 0.85rem; font-weight: 600; text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .view-topbar__cta:hover { opacity: 0.85; }
   </style>
 
   <!-- 样式 -->
@@ -33,6 +54,12 @@
   <link rel="stylesheet" href="../styles/view.css">
 </head>
 <body>
+
+<!-- ====== 简化顶部栏 ====== -->
+<header class="view-topbar">
+  <a href="index.html" class="view-topbar__logo">墨记</a>
+  <a href="create.html" class="view-topbar__cta">创作</a>
+</header>
 
 <div class="view-page" id="viewPage">
 
@@ -158,6 +185,12 @@
 (function () {
   'use strict';
 
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
   var pageId = new URLSearchParams(window.location.search).get('id');
 
   // ---------- 不存在的页面 ----------
@@ -256,9 +289,9 @@
 
     // 标签
     var tagsContainer = document.getElementById('pageTags');
-    if (page.tags && page.tags.length) {
+ if (page.tags && page.tags.length) {
       tagsContainer.innerHTML = page.tags.map(function (t) {
-        return '<span class="tag">' + t + '</span>';
+        return '<span class="tag">' + escapeHtml(t) + '</span>';
       }).join('');
     }
 
@@ -313,6 +346,12 @@
       var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       progressBar.style.width = progress + '%';
     }, { passive: true });
+
+    // 返回链接：直接访问时返回首页
+    var backLink = document.getElementById('backLink');
+    if (backLink && !document.referrer.includes('profile')) {
+      backLink.href = 'index.html';
+    }
 
     // Open Graph 动态更新
     var ogTitle = document.querySelector('meta[property="og:title"]');
