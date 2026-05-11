@@ -1,0 +1,781 @@
+/* ============================================
+   墨记Web — 创作页样式 (Create Page Styles)
+   Design System v2.0 | 暖白·圆润·杂志风
+   ============================================ */
+
+/* ---------- CSS 变量（create 页特有，其余继承 global.css） ---------- */
+:root {
+  /* create 页步骤指示器特有变量 */
+  --step-active-bg: var(--accent);
+  --step-active-color: #fff;
+  --step-completed-bg: var(--accent-soft);
+  --step-line-active: var(--accent-soft);
+}
+
+/* 别名兼容：create.css 原用 --radius / --radius-pill → 映射到 global.css */
+/* --radius → --radius-md, --radius-pill → --radius-full 在下方选择器中直接替换 */
+
+/* ---------- 基础重置（继承 global.css） ---------- */
+
+/* ---------- 页面容器 ---------- */
+.create-page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ---------- 页面标题 ---------- */
+.create-page__title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.create-page__subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 40px;
+}
+
+/* ============================================
+   步骤指示器 (Step Indicator)
+   ============================================ */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 48px;
+  padding: 0 20px;
+}
+
+.step-indicator__step {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* 数字圆圈 */
+.step-indicator__circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.4s ease;
+  flex-shrink: 0;
+  background: var(--bg-cream);
+  color: var(--text-muted);
+  border: 2px solid var(--border);
+}
+
+.step-indicator__step.active .step-indicator__circle {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 2px 12px rgba(232, 93, 38, 0.3);
+  transform: scale(1.05);
+}
+
+.step-indicator__step.completed .step-indicator__circle {
+  background: var(--accent-soft);
+  color: #fff;
+  border-color: var(--accent-soft);
+}
+
+/* 圆圈下面的标签 */
+.step-indicator__label {
+  display: none; /* 移动端隐藏 */
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  text-align: center;
+  transition: color 0.3s;
+}
+
+.step-indicator__step.active .step-indicator__label {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* 连接线 */
+.step-indicator__line {
+  width: 60px;
+  height: 2px;
+  background: var(--border);
+  transition: background 0.4s ease;
+  flex-shrink: 0;
+}
+
+.step-indicator__line.completed {
+  background: var(--accent-soft);
+}
+
+/* 桌面端显示标签 */
+@media (min-width: 600px) {
+  .step-indicator__step-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .step-indicator__label {
+    display: block;
+  }
+  .step-indicator__line {
+    width: 80px;
+  }
+}
+
+/* ============================================
+   步骤面板 — 通用
+   ============================================ */
+.step-panel {
+  display: none;
+  animation: fadeInUp 0.5s ease;
+}
+
+.step-panel.active {
+  display: block;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   Step 1: 输入
+   ============================================ */
+
+/* 输入方式切换标签 */
+.input-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.input-tabs__btn {
+  padding: 8px 24px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.input-tabs__btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.input-tabs__btn:not(.active):hover {
+  border-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* 文本输入区域 */
+.input-area {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.input-area__textarea {
+  width: 100%;
+  min-height: 240px;
+  padding: 24px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--card);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text);
+  resize: vertical;
+  transition: box-shadow 0.3s ease;
+  outline: none;
+}
+
+.input-area__textarea::placeholder {
+  color: var(--text-muted);
+}
+
+.input-area__textarea:focus {
+  box-shadow: var(--shadow-md), 0 0 0 3px rgba(232, 93, 38, 0.15);
+}
+
+/* 字数统计 */
+.input-area__count {
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  padding-right: 4px;
+}
+
+/* 语音输入面板 */
+.voice-panel {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  background: var(--card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 16px;
+  padding: 40px 24px;
+}
+
+.voice-panel.active {
+  display: flex;
+}
+
+/* 录音按钮 */
+.voice-panel__btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.voice-panel__btn:hover {
+  background: var(--accent-soft);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.voice-panel__btn.recording {
+  background: var(--accent);
+  color: #fff;
+  animation: pulse-ring 1.5s ease infinite;
+}
+
+/* 录音脉冲动画 */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(232, 93, 38, 0.4); }
+  70%  { box-shadow: 0 0 0 20px rgba(232, 93, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(232, 93, 38, 0); }
+}
+
+/* 录音波形动画 */
+.voice-wave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 48px;
+  margin-top: 24px;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.voice-wave.active {
+  opacity: 1;
+}
+
+.voice-wave__bar {
+  width: 4px;
+  border-radius: 2px;
+  background: var(--accent);
+  animation: wave-bar 1.2s ease-in-out infinite;
+}
+
+/* 不同延迟的波形条 */
+.voice-wave__bar:nth-child(1)  { height: 12px; animation-delay: 0s; }
+.voice-wave__bar:nth-child(2)  { height: 20px; animation-delay: 0.1s; }
+.voice-wave__bar:nth-child(3)  { height: 32px; animation-delay: 0.2s; }
+.voice-wave__bar:nth-child(4)  { height: 24px; animation-delay: 0.3s; }
+.voice-wave__bar:nth-child(5)  { height: 40px; animation-delay: 0.4s; }
+.voice-wave__bar:nth-child(6)  { height: 28px; animation-delay: 0.3s; }
+.voice-wave__bar:nth-child(7)  { height: 36px; animation-delay: 0.2s; }
+.voice-wave__bar:nth-child(8)  { height: 18px; animation-delay: 0.1s; }
+.voice-wave__bar:nth-child(9)  { height: 28px; animation-delay: 0.15s; }
+.voice-wave__bar:nth-child(10) { height: 14px; animation-delay: 0.25s; }
+
+@keyframes wave-bar {
+  0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
+  50%      { transform: scaleY(1);   opacity: 1; }
+}
+
+.voice-panel__hint {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 16px;
+}
+
+.voice-panel__result {
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: var(--bg-warm);
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  width: 100%;
+  max-width: 520px;
+  display: none;
+}
+
+.voice-panel__result.visible {
+  display: block;
+}
+
+/* 生成按钮 */
+.create-btn {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 32px auto 0;
+  padding: 14px 32px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  color: #fff;
+  font-size: 1.05rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(232, 93, 38, 0.25);
+}
+
+.create-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(232, 93, 38, 0.35);
+}
+
+.create-btn:active {
+  transform: translateY(0);
+}
+
+.create-btn:disabled {
+  background: var(--border);
+  color: var(--text-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   Step 2: AI 生成中
+   ============================================ */
+.generating-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 60px 24px;
+}
+
+/* 呼吸光球动画 */
+.generating-panel__orb {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, var(--accent-soft), var(--accent));
+  animation: breathe 3s ease-in-out infinite;
+  margin-bottom: 32px;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1);   opacity: 0.85; }
+  50%      { transform: scale(1.2); opacity: 1; }
+}
+
+/* "AI正在思考..." 逐字出现 */
+.generating-panel__text {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.generating-panel__sub {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* 进度点动画 */
+.generating-panel__dots {
+  display: flex;
+  gap: 6px;
+  margin-top: 24px;
+}
+
+.generating-panel__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  animation: dot-bounce 1.4s ease-in-out infinite;
+}
+
+.generating-panel__dot:nth-child(2) { animation-delay: 0.2s; }
+.generating-panel__dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dot-bounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40%           { transform: scale(1);   opacity: 1; }
+}
+
+/* ============================================
+   Step 3: 预览
+   ============================================ */
+.preview-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.preview-panel__title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* 模板切换 */
+.template-switcher {
+  display: flex;
+  gap: 6px;
+  background: var(--bg-cream);
+  border-radius: var(--radius-full);
+  padding: 4px;
+}
+
+.template-switcher__btn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.template-switcher__btn.active {
+  background: var(--card);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 预览区域 */
+.preview-frame {
+  width: 100%;
+  min-height: 480px;
+  border-radius: var(--radius-md);
+  background: var(--card);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  margin-bottom: 24px;
+}
+
+.preview-frame iframe {
+  width: 100%;
+  min-height: 480px;
+  border: none;
+  display: block;
+}
+
+/* 编辑区域（展开） */
+.preview-edit {
+  display: none;
+  margin-bottom: 24px;
+  padding: 24px;
+  background: var(--card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+}
+
+.preview-edit.visible {
+  display: block;
+  animation: fadeInUp 0.3s ease;
+}
+
+.preview-edit__field {
+  margin-bottom: 16px;
+}
+
+.preview-edit__label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.preview-edit__input,
+.preview-edit__textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.3s;
+  background: var(--bg);
+}
+
+.preview-edit__textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.preview-edit__input:focus,
+.preview-edit__textarea:focus {
+  border-color: var(--accent);
+}
+
+/* 操作按钮组 */
+.preview-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* create 页按钮复用 global.css 的 .btn-primary / .btn-secondary（需配合 .btn 基类） */
+
+/* ============================================
+   Step 4: 发布确认
+   ============================================ */
+.publish-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 20px;
+}
+
+/* 成功图标 */
+.publish-panel__icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #e8f5e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.publish-panel__icon svg {
+  width: 36px;
+  height: 36px;
+  color: #4caf50;
+}
+
+.publish-panel__title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.publish-panel__sub {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 32px;
+}
+
+/* 链接预览 */
+.publish-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 20px;
+  width: 100%;
+  max-width: 520px;
+  margin-bottom: 24px;
+  transition: border-color 0.3s;
+}
+
+.publish-link:hover {
+  border-color: var(--accent-soft);
+}
+
+.publish-link__url {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--accent);
+  word-break: break-all;
+}
+
+.publish-link__copy {
+  padding: 8px 18px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.publish-link__copy:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.publish-link__copy.copied {
+  background: #4caf50;
+  color: #fff;
+}
+
+/* 分享按钮 */
+.publish-share {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.publish-share__btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  transition: all 0.3s;
+}
+
+.publish-share__btn:hover {
+  border-color: var(--accent-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 返回按钮 */
+.btn-back {
+  padding: 10px 24px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--bg-cream);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-back:hover {
+  background: var(--bg-warm);
+  color: var(--text);
+}
+
+/* ============================================
+   响应式
+   ============================================ */
+@media (max-width: 600px) {
+  .create-page {
+    padding: 24px 16px 60px;
+  }
+
+  .create-page__title {
+    font-size: 1.5rem;
+  }
+
+  .step-indicator__line {
+    width: 36px;
+  }
+
+  .step-indicator__circle {
+    width: 34px;
+    height: 34px;
+    font-size: 0.8rem;
+  }
+
+  .input-area__textarea {
+    min-height: 180px;
+    padding: 16px;
+    font-size: 1rem;
+  }
+
+  .generating-panel {
+    min-height: 300px;
+    padding: 40px 16px;
+  }
+
+  .generating-panel__orb {
+    width: 72px;
+    height: 72px;
+  }
+
+  .preview-frame,
+  .preview-frame iframe {
+    min-height: 360px;
+  }
+
+  .preview-panel__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .publish-link {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .publish-link__copy {
+    text-align: center;
+  }
+}
+
+/* ============================================
+   小工具类
+   ============================================ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}

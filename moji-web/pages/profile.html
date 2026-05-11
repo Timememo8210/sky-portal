@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>墨记 — @晓波的个人空间</title>
+  <meta name="description" content="晓波在墨记上创作的所有网页作品。">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- 全局样式 -->
+  <link rel="stylesheet" href="../styles/global.css">
+
+  <style>
+    /* ========================================
+       个人空间页特有样式
+       ======================================== */
+
+    /* --- 顶部个人资料区 --- */
+    .profile-header {
+      padding: calc(var(--nav-height) + 48px) 24px 40px;
+      text-align: center;
+      background: var(--bg-warm);
+      position: relative;
+    }
+
+    /* 底部波浪分割 */
+    .profile-header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: var(--bg-warm);
+      border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    }
+
+    @media (min-width: 768px) {
+      .profile-header::after {
+        height: 60px;
+      }
+    }
+
+    .profile-header__inner {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-content);
+      margin: 0 auto;
+    }
+
+    /* 头像 */
+    .profile-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 3px solid var(--card);
+      background: var(--accent-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-avatar__fallback {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    /* 用户名 */
+    .profile-name {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .profile-handle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* 个人介绍 */
+    .profile-bio {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* 统计数据 */
+    .profile-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-top: 24px;
+    }
+
+    .profile-stat {
+      text-align: center;
+    }
+
+    .profile-stat__number {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .profile-stat__label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* --- 内容区 --- */
+    .profile-content {
+      padding: 60px 24px 100px;
+      max-width: var(--max-content);
+      margin: 0 auto;
+    }
+
+    /* --- 标签筛选 --- */
+    .tag-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .tag-filter .tag {
+      padding: 6px 16px;
+      font-size: 0.9rem;
+    }
+
+    /* --- 时间线 --- */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+
+    /* 左侧竖线 */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 7px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--border);
+      border-radius: 1px;
+    }
+
+    /* 时间线项目 */
+    .timeline__item {
+      position: relative;
+      margin-bottom: 28px;
+      animation: fadeInUp 0.5s ease both;
+    }
+
+    .timeline__item:last-child {
+      margin-bottom: 0;
+    }
+
+    /* 日期圆点 */
+    .timeline__dot {
+      position: absolute;
+      left: -32px;
+      top: 24px;
+      width: 16px;
+      height: 16px;
+      background: var(--card);
+      border: 3px solid var(--accent);
+      border-radius: 50%;
+      z-index: 1;
+      transition: var(--transition);
+    }
+
+    .timeline__item:hover .timeline__dot {
+      background: var(--accent);
+      transform: scale(1.2);
+    }
+
+    /* 日期标签 */
+    .timeline__date {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    /* 内容块（继承 global.css 的 content-block） */
+    .timeline__block {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      border-left: 4px solid var(--accent-soft);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+
+    .timeline__block:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-left-color: var(--accent);
+    }
+
+    .timeline__block-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .timeline__block-excerpt {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .timeline__block-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .timeline__block-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .timeline__block-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .timeline__block-tag {
+      padding: 2px 10px;
+      background: var(--bg-cream);
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* --- 空状态 --- */
+    .empty-state {
+      text-align: center;
+      padding: 60px 24px;
+    }
+
+    .empty-state__icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+
+    .empty-state__title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .empty-state__desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    /* --- 移动端适配 --- */
+    @media (max-width: 639px) {
+      .timeline {
+        padding-left: 28px;
+      }
+
+      .timeline::before {
+        left: 5px;
+      }
+
+      .timeline__dot {
+        left: -28px;
+        width: 14px;
+        height: 14px;
+        top: 22px;
+      }
+
+      .timeline__block {
+        padding: 18px 20px;
+      }
+
+      .profile-stats {
+        gap: 24px;
+      }
+    }
+
+    /* --- 隐藏无匹配内容的项目 --- */
+    .timeline__item.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 导航由 nav.js 自动注入 -->
+
+  <!-- ===== 个人资料区 ===== -->
+  <section class="profile-header">
+    <div class="profile-header__inner">
+      <!-- 头像 -->
+      <div class="profile-avatar">
+        <!-- 如果有真实头像可以用 img，这里用文字 fallback -->
+        <span class="profile-avatar__fallback">晓</span>
+      </div>
+
+      <!-- 名字 -->
+      <h1 class="profile-name">晓波</h1>
+      <p class="profile-handle">@xiaobo</p>
+
+      <!-- 个人介绍 -->
+      <p class="profile-bio">活在波特兰，热爱技术和生活的普通人。</p>
+
+      <!-- 统计 -->
+      <div class="profile-stats">
+        <div class="profile-stat">
+          <div class="profile-stat__number">12</div>
+          <div class="profile-stat__label">作品</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat__number">348</div>
+          <div class="profile-stat__label">浏览</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat__number">5</div>
+          <div class="profile-stat__label">标签</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 内容区 ===== -->
+  <main class="profile-content">
+    <!-- 标签筛选 -->
+    <div class="tag-filter" id="tagFilter">
+      <span class="tag active" data-tag="all">全部</span>
+      <span class="tag" data-tag="旅行">旅行</span>
+      <span class="tag" data-tag="美食">美食</span>
+      <span class="tag" data-tag="读书">读书</span>
+      <span class="tag" data-tag="生活">生活</span>
+      <span class="tag" data-tag="技术">技术</span>
+    </div>
+
+    <!-- 时间线内容 -->
+    <div class="timeline" id="timeline">
+
+      <!-- 时间线项 1 -->
+      <div class="timeline__item" data-tags="旅行">
+        <div class="timeline__dot"></div>
+        <div class="timeline__date">2026年5月10日</div>
+        <a href="s/demo-1.html" class="timeline__block">
+          <div class="timeline__block-title">波特兰周末散步指南</div>
+          <div class="timeline__block-excerpt">
+            上周末沿着Willamette河岸走了一下午，从Tom McCall Waterfront Park到Sellwood Bridge。沿途拍了一些照片，用墨记记录了这次散步。
+          </div>
+          <div class="timeline__block-meta">
+            <div class="timeline__block-meta-item">
+              <span>👁 42</span>
+            </div>
+            <div class="timeline__block-meta-item">
+              <span>❤️ 8</span>
+            </div>
+            <div class="timeline__block-tags">
+              <span class="timeline__block-tag">旅行</span>
+              <span class="timeline__block-tag">生活</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 时间线项 2 -->
+      <div class="timeline__item" data-tags="美食">
+        <div class="timeline__dot"></div>
+        <div class="timeline__date">2026年5月3日</div>
+        <a href="s/demo-2.html" class="timeline__block">
+          <div class="timeline__block-title">在家做日式咖喱的全过程</div>
+          <div class="timeline__block-excerpt">
+            试了好几种日式咖喱块，最后觉得好侍的中辣最好吃。加了苹果和蜂蜜的秘诀是我从YouTube上学的。详细步骤都在这个网页里了。
+          </div>
+          <div class="timeline__block-meta">
+            <div class="timeline__block-meta-item">
+              <span>👁 56</span>
+            </div>
+            <div class="timeline__block-meta-item">
+              <span>❤️ 12</span>
+            </div>
+            <div class="timeline__block-tags">
+              <span class="timeline__block-tag">美食</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 时间线项 3 -->
+      <div class="timeline__item" data-tags="读书">
+        <div class="timeline__dot"></div>
+        <div class="timeline__date">2026年4月25日</div>
+        <a href="s/demo-3.html" class="timeline__block">
+          <div class="timeline__block-title">读完《纳瓦尔宝典》的五个收获</div>
+          <div class="timeline__block-excerpt">
+            这本书不像其他的商业书那样啰嗦。Naval把财富、幸福和人生的底层逻辑讲得非常清楚。我的五个核心摘记。
+          </div>
+          <div class="timeline__block-meta">
+            <div class="timeline__block-meta-item">
+              <span>👁 89</span>
+            </div>
+            <div class="timeline__block-meta-item">
+              <span>❤️ 21</span>
+            </div>
+            <div class="timeline__block-tags">
+              <span class="timeline__block-tag">读书</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 时间线项 4 -->
+      <div class="timeline__item" data-tags="技术 生活">
+        <div class="timeline__dot"></div>
+        <div class="timeline__date">2026年4月18日</div>
+        <a href="s/demo-4.html" class="timeline__block">
+          <div class="timeline__block-title">为什么我把手机屏幕调成黑白</div>
+          <div class="timeline__block-excerpt">
+            一个月前开始用黑白模式。第一周很不习惯，现在完全没问题了。最大的变化：拿起手机的次数减少了大约40%。
+          </div>
+          <div class="timeline__block-meta">
+            <div class="timeline__block-meta-item">
+              <span>👁 67</span>
+            </div>
+            <div class="timeline__block-meta-item">
+              <span>❤️ 15</span>
+            </div>
+            <div class="timeline__block-tags">
+              <span class="timeline__block-tag">技术</span>
+              <span class="timeline__block-tag">生活</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 时间线项 5 -->
+      <div class="timeline__item" data-tags="旅行">
+        <div class="timeline__dot"></div>
+        <div class="timeline__date">2026年4月5日</div>
+        <a href="s/demo-5.html" class="timeline__block">
+          <div class="timeline__block-title">哥伦比亚河谷春日徒步</div>
+          <div class="timeline__block-excerpt">
+            四月初的Gorge还是有点冷，但Multnomah Falls的水量很大。走完了Wahkeena Loop全程，大约5英里，拍了太多照片。
+          </div>
+          <div class="timeline__block-meta">
+            <div class="timeline__block-meta-item">
+              <span>👁 38</span>
+            </div>
+            <div class="timeline__block-meta-item">
+              <span>❤️ 6</span>
+            </div>
+            <div class="timeline__block-tags">
+              <span class="timeline__block-tag">旅行</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 时间线项 6 -->
+      <div class="timeline__item" data-tags="美食">
+        <div class="timeline__dot"></div>
+        <div class="timeline__date">2026年3月22日</div>
+        <a href="s/demo-6.html" class="timeline__block">
+          <div class="timeline__block-title">我找到了波特兰最好吃的pho</div>
+          <div class="timeline__block-excerpt">
+            不是那家最有名的。是一家在Division街上不起眼的小店，叫Pho Van。汤底特别浓郁，牛腩炖到入口即化。
+          </div>
+          <div class="timeline__block-meta">
+            <div class="timeline__block-meta-item">
+              <span>👁 51</span>
+            </div>
+            <div class="timeline__block-meta-item">
+              <span>❤️ 9</span>
+            </div>
+            <div class="timeline__block-tags">
+              <span class="timeline__block-tag">美食</span>
+              <span class="timeline__block-tag">生活</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- 空状态（默认隐藏，标签筛选无结果时显示） -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-state__icon">📝</div>
+      <div class="empty-state__title">这个标签下还没有内容</div>
+      <p class="empty-state__desc">试试其他标签，或者回到「全部」看看</p>
+      <button class="btn btn-secondary" onclick="resetFilter()">查看全部</button>
+    </div>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <p>墨记 &copy; 2026 — 让想法被看见</p>
+  </footer>
+
+  <!-- 导航组件 -->
+  <script src="../components/nav.js"></script>
+
+  <!-- 标签筛选逻辑 -->
+  <script>
+    (function () {
+      'use strict';
+
+      const tagFilter = document.getElementById('tagFilter');
+      const timeline = document.getElementById('timeline');
+      const emptyState = document.getElementById('emptyState');
+
+      if (!tagFilter || !timeline) return;
+
+      tagFilter.addEventListener('click', function (e) {
+        const tag = e.target.closest('.tag');
+        if (!tag) return;
+
+        // 更新激活状态
+        tagFilter.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+        tag.classList.add('active');
+
+        filterItems(tag.dataset.tag);
+      });
+
+      function filterItems(tag) {
+        const items = timeline.querySelectorAll('.timeline__item');
+        let visibleCount = 0;
+
+        items.forEach(item => {
+          const itemTags = item.dataset.tags || '';
+          if (tag === 'all' || itemTags.includes(tag)) {
+            item.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+
+        // 显示/隐藏空状态
+        if (emptyState) {
+          emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+          // 时间线竖线也要隐藏
+          timeline.style.display = visibleCount === 0 ? 'none' : 'block';
+        }
+      }
+
+      // 暴露给空状态按钮
+      window.resetFilter = function () {
+        tagFilter.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+        tagFilter.querySelector('[data-tag="all"]').classList.add('active');
+        filterItems('all');
+      };
+    })();
+  </script>
+</body>
+</html>

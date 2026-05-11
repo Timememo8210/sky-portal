@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>创作 — 墨记</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- 样式 -->
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/create.css">
+</head>
+<body>
+  <!-- 导航由 nav.js 自动注入 -->
+  <script src="../components/nav.js"></script>
+
+  <div class="create-page">
+
+    <!-- ====== 页面标题 ====== -->
+    <h1 class="create-page__title">开始创作</h1>
+    <p class="create-page__subtitle">输入想法，AI 帮你生成精美网页</p>
+
+    <!-- ====== 步骤指示器 ====== -->
+    <div class="step-indicator">
+      <!-- Step 1 -->
+      <div class="step-indicator__step active">
+        <div class="step-indicator__step-inner">
+          <div class="step-indicator__circle">1</div>
+          <span class="step-indicator__label">输入</span>
+        </div>
+      </div>
+      <div class="step-indicator__line"></div>
+      <!-- Step 2 -->
+      <div class="step-indicator__step">
+        <div class="step-indicator__step-inner">
+          <div class="step-indicator__circle">2</div>
+          <span class="step-indicator__label">生成</span>
+        </div>
+      </div>
+      <div class="step-indicator__line"></div>
+      <!-- Step 3 -->
+      <div class="step-indicator__step">
+        <div class="step-indicator__step-inner">
+          <div class="step-indicator__circle">3</div>
+          <span class="step-indicator__label">预览</span>
+        </div>
+      </div>
+      <div class="step-indicator__line"></div>
+      <!-- Step 4 -->
+      <div class="step-indicator__step">
+        <div class="step-indicator__step-inner">
+          <div class="step-indicator__circle">4</div>
+          <span class="step-indicator__label">发布</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         Step 1: 输入
+         ============================================================ -->
+    <div class="step-panel active" id="step1">
+
+      <!-- 输入方式切换 -->
+      <div class="input-tabs">
+        <button class="input-tabs__btn active" data-mode="text">📝 文字输入</button>
+        <button class="input-tabs__btn" data-mode="voice">🎤 语音输入</button>
+      </div>
+
+      <!-- 文字输入区域 -->
+      <div class="input-area">
+        <textarea
+          class="input-area__textarea"
+          id="inputText"
+          placeholder="在这里写下你的想法、故事、知识笔记……&#10;&#10;可以是一段感悟、一个项目的介绍、学到的知识点……&#10;AI 会帮你自动排版成精美的网页。"
+        ></textarea>
+        <div class="input-area__count">0 字</div>
+      </div>
+
+      <!-- 语音输入面板 -->
+      <div class="voice-panel" id="voicePanel">
+        <button class="voice-panel__btn" aria-label="开始录音">🎤</button>
+        <div class="voice-wave">
+          <div class="voice-wave__bar"></div>
+          <div class="voice-wave__bar"></div>
+          <div class="voice-wave__bar"></div>
+          <div class="voice-wave__bar"></div>
+          <div class="voice-wave__bar"></div>
+          <div class="voice-wave__bar"></div>
+          <div class="voice-wave__bar"></div>
+          <div class="voice-wave__bar"></div>
+          <div class="voice-wave__bar"></div>
+          <div class="voice-wave__bar"></div>
+        </div>
+        <p class="voice-panel__hint">点击按钮开始录音</p>
+        <div class="voice-panel__result" id="voiceResult"></div>
+      </div>
+
+      <!-- 生成按钮 -->
+      <button class="create-btn" id="generateBtn" disabled>
+        ✨ AI 生成网页
+      </button>
+    </div>
+
+    <!-- ============================================================
+         Step 2: AI 生成中
+         ============================================================ -->
+    <div class="step-panel" id="step2">
+      <div class="generating-panel">
+        <!-- 呼吸光球 -->
+        <div class="generating-panel__orb"></div>
+
+        <!-- 提示文字 -->
+        <p class="generating-panel__text">AI 正在理解你的内容...</p>
+        <p class="generating-panel__sub">这通常只需要几秒钟</p>
+
+        <!-- 进度点 -->
+        <div class="generating-panel__dots">
+          <div class="generating-panel__dot"></div>
+          <div class="generating-panel__dot"></div>
+          <div class="generating-panel__dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         Step 3: 预览
+         ============================================================ -->
+    <div class="step-panel" id="step3">
+
+      <!-- 标题 + 模板切换 -->
+      <div class="preview-panel__header">
+        <h2 class="preview-panel__title">网页预览</h2>
+        <div class="template-switcher">
+          <button class="template-switcher__btn active" data-template="diary">📖 日记</button>
+          <button class="template-switcher__btn" data-template="note">📝 笔记</button>
+          <button class="template-switcher__btn" data-template="project">🚀 项目</button>
+        </div>
+      </div>
+
+      <!-- 预览框架 -->
+      <div class="preview-frame">
+        <iframe id="previewFrame" title="网页预览"></iframe>
+      </div>
+
+      <!-- 编辑面板（可折叠） -->
+      <div class="preview-edit">
+        <div class="preview-edit__field">
+          <label class="preview-edit__label" for="editTitle">标题</label>
+          <input class="preview-edit__input" type="text" id="editTitle" placeholder="修改标题...">
+        </div>
+        <div class="preview-edit__field">
+          <label class="preview-edit__label" for="editContent">内容</label>
+          <textarea class="preview-edit__textarea" id="editContent" placeholder="修改内容..."></textarea>
+        </div>
+        <div style="text-align:right">
+          <button class="btn btn-primary" id="editApplyBtn">应用修改</button>
+        </div>
+      </div>
+
+      <!-- 操作按钮 -->
+      <div class="preview-actions">
+        <button class="btn btn-secondary" id="editToggleBtn">编辑内容</button>
+        <button class="btn btn-secondary" id="regenBtn" onclick="location.reload()">🔄 重新开始</button>
+        <button class="btn btn-primary" id="publishBtn">📤 发布网页</button>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         Step 4: 发布确认
+         ============================================================ -->
+    <div class="step-panel" id="step4">
+      <div class="publish-panel">
+
+        <!-- 成功图标 -->
+        <div class="publish-panel__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+
+        <h2 class="publish-panel__title">发布成功！</h2>
+        <p class="publish-panel__sub">你的网页已经上线，分享给朋友吧</p>
+
+        <!-- 链接 -->
+        <div class="publish-link">
+          <span class="publish-link__url" id="publishUrl">https://moji.app/s/...</span>
+          <button class="publish-link__copy" id="copyBtn">复制链接</button>
+        </div>
+
+        <!-- 社交分享 -->
+        <div class="publish-share">
+          <button class="publish-share__btn" data-platform="wechat" title="分享到微信">💬</button>
+          <button class="publish-share__btn" data-platform="weibo" title="分享到微博">📰</button>
+          <button class="publish-share__btn" data-platform="twitter" title="分享到 Twitter">🐦</button>
+        </div>
+
+        <!-- 返回 -->
+        <button class="btn-back" id="backBtn">← 继续创作</button>
+      </div>
+    </div>
+
+  </div><!-- /.create-page -->
+
+  <!-- 逻辑脚本 -->
+  <script src="../utils/create-logic.js"></script>
+</body>
+</html>

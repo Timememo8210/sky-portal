@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>墨记 — 页面详情</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- 样式 -->
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/detail.css">
+</head>
+<body>
+  <!-- 阅读进度条 -->
+  <div class="reading-progress" id="readingProgress"></div>
+
+  <!-- 顶部栏 -->
+  <header class="detail-header">
+    <a href="index.html" class="detail-header__back" onclick="history.back(); return false;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      返回
+    </a>
+    <button class="detail-header__share" onclick="ShareUtils.shareNative()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"/>
+        <circle cx="6" cy="12" r="3"/>
+        <circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </svg>
+      分享
+    </button>
+  </header>
+
+  <!-- 主体内容 -->
+  <main class="detail-page">
+    <!-- 标题区（由JS动态填充） -->
+    <section class="detail-hero" id="heroSection">
+      <h1 class="detail-hero__title" id="pageTitle"></h1>
+      <div class="detail-hero__meta">
+        <span class="detail-hero__date" id="pageDate"></span>
+        <span class="detail-hero__dot"></span>
+        <span class="detail-hero__date" id="pageReadTime"></span>
+      </div>
+      <div class="detail-hero__tags" id="pageTags"></div>
+    </section>
+
+    <!-- 正文区（由JS动态填充） -->
+    <article class="detail-content">
+      <div class="detail-body" id="pageBody"></div>
+    </article>
+
+    <!-- 分隔线 -->
+    <div class="detail-divider">
+      <hr>
+    </div>
+
+    <!-- 底部区域 -->
+    <footer class="detail-footer">
+      <!-- 作者信息 -->
+      <div class="author-card" id="authorCard">
+        <img class="author-card__avatar" id="authorAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23e0ddd5'/%3E%3Ccircle cx='50' cy='38' r='16' fill='%23b0ada5'/%3E%3Cellipse cx='50' cy='78' rx='28' ry='20' fill='%23b0ada5'/%3E%3C/svg%3E" alt="作者头像">
+        <div class="author-card__info">
+          <div class="author-card__name" id="authorName"></div>
+          <div class="author-card__bio" id="authorBio"></div>
+        </div>
+      </div>
+
+      <!-- 访问统计 -->
+      <div class="detail-stats">
+        <div class="detail-stats__item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+          <span><span class="detail-stats__number" data-stat="views">0</span> 次浏览</span>
+        </div>
+        <div class="detail-stats__item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <span><span class="detail-stats__number" data-stat="visitors">0</span> 位访客</span>
+        </div>
+      </div>
+
+      <!-- 分享按钮组 -->
+      <div class="share-bar">
+        <!-- 复制链接 -->
+        <button class="share-btn share-btn--copy" onclick="ShareUtils.copyLink()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          复制链接
+        </button>
+        <!-- 微信 -->
+        <button class="share-btn" onclick="ShareUtils.shareWeChat()">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm3.2 4.127c-3.985 0-7.198 2.797-7.198 6.223 0 3.428 3.213 6.225 7.198 6.225.67 0 1.318-.078 1.932-.221a.71.71 0 0 1 .588.08l1.56.913a.272.272 0 0 0 .138.045.237.237 0 0 0 .238-.241c0-.06-.023-.117-.039-.174l-.319-1.213a.48.48 0 0 1 .175-.545c1.503-1.102 2.456-2.723 2.456-4.524 0-3.426-3.214-6.223-7.198-6.223h-.581zm-2.376 3.393c.525 0 .95.432.95.965a.958.958 0 0 1-.95.965.958.958 0 0 1-.95-.965c0-.533.425-.965.95-.965zm4.75 0c.524 0 .95.432.95.965a.958.958 0 0 1-.95.965.958.958 0 0 1-.95-.965c0-.533.425-.965.95-.965z"/>
+          </svg>
+          微信
+        </button>
+        <!-- Twitter/X -->
+        <button class="share-btn" onclick="ShareUtils.shareTwitter()">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          Twitter/X
+        </button>
+        <!-- 更多分享 -->
+        <button class="share-btn" onclick="ShareUtils.shareNative()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="1"/>
+            <circle cx="19" cy="12" r="1"/>
+            <circle cx="5" cy="12" r="1"/>
+          </svg>
+          更多
+        </button>
+      </div>
+
+      <!-- CTA -->
+      <div class="detail-cta">
+        <h2 class="detail-cta__title">你也来试试 ✨</h2>
+        <p class="detail-cta__desc">用几句话，让AI帮你生成精美网页</p>
+        <a href="create.html" class="btn btn-primary">开始创作</a>
+      </div>
+
+      <!-- 评论区占位 -->
+      <div class="detail-comments">
+        <div class="detail-comments__icon">💬</div>
+        <p class="detail-comments__text">评论功能即将上线</p>
+        <span class="detail-comments__badge">Phase 2</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- JS -->
+  <script src="../utils/analytics.js"></script>
+  <script src="../utils/share.js"></script>
+  <script>
+    // ============================================
+    // 模拟数据：3篇完整的网页内容
+    // ============================================
+    const PAGES = {
+      1: {
+        title: '注意力稀缺理论：信息过载时代的认知突围',
+        date: '2026年5月8日',
+        readTime: '8 分钟阅读',
+        tags: ['认知科学', '注意力', '心理学'],
+        author: {
+          name: '陈晓波',
+          bio: '终身学习者，对认知科学和行为经济学有浓厚兴趣',
+          avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=CXB&backgroundColor=f0ede6&textColor=2c2c2c'
+        },
+        body: `
+          <p>我们正处在一个前所未有的注意力危机之中。每天，平均每个人要接触超过10万条信息——这个数字在20年前不到现在的十分之一。我们的注意力，正在成为21世纪最稀缺的资源。</p>
+
+          <h2>从信息匮乏到信息过载</h2>
+
+          <p>人类的大脑在过去20万年间几乎没有本质的变化。我们处理信息的认知能力——工作记忆、注意力持续时间、决策质量——依然停留在狩猎采集时代的水平。然而，我们面对的信息量却呈指数级增长。</p>
+
+          <blockquote>
+            <p>注意力是认知的门户。没有注意力，就没有学习、没有记忆、没有思考。——诺贝尔经济学奖得主 Herbert Simon</p>
+          </blockquote>
+
+          <p>Herbert Simon 在1971年就预见到了这个问题："信息消费的是注意力。因此，信息的丰富导致了注意力的贫乏。" 半个世纪后的今天，这句话的精准度令人震惊。</p>
+
+          <h2>注意力经济的本质</h2>
+
+          <p>当你刷短视频的时候，你并不是在"消费内容"——你是在被消费。每一个通知、每一个推荐、每一个无限滚动的信息流，都是精心设计的注意力陷阱。</p>
+
+          <p>这些设计的核心原理包括：</p>
+
+          <ul>
+            <li><strong>间歇性强化</strong>：就像老虎机的随机奖励，让你无法停止刷新</li>
+            <li><strong>社会认可回路</strong>：点赞和评论触发多巴胺释放</li>
+            <li><strong>恐惧错失（FOMO）</strong>：让你觉得离开屏幕就会错过重要信息</li>
+            <li><strong>低阻力设计</strong>：下一个视频自动播放，你不需要做任何决策</li>
+          </ul>
+
+          <h2>如何保护你的注意力</h2>
+
+          <h3>1. 意识觉察</h3>
+
+          <p>第一步是认识到注意力的价值。你的注意力不是免费的——它有时间成本、机会成本和认知成本。每次你被一条无关通知打断，平均需要23分钟才能重新进入深度工作状态。</p>
+
+          <h3>2. 环境设计</h3>
+
+          <p>与其依赖意志力，不如改变环境。关闭非必要通知、使用专注模式、设定固定的时间检查社交媒体。将注意力保护措施编码到你的生活系统中。</p>
+
+          <h3>3. 深度工作习惯</h3>
+
+          <p>卡尔·纽波特提出的"深度工作"概念至关重要。在不受干扰的状态下，人的认知能力可以达到最佳水平。哪怕每天只有2-3小时的深度工作，其产出也远超8小时的碎片化 multitasking。</p>
+
+          <blockquote>
+            <p>深度工作是21世纪最有价值的技能之一。在一个充满干扰的世界里，能够持续专注的人拥有巨大的竞争优势。</p>
+          </blockquote>
+
+          <h2>结论</h2>
+
+          <p>注意力稀缺不是一个技术问题，而是一个认知问题。技术可以帮我们设置提醒和过滤，但最终，保护注意力需要我们主动选择把有限的心智资源投入到真正重要的事情上。</p>
+
+          <p>在这个信息爆炸的时代，<strong>选择不看什么，比选择看什么更重要</strong>。</p>
+        `
+      },
+      2: {
+        title: '芒格误判心理学：奖励超级反应倾向',
+        date: '2026年5月5日',
+        readTime: '12 分钟阅读',
+        tags: ['心理学', '芒格', '投资思维'],
+        author: {
+          name: '陈晓波',
+          bio: '终身学习者，对认知科学和行为经济学有浓厚兴趣',
+          avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=CXB&backgroundColor=f0ede6&textColor=2c2c2c'
+        },
+        body: `
+          <p>在查理·芒格列举的25种人类误判心理倾向中，<strong>奖励超级反应倾向</strong>（Reward Super-Response Tendency）被他排在第一位。这不是偶然——芒格认为这是人类心理中最强大、最普遍的力量之一。</p>
+
+          <h2>什么是奖励超级反应倾向</h2>
+
+          <p>芒格引用了心理学史上最著名的实验之一——B.F. 斯金纳的老鼠和鸽子实验。斯金纳发现，通过精心设计奖励机制，他可以让动物表现出几乎任何他想要的行为。更重要的是，当奖励变得不确定时（间歇性强化），行为反而变得更加顽固和持久。</p>
+
+          <blockquote>
+            <p>如果你想要改变行为，首先改变奖励结构。这不是建议，这是定律。——查理·芒格</p>
+          </blockquote>
+
+          <p>人类当然比老鼠复杂得多，但底层原理惊人地相似。我们以为自己的行为是由理性决策驱动的，但事实上，<strong>奖励结构才是行为的最大决定因素</strong>。</p>
+
+          <h2>奖励机制的四个核心特征</h2>
+
+          <h3>1. 奖励 > 惩罚</h3>
+
+          <p>正向激励的效果远超负向激励。如果你想让人做某件事，"做了就有好处"比"不做就受罚"有效得多。这不仅仅是一个管理技巧——它是我们神经系统的基本运作方式。多巴胺回路在正向奖励时最为活跃。</p>
+
+          <h3>2. 即时性至关重要</h3>
+
+          <p>奖励越即时，效果越强。这就是为什么减肥如此困难——健康的好处是延迟的，而美食的快感是即时的。任何想要建立好习惯的人，必须想办法缩短"行为"和"奖励"之间的时间差。</p>
+
+          <h3>3. 社会性奖励力量惊人</h3>
+
+          <p>人类是社会动物。来自同类的认可、尊重、地位，有时比物质奖励更有驱动力。CEO们愿意接受远低于市场价的薪酬，只要他们的头衔、权力和社会地位得到满足。这不是非理性——这是人类最原始的驱动力之一。</p>
+
+          <h3>4. 奖励会扭曲认知</h3>
+
+          <p>这是最危险的一点。当奖励足够强烈时，人们会<strong>无意识地扭曲自己的认知</strong>来合理化获取奖励的行为。芒格用"铁锤人倾向"来比喻：当你手里拿着锤子，看什么都像钉子。当你有强烈的利益时，你会说服自己任何行为都是合理的。</p>
+
+          <blockquote>
+            <p>从洗衣粉到石油公司，我从未见过哪个行业的激励系统不存在严重缺陷。——查理·芒格</p>
+          </blockquote>
+
+          <h2>在投资中的应用</h2>
+
+          <p>理解奖励超级反应倾向，对投资者来说至关重要：</p>
+
+          <ul>
+            <li><strong>警惕自己的动机</strong>：在做出投资决策前，问自己"如果这笔投资亏了，我能得到什么？"如果你的答案中包含社会认可、面子、或者"不输给别人"，那你很可能在非理性决策</li>
+            <li><strong>分析他人的激励</strong>：看到一家公司的高管大量增持自家股票时，比看任何财报都有说服力——因为真金白银的奖励不会说谎</li>
+            <li><strong>理解市场行为</strong>：市场短期的非理性波动，很大程度上是由参与者扭曲的奖励结构驱动的</li>
+          </ul>
+
+          <h2>芒格的实践智慧</h2>
+
+          <p>芒格在伯克希尔·哈撒韦的薪酬设计中，完美体现了这一原则。他不给基金经理高薪，不给他们奖金，不给他们期权。他只是让他们的钱和投资者的钱绑定在一起。没有"做得好有额外奖励"——只有"做得好你也赚，做得差你也亏"。</p>
+
+          <p>这种极端的<strong>利益一致性</strong>，消除了奖励扭曲认知的风险。</p>
+
+          <blockquote>
+            <p>告诉我激励是什么，我就告诉你结果会是什么。——查理·芒格</p>
+          </blockquote>
+
+          <h2>给我们的启示</h2>
+
+          <p>奖励超级反应倾向提醒我们：<strong>要改变行为，先改变系统；要判断他人，先看激励机制</strong>。这不是愤世嫉俗，这是对人性最清醒的认识。</p>
+
+          <p>当你发现自己对某件事异常执着时，不妨停下来问问：这个行为的背后，是什么奖励在驱动我？答案可能会让你惊讶。</p>
+        `
+      },
+      3: {
+        title: 'Intel 18A制程：半导体制造的终极豪赌',
+        date: '2026年4月28日',
+        readTime: '10 分钟阅读',
+        tags: ['半导体', 'Intel', '芯片制造'],
+        author: {
+          name: '陈晓波',
+          bio: '半导体行业观察者，关注芯片制造前沿技术',
+          avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=CXB&backgroundColor=f0ede6&textColor=2c2c2c'
+        },
+        body: `
+          <p>2025年下半年，Intel正式量产了其18A制程节点。这不仅仅是一次技术升级——这是Intel CEO帕特·基辛格（Pat Gelsinger）"IDM 2.0"战略的核心赌注，也是这家芯片巨头能否重返半导体制造巅峰的决定性战役。</p>
+
+          <h2>18A是什么？</h2>
+
+          <p>在半导体行业，"制程节点"这个数字已经不再代表任何具体的物理尺寸。Intel的18A（Angstrom，埃，1埃=0.1纳米）更多是一个品牌标识，但它确实代表了一些重要的技术突破：</p>
+
+          <ul>
+            <li><strong>RibbonFET 全环绕栅极晶体管</strong>：Intel对GAA（Gate-All-Around）的叫法，类似于Samsung的GAA和TSMC的Nanosheet</li>
+            <li><strong>PowerVia 背面供电</strong>：将电源线放在芯片背面，释放正面布线空间，显著提升晶体管密度</li>
+            <li><strong>High-NA EUV</strong>：下一代极紫外光刻机，数值孔径从0.33提升到0.55</li>
+          </ul>
+
+          <blockquote>
+            <p>18A不仅仅是更小的晶体管——它是一次晶体管架构的根本性变革。RibbonFET + PowerVia 的组合，是我们自FinFET以来最大的架构转变。——Intel CTO Ann Kelleher</p>
+          </blockquote>
+
+          <h2>为什么18A如此重要</h2>
+
+          <h3>Intel的生死之战</h3>
+
+          <p>过去十年，Intel在制程竞赛中节节败退。从14nm到10nm的延期让AMD凭借台积电的先进制程夺走了大量市场份额。Apple自研芯片的崛起更是将Intel挤出Mac产品线。18A是Intel证明"我们还能做世界最好的芯片"的最好机会。</p>
+
+          <h3>地缘政治的变量</h3>
+
+          <p>在当前的国际环境下，美国对半导体制造的重视达到了前所未有的高度。《CHIPS法案》为Intel提供了巨额补贴，条件是在美国本土建厂。18A量产不仅是技术里程碑，更是政治资本。</p>
+
+          <h3>代工市场的野心</h3>
+
+          <p>Intel Foundry Services（IFS）的目标是成为台积电和三星之外的第二选择。18A是Intel向潜在代工客户展示实力的关键——如果你的最先进制程不能和台积电的2nm/1.4nm竞争，没有人会把订单给你。</p>
+
+          <h2>技术挑战</h2>
+
+          <p>RibbonFET和PowerVia的引入带来了巨大的工程挑战：</p>
+
+          <ol>
+            <li><strong>良率</strong>：全新的晶体管架构意味着良率爬坡周期更长。Intel历史上在新制程良率方面表现不佳</li>
+            <li><strong>背面供电的复杂度</strong>：PowerVia需要在晶圆背面制作数百万个微小的TSV（硅通孔），对工艺精度要求极高</li>
+            <li><strong>High-NA EUV的成熟度</strong>：ASML的High-NA EUV光刻机本身就是一项前沿技术，Intel是首个大规模采用者</li>
+            <li><strong>设计生态</strong>：代工不仅仅是制造——还需要EDA工具、IP库、设计流程的完整生态支持</li>
+          </ol>
+
+          <h2>竞争格局</h2>
+
+          <p>到2025年底，全球先进制程的竞争格局大致如下：</p>
+
+          <ul>
+            <li><strong>TSMC 2nm (N2)</strong>：2025年下半年量产，采用GAA Nanosheet，良率领先</li>
+            <li><strong>Samsung 2nm (SF2)</strong>：2025年量产，但良率和产能一直是Samsung的弱项</li>
+            <li><strong>Intel 18A</strong>：2025年下半年量产，技术上最具野心，但执行风险最高</li>
+          </ul>
+
+          <blockquote>
+            <p>Intel不需要做到和TSMC完全一样好——它只需要做到"足够好"，同时利用地理多样性和美国政府的支持来吸引客户。</p>
+          </blockquote>
+
+          <h2>展望</h2>
+
+          <p>18A的成功与否，将在未来3-5年内决定Intel的命运。如果成功，Intel将重新成为半导体制造的领导者；如果失败，Intel可能不得不考虑拆分制造和设计业务——这曾经是不可想象的。</p>
+
+          <p>对整个行业来说，Intel的18A也是一件好事。<strong>竞争驱动创新</strong>，一个强势的Intel意味着台积电不能安于现状，意味着全球芯片供应链更加多元化，也意味着前沿技术的推进速度更快。</p>
+
+          <p>半导体制造的极限在哪里？没有人知道答案。但18A告诉我们，人类还在向前推。</p>
+        `
+      }
+    };
+
+    // ============================================
+    // 页面初始化
+    // ============================================
+
+    /**
+     * 获取URL参数中的页面ID，默认为1
+     */
+    function getPageId() {
+      const params = new URLSearchParams(window.location.search);
+      const id = parseInt(params.get('id'), 10);
+      return (id >= 1 && id <= 3) ? id : 1;
+    }
+
+    /**
+     * 渲染页面内容
+     */
+    function renderPage(pageId) {
+      const page = PAGES[pageId];
+      if (!page) return;
+
+      // 设置页面标题
+      document.title = page.title + ' — 墨记';
+
+      // 标题
+      document.getElementById('pageTitle').textContent = page.title;
+
+      // 日期 & 阅读时间
+      document.getElementById('pageDate').textContent = page.date;
+      document.getElementById('pageReadTime').textContent = page.readTime;
+
+      // 标签
+      const tagsContainer = document.getElementById('pageTags');
+      tagsContainer.innerHTML = page.tags
+        .map(tag => `<span class="tag">${tag}</span>`)
+        .join('');
+
+      // 正文
+      document.getElementById('pageBody').innerHTML = page.body;
+
+      // 作者信息
+      document.getElementById('authorAvatar').src = page.author.avatar;
+      document.getElementById('authorName').textContent = page.author.name;
+      document.getElementById('authorBio').textContent = page.author.bio;
+    }
+
+    /**
+     * 阅读进度条
+     */
+    function updateReadingProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      document.getElementById('readingProgress').style.width = progress + '%';
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      const pageId = getPageId();
+      renderPage(pageId);
+
+      // 记录访问统计
+      Analytics.updateStatsDisplay('page_' + pageId);
+
+      // 阅读进度条
+      window.addEventListener('scroll', updateReadingProgress, { passive: true });
+      updateReadingProgress();
+    });
+  </script>
+</body>
+</html>
