@@ -6,6 +6,11 @@
   <title>墨记 — 阅读</title>
   <meta name="description" content="来自墨记的精选内容">
 
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="墨记 — 分享内容">
+  <meta property="og:description" content="来自墨记Web的精选内容">
+
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
 
@@ -257,12 +262,30 @@
       }).join('');
     }
 
-    // 正文
-    var bodyEl = document.getElementById('pageBody');
-    if (page.body) {
-      bodyEl.innerHTML = page.body;
+    // 正文渲染：优先使用 fullHtml（完整模板），否则 fallback 到 body
+    var contentArea = document.getElementById('pageBody');
+    if (page.fullHtml) {
+      // 用 iframe 渲染完整模板，确保样式一致
+      contentArea.innerHTML = '';
+      var iframe = document.createElement('iframe');
+      iframe.style.cssText = 'width:100%;border:none;min-height:60vh;display:block;';
+      iframe.setAttribute('title', '内容预览');
+      contentArea.appendChild(iframe);
+      var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      iframeDoc.open();
+      iframeDoc.write(page.fullHtml);
+      iframeDoc.close();
+      // 自适应高度
+      iframe.onload = function() {
+        try {
+          var h = iframe.contentDocument.body.scrollHeight;
+          iframe.style.height = Math.max(h, 300) + 'px';
+        } catch(e) {}
+      };
+    } else if (page.body) {
+      contentArea.innerHTML = page.body;
     } else {
-      bodyEl.innerHTML = '<p style="color:var(--text-muted);">这篇内容暂无正文</p>';
+      contentArea.innerHTML = '<p style="color:var(--text-muted);">这篇内容暂无正文</p>';
     }
 
     // 分享按钮
@@ -291,11 +314,11 @@
       progressBar.style.width = progress + '%';
     }, { passive: true });
 
-    // Open Graph
+    // Open Graph 动态更新
     var ogTitle = document.querySelector('meta[property="og:title"]');
     var ogDesc = document.querySelector('meta[property="og:description"]');
-    if (ogTitle) ogTitle.setAttribute('content', page.title || '墨记');
-    if (ogDesc) ogDesc.setAttribute('content', '来自墨记的精选内容');
+    if (ogTitle) ogTitle.setAttribute('content', (page.title || '墨记') + ' — 墨记');
+    if (ogDesc) ogDesc.setAttribute('content', page.subtitle || page.title || '来自墨记Web的精选内容');
   }
 })();
 </script>

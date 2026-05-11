@@ -96,9 +96,8 @@ const ShareUtils = (() => {
   function shareTwitter() {
     const url = encodeURIComponent(getPageUrl());
     const text = encodeURIComponent(getPageTitle() + ' — 来自墨记');
-    const via = 'moji_web'; // 假设的 Twitter 账号
     window.open(
-      `https://twitter.com/intent/tweet?url=${url}&text=${text}&via=${via}`,
+      `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
       '_blank',
       'width=600,height=400,left=200,top=200'
     );

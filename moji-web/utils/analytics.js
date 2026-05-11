@@ -37,7 +37,7 @@ const Analytics = (() => {
     if (!stats[pageId]) {
       // 首次访问，初始化模拟数据
       stats[pageId] = {
-        views: Math.floor(Math.random() * 200) + 50,  // 50~250 的初始浏览量
+        views: 0,
         visitors: new Set(),
       };
     }

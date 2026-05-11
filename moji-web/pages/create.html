@@ -19,11 +19,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+  <!-- Lucide Icons 基础样式 -->
+  <style>
+    [data-lucide] { display: none; }
+  </style>
+
   <!-- 样式 -->
   <link rel="stylesheet" href="../styles/global.css">
   <link rel="stylesheet" href="../styles/create.css">
 </head>
 <body>
+  <!-- Lucide Icons (必须在 nav.js 之前加载) -->
+  <script src="../assets/lucide.min.js"></script>
   <!-- 导航由 nav.js 自动注入 -->
   <script src="../components/nav.js"></script>
 
@@ -234,8 +241,6 @@
 
   <!-- 配置 -->
   <script src="../config.js"></script>
-  <!-- Lucide Icons -->
-  <script src="../assets/lucide.min.js"></script>
   <!-- 存储层 -->
   <script src="../utils/storage.js"></script>
   <!-- 逻辑脚本 -->

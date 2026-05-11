@@ -1,33 +1,11 @@
 /* ============================================
    墨记Web — 创作页逻辑 (Create Page Logic)
    四步流程：输入 → AI生成 → 预览 → 发布
-   连接 localStorage 存储
+   连接 localStorage 存储 + GLM API
    ============================================ */
 
 (function () {
   'use strict';
-
-  /* ========== 模拟数据 ========== */
-  var SAMPLES = [
-    {
-      title: '注意力的分配理论',
-      subtitle: '为什么我们无法真正多任务？',
-      tags: ['认知科学', '心理学'],
-      body: '<p>人类的注意力并不是一个无限资源。认知科学家将注意力比作一盏<strong>聚光灯</strong>——它只能照亮有限的区域，而周围的一切都会变得模糊。</p><h2>单线程的大脑</h2><p>尽管我们觉得自己可以同时做多件事，但神经科学的研究表明，大脑实际上是<strong>快速切换</strong>，而非并行处理。每次切换都会消耗认知资源，导致所谓的"切换成本"。</p><blockquote>「注意力是稀缺资源。把它花在值得的地方。」</blockquote><h2>深度工作的力量</h2><p>Cal Newport 在《深度工作》中提出：在无干扰的状态下进行专注的职业活动，能够将你的认知能力推向极限。</p><ul><li>设定固定的"深度工作"时间段</li><li>关闭所有通知，包括手机和电脑</li><li>为每个工作时段设定明确的目标</li></ul><p>记住，<strong>你的注意力在哪里，你的人生就在哪里</strong>。</p>'
-    },
-    {
-      title: '查理·芒格的心理学模型',
-      subtitle: '25个导致误判的心理倾向',
-      tags: ['投资', '心理学', '思维模型'],
-      body: '<p>查理·芒格认为，如果你不了解人类心理学的<strong>基本倾向</strong>，你就无法成为一个好的决策者。他在《穷查理宝典》中列举了25个导致人类误判的心理倾向。</p><h2>核心原则：避免愚蠢，而非追求聪明</h2><p>芒格的投资哲学的核心不是做聪明的事，而是<strong>避免做愚蠢的事</strong>。</p><blockquote>「反过来想，总是反过来想。」—— 查理·芒格</blockquote><h2>几个关键的心理倾向</h2><h3>1. 奖励超级反应倾向</h3><p>人们会对激励做出极强的反应。设计正确的激励机制比说服更有效。</p><h3>2. 避免不一致性倾向</h3><p>人类大脑天生抗拒改变已有的结论和信念。</p><h3>3. 社会认同倾向</h3><p>当面临不确定时，人们会自动看别人在做什么。</p><p>芒格的建议：<strong>建立一个跨学科的思维模型框架</strong>。</p>'
-    },
-    {
-      title: 'Intel 18A 工艺节点解析',
-      subtitle: 'Intel 能否重夺制程领先？',
-      tags: ['半导体', '科技', 'Intel'],
-      body: '<p>Intel 18A（1.8nm 级别）是 Intel "四年五节点"计划中的关键一步。这个工艺节点将决定 Intel 能否在<strong>先进制程竞赛</strong>中重新超越台积电和三星。</p><h2>核心技术突破</h2><h3>RibbonFET（GAA 晶体管）</h3><p>Intel 放弃了使用多年的 FinFET 架构，转而采用 Gate-All-Around (GAA) 设计。</p><h3>PowerVia（背面供电）</h3><p>将电源网络移到晶圆背面，释放了正面的布线资源，<strong>提升了 6% 的性能和 90% 的单元密度</strong>。</p><blockquote>「Intel 18A 不仅是工艺的进步，更是架构范式的转变。」</blockquote><h2>市场竞争格局</h2><p>台积电的 N2（2nm）预计 2025 年量产，Intel 18A 计划 2025 下半年量产。关键问题是 Intel 能否<strong>按时交付</strong>。</p><p>如果成功，这将<strong>重塑全球半导体供应链格局</strong>。</p>'
-    }
-  ];
 
   /* 模板 HTML 生成器 */
   var TEMPLATES = {
@@ -70,6 +48,75 @@
   var $ = function (sel) { return document.querySelector(sel); };
   var $$ = function (sel) { return document.querySelectorAll(sel); };
 
+  /* ========== GLM API 真实调用 ========== */
+  async function generateWithGLM(userInput) {
+    var config = window.MOJI_CONFIG || {};
+    var apiKey = config.API_KEY || '';
+    var apiUrl = config.API_URL || '';
+    var model = config.MODEL || 'glm-4-flash';
+    var temperature = config.TEMPERATURE || 0.7;
+    var maxTokens = config.MAX_TOKENS || 2048;
+
+    if (!apiKey || !apiUrl) {
+      return { success: false, error: 'API未配置（缺少 API_KEY 或 API_URL）' };
+    }
+
+    var systemPrompt = '你是墨记AI助手。用户会给你一段文字，请将其扩展为一篇精美的网页文章，包含标题、副标题、标签和HTML格式的正文。\n\n要求：\n1. 使用语义化HTML标签（h1, h2, p, blockquote, ul, li, strong, em）\n2. 内容必须完全基于用户输入的文字，不要添加用户没说的内容\n3. 排版要精美：合理的标题层级、段落分隔、重要内容加粗、适当的引用块\n4. 如果用户输入很短（一句话），就做成一张精美的卡片式页面\n5. 如果用户输入是一段话，就做成一篇短文\n\n返回JSON格式（不要markdown代码块包裹）：\n{"title":"标题","subtitle":"副标题","tags":["标签1","标签2"],"body":"<p>HTML格式正文</p>"}';
+
+    try {
+      var response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + apiKey
+        },
+        body: JSON.stringify({
+          model: model,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userInput }
+          ],
+          temperature: temperature,
+          max_tokens: maxTokens
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('API请求失败: ' + response.status + ' ' + response.statusText);
+      }
+
+      var data = await response.json();
+      var content = '';
+      if (data.choices && data.choices[0] && data.choices[0].message) {
+        content = data.choices[0].message.content || '';
+      }
+
+      // 清理markdown代码块包裹
+      content = content.replace(/^```(?:json|html)?\n?/i, '').replace(/\n?```$/i, '');
+      content = content.trim();
+
+      // 解析JSON
+      var jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error('AI返回格式无法解析');
+      }
+
+      var parsed = JSON.parse(jsonMatch[0]);
+      return {
+        success: true,
+        sample: {
+          title: parsed.title || '无标题',
+          subtitle: parsed.subtitle || '',
+          tags: Array.isArray(parsed.tags) ? parsed.tags : [],
+          body: parsed.body || '<p>生成内容为空</p>'
+        }
+      };
+    } catch (error) {
+      console.error('[墨记] GLM API错误:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
   /* ========== 初始化 ========== */
   function init() {
     bindStepIndicator();
@@ -83,7 +130,13 @@
     bindCopyBtn();
     bindShareBtns();
     bindPasswordToggle();
+    bindEditorShortcuts();
     updateStepUI();
+
+    // 确保lucide图标渲染
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
   }
 
   /* ========== 步骤指示器 ========== */
@@ -177,13 +230,14 @@
     btn.addEventListener('click', function () {
       currentStep = 2;
       updateStepUI();
-      simulateGeneration();
+      startGeneration();
     });
   }
 
-  /* ========== Step 2: 模拟AI生成 ========== */
-  function simulateGeneration() {
+  /* ========== Step 2: AI生成（真实GLM API调用） ========== */
+  function startGeneration() {
     var textEl = $('.generating-panel__text');
+    var subEl = $('.generating-panel__sub');
     var phrases = [
       'AI 正在理解你的内容...',
       '正在构建页面结构...',
@@ -192,28 +246,64 @@
       '即将完成...'
     ];
 
-    currentSample = SAMPLES[Math.floor(Math.random() * SAMPLES.length)];
+    // 获取用户输入
+    var userInput = '';
+    var textarea = $('#inputText');
+    var voiceResult = $('.voice-panel__result');
+    if (textarea && textarea.value.trim()) {
+      userInput = textarea.value.trim();
+    } else if (voiceResult && voiceResult.textContent.trim()) {
+      userInput = voiceResult.textContent.trim();
+    }
 
-    var i = 0;
+    if (!userInput) {
+      textEl.textContent = '未检测到输入内容';
+      if (subEl) subEl.textContent = '请返回输入内容后重试';
+      return;
+    }
+
+    // 播放动画
+    var animIndex = 0;
     textEl.textContent = phrases[0];
-
-    var timer = setInterval(function () {
-      i++;
-      if (i < phrases.length) {
+    var animTimer = setInterval(function () {
+      animIndex++;
+      if (animIndex < phrases.length) {
         textEl.style.opacity = 0;
         setTimeout(function () {
-          textEl.textContent = phrases[i];
+          textEl.textContent = phrases[animIndex];
           textEl.style.opacity = 1;
         }, 300);
-      } else {
-        clearInterval(timer);
+      }
+    }, 800);
+
+    // 调用真实GLM API
+    generateWithGLM(userInput).then(function (result) {
+      clearInterval(animTimer);
+
+      if (result.success) {
+        currentSample = result.sample;
+        textEl.textContent = '生成完成！';
         setTimeout(function () {
           currentStep = 3;
           updateStepUI();
           renderPreview();
         }, 500);
+      } else {
+        // 显示错误信息 + 重试按钮
+        textEl.textContent = '生成失败：' + (result.error || '未知错误');
+        if (subEl) subEl.innerHTML = '<button id="retryBtn" style="margin-top:12px;padding:8px 20px;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:8px;cursor:pointer;font-size:0.9rem;">🔄 重试</button>';
+
+        var retryBtn = document.getElementById('retryBtn');
+        if (retryBtn) {
+          retryBtn.addEventListener('click', function () {
+            // 恢复提示文字
+            textEl.textContent = phrases[0];
+            if (subEl) subEl.textContent = '这通常只需要几秒钟';
+            startGeneration();
+          });
+        }
       }
-    }, 800);
+    });
   }
 
   /* ========== Step 3: 预览 ========== */
@@ -311,9 +401,39 @@
 
     if (regenBtn) {
       regenBtn.addEventListener('click', function () {
-        location.reload();
+        // Re-run generation flow instead of reloading the page
+        toggleEditor(false);
+        currentStep = 2;
+        updateStepUI();
+        startGeneration();
       });
     }
+  }
+
+  /* ========== HTML编辑器快捷键 ========== */
+  function bindEditorShortcuts() {
+    var editor = $('#htmlCodeEditor');
+    if (!editor) return;
+
+    // Tab缩进（2空格）
+    editor.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+        this.value = this.value.substring(0, start) + '  ' + this.value.substring(end);
+        this.selectionStart = this.selectionEnd = start + 2;
+      }
+    });
+
+    // Ctrl/Cmd + Enter 应用修改
+    editor.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        var applyBtn = $('#editorApplyBtn');
+        if (applyBtn) applyBtn.click();
+      }
+    });
   }
 
   /* ========== Step 3→4: 发布（保存到 localStorage）========== */
@@ -334,7 +454,7 @@
         });
       }
 
-      // 保存到 localStorage
+      // 保存到 localStorage（包含 fullHtml）
       var page = MojiStorage.savePage({
         title: currentSample.title,
         body: currentSample.body,
