@@ -302,6 +302,19 @@ img {
 
 /* ========== 无障碍：减弱动画 ========== */
 
+/* ========== 无障碍：焦点可见 ========== */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
