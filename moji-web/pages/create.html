@@ -35,7 +35,6 @@
 
     <!-- ====== 步骤指示器 ====== -->
     <div class="step-indicator">
-      <!-- Step 1 -->
       <div class="step-indicator__step active">
         <div class="step-indicator__step-inner">
           <div class="step-indicator__circle">1</div>
@@ -43,7 +42,6 @@
         </div>
       </div>
       <div class="step-indicator__line"></div>
-      <!-- Step 2 -->
       <div class="step-indicator__step">
         <div class="step-indicator__step-inner">
           <div class="step-indicator__circle">2</div>
@@ -51,7 +49,6 @@
         </div>
       </div>
       <div class="step-indicator__line"></div>
-      <!-- Step 3 -->
       <div class="step-indicator__step">
         <div class="step-indicator__step-inner">
           <div class="step-indicator__circle">3</div>
@@ -59,7 +56,6 @@
         </div>
       </div>
       <div class="step-indicator__line"></div>
-      <!-- Step 4 -->
       <div class="step-indicator__step">
         <div class="step-indicator__step-inner">
           <div class="step-indicator__circle">4</div>
@@ -72,13 +68,6 @@
          Step 1: 输入
          ============================================================ -->
     <div class="step-panel active" id="step1">
-
-      <!-- 输入方式切换 -->
-      <div class="input-tabs">
-        <button class="input-tabs__btn active" data-mode="text">📝 文字输入</button>
-        <button class="input-tabs__btn" data-mode="voice">🎤 语音输入</button>
-      </div>
-
       <!-- 文字输入区域 -->
       <div class="input-area">
         <textarea
@@ -86,26 +75,10 @@
           id="inputText"
           placeholder="在这里写下你的想法、故事、知识笔记……&#10;&#10;可以是一段感悟、一个项目的介绍、学到的知识点……&#10;AI 会帮你自动排版成精美的网页。"
         ></textarea>
-        <div class="input-area__count">0 字</div>
-      </div>
-
-      <!-- 语音输入面板 -->
-      <div class="voice-panel" id="voicePanel">
-        <button class="voice-panel__btn" aria-label="开始录音">🎤</button>
-        <div class="voice-wave">
-          <div class="voice-wave__bar"></div>
-          <div class="voice-wave__bar"></div>
-          <div class="voice-wave__bar"></div>
-          <div class="voice-wave__bar"></div>
-          <div class="voice-wave__bar"></div>
-          <div class="voice-wave__bar"></div>
-          <div class="voice-wave__bar"></div>
-          <div class="voice-wave__bar"></div>
-          <div class="voice-wave__bar"></div>
-          <div class="voice-wave__bar"></div>
+        <div class="input-area__footer">
+          <span class="input-area__hint">💡 支持一句话、一段话、甚至一整篇文章</span>
+          <span class="input-area__count">0 字</span>
         </div>
-        <p class="voice-panel__hint">点击按钮开始录音</p>
-        <div class="voice-panel__result" id="voiceResult"></div>
       </div>
 
       <!-- 生成按钮 -->
@@ -121,12 +94,8 @@
       <div class="generating-panel">
         <!-- 呼吸光球 -->
         <div class="generating-panel__orb"></div>
-
-        <!-- 提示文字 -->
         <p class="generating-panel__text">AI 正在理解你的内容...</p>
         <p class="generating-panel__sub">这通常只需要几秒钟</p>
-
-        <!-- 进度点 -->
         <div class="generating-panel__dots">
           <div class="generating-panel__dot"></div>
           <div class="generating-panel__dot"></div>
@@ -136,18 +105,27 @@
     </div>
 
     <!-- ============================================================
-         Step 3: 预览
+         Step 3: 预览 + 风格选择 + 编辑
          ============================================================ -->
     <div class="step-panel" id="step3">
 
-      <!-- 标题 + 模板切换 -->
-      <div class="preview-panel__header">
-        <h2 class="preview-panel__title">网页预览</h2>
-        <div class="template-switcher">
-          <button class="template-switcher__btn active" data-template="diary">📖 日记</button>
-          <button class="template-switcher__btn" data-template="note">📝 笔记</button>
-          <button class="template-switcher__btn" data-template="project">🚀 项目</button>
-        </div>
+      <!-- 风格切换 -->
+      <div class="style-switcher">
+        <button class="style-switcher__btn active" data-style="minimal">
+          <span class="style-switcher__icon">🎯</span>
+          <span class="style-switcher__name">简约</span>
+          <span class="style-switcher__desc">干净 · 留白 · Medium风</span>
+        </button>
+        <button class="style-switcher__btn" data-style="vibrant">
+          <span class="style-switcher__icon">🌊</span>
+          <span class="style-switcher__name">活泼</span>
+          <span class="style-switcher__desc">渐变 · 圆角 · 小红书风</span>
+        </button>
+        <button class="style-switcher__btn" data-style="dark">
+          <span class="style-switcher__icon">🖤</span>
+          <span class="style-switcher__name">酷感</span>
+          <span class="style-switcher__desc">深色 · 大胆 · Apple风</span>
+        </button>
       </div>
 
       <!-- 预览框架 -->
@@ -155,26 +133,45 @@
         <iframe id="previewFrame" title="网页预览"></iframe>
       </div>
 
-      <!-- 编辑面板（可折叠） -->
-      <div class="preview-edit">
-        <div class="preview-edit__field">
-          <label class="preview-edit__label" for="editTitle">标题</label>
-          <input class="preview-edit__input" type="text" id="editTitle" placeholder="修改标题...">
+      <!-- HTML 编辑器（可折叠） -->
+      <div class="html-editor" id="htmlEditor">
+        <div class="html-editor__header">
+          <h3 class="html-editor__title">
+            <i data-lucide="code-2" style="width:16px;height:16px"></i>
+            HTML 编辑器
+          </h3>
+          <div class="html-editor__actions">
+            <button class="html-editor__btn" id="editorApplyBtn" title="应用修改">
+              <i data-lucide="check" style="width:14px;height:14px"></i>
+              应用
+            </button>
+            <button class="html-editor__btn html-editor__btn--close" id="editorCloseBtn" title="关闭编辑器">
+              <i data-lucide="x" style="width:14px;height:14px"></i>
+            </button>
+          </div>
         </div>
-        <div class="preview-edit__field">
-          <label class="preview-edit__label" for="editContent">内容</label>
-          <textarea class="preview-edit__textarea" id="editContent" placeholder="修改内容..."></textarea>
-        </div>
-        <div style="text-align:right">
-          <button class="btn btn-primary" id="editApplyBtn">应用修改</button>
-        </div>
+        <textarea
+          class="html-editor__code"
+          id="htmlCodeEditor"
+          spellcheck="false"
+          placeholder="<!-- 在这里编辑HTML内容 -->"
+        ></textarea>
       </div>
 
       <!-- 操作按钮 -->
       <div class="preview-actions">
-        <button class="btn btn-secondary" id="editToggleBtn">编辑内容</button>
-        <button class="btn btn-secondary" id="regenBtn" onclick="location.reload()">🔄 重新开始</button>
-        <button class="btn btn-primary" id="publishBtn">📤 发布网页</button>
+        <button class="btn btn-secondary" id="editToggleBtn">
+          <i data-lucide="code-2" style="width:16px;height:16px"></i>
+          编辑 HTML
+        </button>
+        <button class="btn btn-secondary" id="regenBtn">
+          <i data-lucide="refresh-cw" style="width:16px;height:16px"></i>
+          重新生成
+        </button>
+        <button class="btn btn-primary" id="publishBtn">
+          <i data-lucide="send" style="width:16px;height:16px"></i>
+          发布网页
+        </button>
       </div>
     </div>
 
@@ -200,6 +197,19 @@
           <button class="publish-link__copy" id="copyBtn">复制链接</button>
         </div>
 
+        <!-- 密码保护 -->
+        <div class="publish-password">
+          <label class="publish-password__toggle">
+            <input type="checkbox" id="passwordToggle">
+            <span class="publish-password__checkmark"></span>
+            <span class="publish-password__label">密码保护</span>
+          </label>
+          <div class="publish-password__field" id="passwordField">
+            <input type="text" class="publish-password__input" id="passwordInput" placeholder="设置访问密码..." readonly>
+            <button class="publish-password__save" id="passwordSaveBtn">保存密码</button>
+          </div>
+        </div>
+
         <!-- 社交分享 -->
         <div class="publish-share">
           <button class="publish-share__btn" data-platform="wechat" title="分享到微信">💬</button>
@@ -222,6 +232,12 @@
     </p>
   </footer>
 
+  <!-- 配置 -->
+  <script src="../config.js"></script>
+  <!-- Lucide Icons -->
+  <script src="../assets/lucide.min.js"></script>
+  <!-- 存储层 -->
+  <script src="../utils/storage.js"></script>
   <!-- 逻辑脚本 -->
   <script src="../utils/create-logic.js"></script>
 </body>

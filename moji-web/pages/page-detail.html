@@ -19,6 +19,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+  <!-- Lucide Icons 基础样式 -->
+  <style>
+    [data-lucide] { display: none; }
+    .lucide { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; vertical-align: middle; }
+    .lucide-sm { width: 18px; height: 18px; }
+    .lucide-inline { display: inline-block; vertical-align: -3px; }
+  </style>
+
   <!-- 样式 -->
   <link rel="stylesheet" href="../styles/global.css">
   <link rel="stylesheet" href="../styles/detail.css">
@@ -30,19 +38,11 @@
   <!-- 顶部栏 -->
   <header class="detail-header">
     <a href="index.html" class="detail-header__back" onclick="if(history.length>1){history.back();return false;}">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M19 12H5M12 19l-7-7 7-7"/>
-      </svg>
+      <i data-lucide="arrow-left" class="lucide-sm lucide-inline"></i>
       返回
     </a>
     <button class="detail-header__share" onclick="ShareUtils.shareNative()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="18" cy="5" r="3"/>
-        <circle cx="6" cy="12" r="3"/>
-        <circle cx="18" cy="19" r="3"/>
-        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-      </svg>
+      <i data-lucide="share-2" class="lucide-sm lucide-inline"></i>
       分享
     </button>
   </header>
@@ -84,19 +84,11 @@
       <!-- 访问统计 -->
       <div class="detail-stats">
         <div class="detail-stats__item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
+          <i data-lucide="eye" class="lucide-sm lucide-inline"></i>
           <span><span class="detail-stats__number" data-stat="views">0</span> 次浏览</span>
         </div>
         <div class="detail-stats__item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
+          <i data-lucide="users" class="lucide-sm lucide-inline"></i>
           <span><span class="detail-stats__number" data-stat="visitors">0</span> 位访客</span>
         </div>
       </div>
@@ -105,52 +97,45 @@
       <div class="share-bar">
         <!-- 复制链接 -->
         <button class="share-btn share-btn--copy" onclick="ShareUtils.copyLink()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-          </svg>
+          <i data-lucide="copy" class="lucide-sm lucide-inline"></i>
           复制链接
         </button>
         <!-- 微信 -->
         <button class="share-btn" onclick="ShareUtils.shareWeChat()">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm3.2 4.127c-3.985 0-7.198 2.797-7.198 6.223 0 3.428 3.213 6.225 7.198 6.225.67 0 1.318-.078 1.932-.221a.71.71 0 0 1 .588.08l1.56.913a.272.272 0 0 0 .138.045.237.237 0 0 0 .238-.241c0-.06-.023-.117-.039-.174l-.319-1.213a.48.48 0 0 1 .175-.545c1.503-1.102 2.456-2.723 2.456-4.524 0-3.426-3.214-6.223-7.198-6.223h-.581zm-2.376 3.393c.525 0 .95.432.95.965a.958.958 0 0 1-.95.965.958.958 0 0 1-.95-.965c0-.533.425-.965.95-.965zm4.75 0c.524 0 .95.432.95.965a.958.958 0 0 1-.95.965.958.958 0 0 1-.95-.965c0-.533.425-.965.95-.965z"/>
-          </svg>
+          <i data-lucide="message-circle" class="lucide-sm lucide-inline"></i>
           微信
         </button>
         <!-- Twitter/X -->
         <button class="share-btn" onclick="ShareUtils.shareTwitter()">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
+          <i data-lucide="twitter" class="lucide-sm lucide-inline"></i>
           Twitter/X
         </button>
         <!-- 更多分享 -->
         <button class="share-btn" onclick="ShareUtils.shareNative()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="1"/>
-            <circle cx="19" cy="12" r="1"/>
-            <circle cx="5" cy="12" r="1"/>
-          </svg>
+          <i data-lucide="more-horizontal" class="lucide-sm lucide-inline"></i>
           更多
         </button>
       </div>
 
       <!-- CTA -->
       <div class="detail-cta">
-        <h2 class="detail-cta__title">你也来试试 ✨</h2>
+        <h2 class="detail-cta__title">你也来试试 <i data-lucide="sparkles" class="lucide-sm lucide-inline"></i></h2>
         <p class="detail-cta__desc">用几句话，让AI帮你生成精美网页</p>
         <a href="create.html" class="btn btn-primary">开始创作</a>
       </div>
 
       <!-- 评论区占位 -->
       <div class="detail-comments">
-        <div class="detail-comments__icon">💬</div>
+        <div class="detail-comments__icon"><i data-lucide="message-circle" style="width:28px;height:28px;stroke:var(--text-muted);"></i></div>
         <p class="detail-comments__text">评论功能即将上线</p>
         <span class="detail-comments__badge">Phase 2</span>
       </div>
     </footer>
   </main>
+
+  <!-- Lucide Icons -->
+  <script src="../assets/lucide.min.js"></script>
+  <script>lucide.createIcons();</script>
 
   <!-- JS -->
   <script src="../utils/analytics.js"></script>

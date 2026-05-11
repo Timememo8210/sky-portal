@@ -19,35 +19,38 @@
     <div class="nav__inner container">
       <!-- Logo -->
       <a href="${prefix}index.html" class="nav__logo">
-        <span class="nav__logo-icon">墨</span>
+        <span class="nav__logo-icon">
+          <i data-lucide="feather" style="width:20px;height:20px;stroke:#fff;"></i>
+        </span>
         <span class="nav__logo-text">墨记</span>
       </a>
 
       <!-- 桌面端链接 -->
       <ul class="nav__links">
-        <li><a href="${prefix}index.html#features">体验</a></li>
-        <li><a href="${prefix}index.html#templates">模板</a></li>
-        <li><a href="${prefix}index.html#about">关于</a></li>
+        <li><a href="${prefix}index.html#features"><i data-lucide="layers" class="nav-link-icon"></i> 体验</a></li>
+        <li><a href="${prefix}profile.html"><i data-lucide="user" class="nav-link-icon"></i> 个人空间</a></li>
+        <li><a href="${prefix}index.html#about"><i data-lucide="info" class="nav-link-icon"></i> 关于</a></li>
       </ul>
 
       <!-- CTA -->
-      <a href="${prefix}create.html" class="nav__cta btn btn-primary">开始创作</a>
+      <a href="${prefix}create.html" class="nav__cta btn btn-primary">
+        <i data-lucide="pen-tool" style="width:16px;height:16px;stroke:#fff;"></i> 开始创作
+      </a>
 
       <!-- 移动端汉堡按钮 -->
       <button class="nav__hamburger" aria-label="打开菜单" aria-expanded="false">
-        <span class="nav__hamburger-line"></span>
-        <span class="nav__hamburger-line"></span>
-        <span class="nav__hamburger-line"></span>
+        <i data-lucide="menu" class="nav-hamburger-icon nav-hamburger-menu"></i>
+        <i data-lucide="x" class="nav-hamburger-icon nav-hamburger-close"></i>
       </button>
     </div>
 
     <!-- 移动端菜单 -->
     <div class="nav__mobile-menu">
       <ul class="nav__mobile-links">
-        <li><a href="${prefix}index.html#features">体验</a></li>
-        <li><a href="${prefix}index.html#templates">模板</a></li>
-        <li><a href="${prefix}index.html#about">关于</a></li>
-        <li><a href="${prefix}create.html" class="btn btn-primary" style="justify-content:center;">开始创作</a></li>
+        <li><a href="${prefix}index.html#features"><i data-lucide="layers" class="mobile-link-icon"></i> 体验</a></li>
+        <li><a href="${prefix}profile.html"><i data-lucide="user" class="mobile-link-icon"></i> 个人空间</a></li>
+        <li><a href="${prefix}index.html#about"><i data-lucide="info" class="mobile-link-icon"></i> 关于</a></li>
+        <li><a href="${prefix}create.html" class="btn btn-primary" style="justify-content:center;"><i data-lucide="pen-tool" style="width:16px;height:16px;stroke:#fff;"></i> 开始创作</a></li>
       </ul>
     </div>
   </nav>
@@ -60,6 +63,12 @@
 
     // 在 <body> 开头插入
     document.body.insertAdjacentHTML('afterbegin', navHTML);
+
+    // Initialize Lucide icons in the nav
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+
     setupScrollBehavior();
     setupMobileMenu();
   }
@@ -104,6 +113,14 @@
       hamburger.setAttribute('aria-expanded', isOpen);
       hamburger.setAttribute('aria-label', isOpen ? '关闭菜单' : '打开菜单');
 
+      // Show/hide menu vs close icon
+      const menuIcon = hamburger.querySelector('.nav-hamburger-menu');
+      const closeIcon = hamburger.querySelector('.nav-hamburger-close');
+      if (menuIcon && closeIcon) {
+        menuIcon.style.display = isOpen ? 'none' : 'block';
+        closeIcon.style.display = isOpen ? 'block' : 'none';
+      }
+
       // 锁定 body 滚动
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
@@ -115,6 +132,13 @@
         hamburger.classList.remove('nav__hamburger--open');
         hamburger.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        // Reset hamburger icons
+        const menuIcon = hamburger.querySelector('.nav-hamburger-menu');
+        const closeIcon = hamburger.querySelector('.nav-hamburger-close');
+        if (menuIcon && closeIcon) {
+          menuIcon.style.display = 'block';
+          closeIcon.style.display = 'none';
+        }
       });
     });
   }
@@ -200,9 +224,6 @@
     height: 36px;
     background: var(--accent);
     color: #fff;
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    font-weight: 700;
     border-radius: 10px;
   }
 
@@ -211,6 +232,31 @@
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--text);
+  }
+
+  /* Nav link icons */
+  .nav-link-icon {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    vertical-align: -2px;
+  }
+
+  /* Mobile link icons */
+  .mobile-link-icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    vertical-align: -3px;
+    margin-right: 4px;
   }
 
   /* 桌面端链接 */
@@ -257,33 +303,28 @@
   /* 汉堡按钮 */
   .nav__hamburger {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: 5px;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     flex-shrink: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 
-  .nav__hamburger-line {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--text);
-    border-radius: 1px;
-    transition: all 0.3s ease;
-    transform-origin: center;
+  .nav-hamburger-icon {
+    width: 24px;
+    height: 24px;
+    stroke: var(--text);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
   }
 
-  /* 汉堡 → X */
-  .nav__hamburger--open .nav__hamburger-line:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-  .nav__hamburger--open .nav__hamburger-line:nth-child(2) {
-    opacity: 0;
-  }
-  .nav__hamburger--open .nav__hamburger-line:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+  .nav-hamburger-close {
+    display: none;
   }
 
   /* 移动端菜单 */

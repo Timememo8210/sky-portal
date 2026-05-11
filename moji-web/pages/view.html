@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>墨记 — 阅读</title>
+  <meta name="description" content="来自墨记的精选内容">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons 基础样式 -->
+  <style>
+    [data-lucide] { display: none; }
+    .lucide { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; vertical-align: middle; }
+    .lucide-sm { width: 18px; height: 18px; }
+    .lucide-inline { display: inline-block; vertical-align: -3px; }
+  </style>
+
+  <!-- 样式 -->
+  <link rel="stylesheet" href="../styles/global.css">
+  <link rel="stylesheet" href="../styles/detail.css">
+  <link rel="stylesheet" href="../styles/view.css">
+</head>
+<body>
+
+<div class="view-page" id="viewPage">
+
+  <!-- ====== 密码解锁层（如有密码保护） ====== -->
+  <div class="unlock-overlay" id="unlockOverlay" style="display:none;">
+    <div class="unlock-card">
+      <div class="unlock-card__icon"><i data-lucide="lock" style="width:32px;height:32px;stroke:var(--accent);"></i></div>
+      <h2 class="unlock-card__title">这篇内容需要密码</h2>
+      <p class="unlock-card__desc">作者为这篇内容设置了密码保护，输入密码后即可查看</p>
+      <div class="unlock-card__input-wrap">
+        <input
+          type="password"
+          class="unlock-card__input"
+          id="unlockInput"
+          placeholder="请输入密码"
+          autocomplete="off"
+        >
+      </div>
+      <button class="unlock-card__btn" id="unlockBtn">解锁查看</button>
+      <div class="unlock-card__error" id="unlockError">密码不正确，请重新输入</div>
+    </div>
+  </div>
+
+  <!-- ====== 内容区 ====== -->
+  <div class="view-content" id="viewContent" style="display:none;">
+
+    <!-- 阅读进度条 -->
+    <div class="reading-progress" id="readingProgress"></div>
+
+    <!-- 顶部栏 -->
+    <header class="detail-header">
+      <a href="profile.html" class="detail-header__back" id="backLink">
+        <i data-lucide="arrow-left" class="lucide-sm lucide-inline"></i>
+        返回
+      </a>
+      <button class="detail-header__share" id="shareBtn">
+        <i data-lucide="share-2" class="lucide-sm lucide-inline"></i>
+        分享
+      </button>
+    </header>
+
+    <!-- 主体内容 -->
+    <main class="detail-page">
+      <!-- 标题区 -->
+      <section class="detail-hero" id="heroSection">
+        <h1 class="detail-hero__title" id="pageTitle"></h1>
+        <div class="detail-hero__meta">
+          <span class="detail-hero__date" id="pageAuthor"></span>
+          <span class="detail-hero__dot"></span>
+          <span class="detail-hero__date" id="pageDate"></span>
+          <span class="detail-hero__dot"></span>
+          <span class="detail-hero__date" id="pageViews"></span>
+        </div>
+        <div class="detail-hero__tags" id="pageTags"></div>
+      </section>
+
+      <!-- 正文区 -->
+      <article class="detail-content">
+        <div class="detail-body" id="pageBody"></div>
+      </article>
+
+      <!-- 分隔线 -->
+      <div class="detail-divider"><hr></div>
+
+      <!-- 底部区域 -->
+      <footer class="detail-footer">
+        <!-- 作者卡片 -->
+        <div class="author-card" id="authorCard">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.4rem;color:var(--accent);flex-shrink:0;" id="authorAvatarFallback"></div>
+          <div class="author-card__info">
+            <div class="author-card__name" id="authorName"></div>
+            <div class="author-card__bio" id="authorBio"></div>
+          </div>
+        </div>
+
+        <!-- 分享按钮组 -->
+        <div class="share-bar">
+          <button class="share-btn share-btn--copy" id="copyLinkBtn">
+            <i data-lucide="copy" class="lucide-sm lucide-inline"></i>
+            复制链接
+          </button>
+        </div>
+
+        <!-- 评论区占位 -->
+        <div class="view-comments">
+          <div class="view-comments__box">
+            <div class="view-comments__icon"><i data-lucide="message-circle" style="width:28px;height:28px;stroke:var(--text-muted);"></i></div>
+            <p class="view-comments__text">评论功能即将上线</p>
+            <span class="view-comments__badge">Phase 2</span>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- ====== 页面未找到 ====== -->
+  <div class="not-found" id="notFound" style="display:none;">
+    <div class="not-found__icon"><i data-lucide="search" style="width:48px;height:48px;stroke:var(--text-muted);"></i></div>
+    <h1 class="not-found__title">页面未找到</h1>
+    <p class="not-found__desc">这个链接可能已过期或不存在。检查一下链接是否正确。</p>
+    <a href="index.html" class="btn btn-primary">回到首页</a>
+  </div>
+
+  <!-- ====== 品牌水印 ====== -->
+  <div class="view-watermark" id="viewWatermark" style="display:none;">
+    <div class="view-watermark__brand">
+      <span class="view-watermark__brand-icon">墨</span>
+      <span>由墨记Web生成</span>
+    </div>
+    <p class="view-watermark__tagline">说出你的想法，AI帮你变成网页</p>
+    <a href="create.html" class="view-watermark__cta"><i data-lucide="sparkles" class="lucide-sm lucide-inline"></i> 我也要创作</a>
+  </div>
+
+</div>
+
+<!-- ====== Scripts ====== -->
+<script src="../assets/lucide.min.js"></script>
+<script>lucide.createIcons();</script>
+<script src="../utils/storage.js"></script>
+<script src="../utils/share.js"></script>
+<script src="../utils/analytics.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var pageId = new URLSearchParams(window.location.search).get('id');
+
+  // ---------- 不存在的页面 ----------
+  if (!pageId) {
+    showNotFound();
+    return;
+  }
+
+  var page = MojiStorage.getPage(pageId);
+  if (!page) {
+    showNotFound();
+    return;
+  }
+
+  // ---------- 有密码保护 ----------
+  if (page.passwordHash) {
+    showUnlock();
+  } else {
+    showContent();
+  }
+
+  // ---------- 功能函数 ----------
+
+  function showNotFound() {
+    document.getElementById('notFound').style.display = '';
+    document.title = '页面未找到 — 墨记';
+  }
+
+  function showUnlock() {
+    var overlay = document.getElementById('unlockOverlay');
+    overlay.style.display = '';
+
+    var input = document.getElementById('unlockInput');
+    var btn = document.getElementById('unlockBtn');
+    var error = document.getElementById('unlockError');
+
+    function attemptUnlock() {
+      var pwd = input.value.trim();
+      if (!pwd) {
+        input.focus();
+        return;
+      }
+      if (MojiStorage.verifyPassword(pageId, pwd)) {
+        overlay.classList.add('hidden');
+        setTimeout(function () {
+          overlay.style.display = 'none';
+          showContent();
+        }, 400);
+      } else {
+        error.classList.add('visible');
+        input.value = '';
+        input.focus();
+        setTimeout(function () {
+          error.classList.remove('visible');
+        }, 3000);
+      }
+    }
+
+    btn.addEventListener('click', attemptUnlock);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') attemptUnlock();
+    });
+
+    // 自动聚焦
+    setTimeout(function () { input.focus(); }, 300);
+  }
+
+  function showContent() {
+    // 显示内容区和水印
+    document.getElementById('viewContent').style.display = '';
+    document.getElementById('viewWatermark').style.display = '';
+
+    // 统计浏览
+    var viewCount = MojiStorage.trackView(pageId);
+
+    // 填充标题
+    document.getElementById('pageTitle').textContent = page.title || '无标题';
+    document.title = (page.title || '墨记') + ' — 墨记';
+
+    // 日期
+    var dateStr = page.createdAt
+      ? new Date(page.createdAt).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })
+      : '未知日期';
+    document.getElementById('pageDate').textContent = dateStr;
+
+    // 浏览量
+    document.getElementById('pageViews').textContent = viewCount + ' 次浏览';
+
+    // 作者
+    var user = MojiStorage.getUser() || {};
+    var authorName = user.name || '匿名作者';
+    document.getElementById('pageAuthor').textContent = authorName;
+    document.getElementById('authorName').textContent = authorName;
+    document.getElementById('authorBio').textContent = user.bio || '墨记创作者';
+    document.getElementById('authorAvatarFallback').textContent = authorName.charAt(0);
+
+    // 标签
+    var tagsContainer = document.getElementById('pageTags');
+    if (page.tags && page.tags.length) {
+      tagsContainer.innerHTML = page.tags.map(function (t) {
+        return '<span class="tag">' + t + '</span>';
+      }).join('');
+    }
+
+    // 正文
+    var bodyEl = document.getElementById('pageBody');
+    if (page.body) {
+      bodyEl.innerHTML = page.body;
+    } else {
+      bodyEl.innerHTML = '<p style="color:var(--text-muted);">这篇内容暂无正文</p>';
+    }
+
+    // 分享按钮
+    document.getElementById('shareBtn').addEventListener('click', function () {
+      if (navigator.share) {
+        navigator.share({
+          title: page.title,
+          text: page.title + ' — 来自墨记',
+          url: window.location.href
+        }).catch(function () {});
+      } else {
+        ShareUtils.copyLink();
+      }
+    });
+
+    document.getElementById('copyLinkBtn').addEventListener('click', function () {
+      ShareUtils.copyLink();
+    });
+
+    // 阅读进度条
+    var progressBar = document.getElementById('readingProgress');
+    window.addEventListener('scroll', function () {
+      var scrollTop = window.scrollY;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = progress + '%';
+    }, { passive: true });
+
+    // Open Graph
+    var ogTitle = document.querySelector('meta[property="og:title"]');
+    var ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogTitle) ogTitle.setAttribute('content', page.title || '墨记');
+    if (ogDesc) ogDesc.setAttribute('content', '来自墨记的精选内容');
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>墨记 — @晓波的个人空间</title>
-  <meta name="description" content="晓波在墨记上创作的所有网页作品。">
+  <title>墨记 — 个人空间</title>
+  <meta name="description" content="我的墨记个人空间">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="晓波的墨记空间">
+  <meta property="og:title" content="我的墨记空间">
   <meta property="og:description" content="记录思考，分享生活">
   <meta property="og:type" content="profile">
 
@@ -18,6 +18,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons 基础样式 -->
+  <style>
+    [data-lucide] { display: none; }
+    .lucide { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; vertical-align: middle; }
+    .lucide-sm { width: 16px; height: 16px; }
+    .lucide-inline { display: inline-block; vertical-align: -2px; }
+  </style>
 
   <!-- 全局样式 -->
   <link rel="stylesheet" href="../styles/global.css">
@@ -35,7 +43,6 @@
       position: relative;
     }
 
-    /* 底部波浪分割 */
     .profile-header::after {
       content: '';
       position: absolute;
@@ -48,9 +55,7 @@
     }
 
     @media (min-width: 768px) {
-      .profile-header::after {
-        height: 60px;
-      }
+      .profile-header::after { height: 60px; }
     }
 
     .profile-header__inner {
@@ -75,12 +80,6 @@
       justify-content: center;
     }
 
-    .profile-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
     .profile-avatar__fallback {
       font-family: var(--font-display);
       font-size: 2rem;
@@ -101,7 +100,6 @@
       margin-bottom: 16px;
     }
 
-    /* 个人介绍 */
     .profile-bio {
       font-family: var(--font-display);
       font-size: clamp(1rem, 2.5vw, 1.2rem);
@@ -111,7 +109,7 @@
       line-height: 1.8;
     }
 
-    /* 统计数据 */
+    /* 统计 */
     .profile-stats {
       display: flex;
       justify-content: center;
@@ -119,9 +117,7 @@
       margin-top: 24px;
     }
 
-    .profile-stat {
-      text-align: center;
-    }
+    .profile-stat { text-align: center; }
 
     .profile-stat__number {
       font-family: var(--font-display);
@@ -134,6 +130,105 @@
       font-size: 0.8rem;
       color: var(--text-muted);
       margin-top: 2px;
+    }
+
+    /* 编辑按钮 */
+    .profile-edit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 16px;
+      padding: 8px 20px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .profile-edit-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* --- 首次设置面板 --- */
+    .setup-panel {
+      max-width: 480px;
+      margin: 80px auto;
+      padding: 48px 36px;
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      text-align: center;
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .setup-panel__icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+
+    .setup-panel__title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .setup-panel__desc {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .setup-panel__input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 1.1rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg-warm);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: border-color 0.3s ease;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .setup-panel__input:focus {
+      border-color: var(--accent);
+    }
+
+    .setup-panel__input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .setup-panel__bio {
+      width: 100%;
+      padding: 14px 20px;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg-warm);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      outline: none;
+      transition: border-color 0.3s ease;
+      resize: vertical;
+      min-height: 80px;
+      margin-bottom: 20px;
+    }
+
+    .setup-panel__bio:focus {
+      border-color: var(--accent);
+    }
+
+    .setup-panel__bio::placeholder {
+      color: var(--text-muted);
     }
 
     /* --- 内容区 --- */
@@ -164,7 +259,6 @@
       padding-left: 32px;
     }
 
-    /* 左侧竖线 */
     .timeline::before {
       content: '';
       position: absolute;
@@ -176,18 +270,14 @@
       border-radius: 1px;
     }
 
-    /* 时间线项目 */
     .timeline__item {
       position: relative;
       margin-bottom: 28px;
       animation: fadeInUp 0.5s ease both;
     }
 
-    .timeline__item:last-child {
-      margin-bottom: 0;
-    }
+    .timeline__item:last-child { margin-bottom: 0; }
 
-    /* 日期圆点 */
     .timeline__dot {
       position: absolute;
       left: -32px;
@@ -206,7 +296,6 @@
       transform: scale(1.2);
     }
 
-    /* 日期标签 */
     .timeline__date {
       font-size: 0.8rem;
       color: var(--text-muted);
@@ -214,7 +303,6 @@
       padding-left: 4px;
     }
 
-    /* 内容块（继承 global.css 的 content-block） */
     .timeline__block {
       background: var(--card);
       border-radius: var(--radius-lg);
@@ -258,6 +346,7 @@
       gap: 16px;
       font-size: 0.82rem;
       color: var(--text-muted);
+      flex-wrap: wrap;
     }
 
     .timeline__block-meta-item {
@@ -278,6 +367,31 @@
       border-radius: var(--radius-full);
       font-size: 0.78rem;
       color: var(--text-muted);
+    }
+
+    /* 密码标识 */
+    .timeline__block-lock {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* 删除按钮 */
+    .timeline__block-delete {
+      float: right;
+      padding: 4px 12px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .timeline__block-delete:hover {
+      border-color: #dc2626;
+      color: #dc2626;
+      background: #fef2f2;
     }
 
     /* --- 空状态 --- */
@@ -304,244 +418,257 @@
       margin-bottom: 24px;
     }
 
-    /* --- 移动端适配 --- */
+    /* --- 设置模态框 --- */
+    .settings-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .settings-modal.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .settings-modal__card {
+      width: calc(100% - 48px);
+      max-width: 440px;
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .settings-modal.visible .settings-modal__card {
+      transform: translateY(0);
+    }
+
+    .settings-modal__title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .settings-modal__field {
+      margin-bottom: 16px;
+    }
+
+    .settings-modal__label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .settings-modal__input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg-warm);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    .settings-modal__input:focus {
+      border-color: var(--accent);
+    }
+
+    .settings-modal__textarea {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg-warm);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      outline: none;
+      resize: vertical;
+      min-height: 72px;
+      transition: border-color 0.3s ease;
+    }
+
+    .settings-modal__textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .settings-modal__actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    /* --- 密码设置弹窗 --- */
+    .password-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .password-modal.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .password-modal__card {
+      width: calc(100% - 48px);
+      max-width: 400px;
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .password-modal.visible .password-modal__card {
+      transform: translateY(0);
+    }
+
+    .password-modal__title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .password-modal__desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    /* --- 响应式 --- */
     @media (max-width: 639px) {
-      .timeline {
-        padding-left: 28px;
-      }
-
-      .timeline::before {
-        left: 5px;
-      }
-
-      .timeline__dot {
-        left: -28px;
-        width: 14px;
-        height: 14px;
-        top: 22px;
-      }
-
-      .timeline__block {
-        padding: 18px 20px;
-      }
-
-      .profile-stats {
-        gap: 24px;
-      }
+      .timeline { padding-left: 28px; }
+      .timeline::before { left: 5px; }
+      .timeline__dot { left: -28px; width: 14px; height: 14px; top: 22px; }
+      .timeline__block { padding: 18px 20px; }
+      .profile-stats { gap: 24px; }
     }
 
-    /* --- 隐藏无匹配内容的项目 --- */
-    .timeline__item.hidden {
-      display: none;
-    }
+    .timeline__item.hidden { display: none; }
   </style>
 </head>
 <body>
 
   <!-- 导航由 nav.js 自动注入 -->
 
-  <!-- ===== 个人资料区 ===== -->
-  <section class="profile-header">
+  <!-- ===== 首次设置面板 ===== -->
+  <div class="setup-panel" id="setupPanel" style="display:none;">
+    <div class="setup-panel__icon">👋</div>
+    <h2 class="setup-panel__title">欢迎来到墨记</h2>
+    <p class="setup-panel__desc">给你的个人空间起个名字吧，让朋友们知道你是谁</p>
+    <input type="text" class="setup-panel__input" id="setupName" placeholder="你的名字" maxlength="20" autocomplete="off">
+    <textarea class="setup-panel__bio" id="setupBio" placeholder="一句话介绍自己（可选）" maxlength="100"></textarea>
+    <button class="btn btn-primary" id="setupSaveBtn" style="width:100%;padding:16px;font-size:1.05rem;">开始使用</button>
+  </div>
+
+  <!-- ===== 个人资料区（已设置后显示） ===== -->
+  <section class="profile-header" id="profileHeader" style="display:none;">
     <div class="profile-header__inner">
-      <!-- 头像 -->
       <div class="profile-avatar">
-        <!-- 如果有真实头像可以用 img，这里用文字 fallback -->
-        <span class="profile-avatar__fallback">晓</span>
+        <span class="profile-avatar__fallback" id="avatarLetter"></span>
       </div>
-
-      <!-- 名字 -->
-      <h1 class="profile-name">晓波</h1>
-      <p class="profile-handle">@xiaobo</p>
-
-      <!-- 个人介绍 -->
-      <p class="profile-bio">活在波特兰，热爱技术和生活的普通人。</p>
-
-      <!-- 统计 -->
-      <div class="profile-stats">
+      <h1 class="profile-name" id="profileName"></h1>
+      <p class="profile-handle" id="profileHandle"></p>
+      <p class="profile-bio" id="profileBio"></p>
+      <div class="profile-stats" id="profileStats">
         <div class="profile-stat">
-          <div class="profile-stat__number">12</div>
+          <div class="profile-stat__number" id="statPages">0</div>
           <div class="profile-stat__label">作品</div>
         </div>
         <div class="profile-stat">
-          <div class="profile-stat__number">348</div>
+          <div class="profile-stat__number" id="statViews">0</div>
           <div class="profile-stat__label">浏览</div>
         </div>
-        <div class="profile-stat">
-          <div class="profile-stat__number">5</div>
-          <div class="profile-stat__label">标签</div>
-        </div>
       </div>
+      <button class="profile-edit-btn" id="editProfileBtn">✏️ 编辑资料</button>
     </div>
   </section>
 
   <!-- ===== 内容区 ===== -->
-  <main class="profile-content">
+  <main class="profile-content" id="profileContent" style="display:none;">
     <!-- 标签筛选 -->
     <div class="tag-filter" id="tagFilter">
       <span class="tag active" data-tag="all">全部</span>
-      <span class="tag" data-tag="旅行">旅行</span>
-      <span class="tag" data-tag="美食">美食</span>
-      <span class="tag" data-tag="读书">读书</span>
-      <span class="tag" data-tag="生活">生活</span>
-      <span class="tag" data-tag="技术">技术</span>
     </div>
 
     <!-- 时间线内容 -->
-    <div class="timeline" id="timeline">
+    <div class="timeline" id="timeline"></div>
 
-      <!-- 时间线项 1 -->
-      <div class="timeline__item" data-tags="旅行">
-        <div class="timeline__dot"></div>
-        <div class="timeline__date">2026年5月10日</div>
-        <a href="s/demo-1.html" class="timeline__block">
-          <div class="timeline__block-title">波特兰周末散步指南</div>
-          <div class="timeline__block-excerpt">
-            上周末沿着Willamette河岸走了一下午，从Tom McCall Waterfront Park到Sellwood Bridge。沿途拍了一些照片，用墨记记录了这次散步。
-          </div>
-          <div class="timeline__block-meta">
-            <div class="timeline__block-meta-item">
-              <span>👁 42</span>
-            </div>
-            <div class="timeline__block-meta-item">
-              <span>❤️ 8</span>
-            </div>
-            <div class="timeline__block-tags">
-              <span class="timeline__block-tag">旅行</span>
-              <span class="timeline__block-tag">生活</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 时间线项 2 -->
-      <div class="timeline__item" data-tags="美食">
-        <div class="timeline__dot"></div>
-        <div class="timeline__date">2026年5月3日</div>
-        <a href="s/demo-2.html" class="timeline__block">
-          <div class="timeline__block-title">在家做日式咖喱的全过程</div>
-          <div class="timeline__block-excerpt">
-            试了好几种日式咖喱块，最后觉得好侍的中辣最好吃。加了苹果和蜂蜜的秘诀是我从YouTube上学的。详细步骤都在这个网页里了。
-          </div>
-          <div class="timeline__block-meta">
-            <div class="timeline__block-meta-item">
-              <span>👁 56</span>
-            </div>
-            <div class="timeline__block-meta-item">
-              <span>❤️ 12</span>
-            </div>
-            <div class="timeline__block-tags">
-              <span class="timeline__block-tag">美食</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 时间线项 3 -->
-      <div class="timeline__item" data-tags="读书">
-        <div class="timeline__dot"></div>
-        <div class="timeline__date">2026年4月25日</div>
-        <a href="s/demo-3.html" class="timeline__block">
-          <div class="timeline__block-title">读完《纳瓦尔宝典》的五个收获</div>
-          <div class="timeline__block-excerpt">
-            这本书不像其他的商业书那样啰嗦。Naval把财富、幸福和人生的底层逻辑讲得非常清楚。我的五个核心摘记。
-          </div>
-          <div class="timeline__block-meta">
-            <div class="timeline__block-meta-item">
-              <span>👁 89</span>
-            </div>
-            <div class="timeline__block-meta-item">
-              <span>❤️ 21</span>
-            </div>
-            <div class="timeline__block-tags">
-              <span class="timeline__block-tag">读书</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 时间线项 4 -->
-      <div class="timeline__item" data-tags="技术 生活">
-        <div class="timeline__dot"></div>
-        <div class="timeline__date">2026年4月18日</div>
-        <a href="s/demo-4.html" class="timeline__block">
-          <div class="timeline__block-title">为什么我把手机屏幕调成黑白</div>
-          <div class="timeline__block-excerpt">
-            一个月前开始用黑白模式。第一周很不习惯，现在完全没问题了。最大的变化：拿起手机的次数减少了大约40%。
-          </div>
-          <div class="timeline__block-meta">
-            <div class="timeline__block-meta-item">
-              <span>👁 67</span>
-            </div>
-            <div class="timeline__block-meta-item">
-              <span>❤️ 15</span>
-            </div>
-            <div class="timeline__block-tags">
-              <span class="timeline__block-tag">技术</span>
-              <span class="timeline__block-tag">生活</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 时间线项 5 -->
-      <div class="timeline__item" data-tags="旅行">
-        <div class="timeline__dot"></div>
-        <div class="timeline__date">2026年4月5日</div>
-        <a href="s/demo-5.html" class="timeline__block">
-          <div class="timeline__block-title">哥伦比亚河谷春日徒步</div>
-          <div class="timeline__block-excerpt">
-            四月初的Gorge还是有点冷，但Multnomah Falls的水量很大。走完了Wahkeena Loop全程，大约5英里，拍了太多照片。
-          </div>
-          <div class="timeline__block-meta">
-            <div class="timeline__block-meta-item">
-              <span>👁 38</span>
-            </div>
-            <div class="timeline__block-meta-item">
-              <span>❤️ 6</span>
-            </div>
-            <div class="timeline__block-tags">
-              <span class="timeline__block-tag">旅行</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 时间线项 6 -->
-      <div class="timeline__item" data-tags="美食">
-        <div class="timeline__dot"></div>
-        <div class="timeline__date">2026年3月22日</div>
-        <a href="s/demo-6.html" class="timeline__block">
-          <div class="timeline__block-title">我找到了波特兰最好吃的pho</div>
-          <div class="timeline__block-excerpt">
-            不是那家最有名的。是一家在Division街上不起眼的小店，叫Pho Van。汤底特别浓郁，牛腩炖到入口即化。
-          </div>
-          <div class="timeline__block-meta">
-            <div class="timeline__block-meta-item">
-              <span>👁 51</span>
-            </div>
-            <div class="timeline__block-meta-item">
-              <span>❤️ 9</span>
-            </div>
-            <div class="timeline__block-tags">
-              <span class="timeline__block-tag">美食</span>
-              <span class="timeline__block-tag">生活</span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-    </div>
-
-    <!-- 空状态（默认隐藏，标签筛选无结果时显示） -->
-    <div class="empty-state" id="emptyState" style="display: none;">
-      <div class="empty-state__icon">📝</div>
-      <div class="empty-state__title">这个标签下还没有内容</div>
-      <p class="empty-state__desc">试试其他标签，或者回到「全部」看看</p>
-      <button class="btn btn-secondary" onclick="resetFilter()">查看全部</button>
+    <!-- 空状态 -->
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="empty-state__icon"><i data-lucide="file-edit" style="width:48px;height:48px;stroke:var(--text-muted);"></i></div>
+      <div class="empty-state__title">还没有作品</div>
+      <p class="empty-state__desc">去创作你的第一个网页吧！</p>
+      <a href="create.html" class="btn btn-primary">开始创作</a>
     </div>
   </main>
 
-  <!-- ===== Footer ===== -->
+  <!-- ===== 设置模态框 ===== -->
+  <div class="settings-modal" id="settingsModal">
+    <div class="settings-modal__card">
+      <h3 class="settings-modal__title">编辑个人资料</h3>
+      <div class="settings-modal__field">
+        <label class="settings-modal__label" for="settingsName">名字</label>
+        <input type="text" class="settings-modal__input" id="settingsName" placeholder="你的名字" maxlength="20">
+      </div>
+      <div class="settings-modal__field">
+        <label class="settings-modal__label" for="settingsBio">个人介绍</label>
+        <textarea class="settings-modal__textarea" id="settingsBio" placeholder="一句话介绍自己" maxlength="100"></textarea>
+      </div>
+      <div class="settings-modal__actions">
+        <button class="btn btn-secondary" id="settingsCancelBtn">取消</button>
+        <button class="btn btn-primary" id="settingsSaveBtn">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 密码设置弹窗 ===== -->
+  <div class="password-modal" id="passwordModal">
+    <div class="password-modal__card">
+      <h3 class="password-modal__title" id="passwordModalTitle">设置密码保护</h3>
+      <p class="password-modal__desc" id="passwordModalDesc">为这篇内容设置密码，访客需要输入密码才能查看</p>
+      <div class="settings-modal__field">
+        <label class="settings-modal__label" for="passwordInput">密码</label>
+        <input type="password" class="settings-modal__input" id="passwordInput" placeholder="输入密码" autocomplete="off">
+      </div>
+      <div class="settings-modal__actions">
+        <button class="btn btn-secondary" id="passwordCancelBtn">取消</button>
+        <button class="btn btn-ghost" id="passwordRemoveBtn" style="display:none;color:#dc2626;">移除密码</button>
+        <button class="btn btn-primary" id="passwordSaveBtn">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer class="site-footer">
     <p>墨记 &copy; 2026 — 让想法被看见</p>
     <p class="mt-1" style="font-size:0.85rem;">
@@ -549,60 +676,312 @@
     </p>
   </footer>
 
-  <!-- 导航组件 -->
+  <!-- Lucide Icons -->
+  <script src="../assets/lucide.min.js"></script>
+  <script>lucide.createIcons();</script>
+
+  <!-- Scripts -->
+  <script src="../utils/storage.js"></script>
   <script src="../components/nav.js"></script>
 
-  <!-- 标签筛选逻辑 -->
   <script>
-    (function () {
-      'use strict';
+  (function () {
+    'use strict';
 
-      const tagFilter = document.getElementById('tagFilter');
-      const timeline = document.getElementById('timeline');
-      const emptyState = document.getElementById('emptyState');
+    var $ = function (sel) { return document.querySelector(sel); };
 
-      if (!tagFilter || !timeline) return;
+    // ======== 初始化 ========
 
-      tagFilter.addEventListener('click', function (e) {
-        const tag = e.target.closest('.tag');
-        if (!tag) return;
+    function init() {
+      var user = MojiStorage.ensureUser();
 
-        // 更新激活状态
-        tagFilter.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
-        tag.classList.add('active');
+      if (!user.name) {
+        showSetup();
+      } else {
+        showProfile();
+      }
+    }
 
-        filterItems(tag.dataset.tag);
+    // ======== 首次设置 ========
+
+    function showSetup() {
+      var panel = $('#setupPanel');
+      panel.style.display = '';
+
+      var nameInput = $('#setupName');
+      setTimeout(function () { nameInput.focus(); }, 300);
+
+      $('#setupSaveBtn').addEventListener('click', function () {
+        var name = nameInput.value.trim();
+        if (!name) {
+          nameInput.focus();
+          return;
+        }
+        var bio = $('#setupBio').value.trim();
+        var user = MojiStorage.getUser();
+        user.name = name;
+        user.bio = bio;
+        user.handle = '@' + name.toLowerCase().replace(/\s+/g, '');
+        MojiStorage.setUser(user);
+
+        panel.style.display = 'none';
+        showProfile();
       });
 
-      function filterItems(tag) {
-        const items = timeline.querySelectorAll('.timeline__item');
-        let visibleCount = 0;
+      // Enter 键提交
+      nameInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') $('#setupSaveBtn').click();
+      });
+    }
 
-        items.forEach(item => {
-          const itemTags = item.dataset.tags || '';
-          if (tag === 'all' || itemTags.includes(tag)) {
+    // ======== 个人主页 ========
+
+    function showProfile() {
+      var user = MojiStorage.getUser();
+      if (!user || !user.name) return;
+
+      // 显示区域
+      $('#profileHeader').style.display = '';
+      $('#profileContent').style.display = '';
+
+      // 填充资料
+      $('#avatarLetter').textContent = user.name.charAt(0);
+      $('#profileName').textContent = user.name;
+      $('#profileHandle').textContent = user.handle || ('@' + user.name.toLowerCase().replace(/\s+/g, ''));
+      $('#profileBio').textContent = user.bio || '这个人很懒，什么都没写';
+
+      // 标题
+      document.title = '墨记 — @' + user.name + '的个人空间';
+
+      // 渲染页面列表
+      renderPages();
+
+      // 绑定编辑按钮
+      bindSettings();
+    }
+
+    // ======== 渲染页面列表 ========
+
+    function renderPages() {
+      var pages = MojiStorage.getPageList();
+      var timeline = $('#timeline');
+      var tagFilter = $('#tagFilter');
+      var emptyState = $('#emptyState');
+
+      // 清空
+      timeline.innerHTML = '';
+
+      // 收集所有标签
+      var allTags = {};
+      var totalViews = 0;
+
+      pages.forEach(function (page) {
+        totalViews += MojiStorage.getViewCount(page.id);
+        if (page.tags) {
+          page.tags.forEach(function (t) {
+            allTags[t] = true;
+          });
+        }
+      });
+
+      // 统计
+      $('#statPages').textContent = pages.length;
+      $('#statViews').textContent = totalViews;
+
+      // 渲染标签筛选（保留"全部"）
+      tagFilter.innerHTML = '<span class="tag active" data-tag="all">全部</span>';
+      Object.keys(allTags).forEach(function (tag) {
+        var span = document.createElement('span');
+        span.className = 'tag';
+        span.dataset.tag = tag;
+        span.textContent = tag;
+        tagFilter.appendChild(span);
+      });
+
+      // 空状态
+      if (pages.length === 0) {
+        emptyState.style.display = '';
+        timeline.style.display = 'none';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      timeline.style.display = '';
+
+      // 渲染时间线
+      pages.forEach(function (page, idx) {
+        var dateStr = page.createdAt
+          ? new Date(page.createdAt).toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })
+          : '未知日期';
+
+        var excerpt = stripHtml(page.body || '').substring(0, 120);
+        var views = MojiStorage.getViewCount(page.id);
+        var hasLock = !!page.passwordHash;
+
+        var item = document.createElement('div');
+        item.className = 'timeline__item';
+        item.dataset.tags = (page.tags || []).join(' ');
+        item.style.animationDelay = (idx * 0.08) + 's';
+
+        item.innerHTML =
+          '<div class="timeline__dot"></div>' +
+          '<div class="timeline__date">' + escapeHtml(dateStr) + '</div>' +
+          '<div class="timeline__block" data-id="' + page.id + '">' +
+            '<button class="timeline__block-delete" data-id="' + page.id + '" title="删除">删除</button>' +
+            '<div class="timeline__block-title">' + escapeHtml(page.title || '无标题') + '</div>' +
+            '<div class="timeline__block-excerpt">' + escapeHtml(excerpt) + '</div>' +
+            '<div class="timeline__block-meta">' +
+              '<div class="timeline__block-meta-item"><i data-lucide="eye" class="lucide-sm lucide-inline"></i> <span>' + views + '</span></div>' +
+              (hasLock ? '<div class="timeline__block-lock"><i data-lucide="lock" class="lucide-sm lucide-inline"></i> 已加密</div>' : '') +
+              '<div class="timeline__block-tags">' +
+                (page.tags || []).map(function (t) { return '<span class="timeline__block-tag">' + escapeHtml(t) + '</span>'; }).join('') +
+              '</div>' +
+            '</div>' +
+          '</div>';
+
+        timeline.appendChild(item);
+      });
+
+      // Re-initialize Lucide icons for dynamically added elements
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+
+      // 事件代理：点击时间线块
+      timeline.addEventListener('click', function (e) {
+        // 删除按钮
+        var deleteBtn = e.target.closest('.timeline__block-delete');
+        if (deleteBtn) {
+          e.stopPropagation();
+          var id = deleteBtn.dataset.id;
+          if (confirm('确定删除这篇内容吗？删除后无法恢复。')) {
+            MojiStorage.deletePage(id);
+            renderPages();
+          }
+          return;
+        }
+
+        // 点击内容块 → 打开分享页
+        var block = e.target.closest('.timeline__block');
+        if (block) {
+          var pageId = block.dataset.id;
+          window.location.href = 'view.html?id=' + encodeURIComponent(pageId);
+        }
+      });
+
+      // 标签筛选
+      bindTagFilter();
+    }
+
+    // ======== 标签筛选 ========
+
+    function bindTagFilter() {
+      var tagFilter = $('#tagFilter');
+      var timeline = $('#timeline');
+      var emptyState = $('#emptyState');
+
+      tagFilter.onclick = function (e) {
+        var tag = e.target.closest('.tag');
+        if (!tag) return;
+
+        tagFilter.querySelectorAll('.tag').forEach(function (t) { t.classList.remove('active'); });
+        tag.classList.add('active');
+
+        var selectedTag = tag.dataset.tag;
+        var items = timeline.querySelectorAll('.timeline__item');
+        var visible = 0;
+
+        items.forEach(function (item) {
+          var itemTags = item.dataset.tags || '';
+          if (selectedTag === 'all' || itemTags.split(' ').indexOf(selectedTag) >= 0) {
             item.classList.remove('hidden');
-            visibleCount++;
+            visible++;
           } else {
             item.classList.add('hidden');
           }
         });
 
-        // 显示/隐藏空状态
         if (emptyState) {
-          emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
-          // 时间线竖线也要隐藏
-          timeline.style.display = visibleCount === 0 ? 'none' : 'block';
+          emptyState.style.display = visible === 0 ? '' : 'none';
+          timeline.style.display = visible === 0 ? 'none' : '';
         }
-      }
-
-      // 暴露给空状态按钮
-      window.resetFilter = function () {
-        tagFilter.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
-        tagFilter.querySelector('[data-tag="all"]').classList.add('active');
-        filterItems('all');
       };
-    })();
+    }
+
+    // ======== 设置模态框 ========
+
+    function bindSettings() {
+      var modal = $('#settingsModal');
+      var nameInput = $('#settingsName');
+      var bioInput = $('#settingsBio');
+
+      $('#editProfileBtn').addEventListener('click', function () {
+        var user = MojiStorage.getUser();
+        nameInput.value = user.name || '';
+        bioInput.value = user.bio || '';
+        modal.classList.add('visible');
+        setTimeout(function () { nameInput.focus(); }, 200);
+      });
+
+      $('#settingsCancelBtn').addEventListener('click', function () {
+        modal.classList.remove('visible');
+      });
+
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.classList.remove('visible');
+      });
+
+      $('#settingsSaveBtn').addEventListener('click', function () {
+        var name = nameInput.value.trim();
+        if (!name) {
+          nameInput.focus();
+          return;
+        }
+        var bio = bioInput.value.trim();
+        var user = MojiStorage.getUser();
+        user.name = name;
+        user.handle = '@' + name.toLowerCase().replace(/\s+/g, '');
+        user.bio = bio;
+        MojiStorage.setUser(user);
+
+        modal.classList.remove('visible');
+        showProfile();
+      });
+    }
+
+    // ======== 密码弹窗 ========
+
+    function bindPasswordModal() {
+      var modal = $('#passwordModal');
+      var input = $('#passwordInput');
+      var currentPasswordPageId = null;
+
+      // 事件委托：密码设置按钮（由页面列表触发）
+      // 暂时由内联调用处理
+    }
+
+    // ======== 工具函数 ========
+
+    function stripHtml(html) {
+      var tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      return tmp.textContent || tmp.innerText || '';
+    }
+
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+
+    // ======== 启动 ========
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
   </script>
 </body>
 </html>
