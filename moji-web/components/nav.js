@@ -31,7 +31,7 @@
       </ul>
 
       <!-- CTA -->
-      <a href="${prefix}create.html" class="nav__cta btn-primary">开始创作</a>
+      <a href="${prefix}create.html" class="nav__cta btn btn-primary">开始创作</a>
 
       <!-- 移动端汉堡按钮 -->
       <button class="nav__hamburger" aria-label="打开菜单" aria-expanded="false">
@@ -47,7 +47,7 @@
         <li><a href="${prefix}index.html#features">体验</a></li>
         <li><a href="${prefix}index.html#templates">模板</a></li>
         <li><a href="${prefix}index.html#about">关于</a></li>
-        <li><a href="${prefix}create.html" class="btn-primary" style="justify-content:center;">开始创作</a></li>
+        <li><a href="${prefix}create.html" class="btn btn-primary" style="justify-content:center;">开始创作</a></li>
       </ul>
     </div>
   </nav>

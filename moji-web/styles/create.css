@@ -138,14 +138,14 @@
    ============================================ */
 .step-panel {
   display: none;
-  animation: fadeInUp 0.5s ease;
+  animation: fadeInUp-create 0.5s ease;
 }
 
 .step-panel.active {
   display: block;
 }
 
-@keyframes fadeInUp {
+@keyframes fadeInUp-create {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
@@ -396,11 +396,11 @@
   height: 100px;
   border-radius: 50%;
   background: radial-gradient(circle at 40% 40%, var(--accent-soft), var(--accent));
-  animation: breathe 3s ease-in-out infinite;
+  animation: breathe-create 3s ease-in-out infinite;
   margin-bottom: 32px;
 }
 
-@keyframes breathe {
+@keyframes breathe-create {
   0%, 100% { transform: scale(1);   opacity: 0.85; }
   50%      { transform: scale(1.2); opacity: 1; }
 }
@@ -519,7 +519,7 @@
 
 .preview-edit.visible {
   display: block;
-  animation: fadeInUp 0.3s ease;
+  animation: fadeInUp-create 0.3s ease;
 }
 
 .preview-edit__field {
@@ -585,7 +585,7 @@
   width: 72px;
   height: 72px;
   border-radius: 50%;
-  background: #e8f5e9;
+  background: var(--success-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -595,7 +595,7 @@
 .publish-panel__icon svg {
   width: 36px;
   height: 36px;
-  color: #4caf50;
+  color: var(--success);
 }
 
 .publish-panel__title {
@@ -658,7 +658,7 @@
 }
 
 .publish-link__copy.copied {
-  background: #4caf50;
+  background: var(--success);
   color: #fff;
 }
 

@@ -64,6 +64,10 @@
   --max-wide: 960px;
   --transition: 0.3s ease;
   --nav-height: 64px;
+
+  /* 语义色 */
+  --success: #4caf50;
+  --success-bg: #e8f5e9;
 }
 
 /* ========== 基础重置 ========== */
@@ -71,6 +75,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 html {

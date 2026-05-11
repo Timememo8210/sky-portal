@@ -467,7 +467,16 @@ strong{color:#f4a67a}
         var shareUrl = '';
 
         if (platform === 'wechat') {
-          alert('请截图或复制链接，打开微信分享给朋友');
+          // Show toast instead of alert
+          var toast = document.createElement('div');
+          toast.className = 'toast';
+          toast.textContent = '请截图或复制链接，打开微信分享给朋友';
+          document.body.appendChild(toast);
+          setTimeout(function() { toast.classList.add('show'); }, 10);
+          setTimeout(function() {
+            toast.classList.remove('show');
+            setTimeout(function() { toast.remove(); }, 300);
+          }, 3000);
           return;
         } else if (platform === 'weibo') {
           shareUrl = 'https://service.weibo.com/share/share.php?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(text);

@@ -173,7 +173,7 @@
         align-items: flex-start;
       }
 
-      .feature:nth-child(even) {
+      .feature:nth-child(odd) {
         flex-direction: row-reverse;
       }
 
@@ -187,13 +187,13 @@
         padding-top: 24px;
       }
 
-      .feature:nth-child(even) .feature__text {
+      .feature:nth-child(odd) .feature__text {
         text-align: right;
         padding-left: 48px;
         padding-right: 0;
       }
 
-      .feature:not(:nth-child(even)) .feature__text {
+      .feature:not(:nth-child(odd)) .feature__text {
         padding-right: 48px;
       }
     }
