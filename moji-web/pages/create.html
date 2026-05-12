@@ -95,10 +95,22 @@
         </div>
       </div>
 
+      <!-- 文件上传区 -->
+      <div class="upload-area" id="uploadArea">
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-zone__icon">📤</div>
+          <p class="upload-zone__text">拖拽或点击上传图片、PDF、文本文件</p>
+          <p class="upload-zone__hint">支持 JPG、PNG、GIF、PDF、TXT、MD</p>
+          <input type="file" id="fileInput" multiple accept="image/*,.pdf,.txt,.md,.doc,.docx" style="display:none;">
+        </div>
+        <div id="filePreviewList" class="file-preview-list"></div>
+      </div>
+
       <!-- 生成按钮 -->
       <button class="create-btn" id="generateBtn" disabled>
         ✨ AI 生成网页
       </button>
+      <p id="generateBtnHint" class="generate-btn-hint" style="display:none;"></p>
     </div>
 
     <!-- ============================================================
@@ -246,6 +258,13 @@
     </p>
   </footer>
 
+  <!-- pdf.js CDN（PDF文本提取） -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
   <!-- 配置 -->
   <script src="../config.js"></script>
   <!-- 存储层 -->

@@ -345,6 +345,147 @@ a:focus-visible {
   border: 0;
 }
 
+/* ========== 文件上传区样式 ========== */
+
+.upload-area {
+  margin-top: 12px;
+}
+
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.upload-zone:hover {
+  border-color: var(--accent-soft);
+  background: var(--accent-bg);
+}
+
+.upload-zone--dragover {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.upload-zone__icon {
+  font-size: 1.5rem;
+  margin-bottom: 4px;
+}
+
+.upload-zone__text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+
+.upload-zone__hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* 已上传文件列表 */
+.file-preview-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.file-preview-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.file-preview-item:hover {
+  border-color: var(--border);
+}
+
+.file-preview-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.file-preview-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.file-preview-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  width: 48px;
+  text-align: center;
+}
+
+.file-preview-detail {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.file-preview-detail strong {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+}
+
+.file-preview-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.file-preview-remove {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.file-preview-remove:hover {
+  background: #fde;
+  color: #e53;
+}
+
+/* 生成按钮提示 */
+.generate-btn-hint {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
 /* ========== 响应式断点 ========== */
 @media (max-width: 768px) {
   :root {

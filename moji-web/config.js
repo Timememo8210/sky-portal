@@ -1,13 +1,15 @@
 /* ============================================
    墨记Web — 全局配置
-   API Key、模型参数等
+   API 通过 Cloudflare Worker 代理，前端零 API Key 暴露
    ============================================ */
 
 window.MOJI_CONFIG = {
-  // GLM API 配置
-  // ⚠️ 生产环境：API Key 应由后端代理注入，切勿在前端明文暴露
-  API_KEY: '',
-  API_URL: 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
+  // Worker 代理地址（部署后替换为实际 Worker URL）
+  // 本地开发：'http://localhost:8787/api/chat/completions'
+  // 部署后：  'https://moji-api.xxx.workers.dev/api/chat/completions'
+  API_URL: 'https://moji-api.xiaobo.workers.dev/api/chat/completions',
+
+  // 模型配置
   MODEL: 'glm-4-flash',
 
   // API调用参数
