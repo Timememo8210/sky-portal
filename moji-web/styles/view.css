@@ -311,4 +311,9 @@
     font-size: 1rem;
     padding: 14px 16px;
   }
+
+  #pageBody iframe {
+    max-height: 60vh;
+    overflow: auto;
+  }
 }

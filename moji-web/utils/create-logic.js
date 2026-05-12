@@ -313,6 +313,7 @@
         var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         resolve(canvas.toDataURL('image/jpeg', quality));
+        URL.revokeObjectURL(img.src);
       };
       img.onerror = function() { reject(new Error('图片压缩失败')); };
       img.src = URL.createObjectURL(file);

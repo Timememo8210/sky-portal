@@ -370,6 +370,12 @@ a:focus-visible {
   background: rgba(232, 93, 38, 0.08);
 }
 
+.upload-zone:focus-visible {
+  outline: 2px solid var(--accent, #e85d26);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+
 .upload-zone__icon {
   font-size: 1.5rem;
   margin-bottom: 4px;
