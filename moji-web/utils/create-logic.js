@@ -258,6 +258,11 @@
     // 确保lucide图标渲染
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
+    } else {
+      document.querySelectorAll('[data-lucide]').forEach(function(el) {
+        el.textContent = el.getAttribute('data-fallback') || '';
+        el.style.display = 'inline-block';
+      });
     }
   }
 
@@ -362,7 +367,7 @@
       $('#generateBtn').disabled = false;
       // 更新字数计数器
       var counter = $('.input-area__count');
-      if (counter) counter.textContent = text.length + ' 字';
+      if (counter) counter.textContent = text.length + ' / 5000 字';
     }
   }
 
@@ -401,7 +406,14 @@
 
     if (!userInput) {
       textEl.textContent = '未检测到输入内容';
-      if (subEl) subEl.textContent = '请返回输入内容后重试';
+      if (subEl) subEl.innerHTML = '<button id="backToStep1Btn" style="margin-top:12px;padding:8px 20px;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:8px;cursor:pointer;font-size:0.9rem;">← 返回输入</button>';
+      var backBtn = document.getElementById('backToStep1Btn');
+      if (backBtn) {
+        backBtn.addEventListener('click', function () {
+          currentStep = 1;
+          updateStepUI();
+        });
+      }
       return;
     }
 
@@ -436,7 +448,7 @@
       } else {
         // 显示错误信息 + 重试按钮
         textEl.textContent = '生成失败：' + (result.error || '未知错误');
-        if (subEl) subEl.innerHTML = '<button id="retryBtn" style="margin-top:12px;padding:8px 20px;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:8px;cursor:pointer;font-size:0.9rem;">🔄 重试</button>';
+        if (subEl) subEl.innerHTML = '<button id="retryBtn" style="margin-top:12px;padding:8px 20px;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:8px;cursor:pointer;font-size:0.9rem;">🔄 重试</button> <button id="backBtn2" style="margin-top:12px;margin-left:8px;padding:8px 20px;border:1px solid var(--text-secondary);background:transparent;color:var(--text-secondary);border-radius:8px;cursor:pointer;font-size:0.9rem;">← 返回</button>';
 
         var retryBtn = document.getElementById('retryBtn');
         if (retryBtn) {
@@ -445,6 +457,13 @@
             textEl.textContent = phrases[0];
             if (subEl) subEl.textContent = '这通常只需要几秒钟';
             startGeneration();
+          });
+        }
+        var backBtn2 = document.getElementById('backBtn2');
+        if (backBtn2) {
+          backBtn2.addEventListener('click', function () {
+            currentStep = 1;
+            updateStepUI();
           });
         }
       }

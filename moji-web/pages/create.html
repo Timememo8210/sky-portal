@@ -26,6 +26,18 @@
 <body>
   <!-- Lucide Icons (必须在 nav.js 之前加载) -->
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+  if (typeof lucide !== 'undefined') {
+    // nav.js 会调用 createIcons，这里不重复
+  } else {
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('[data-lucide]').forEach(function(el) {
+        el.textContent = el.getAttribute('data-fallback') || '';
+        el.style.display = 'inline-block';
+      });
+    });
+  }
+  </script>
   <!-- 导航由 nav.js 自动注入 -->
   <script src="../components/nav.js"></script>
 
@@ -79,7 +91,7 @@
         ></textarea>
         <div class="input-area__footer">
           <span class="input-area__hint">💡 支持一句话、一段话、甚至一整篇文章</span>
-          <span class="input-area__count">0 字</span>
+          <span class="input-area__count">0 / 5000 字</span>
         </div>
       </div>
 
