@@ -333,7 +333,7 @@
   function extractPdfText(file) {
     return new Promise(function(resolve, reject) {
       if (typeof pdfjsLib === 'undefined') {
-        reject(new Error('PDF库未加载，无法提取文本'));
+        reject(new Error('PDF解析不可用（PDF.js未加载）'));
         return;
       }
       var reader = new FileReader();
@@ -398,6 +398,17 @@
         }
 
         uploadedFiles.push(fileEntry);
+
+        // 检查总大小（base64字符串长度 ≈ 原始大小 * 1.37）
+        var totalSize = uploadedFiles.reduce(function(sum, f) { return sum + (f.dataUrl || f.content || '').length; }, 0);
+        if (totalSize > 4 * 1024 * 1024) {
+          // 超限，移除刚添加的文件
+          uploadedFiles.pop();
+          renderFilePreview();
+          var statusEl = document.getElementById('uploadStatus');
+          if (statusEl) statusEl.textContent = '⚠️ 附件总大小超限（4MB），请减少文件数量';
+          return;
+        }
       } catch (e) {
         showError('处理文件 "' + file.name + '" 时出错: ' + e.message);
       }
@@ -521,7 +532,7 @@
     // 有文本内容 → 可生成
     // 或者有上传的文本/PDF文件（自动合并为内容）→ 可生成
     var hasFileContent = uploadedFiles.some(function(f) { return f.category === 'text' || f.category === 'pdf'; });
-    var canGenerate = hasText || hasFileContent;
+    var canGenerate = hasText || hasFileContent || uploadedFiles.length > 0;
 
     genBtn.disabled = !canGenerate;
 
@@ -880,7 +891,7 @@
         var editor = $('#htmlCodeEditor');
         if (!editor || !editor.value) return;
 
-        currentFullHtml = editor.value;
+        currentFullHtml = sanitizeHtml(editor.value);
 
         var iframe = $('#previewFrame');
         iframe.setAttribute('sandbox', 'allow-same-origin');

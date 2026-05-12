@@ -376,7 +376,6 @@ if (typeof lucide !== 'undefined') {
       contentArea.appendChild(fallbackIframe);
       var fallbackDoc = fallbackIframe.contentDocument || fallbackIframe.contentWindow.document;
       fallbackDoc.open();
-      fallbackDoc.open();
       fallbackDoc.write(defaultBodyHtml);
       fallbackDoc.close();
       fallbackIframe.onload = function() {
