@@ -241,7 +241,9 @@
         body: d.body,
         fullHtml: null,  // view.html 已有 fallback 处理，优先用 fullHtml，否则用 body
         template: d.template,
-        tags: d.tags
+        tags: d.tags,
+        authorName: '晓波',
+        authorBio: '记录思考，分享生活'
       });
     });
   }
