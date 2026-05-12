@@ -56,10 +56,20 @@
             var attrName = attrMatch[1].toLowerCase();
             if (attrName.indexOf('on') === 0) continue;
             if (allowedForTag && allowedForTag[attrName]) {
-              // 对于 img.src，只允许 data: URI 和 https:
+              // 对于 img.src，只允许安全的 data: URI 和 http(s)
               if (tag === 'img' && attrName === 'src') {
                 var srcVal = attrMatch[0];
                 if (srcVal.indexOf('data:image') === -1 && srcVal.indexOf('https://') === -1 && srcVal.indexOf('http://') === -1) continue;
+              }
+              // 阻止 SVG data URI XSS
+              if (attrName === 'src' && attrMatch[0].indexOf('data:') !== -1) {
+                var attrValue = attrMatch[0].replace(/^\s*src\s*=\s*/, '');
+                attrValue = attrValue.replace(/^["']|["']$/g, '').trim();
+                if (attrValue.indexOf('data:') === 0) {
+                  if (!/^data:image\/(jpeg|png|gif|webp);base64,/.test(attrValue)) {
+                    continue; // 跳过不安全的 data URI（如 svg+xml）
+                  }
+                }
               }
               // 过滤危险协议：javascript: / vbscript:
               if (tag === 'a' && attrName === 'href') {
@@ -291,7 +301,7 @@
 
   /* 压缩图片：限制最大宽度 + JPEG 压缩 */
   function compressImage(file, maxWidth, quality) {
-    maxWidth = maxWidth || 1200;
+    maxWidth = maxWidth || 800;
     quality = quality || 0.7;
     return new Promise(function(resolve, reject) {
       var img = new Image();
@@ -360,6 +370,11 @@
 
   /* 处理文件上传 */
   async function handleFiles(files) {
+    if (uploadedFiles.length + files.length > 10) {
+      var statusEl = document.getElementById('uploadStatus');
+      if (statusEl) statusEl.textContent = '⚠️ 最多上传10个文件';
+      return;
+    }
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
       // 大小限制：10MB
@@ -382,7 +397,7 @@
         if (file.type.startsWith('image/')) {
           // 图片 → 压缩后嵌入 HTML
           fileEntry.category = 'image';
-          fileEntry.dataUrl = await compressImage(file, 1200, 0.7);
+          fileEntry.dataUrl = await compressImage(file, 800, 0.7);
         } else if (file.type === 'application/pdf') {
           // PDF → 提取文本
           fileEntry.category = 'pdf';
@@ -398,6 +413,21 @@
         }
 
         uploadedFiles.push(fileEntry);
+
+        // 单张图片 base64 大小检查：超 500KB 再次压缩
+        if (fileEntry.dataUrl && fileEntry.dataUrl.length > 500 * 1024) {
+          try {
+            var oversizedBlob = await (await fetch(fileEntry.dataUrl)).blob();
+            var oversizedFile = new File([oversizedBlob], fileEntry.name, { type: 'image/jpeg' });
+            fileEntry.dataUrl = await compressImage(oversizedFile, 600, 0.5);
+            if (fileEntry.dataUrl.length > 500 * 1024) {
+              var sEl = document.getElementById('uploadStatus');
+              if (sEl) sEl.textContent = '⚠️ 图片 "' + fileEntry.name + '" 压缩后仍较大，可能影响性能';
+            }
+          } catch (reCompErr) {
+            // 二次压缩失败，保留原始
+          }
+        }
 
         // 检查总大小（base64字符串长度 ≈ 原始大小 * 1.37）
         var totalSize = uploadedFiles.reduce(function(sum, f) { return sum + (f.dataUrl || f.content || '').length; }, 0);
@@ -477,6 +507,14 @@
     // 点击打开文件选择
     zone.addEventListener('click', function() {
       input.click();
+    });
+
+    // 键盘支持：Enter/Space 触发文件选择
+    zone.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        input.click();
+      }
     });
 
     // 文件选择
@@ -892,6 +930,7 @@
         if (!editor || !editor.value) return;
 
         currentFullHtml = sanitizeHtml(editor.value);
+        if (editor) editor.value = currentFullHtml;
 
         var iframe = $('#previewFrame');
         iframe.setAttribute('sandbox', 'allow-same-origin');

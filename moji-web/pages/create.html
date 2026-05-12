@@ -97,12 +97,13 @@
 
       <!-- 文件上传区 -->
       <div class="upload-area" id="uploadArea">
-        <div class="upload-zone" id="uploadZone">
+        <div class="upload-zone" id="uploadZone" role="button" aria-label="点击或拖拽上传文件" tabindex="0">
           <div class="upload-zone__icon">📤</div>
           <p class="upload-zone__text">拖拽或点击上传图片、PDF、文本文件</p>
           <p class="upload-zone__hint">支持 JPG、PNG、GIF、PDF、TXT、MD</p>
           <input type="file" id="fileInput" multiple accept="image/*,.pdf,.txt,.md" style="display:none;">
         </div>
+        <p id="uploadStatus" class="upload-status" style="color:#e85d26;font-size:0.85rem;min-height:1.2em;margin-top:4px;"></p>
         <div id="filePreviewList" class="file-preview-list"></div>
       </div>
 

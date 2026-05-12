@@ -31,10 +31,11 @@
       localStorage.setItem(key, JSON.stringify(data));
       return true;
     } catch (e) {
-      console.error('[墨记] 存储失败:', e);
       if (e.name === 'QuotaExceededError' || e.code === 22) {
-        alert('存储空间不足！请删除部分旧内容后重试。');
+        console.error('[墨记] localStorage已满:', e);
+        return false;
       }
+      console.error('[墨记] 存储失败:', e);
       return false;
     }
   }

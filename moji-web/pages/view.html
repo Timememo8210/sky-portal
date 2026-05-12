@@ -225,6 +225,14 @@ if (typeof lucide !== 'undefined') {
               var cleanHref = hrefRaw.replace(/^["']|["']$/g, '').trim().toLowerCase();
               if (cleanHref.indexOf('javascript:') === 0 || cleanHref.indexOf('vbscript:') === 0) continue;
             }
+            // 阻止 SVG data URI XSS：只允许安全的图片类型
+            if (n === 'src' && am[0].indexOf('data:') !== -1) {
+              var srcAttrVal = am[0].replace(/^\s*src\s*=\s*/, '');
+              srcAttrVal = srcAttrVal.replace(/^["']|["']$/g, '').trim();
+              if (srcAttrVal.indexOf('data:') === 0) {
+                if (!/^data:image\/(jpeg|png|gif|webp);base64,/.test(srcAttrVal)) continue;
+              }
+            }
             if (al && al[n]) sa += ' ' + am[0];
           }
         }
