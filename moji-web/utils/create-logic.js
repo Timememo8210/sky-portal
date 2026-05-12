@@ -254,6 +254,9 @@
       hint.textContent = '识别完成';
       result.textContent = text;
       result.classList.add('visible');
+      // 同步到输入框，让用户能看到语音内容
+      var textarea = $('#inputText');
+      if (textarea) textarea.value = text;
       $('#generateBtn').disabled = false;
       // 更新字数计数器
       var counter = $('.input-area__count');
@@ -361,9 +364,11 @@
     currentFullHtml = html;
 
     var iframe = $('#previewFrame');
+    // 给预览iframe添加sandbox属性
+    iframe.setAttribute('sandbox', 'allow-same-origin');
     var doc = iframe.contentDocument || iframe.contentWindow.document;
     doc.open();
-    doc.write(html);
+    doc.write(html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
     doc.close();
 
     // Update HTML editor content
@@ -429,9 +434,10 @@
         currentFullHtml = editor.value;
 
         var iframe = $('#previewFrame');
+        iframe.setAttribute('sandbox', 'allow-same-origin');
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         doc.open();
-        doc.write(currentFullHtml);
+        doc.write(currentFullHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
         doc.close();
 
         toggleEditor(false);

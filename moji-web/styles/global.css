@@ -16,8 +16,8 @@
   
   /* 文字 */
   --text: #2c2c2c;
-  --text-secondary: #6b6560;
-  --text-muted: #9c958e;
+  --text-secondary: #5a5550;
+  --text-muted: #7a746d;
   
   /* 强调色 */
   --accent: #e85d26;
@@ -330,6 +330,19 @@ a:focus-visible {
     transform: none;
     transition: none;
   }
+}
+
+/* ========== 无障碍：屏幕阅读器专用 ========== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ========== 响应式断点 ========== */

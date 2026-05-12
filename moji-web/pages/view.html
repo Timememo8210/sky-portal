@@ -70,6 +70,7 @@
       <h2 class="unlock-card__title">这篇内容需要密码</h2>
       <p class="unlock-card__desc">作者为这篇内容设置了密码保护，输入密码后即可查看</p>
       <div class="unlock-card__input-wrap">
+        <label for="unlockInput" class="sr-only">输入密码解锁</label>
         <input
           type="password"
           class="unlock-card__input"
@@ -301,11 +302,12 @@
       contentArea.innerHTML = '';
       var iframe = document.createElement('iframe');
       iframe.style.cssText = 'width:100%;border:none;min-height:60vh;display:block;';
+      iframe.setAttribute('sandbox', 'allow-same-origin');
       iframe.setAttribute('title', '内容预览');
       contentArea.appendChild(iframe);
       var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
       iframeDoc.open();
-      iframeDoc.write(page.fullHtml);
+      iframeDoc.write(page.fullHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
       iframeDoc.close();
       // 自适应高度
       iframe.onload = function() {
@@ -323,11 +325,12 @@
       contentArea.innerHTML = '';
       var fallbackIframe = document.createElement('iframe');
       fallbackIframe.style.cssText = 'width:100%;border:none;min-height:60vh;display:block;';
+      fallbackIframe.setAttribute('sandbox', 'allow-same-origin');
       fallbackIframe.setAttribute('title', '内容预览');
       contentArea.appendChild(fallbackIframe);
       var fallbackDoc = fallbackIframe.contentDocument || fallbackIframe.contentWindow.document;
       fallbackDoc.open();
-      fallbackDoc.write(defaultBodyHtml);
+      fallbackDoc.write(defaultBodyHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
       fallbackDoc.close();
       fallbackIframe.onload = function() {
         try {
@@ -364,6 +367,9 @@
       var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       progressBar.style.width = progress + '%';
     }, { passive: true });
+
+    // 确保解锁后所有 Lucide 图标正常渲染
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 
     // 返回链接：直接访问时返回首页
     var backLink = document.getElementById('backLink');

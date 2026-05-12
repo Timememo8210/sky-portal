@@ -605,7 +605,9 @@
     <div class="setup-panel__icon">👋</div>
     <h2 class="setup-panel__title">欢迎来到墨记</h2>
     <p class="setup-panel__desc">给你的个人空间起个名字吧，让朋友们知道你是谁</p>
+    <label for="setupName" class="sr-only">你的名字</label>
     <input type="text" class="setup-panel__input" id="setupName" placeholder="你的名字" maxlength="20" autocomplete="off">
+    <label for="setupBio" class="sr-only">个人简介</label>
     <textarea class="setup-panel__bio" id="setupBio" placeholder="一句话介绍自己（可选）" maxlength="100"></textarea>
     <button class="btn btn-primary" id="setupSaveBtn" style="width:100%;padding:16px;font-size:1.05rem;">开始使用</button>
   </div>
@@ -850,8 +852,8 @@
           '<div class="timeline__dot"></div>' +
           '<div class="timeline__date">' + escapeHtml(dateStr) + '</div>' +
           '<div class="timeline__block" data-id="' + page.id + '">' +
-            '<button class="timeline__block-delete" data-id="' + page.id + '" title="删除">删除</button>' +
-            '<button class="timeline__block-pwd" data-pwd-id="' + page.id + '" title="密码保护">🔒</button>' +
+            '<button class="timeline__block-delete" data-id="' + page.id + '" title="删除" aria-label="删除">删除</button>' +
+            '<button class="timeline__block-pwd" data-pwd-id="' + page.id + '" title="密码保护" aria-label="设置密码">🔒</button>' +
             '<div class="timeline__block-title">' + escapeHtml(page.title || '无标题') + '</div>' +
             '<div class="timeline__block-excerpt">' + escapeHtml(excerpt) + '</div>' +
             '<div class="timeline__block-meta">' +
