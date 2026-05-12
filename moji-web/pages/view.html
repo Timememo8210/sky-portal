@@ -279,12 +279,12 @@
     // 浏览量
     document.getElementById('pageViews').textContent = viewCount + ' 次浏览';
 
-    // 作者
-    var user = MojiStorage.getUser() || {};
-    var authorName = user.name || '匿名作者';
+    // 作者 — 优先用页面数据中的 authorName（跨设备一致），否则 fallback 到当前用户
+    var authorName = page.authorName || (MojiStorage.getUser() || {}).name || '匿名作者';
+    var authorBio = page.authorBio || (MojiStorage.getUser() || {}).bio || '墨记创作者';
     document.getElementById('pageAuthor').textContent = authorName;
     document.getElementById('authorName').textContent = authorName;
-    document.getElementById('authorBio').textContent = user.bio || '墨记创作者';
+    document.getElementById('authorBio').textContent = authorBio;
     document.getElementById('authorAvatarFallback').textContent = authorName.charAt(0);
 
     // 标签

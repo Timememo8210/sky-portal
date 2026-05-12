@@ -159,6 +159,7 @@
             </button>
           </div>
         </div>
+        <label for="htmlCodeEditor" class="sr-only">HTML代码编辑器</label>
         <textarea
           class="html-editor__code"
           id="htmlCodeEditor"
@@ -198,7 +199,7 @@
         </div>
 
         <h2 class="publish-panel__title">发布成功！</h2>
-        <p class="publish-panel__sub">你的网页已经上线，分享给朋友吧</p>
+        <p class="publish-panel__sub">你的网页已保存到本地浏览器</p>
 
         <!-- 链接 -->
         <div class="publish-link">
@@ -214,6 +215,7 @@
             <span class="publish-password__label">密码保护</span>
           </label>
           <div class="publish-password__field" id="passwordField">
+            <label for="passwordInput" class="sr-only">设置访问密码</label>
             <input type="text" class="publish-password__input" id="passwordInput" placeholder="设置访问密码..." readonly>
             <button class="publish-password__save" id="passwordSaveBtn">保存密码</button>
           </div>
@@ -221,10 +223,11 @@
 
         <!-- 社交分享 -->
         <div class="publish-share">
-          <button class="publish-share__btn" data-platform="wechat" title="分享到微信">💬</button>
-          <button class="publish-share__btn" data-platform="weibo" title="分享到微博">📰</button>
-          <button class="publish-share__btn" data-platform="twitter" title="分享到 Twitter">🐦</button>
+          <button class="publish-share__btn publish-share__btn--disabled" data-platform="wechat" title="即将上线" disabled>💬</button>
+          <button class="publish-share__btn publish-share__btn--disabled" data-platform="weibo" title="即将上线" disabled>📰</button>
+          <button class="publish-share__btn publish-share__btn--disabled" data-platform="twitter" title="即将上线" disabled>🐦</button>
         </div>
+        <p class="publish-share__hint">当前版本仅在本设备可用，完整分享功能即将上线</p>
 
         <!-- 返回 -->
         <button class="btn-back" id="backBtn">← 继续创作</button>

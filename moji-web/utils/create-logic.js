@@ -149,6 +149,36 @@
     }
   }
 
+  /* ========== 简易错误提示 ========== */
+  function showError(msg) {
+    var toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = msg;
+    toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:12px 24px;background:#e85d26;color:#fff;border-radius:12px;font-size:0.9rem;z-index:9999;opacity:0;transition:opacity 0.3s;';
+    document.body.appendChild(toast);
+    setTimeout(function() { toast.style.opacity = '1'; }, 10);
+    setTimeout(function() { toast.style.opacity = '0'; setTimeout(function() { toast.remove(); }, 300); }, 3000);
+  }
+
+  /* ========== beforeunload 刷新提示 ========== */
+  var beforeunloadHandler = null;
+
+  function enableBeforeunload() {
+    if (beforeunloadHandler) return;
+    beforeunloadHandler = function (e) {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', beforeunloadHandler);
+  }
+
+  function disableBeforeunload() {
+    if (beforeunloadHandler) {
+      window.removeEventListener('beforeunload', beforeunloadHandler);
+      beforeunloadHandler = null;
+    }
+  }
+
   /* ========== 初始化 ========== */
   function init() {
     bindStepIndicator();
@@ -191,6 +221,13 @@
     panels.forEach(function (el, i) {
       el.classList.toggle('active', i + 1 === currentStep);
     });
+
+    // Step >= 2 时启用刷新提示，Step 4 发布完成后禁用
+    if (currentStep >= 2 && currentStep <= 3) {
+      enableBeforeunload();
+    } else if (currentStep === 4) {
+      disableBeforeunload();
+    }
   }
 
   /* ========== Step 1: 输入 ========== */
@@ -488,6 +525,12 @@
     btn.addEventListener('click', function () {
       if (!currentSample) return;
 
+      // 防止发布空页面
+      if (!currentFullHtml || currentFullHtml.trim().length < 10) {
+        showError('内容为空，请先生成或编辑内容');
+        return;
+      }
+
       // 防重复点击
       btn.disabled = true;
       var origText = btn.textContent;
@@ -575,30 +618,7 @@
   function bindShareBtns() {
     var shareBtns = $$('.publish-share__btn');
     if (shareBtns.length === 0) return;
-    shareBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var platform = btn.dataset.platform;
-        var url = $('#publishUrl').dataset.url || '';
-        var text = currentSample ? currentSample.title : '我的墨记网页';
-        var shareUrl = '';
-
-        if (platform === 'wechat') {
-          var toast = document.createElement('div');
-          toast.className = 'toast';
-          toast.textContent = '请复制链接，打开微信分享给朋友';
-          document.body.appendChild(toast);
-          setTimeout(function() { toast.classList.add('show'); }, 10);
-          setTimeout(function() { toast.classList.remove('show'); setTimeout(function() { toast.remove(); }, 300); }, 3000);
-          return;
-        } else if (platform === 'weibo') {
-          shareUrl = 'https://service.weibo.com/share/share.php?url=' + encodeURIComponent(url) + '&title=' + encodeURIComponent(text);
-        } else if (platform === 'twitter') {
-          shareUrl = 'https://twitter.com/intent/tweet?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text);
-        }
-
-        if (shareUrl) window.open(shareUrl, '_blank', 'width=600,height=400');
-      });
-    });
+    // All share buttons are disabled (coming-soon). No click handlers needed.
   }
 
   /* ========== 密码保护（Step 4 发布后设置）========== */

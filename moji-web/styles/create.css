@@ -714,6 +714,25 @@
   box-shadow: var(--shadow-sm);
 }
 
+.publish-share__btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.publish-share__btn--disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.publish-share__hint {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: -20px;
+  margin-bottom: 24px;
+}
+
 /* 返回按钮 */
 .btn-back {
   padding: 10px 24px;

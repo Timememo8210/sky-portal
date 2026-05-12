@@ -783,6 +783,12 @@
 
       // 绑定密码弹窗
       bindPasswordModal();
+
+      // 绑定时间线事件代理（只绑定一次）
+      bindTimelineEvents();
+
+      // 绑定标签筛选（只绑定一次）
+      bindTagFilter();
     }
 
     // ======== 渲染页面列表 ========
@@ -872,8 +878,13 @@
       if (typeof lucide !== 'undefined') {
         lucide.createIcons();
       }
+    }
 
-      // 事件代理：点击时间线块
+    // ======== 时间线事件代理（初始化时绑定一次） ========
+
+    function bindTimelineEvents() {
+      var timeline = $('#timeline');
+
       timeline.addEventListener('click', function (e) {
         // 密码按钮
         var pwdBtn = e.target.closest('.timeline__block-pwd');
@@ -902,9 +913,6 @@
           window.location.href = 'view.html?id=' + encodeURIComponent(pageId);
         }
       });
-
-      // 标签筛选
-      bindTagFilter();
     }
 
     // ======== 标签筛选 ========

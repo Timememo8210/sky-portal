@@ -115,6 +115,13 @@
     }
     page.updatedAt = now;
 
+    // 保存作者信息随页面存储
+    if (!page.authorName) {
+      var user = getUser();
+      page.authorName = user.name || '匿名';
+      page.authorBio = user.bio || '';
+    }
+
     // 确保 tags 是数组
     if (!Array.isArray(page.tags)) {
       page.tags = [];
