@@ -316,7 +316,26 @@
         } catch(e) {}
       };
     } else if (page.body) {
-      contentArea.innerHTML = page.body;
+      // Fallback 也用 iframe 渲染，保持与 fullHtml 一致的显示体验
+      var defaultBodyHtml = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+        '<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:"Noto Sans SC",system-ui,sans-serif;background:#fff;color:#2c2c2c;padding:24px 16px;line-height:1.8}.container{max-width:640px;margin:0 auto}p{margin-bottom:1.1em;font-size:1rem}h2{font-size:1.3rem;margin:1.6em 0 0.5em;color:#e85d26;font-weight:600}h3{font-size:1.1rem;margin:1.2em 0 0.3em;font-weight:600}blockquote{border-left:3px solid #e85d26;padding:12px 20px;margin:1.5em 0;background:#fef3ed;border-radius:0 12px 12px 0;color:#6b6560}ul,ol{margin:0.8em 0 1.2em 1.5em}li{margin-bottom:0.4em}strong{color:#e85d26}</style></head><body><div class="container">' +
+        page.body +
+        '</div></body></html>';
+      contentArea.innerHTML = '';
+      var fallbackIframe = document.createElement('iframe');
+      fallbackIframe.style.cssText = 'width:100%;border:none;min-height:60vh;display:block;';
+      fallbackIframe.setAttribute('title', '内容预览');
+      contentArea.appendChild(fallbackIframe);
+      var fallbackDoc = fallbackIframe.contentDocument || fallbackIframe.contentWindow.document;
+      fallbackDoc.open();
+      fallbackDoc.write(defaultBodyHtml);
+      fallbackDoc.close();
+      fallbackIframe.onload = function() {
+        try {
+          var h = fallbackIframe.contentDocument.body.scrollHeight;
+          fallbackIframe.style.height = Math.max(h, 300) + 'px';
+        } catch(e) {}
+      };
     } else {
       contentArea.innerHTML = '<p style="color:var(--text-muted);">这篇内容暂无正文</p>';
     }

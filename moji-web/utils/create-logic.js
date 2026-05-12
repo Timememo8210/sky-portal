@@ -50,12 +50,34 @@
   var savedPassword = '';      // 用户设置的密码
   var currentFullHtml = '';    // 当前渲染的完整 HTML
 
+  /* ========== 前端 Rate Limiting ========== */
+  var _apiCallTimestamps = [];
+
+  function checkRateLimit() {
+    var config = window.MOJI_CONFIG || {};
+    var limit = config.RATE_LIMIT || 3;
+    var windowMs = config.RATE_WINDOW_MS || 60000;
+    var now = Date.now();
+    // 清除过期记录
+    _apiCallTimestamps = _apiCallTimestamps.filter(function(t) { return now - t < windowMs; });
+    if (_apiCallTimestamps.length >= limit) {
+      return false;
+    }
+    _apiCallTimestamps.push(now);
+    return true;
+  }
+
   /* ========== DOM 引用 ========== */
   var $ = function (sel) { return document.querySelector(sel); };
   var $$ = function (sel) { return document.querySelectorAll(sel); };
 
   /* ========== GLM API 真实调用 ========== */
   async function generateWithGLM(userInput) {
+    // 前端 Rate Limiting 检查
+    if (!checkRateLimit()) {
+      return { success: false, error: '请求过于频繁，请稍后再试（每分钟最多3次）' };
+    }
+
     var config = window.MOJI_CONFIG || {};
     var apiKey = config.API_KEY || '';
     var apiUrl = config.API_URL || '';
@@ -197,7 +219,7 @@
     var counter = $('.input-area__count');
     textarea.addEventListener('input', function () {
       var len = textarea.value.length;
-      counter.textContent = len + ' 字';
+      counter.textContent = len + ' / 5000 字';
       $('#generateBtn').disabled = len === 0;
     });
   }
@@ -460,6 +482,11 @@
     btn.addEventListener('click', function () {
       if (!currentSample) return;
 
+      // 防重复点击
+      btn.disabled = true;
+      var origText = btn.textContent;
+      btn.textContent = '发布中...';
+
       // 生成页面 body HTML（用选定的模板渲染）
       if (!currentFullHtml) {
         var date = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -481,6 +508,14 @@
         tags: currentSample.tags || [],
         subtitle: currentSample.subtitle || ''
       });
+
+      // 存储失败时恢复按钮
+      if (!page) {
+        btn.disabled = false;
+        btn.textContent = origText;
+        alert('发布失败：存储空间不足，请删除部分旧内容后重试。');
+        return;
+      }
 
       savedPageId = page.id;
 
@@ -615,7 +650,7 @@
       savedPassword = '';
 
       var inputText = $('#inputText'); if (inputText) inputText.value = '';
-      var counter = $('.input-area__count'); if (counter) counter.textContent = '0 字';
+      var counter = $('.input-area__count'); if (counter) counter.textContent = '0 / 5000 字';
       var genBtn = $('#generateBtn'); if (genBtn) genBtn.disabled = true;
 
       $$('.style-switcher__btn').forEach(function (b) {

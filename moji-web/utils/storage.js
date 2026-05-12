@@ -27,7 +27,16 @@
   }
 
   function writeJSON(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+      return true;
+    } catch (e) {
+      console.error('[墨记] 存储失败:', e);
+      if (e.name === 'QuotaExceededError' || e.code === 22) {
+        alert('存储空间不足！请删除部分旧内容后重试。');
+      }
+      return false;
+    }
   }
 
   /**
@@ -59,7 +68,7 @@
   }
 
   function setUser(user) {
-    writeJSON(USER_KEY, user);
+    return writeJSON(USER_KEY, user);
   }
 
   /**
@@ -112,14 +121,17 @@
     }
 
     pages[page.id] = page;
-    writeJSON(PAGES_KEY, pages);
+    if (!writeJSON(PAGES_KEY, pages)) {
+      console.error('[墨记] 页面保存失败:', page.id);
+      return null;
+    }
     return page;
   }
 
   function deletePage(id) {
     var pages = getAllPages();
     delete pages[id];
-    writeJSON(PAGES_KEY, pages);
+    writeJSON(PAGES_KEY, pages);  // best-effort
 
     // 同时清除密码和浏览量
     removePassword(id);
@@ -178,7 +190,7 @@
     var views = readJSON(VIEWS_KEY, {});
     if (!views[pageId]) views[pageId] = { count: 0 };
     views[pageId].count++;
-    writeJSON(VIEWS_KEY, views);
+    writeJSON(VIEWS_KEY, views);  // best-effort
     return views[pageId].count;
   }
 
