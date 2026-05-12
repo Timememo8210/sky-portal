@@ -21,7 +21,6 @@
 
   <!-- Lucide Icons 基础样式 -->
   <style>
-    [data-lucide] { display: none; }
     .lucide { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; vertical-align: middle; }
     .lucide-sm { width: 16px; height: 16px; }
     .lucide-inline { display: inline-block; vertical-align: -2px; }
@@ -699,8 +698,17 @@
   </footer>
 
   <!-- Lucide Icons -->
-  <script src="../assets/lucide.min.js"></script>
-  <script>lucide.createIcons();</script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  } else {
+    document.querySelectorAll('[data-lucide]').forEach(function(el) {
+      el.textContent = el.getAttribute('data-fallback') || '';
+      el.style.display = 'inline-block';
+    });
+  }
+  </script>
 
   <!-- Scripts -->
   <script src="../utils/storage.js"></script>
@@ -877,6 +885,11 @@
       // Re-initialize Lucide icons for dynamically added elements
       if (typeof lucide !== 'undefined') {
         lucide.createIcons();
+      } else {
+        document.querySelectorAll('[data-lucide]').forEach(function(el) {
+          el.textContent = el.getAttribute('data-fallback') || '';
+          el.style.display = 'inline-block';
+        });
       }
     }
 
@@ -973,6 +986,10 @@
         if (e.target === modal) modal.classList.remove('visible');
       });
 
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('visible')) modal.classList.remove('visible');
+      });
+
       $('#settingsSaveBtn').addEventListener('click', function () {
         var name = nameInput.value.trim();
         if (!name) {
@@ -1059,6 +1076,11 @@
         if (e.target === modal) modal.classList.remove('visible');
       });
 
+      // Escape 键关闭
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('visible')) modal.classList.remove('visible');
+      });
+
       // Enter 键确认
       input.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') $('#passwordSaveBtn').click();
@@ -1068,12 +1090,14 @@
     // ======== 工具函数 ========
 
     function stripHtml(html) {
+      if (!html) return '';
       var tmp = document.createElement('div');
       tmp.innerHTML = html;
       return tmp.textContent || tmp.innerText || '';
     }
 
     function escapeHtml(str) {
+      if (!str) return '';
       var div = document.createElement('div');
       div.appendChild(document.createTextNode(str));
       return div.innerHTML;

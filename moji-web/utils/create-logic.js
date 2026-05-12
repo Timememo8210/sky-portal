@@ -13,6 +13,66 @@
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
+  /* HTML 消毒函数：移除危险标签和事件属性，防止 XSS 注入 */
+  var ALLOWED_TAGS = {
+    p:1, h1:1, h2:1, h3:1, h4:1, h5:1, h6:1, blockquote:1,
+    ul:1, ol:1, li:1, strong:1, em:1, b:1, i:1, span:1,
+    br:1, hr:1, div:1, img:1, a:1, pre:1, code:1,
+    table:1, thead:1, tbody:1, tr:1, th:1, td:1,
+    dl:1, dt:1, dd:1, figure:1, figcaption:1, details:1, summary:1,
+    mark:1, small:1, sub:1, sup:1, abbr:1, cite:1, q:1
+  };
+  var ALLOWED_ATTRS = { img: { src:1, alt:1 }, a: { href:1 } };
+
+  function sanitizeHtml(html) {
+    if (!html) return '';
+    // Tokenize via tag boundaries, rebuild safely
+    var result = '';
+    var re = /<(\/?)([a-zA-Z][a-zA-Z0-9]*)\b([^>]*?)(\/?)>|<!--[\s\S]*?-->/g;
+    var lastIndex = 0;
+    var match;
+    while ((match = re.exec(html)) !== null) {
+      // Text between tags — pass through
+      result += html.substring(lastIndex, match.index);
+      lastIndex = re.lastIndex;
+
+      // HTML comment — strip entirely
+      if (match[0].charAt(1) === '!') continue;
+
+      var isClosing = match[1];
+      var tag = match[2].toLowerCase();
+      var attrs = match[3];
+      var selfClose = match[4];
+
+      if (!ALLOWED_TAGS[tag]) continue; // drop disallowed tags
+
+      if (isClosing) {
+        result += '</' + tag + '>';
+      } else {
+        var safeAttrs = '';
+        if (attrs) {
+          var attrRe = /\s([a-zA-Z][a-zA-Z0-9\-]*)\b(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*))?/g;
+          var attrMatch;
+          var allowedForTag = ALLOWED_ATTRS[tag] || null;
+          while ((attrMatch = attrRe.exec(attrs)) !== null) {
+            var attrName = attrMatch[1].toLowerCase();
+            // Block all on* event handlers globally
+            if (attrName.indexOf('on') === 0) continue;
+            // Only keep explicitly allowed attrs for this tag
+            if (allowedForTag && allowedForTag[attrName]) {
+              safeAttrs += ' ' + attrMatch[0];
+            } else if (!allowedForTag) {
+              // Tags with no attr whitelist get no attrs through
+            }
+          }
+        }
+        result += '<' + tag + safeAttrs + (selfClose ? ' /' : '') + '>';
+      }
+    }
+    result += html.substring(lastIndex);
+    return result;
+  }
+
   /* 模板 HTML 生成器 */
   var TEMPLATES = {
     diary: function (data) {
@@ -233,32 +293,37 @@
   /* ========== Step 1: 输入 ========== */
   function bindInputTabs() {
     var btns = $$('.input-tabs__btn');
-    if (btns.length === 0) return; // 无输入标签页则跳过
     var textPanel = $('.input-area');
     var voicePanel = $('.voice-panel');
 
-    btns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        btns.forEach(function (b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-        var mode = btn.dataset.mode;
-        if (mode === 'text') {
-          textPanel.style.display = 'block';
-          voicePanel.classList.remove('active');
-        } else {
-          textPanel.style.display = 'none';
-          voicePanel.classList.add('active');
-        }
+    if (btns.length > 0) {
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          btns.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          var mode = btn.dataset.mode;
+          if (mode === 'text') {
+            textPanel.style.display = 'block';
+            voicePanel.classList.remove('active');
+          } else {
+            textPanel.style.display = 'none';
+            voicePanel.classList.add('active');
+          }
+        });
       });
-    });
+    }
 
+    // Textarea 绑定（必须在 tabs 检查之外，确保始终执行）
     var textarea = $('#inputText');
     var counter = $('.input-area__count');
-    textarea.addEventListener('input', function () {
-      var len = textarea.value.length;
-      counter.textContent = len + ' / 5000 字';
-      $('#generateBtn').disabled = len === 0;
-    });
+    if (textarea) {
+      textarea.addEventListener('input', function () {
+        var len = textarea.value.length;
+        if (counter) counter.textContent = len + ' / 5000 字';
+        var genBtn = $('#generateBtn');
+        if (genBtn) genBtn.disabled = len === 0;
+      });
+    }
   }
 
   /* ========== 语音模拟 ========== */
@@ -359,6 +424,8 @@
       clearInterval(animTimer);
 
       if (result.success) {
+        // Sanitize AI-generated HTML body before any use
+        result.sample.body = sanitizeHtml(result.sample.body);
         currentSample = result.sample;
         textEl.textContent = '生成完成！';
         setTimeout(function () {
@@ -401,11 +468,12 @@
     currentFullHtml = html;
 
     var iframe = $('#previewFrame');
-    // 给预览iframe添加sandbox属性
+    // sandbox: allow-same-origin needed for contentDocument write access.
+    // XSS is prevented by sanitizeHtml() which strips all dangerous tags & event handlers.
     iframe.setAttribute('sandbox', 'allow-same-origin');
     var doc = iframe.contentDocument || iframe.contentWindow.document;
     doc.open();
-    doc.write(html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
+    doc.write(sanitizeHtml(html));
     doc.close();
 
     // Update HTML editor content
@@ -474,7 +542,8 @@
         iframe.setAttribute('sandbox', 'allow-same-origin');
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         doc.open();
-        doc.write(currentFullHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
+        // Sanitize user-edited HTML as well
+        doc.write(sanitizeHtml(currentFullHtml));
         doc.close();
 
         toggleEditor(false);

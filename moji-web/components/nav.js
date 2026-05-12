@@ -67,6 +67,12 @@
     // Initialize Lucide icons in the nav
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
+    } else {
+      // Lucide CDN failed — show emoji fallback
+      document.querySelectorAll('#' + NAV_ID + ' [data-lucide]').forEach(function(el) {
+        el.textContent = el.getAttribute('data-fallback') || '';
+        el.style.display = 'inline-block';
+      });
     }
 
     setupScrollBehavior();

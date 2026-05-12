@@ -21,7 +21,6 @@
 
   <!-- Lucide Icons 基础样式 -->
   <style>
-    [data-lucide] { display: none; }
     .lucide { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; vertical-align: middle; }
     .lucide-lg { width: 32px; height: 32px; }
     .lucide-sm { width: 18px; height: 18px; }
@@ -819,8 +818,17 @@
   </footer>
 
   <!-- Lucide Icons -->
-  <script src="../assets/lucide.min.js"></script>
-  <script>lucide.createIcons();</script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script>
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  } else {
+    document.querySelectorAll('[data-lucide]').forEach(function(el) {
+      el.textContent = el.getAttribute('data-fallback') || '';
+      el.style.display = 'inline-block';
+    });
+  }
+  </script>
 
   <!-- 导航组件 -->
   <script src="../components/nav.js"></script>
