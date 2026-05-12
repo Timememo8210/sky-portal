@@ -186,9 +186,38 @@
   'use strict';
 
   function escapeHtml(str) {
+    if (!str) return '';
     var div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+  }
+
+  /* HTML sanitizer: strips dangerous tags and event handlers */
+  var _safeTags = {p:1,h1:1,h2:1,h3:1,h4:1,h5:1,h6:1,blockquote:1,ul:1,ol:1,li:1,strong:1,em:1,b:1,i:1,span:1,br:1,hr:1,div:1,img:1,a:1,pre:1,code:1,table:1,thead:1,tbody:1,tr:1,th:1,td:1,dl:1,dt:1,dd:1,figure:1,figcaption:1,details:1,summary:1,mark:1,small:1,sub:1,sup:1,abbr:1,cite:1,q:1,style:1};
+  var _safeAttrs = {img:{src:1,alt:1},a:{href:1}};
+  function sanitizeHtml(html) {
+    if (!html) return '';
+    var result = '', re = /<(\/?)([a-zA-Z][a-zA-Z0-9]*)\b([^>]*?)(\/?)>|<!--[\s\S]*?-->/g, li = 0, m;
+    while ((m = re.exec(html)) !== null) {
+      result += html.substring(li, m.index); li = re.lastIndex;
+      if (m[0].charAt(1) === '!') continue;
+      var tag = m[2].toLowerCase();
+      if (!_safeTags[tag]) continue;
+      if (m[1]) { result += '</' + tag + '>'; }
+      else {
+        var sa = '', a = m[3];
+        if (a) {
+          var ar = /\s([a-zA-Z][a-zA-Z0-9\-]*)\b(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*))?/g, am, al = _safeAttrs[tag] || null;
+          while ((am = ar.exec(a)) !== null) {
+            var n = am[1].toLowerCase();
+            if (n.indexOf('on') === 0) continue;
+            if (al && al[n]) sa += ' ' + am[0];
+          }
+        }
+        result += '<' + tag + sa + (m[4] ? ' /' : '') + '>';
+      }
+    }
+    return result + html.substring(li);
   }
 
   var pageId = new URLSearchParams(window.location.search).get('id');
@@ -302,12 +331,16 @@
       contentArea.innerHTML = '';
       var iframe = document.createElement('iframe');
       iframe.style.cssText = 'width:100%;border:none;min-height:60vh;display:block;';
+      // sandbox: allow-same-origin is needed for parent to write via contentDocument
+      // and to read scrollHeight for auto-height. XSS is prevented by sanitizeHtml()
+      // which strips all scripts, event handlers, and dangerous tags before rendering.
       iframe.setAttribute('sandbox', 'allow-same-origin');
       iframe.setAttribute('title', '内容预览');
       contentArea.appendChild(iframe);
       var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
       iframeDoc.open();
-      iframeDoc.write(page.fullHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
+      // Sanitize fullHtml before writing into iframe
+      iframeDoc.write(sanitizeHtml(page.fullHtml));
       iframeDoc.close();
       // 自适应高度
       iframe.onload = function() {
@@ -330,7 +363,7 @@
       contentArea.appendChild(fallbackIframe);
       var fallbackDoc = fallbackIframe.contentDocument || fallbackIframe.contentWindow.document;
       fallbackDoc.open();
-      fallbackDoc.write(defaultBodyHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''));
+      fallbackDoc.write(sanitizeHtml(defaultBodyHtml));
       fallbackDoc.close();
       fallbackIframe.onload = function() {
         try {

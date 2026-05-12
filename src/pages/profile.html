@@ -973,6 +973,10 @@
         if (e.target === modal) modal.classList.remove('visible');
       });
 
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('visible')) modal.classList.remove('visible');
+      });
+
       $('#settingsSaveBtn').addEventListener('click', function () {
         var name = nameInput.value.trim();
         if (!name) {
@@ -1059,6 +1063,11 @@
         if (e.target === modal) modal.classList.remove('visible');
       });
 
+      // Escape 键关闭
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('visible')) modal.classList.remove('visible');
+      });
+
       // Enter 键确认
       input.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') $('#passwordSaveBtn').click();
@@ -1068,12 +1077,14 @@
     // ======== 工具函数 ========
 
     function stripHtml(html) {
+      if (!html) return '';
       var tmp = document.createElement('div');
       tmp.innerHTML = html;
       return tmp.textContent || tmp.innerText || '';
     }
 
     function escapeHtml(str) {
+      if (!str) return '';
       var div = document.createElement('div');
       div.appendChild(document.createTextNode(str));
       return div.innerHTML;

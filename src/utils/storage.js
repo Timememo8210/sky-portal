@@ -109,9 +109,19 @@
     var pages = getAllPages();
     var now = Date.now();
 
+    var isNew = !page.id;
     if (!page.id) {
       page.id = genId();
       page.createdAt = now;
+    }
+
+    // Guard against ID collision for new pages only
+    if (isNew) {
+      var attempts = 0;
+      while (pages[page.id] && attempts < 10) {
+        page.id = genId();
+        attempts++;
+      }
     }
     page.updatedAt = now;
 
@@ -241,7 +251,9 @@
         body: d.body,
         fullHtml: null,  // view.html 已有 fallback 处理，优先用 fullHtml，否则用 body
         template: d.template,
-        tags: d.tags
+        tags: d.tags,
+        authorName: '晓波',
+        authorBio: '记录思考，分享生活'
       });
     });
   }
