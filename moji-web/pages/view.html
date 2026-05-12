@@ -65,7 +65,7 @@
   <!-- ====== 密码解锁层（如有密码保护） ====== -->
   <div class="unlock-overlay" id="unlockOverlay" style="display:none;">
     <div class="unlock-card">
-      <div class="unlock-card__icon"><i data-lucide="lock" style="width:32px;height:32px;stroke:var(--accent);"></i></div>
+      <div class="unlock-card__icon"><i data-lucide="lock" data-fallback="🔒" style="width:32px;height:32px;stroke:var(--accent);"></i></div>
       <h2 class="unlock-card__title">这篇内容需要密码</h2>
       <p class="unlock-card__desc">作者为这篇内容设置了密码保护，输入密码后即可查看</p>
       <div class="unlock-card__input-wrap">
@@ -92,11 +92,11 @@
     <!-- 顶部栏 -->
     <header class="detail-header">
       <a href="profile.html" class="detail-header__back" id="backLink">
-        <i data-lucide="arrow-left" class="lucide-sm lucide-inline"></i>
+        <i data-lucide="arrow-left" data-fallback="←" class="lucide-sm lucide-inline"></i>
         返回
       </a>
       <button class="detail-header__share" id="shareBtn">
-        <i data-lucide="share-2" class="lucide-sm lucide-inline"></i>
+        <i data-lucide="share-2" data-fallback="📤" class="lucide-sm lucide-inline"></i>
         分享
       </button>
     </header>
@@ -138,7 +138,7 @@
         <!-- 分享按钮组 -->
         <div class="share-bar">
           <button class="share-btn share-btn--copy" id="copyLinkBtn">
-            <i data-lucide="copy" class="lucide-sm lucide-inline"></i>
+            <i data-lucide="copy" data-fallback="📋" class="lucide-sm lucide-inline"></i>
             复制链接
           </button>
         </div>
@@ -146,7 +146,7 @@
         <!-- 评论区占位 -->
         <div class="view-comments">
           <div class="view-comments__box">
-            <div class="view-comments__icon"><i data-lucide="message-circle" style="width:28px;height:28px;stroke:var(--text-muted);"></i></div>
+            <div class="view-comments__icon"><i data-lucide="message-circle" data-fallback="💬" style="width:28px;height:28px;stroke:var(--text-muted);"></i></div>
             <p class="view-comments__text">评论功能即将上线</p>
             <span class="view-comments__badge">Phase 2</span>
           </div>
@@ -157,7 +157,7 @@
 
   <!-- ====== 页面未找到 ====== -->
   <div class="not-found" id="notFound" style="display:none;">
-    <div class="not-found__icon"><i data-lucide="search" style="width:48px;height:48px;stroke:var(--text-muted);"></i></div>
+    <div class="not-found__icon"><i data-lucide="search" data-fallback="🔍" style="width:48px;height:48px;stroke:var(--text-muted);"></i></div>
     <h1 class="not-found__title">页面未找到</h1>
     <p class="not-found__desc">这个链接可能已过期或不存在。检查一下链接是否正确。</p>
     <a href="index.html" class="btn btn-primary">回到首页</a>
@@ -170,7 +170,7 @@
       <span>由墨记Web生成</span>
     </div>
     <p class="view-watermark__tagline">说出你的想法，AI帮你变成网页</p>
-    <a href="create.html" class="view-watermark__cta"><i data-lucide="sparkles" class="lucide-sm lucide-inline"></i> 我也要创作</a>
+    <a href="create.html" class="view-watermark__cta"><i data-lucide="sparkles" data-fallback="✨" class="lucide-sm lucide-inline"></i> 我也要创作</a>
   </div>
 
 </div>

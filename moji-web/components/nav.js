@@ -20,37 +20,37 @@
       <!-- Logo -->
       <a href="${prefix}index.html" class="nav__logo">
         <span class="nav__logo-icon">
-          <i data-lucide="feather" style="width:20px;height:20px;stroke:#fff;"></i>
+          <i data-lucide="feather" data-fallback="🪶" style="width:20px;height:20px;stroke:#fff;"></i>
         </span>
         <span class="nav__logo-text">墨记</span>
       </a>
 
       <!-- 桌面端链接 -->
       <ul class="nav__links">
-        <li><a href="${prefix}index.html#features"><i data-lucide="layers" class="nav-link-icon"></i> 体验</a></li>
-        <li><a href="${prefix}profile.html"><i data-lucide="user" class="nav-link-icon"></i> 个人空间</a></li>
-        <li><a href="${prefix}index.html#about"><i data-lucide="info" class="nav-link-icon"></i> 关于</a></li>
+        <li><a href="${prefix}index.html#features"><i data-lucide="layers" data-fallback="📑" class="nav-link-icon"></i> 体验</a></li>
+        <li><a href="${prefix}profile.html"><i data-lucide="user" data-fallback="👤" class="nav-link-icon"></i> 个人空间</a></li>
+        <li><a href="${prefix}index.html#about"><i data-lucide="info" data-fallback="ℹ️" class="nav-link-icon"></i> 关于</a></li>
       </ul>
 
       <!-- CTA -->
       <a href="${prefix}create.html" class="nav__cta btn btn-primary">
-        <i data-lucide="pen-tool" style="width:16px;height:16px;stroke:#fff;"></i> 开始创作
+        <i data-lucide="pen-tool" data-fallback="✏️" style="width:16px;height:16px;stroke:#fff;"></i> 开始创作
       </a>
 
       <!-- 移动端汉堡按钮 -->
       <button class="nav__hamburger" aria-label="打开菜单" aria-expanded="false">
-        <i data-lucide="menu" class="nav-hamburger-icon nav-hamburger-menu"></i>
-        <i data-lucide="x" class="nav-hamburger-icon nav-hamburger-close"></i>
+        <i data-lucide="menu" data-fallback="☰" class="nav-hamburger-icon nav-hamburger-menu"></i>
+        <i data-lucide="x" data-fallback="✕" class="nav-hamburger-icon nav-hamburger-close"></i>
       </button>
     </div>
 
     <!-- 移动端菜单 -->
     <div class="nav__mobile-menu">
       <ul class="nav__mobile-links">
-        <li><a href="${prefix}index.html#features"><i data-lucide="layers" class="mobile-link-icon"></i> 体验</a></li>
-        <li><a href="${prefix}profile.html"><i data-lucide="user" class="mobile-link-icon"></i> 个人空间</a></li>
-        <li><a href="${prefix}index.html#about"><i data-lucide="info" class="mobile-link-icon"></i> 关于</a></li>
-        <li><a href="${prefix}create.html" class="btn btn-primary" style="justify-content:center;"><i data-lucide="pen-tool" style="width:16px;height:16px;stroke:#fff;"></i> 开始创作</a></li>
+        <li><a href="${prefix}index.html#features"><i data-lucide="layers" data-fallback="📑" class="mobile-link-icon"></i> 体验</a></li>
+        <li><a href="${prefix}profile.html"><i data-lucide="user" data-fallback="👤" class="mobile-link-icon"></i> 个人空间</a></li>
+        <li><a href="${prefix}index.html#about"><i data-lucide="info" data-fallback="ℹ️" class="mobile-link-icon"></i> 关于</a></li>
+        <li><a href="${prefix}create.html" class="btn btn-primary" style="justify-content:center;"><i data-lucide="pen-tool" data-fallback="✏️" style="width:16px;height:16px;stroke:#fff;"></i> 开始创作</a></li>
       </ul>
     </div>
   </nav>

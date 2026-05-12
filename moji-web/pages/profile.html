@@ -646,7 +646,7 @@
 
     <!-- 空状态 -->
     <div class="empty-state" id="emptyState" style="display:none;">
-      <div class="empty-state__icon"><i data-lucide="file-edit" style="width:48px;height:48px;stroke:var(--text-muted);"></i></div>
+      <div class="empty-state__icon"><i data-lucide="file-edit" data-fallback="📝" style="width:48px;height:48px;stroke:var(--text-muted);"></i></div>
       <div class="empty-state__title">还没有作品</div>
       <p class="empty-state__desc">去创作你的第一个网页吧！</p>
       <a href="create.html" class="btn btn-primary">开始创作</a>
@@ -871,8 +871,8 @@
             '<div class="timeline__block-title">' + escapeHtml(page.title || '无标题') + '</div>' +
             '<div class="timeline__block-excerpt">' + escapeHtml(excerpt) + '</div>' +
             '<div class="timeline__block-meta">' +
-              '<div class="timeline__block-meta-item"><i data-lucide="eye" class="lucide-sm lucide-inline"></i> <span>' + views + '</span></div>' +
-              (hasLock ? '<div class="timeline__block-lock"><i data-lucide="lock" class="lucide-sm lucide-inline"></i> 已加密</div>' : '') +
+              '<div class="timeline__block-meta-item"><i data-lucide="eye" data-fallback="👁️" class="lucide-sm lucide-inline"></i> <span>' + views + '</span></div>' +
+              (hasLock ? '<div class="timeline__block-lock"><i data-lucide="lock" data-fallback="🔒" class="lucide-sm lucide-inline"></i> 已加密</div>' : '') +
               '<div class="timeline__block-tags">' +
                 (page.tags || []).map(function (t) { return '<span class="timeline__block-tag">' + escapeHtml(t) + '</span>'; }).join('') +
               '</div>' +
