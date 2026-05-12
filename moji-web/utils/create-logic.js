@@ -61,6 +61,12 @@
                 var srcVal = attrMatch[0];
                 if (srcVal.indexOf('data:image') === -1 && srcVal.indexOf('https://') === -1 && srcVal.indexOf('http://') === -1) continue;
               }
+              // 过滤危险协议：javascript: / vbscript:
+              if (tag === 'a' && attrName === 'href') {
+                var hrefVal = attrMatch[0].replace(/^\s*href\s*=\s*/, '');
+                var cleanHref = hrefVal.replace(/^["']|["']$/g, '').trim().toLowerCase();
+                if (cleanHref.indexOf('javascript:') === 0 || cleanHref.indexOf('vbscript:') === 0) continue;
+              }
               safeAttrs += ' ' + attrMatch[0];
             }
           }
@@ -283,6 +289,26 @@
      文件上传逻辑
      =================================================== */
 
+  /* 压缩图片：限制最大宽度 + JPEG 压缩 */
+  function compressImage(file, maxWidth, quality) {
+    maxWidth = maxWidth || 1200;
+    quality = quality || 0.7;
+    return new Promise(function(resolve, reject) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        var scale = Math.min(1, maxWidth / img.width);
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = function() { reject(new Error('图片压缩失败')); };
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
   /* 读取图片为 base64 data URL */
   function readImageAsDataURL(file) {
     return new Promise(function(resolve, reject) {
@@ -354,9 +380,9 @@
 
       try {
         if (file.type.startsWith('image/')) {
-          // 图片 → 读取为 data URL，稍后直接嵌入 HTML
+          // 图片 → 压缩后嵌入 HTML
           fileEntry.category = 'image';
-          fileEntry.dataUrl = await readImageAsDataURL(file);
+          fileEntry.dataUrl = await compressImage(file, 1200, 0.7);
         } else if (file.type === 'application/pdf') {
           // PDF → 提取文本
           fileEntry.category = 'pdf';
@@ -793,7 +819,7 @@
     iframe.setAttribute('sandbox', 'allow-same-origin');
     var doc = iframe.contentDocument || iframe.contentWindow.document;
     doc.open();
-    doc.write(sanitizeHtml(html));
+    doc.write(html);
     doc.close();
 
     var editor = $('#htmlCodeEditor');
@@ -860,7 +886,7 @@
         iframe.setAttribute('sandbox', 'allow-same-origin');
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         doc.open();
-        doc.write(sanitizeHtml(currentFullHtml));
+        doc.write(currentFullHtml);
         doc.close();
 
         toggleEditor(false);
