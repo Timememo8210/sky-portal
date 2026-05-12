@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 每日行情 2026-05-12</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f0f;color:#ccc;font-family:-apple-system,'Helvetica Neue','PingFang SC',sans-serif;line-height:1.7;padding:20px 16px}
+.wrap{max-width:900px;margin:0 auto}
+h1{text-align:center;color:#4ade80;font-size:1.8em;margin-bottom:4px}
+.subtitle{text-align:center;color:#888;font-size:0.9em;margin-bottom:28px}
+h2{color:#4ade80;font-size:1.3em;margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid #2a2a2a}
+h3{color:#4ade80;margin:16px 0 10px}
+.card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.card h4{color:#fff;font-size:1.05em;margin-bottom:8px}
+.card p{margin-bottom:6px;font-size:0.92em}
+.card .src{color:#888;font-size:0.8em;margin-top:6px}
+.stock-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}
+.stock-item{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;padding:14px 10px;text-align:center}
+.stock-ticker{font-family:'SF Mono',monospace;font-weight:700;color:#4ade80;font-size:0.95em}
+.stock-price{color:#fff;font-size:1.1em;font-weight:600;margin:6px 0 4px}
+.stock-change{font-family:'SF Mono',monospace;font-weight:600;font-size:0.82em;padding:3px 10px;border-radius:5px;display:inline-block}
+.up{background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3)}
+.down{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.flat{background:rgba(160,160,160,0.15);color:#aaa;border:1px solid rgba(160,160,160,0.3)}
+.poster-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.poster-card{border-radius:12px;padding:20px 24px;color:#fff}
+.poster-icon{font-size:2em;margin-bottom:8px}
+.poster-data{margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6}
+.highlight-box{background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);border-radius:12px;padding:18px 20px;margin-bottom:16px}
+.highlight-box h4{color:#4ade80;font-size:1.1em;margin-bottom:8px}
+.highlight-box ul{list-style:none;padding-left:0}
+.highlight-box li{padding:4px 0;font-size:0.92em}
+.highlight-box li::before{content:"▸ ";color:#4ade80}
+.footer{text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #2a2a2a;color:#666;font-size:0.85em}
+.footer a{color:#4ade80;text-decoration:none}
+button#btn-zh,button#btn-en{padding:4px 12px;border-radius:4px;cursor:pointer;font-size:0.85em;border:1px solid #555}
+button#btn-zh{background:#333;color:#fff}
+button#btn-en{background:#222;color:#aaa}
+@media(max-width:768px){.stock-grid{grid-template-columns:repeat(2,1fr)}.poster-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div style="text-align:right;margin-bottom:8px">
+<button onclick="switchLang('zh')" id="btn-zh">中文</button>
+<button onclick="switchLang('en')" id="btn-en">EN</button>
+</div>
+
+<!-- Poster Grid -->
+<div id="poster">
+<div class="poster-grid">
+<div class="poster-card" style="background:linear-gradient(135deg,#065f46 0%,#10b981 100%)">
+<div class="poster-icon">🏆</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">标普首破7400 · 纳指新高</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">S&P First Above 7,400 · Nasdaq ATH</div>
+<div class="zh poster-data">• 道指 49,704 +0.19%<br>• 标普500 7,413 +0.19% ✨历史新高<br>• 纳指 26,274 +0.10% ✨历史新高</div>
+<div class="en poster-data" style="display:none">• Dow 49,704 +0.19%<br>• S&P 500 7,413 +0.19% ✨ATH<br>• Nasdaq 26,274 +0.10% ✨ATH</div>
+</div>
+<div class="poster-card" style="background:linear-gradient(135deg,#7c3aed 0%,#a78bfa 100%)">
+<div class="poster-icon">🔥</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">费城半导体 +2.59%</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">SOX +2.59%</div>
+<div class="zh poster-data">• 费半指数 12,081<br>• AI芯片持续领涨<br>• 半导体是当前最强主线</div>
+<div class="en poster-data" style="display:none">• SOX Index 12,081<br>• AI chips continue to lead<br>• Semis remain the strongest theme</div>
+</div>
+<div class="poster-card" style="background:linear-gradient(135deg,#b91c1c 0%,#ef4444 100%)">
+<div class="poster-icon">🛢️</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">布伦特原油破$103</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">Brent Crude Above $103</div>
+<div class="zh poster-data">• 特朗普拒绝伊朗和平提议<br>• 霍尔木兹海峡风险持续<br>• 能源成本压制大盘涨幅</div>
+<div class="en poster-data" style="display:none">• Trump rejects Iran peace proposal<br>• Hormuz Strait risk persists<br>• Energy costs cap market gains</div>
+</div>
+<div class="poster-card" style="background:linear-gradient(135deg,#0369a1 0%,#38bdf8 100%)">
+<div class="poster-icon">🇨🇳</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">A股全线暴涨 · 上证破4200</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">A-Shares Surge · SSE Breaks 4200</div>
+<div class="zh poster-data">• 上证 +1.08% 站上4200<br>• 创业板指 +3.50%<br>• 科创50 +4.65% 🔥<br>• 成交3.56万亿 放量4895亿</div>
+<div class="en poster-data" style="display:none">• SSE +1.08% breaks 4200<br>• ChiNext +3.50%<br>• STAR 50 +4.65% 🔥<br>• Volume 3.56T, +489.5B</div>
+</div>
+</div>
+</div>
+
+<h1>📊 <span class="zh">每日行情</span><span class="en" style="display:none">Daily Market</span></h1>
+<p class="subtitle">2026-05-12 · Sky Portal · <a href="index.html"><span class="zh">所有行情</span><span class="en" style="display:none">All Reports</span></a></p>
+
+<!-- US Markets -->
+<h2>🇺🇸 <span class="zh">美股收盘</span><span class="en" style="display:none">US Market Close</span></h2>
+
+<div class="stock-grid">
+<div class="stock-item">
+<div class="stock-ticker">DOW</div>
+<div class="stock-price">49,704</div>
+<div class="stock-change up">+0.19%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">+95.31</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">S&P 500</div>
+<div class="stock-price">7,413</div>
+<div class="stock-change up">+0.19%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">✨ ATH</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">NASDAQ</div>
+<div class="stock-price">26,274</div>
+<div class="stock-change up">+0.10%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">✨ ATH</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">SOX</div>
+<div class="stock-price">12,081</div>
+<div class="stock-change up">+2.59%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">+305</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">Brent</div>
+<div class="stock-price">$103+</div>
+<div class="stock-change up">+3%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">Oil Surge</div>
+</div>
+</div>
+
+<div class="card">
+<h4><span class="zh">1. 标普500首次站上7400关口，科技股持续领涨</span><span class="en" style="display:none">1. S&P 500 Closes Above 7,400 for First Time, Tech Leads</span></h4>
+<p><span class="zh">美股周一小幅收高，标普500指数与纳指再创新高。标普500首次收在7400点上方，报7,412.84点。道指涨95.31点报49,704点。尽管中东局势紧张推动油价上涨约3%，但科技股依然保持韧性。投资者正为本周密集的经济数据做准备。</span><span class="en" style="display:none">US stocks closed slightly higher on Monday, with S&P 500 and Nasdaq hitting fresh all-time highs. The S&P 500 closed above 7,400 for the first time at 7,412.84. The Dow gained 95.31 points to 49,704. Despite Middle East tensions pushing oil up ~3%, tech stocks showed resilience. Investors are bracing for a data-heavy week.</span></p>
+<p class="src">Source: CNBC / Sina Finance</p>
+</div>
+
+<div class="card">
+<h4><span class="zh">2. 费城半导体指数大涨2.59%，AI芯片持续火热</span><span class="en" style="display:none">2. Philadelphia Semiconductor Index Surges 2.59%, AI Chips Stay Hot</span></h4>
+<p><span class="zh">费城半导体指数（SOX）收于12,081点，大涨2.59%（+306点），显著跑赢大盘。AI芯片需求持续推动半导体板块走强，先进封装（CoWoS）产能扩张预期支撑了整个产业链的估值。半导体是当前美股最强主线。</span><span class="en" style="display:none">The Philadelphia Semiconductor Index (SOX) closed at 12,081, surging 2.59% (+306 points), significantly outperforming the broader market. AI chip demand continues to drive the semiconductor sector, with CoWoS capacity expansion expectations supporting valuations across the supply chain. Semis remain the strongest theme in US markets.</span></p>
+<p class="src">Source: Barchart / MarketWatch</p>
+</div>
+
+<div class="card">
+<h4><span class="zh">3. 特朗普拒绝伊朗和平提议，布伦特原油突破103美元</span><span class="en" style="display:none">3. Trump Rejects Iran Peace Proposal, Brent Crude Breaks $103</span></h4>
+<p><span class="zh">美国总统特朗普在社交媒体上称伊朗的最新和平提议"完全不可接受"，推动布伦特原油突破每桶103美元，日内上涨约3%。此前市场预期中东冲突即将结束，油价上周曾跌6%。沙特阿美CEO表示过去两个月全球已损失约10亿桶石油。分析师预计即使冲突缓解，油价中的地缘风险溢价将持续存在。</span><span class="en" style="display:none">President Trump called Iran's latest peace proposal "totally unacceptable" on social media, pushing Brent crude above $103/barrel, up ~3% on the day. Oil had fallen 6% last week on expectations the conflict was ending. Saudi Aramco's CEO said ~1 billion barrels have been lost over the past two months. Analysts expect geopolitical risk premiums to persist even if the conflict eases.</span></p>
+<p class="src">Source: Sina Finance / ANZ Research</p>
+</div>
+
+<!-- China Markets -->
+<h2>🇨🇳 <span class="zh">A股收盘</span><span class="en" style="display:none">A-Share Market Close</span></h2>
+
+<div class="stock-grid">
+<div class="stock-item">
+<div class="stock-ticker">上证</div>
+<div class="stock-price">4,405</div>
+<div class="stock-change up">+1.08%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">破4200</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">深成指</div>
+<div class="stock-price">—</div>
+<div class="stock-change up">+2.16%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">Strong</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">创业板</div>
+<div class="stock-price">—</div>
+<div class="stock-change up">+3.50%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">🔥 Hot</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">科创50</div>
+<div class="stock-price">—</div>
+<div class="stock-change up">+4.65%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">🔥🔥</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">成交额</div>
+<div class="stock-price">3.56万亿</div>
+<div class="stock-change up">+4895亿</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">放量</div>
+</div>
+</div>
+
+<div class="card">
+<h4><span class="zh">1. 芯片概念获主力净流入255亿，半导体全线爆发</span><span class="en" style="display:none">1. Chip Sector Draws 25.5B Net Inflow, Semis Explode Across the Board</span></h4>
+<p><span class="zh">A股三大指数集体暴涨，上证指数站上4200点。板块方面，存储芯片、半导体、CPO、先进封装领涨。芯片概念板块获主力资金净流入255.11亿元，板块内33股涨停、637股上涨。存储芯片净流入164亿，先进封装净流入141亿。全市场3121只个股上涨，135只涨停，成交额达3.56万亿元，较上日放量4895亿元。</span><span class="en" style="display:none">A-share indices surged in unison, with SSE breaking above 4,200. Storage chips, semiconductors, CPO, and advanced packaging led gains. The chip concept sector saw net inflows of 25.51B yuan with 33 stocks hitting daily limits and 637 rising. Storage chips saw 16.4B inflows, advanced packaging 14.1B. Market-wide 3,121 stocks rose, 135 hit daily limits, with volume at 3.56 trillion yuan, up 489.5B from the prior session.</span></p>
+<p class="src">来源：东方财富 / 163财经</p>
+</div>
+
+<div class="card">
+<h4><span class="zh">2. 科创50单日涨4.65%罕见，科技主线加速发酵</span><span class="en" style="display:none">2. STAR 50 Surges 4.65% in Rare Single-Day Move, Tech Theme Accelerates</span></h4>
+<p><span class="zh">科创50指数单日大涨4.65%，涨幅在主要指数中领先，反映资金加速涌入硬科技赛道。北证50逆势跌0.7%，市场分化明显。板块方面，贵金属、港口航运、游戏、旅游等板块跌幅居前，资金明显从传统板块流向科技。上证指数跳空高开突破4197点前期压力位，技术面需要回踩确认。</span><span class="en" style="display:none">The STAR 50 Index surged 4.65%, leading major indices and reflecting accelerating capital flows into hard tech. The BSE 50 bucked the trend by falling 0.7%, showing clear market divergence. Precious metals, shipping, gaming, and tourism lagged as funds rotated from traditional sectors to tech. SSE gapped above the 4,197 resistance, with a technical pullback confirmation expected.</span></p>
+<p class="src">来源：163财经</p>
+</div>
+
+<!-- HK Markets -->
+<h2>🇭🇰 <span class="zh">港股</span><span class="en" style="display:none">Hong Kong Market</span></h2>
+
+<div class="stock-grid">
+<div class="stock-item">
+<div class="stock-ticker">恒生指数</div>
+<div class="stock-price">—</div>
+<div class="stock-change down">-0.29%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">午盘</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">恒生科技</div>
+<div class="stock-price">—</div>
+<div class="stock-change flat">+0.04%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">午盘持平</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">恒指(5/7收)</div>
+<div class="stock-price">26,669</div>
+<div class="stock-change flat">—</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">前一收盘</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">恒科(5/7收)</div>
+<div class="stock-price">4,971</div>
+<div class="stock-change flat">—</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">前一收盘</div>
+</div>
+<div class="stock-item">
+<div class="stock-ticker">恒指期货</div>
+<div class="stock-price">26,421</div>
+<div class="stock-change up">+0.37%</div>
+<div style="color:#888;font-size:0.75em;margin-top:4px">夜市</div>
+</div>
+</div>
+
+<!-- Key Drivers & Outlook -->
+<h2>🔑 <span class="zh">核心驱动 & 前瞻</span><span class="en" style="display:none">Key Drivers & Outlook</span></h2>
+
+<div class="highlight-box">
+<h4><span class="zh">三大核心驱动</span><span class="en" style="display:none">Three Key Drivers</span></h4>
+<ul>
+<li><span class="zh"><strong>AI/半导体全线爆发：</strong>A股芯片概念主力净流入255亿，美股费半+2.6%。半导体是中美市场共振最强主线，先进封装/存储芯片/HBM为当前焦点</span><span class="en" style="display:none"><strong>AI/Semis Explode:</strong> A-share chip sector 25.5B inflow, US SOX +2.6%. Semis are the strongest synchronized theme across US-China, with advanced packaging/storage/HBM in focus</span></li>
+<li><span class="zh"><strong>中东局势升级：</strong>特朗普拒绝伊朗和平提议，布伦特破$103。油价飙升压制大盘涨幅，但市场仍保持韧性，说明投资者对科技盈利有信心</span><span class="en" style="display:none"><strong>Middle East Escalation:</strong> Trump rejects Iran deal, Brent breaks $103. Oil surge caps broader market gains, but resilience signals investor confidence in tech earnings</span></li>
+<li><span class="zh"><strong>本周关键数据密集：</strong>周二CPI（预计同比3.7%）、周四零售销售、阿里/思科/Applied Materials财报；美联储主席鲍威尔周五任期结束，沃什预计接任</span><span class="en" style="display:none"><strong>Data-Heavy Week:</strong> Tuesday CPI (est. 3.7% YoY), Thursday retail sales, Alibaba/Cisco/Applied Materials earnings; Fed Chair Powell's term ends Friday, Warsh expected to succeed</span></li>
+</ul>
+</div>
+
+<div class="highlight-box">
+<h4><span class="zh">明日/近期预判</span><span class="en" style="display:none">Near-Term Outlook</span></h4>
+<ul>
+<li><span class="zh"><strong>美股：</strong>标普7400上方需要CPI数据验证。若通胀高于预期（>3.7%），降息预期降温可能引发回调；若低于预期，有望加速上行至7500+</span><span class="en" style="display:none"><strong>US:</strong> S&P above 7,400 needs CPI validation. If inflation >3.7%, rate cut expectations cool → possible pullback; if below, could accelerate to 7,500+</span></li>
+<li><span class="zh"><strong>A股：</strong>半导体/AI主线强势，上证4200上方需关注回踩确认。变盘日（周二），短线注意波动。科创50单日+4.65%后可能有获利回吐</span><span class="en" style="display:none"><strong>A-Shares:</strong> Semi/AI theme strong, watch for 4,200 pullback confirmation. Tuesday is a potential reversal day. STAR 50 +4.65% may see profit-taking</span></li>
+<li><span class="zh"><strong>重点关注：</strong>① 周二CPI数据 ② 阿里/思科/Applied Materials财报 ③ 中东石油供应变化 ④ 美联储主席交接</span><span class="en" style="display:none"><strong>Watch:</strong> ① Tuesday CPI ② Alibaba/Cisco/Applied Materials earnings ③ Middle East oil supply ④ Fed Chair transition</span></li>
+</ul>
+</div>
+
+<div class="footer">
+<p>📊 <span class="zh">每日行情</span><span class="en" style="display:none">Daily Market</span> · 2026-05-12 · <a href="index.html"><span class="zh">所有行情</span><span class="en" style="display:none">All Reports</span></a></p>
+<p style="margin-top:6px"><span class="zh">由 Sky ☁️ 自动生成 · 数据来源：CNBC、新浪财经、东方财富、Barchart</span><span class="en" style="display:none">Auto-generated by Sky ☁️ · Sources: CNBC, Sina Finance, EastMoney, Barchart</span></p>
+</div>
+
+</div>
+
+<script>
+function switchLang(lang){
+  if(lang==='zh'){
+    document.querySelectorAll('.zh').forEach(e=>e.style.display='');
+    document.querySelectorAll('.en').forEach(e=>e.style.display='none');
+    document.getElementById('btn-zh').style.background='#333';
+    document.getElementById('btn-zh').style.color='#fff';
+    document.getElementById('btn-en').style.background='#222';
+    document.getElementById('btn-en').style.color='#aaa';
+  } else {
+    document.querySelectorAll('.zh').forEach(e=>e.style.display='none');
+    document.querySelectorAll('.en').forEach(e=>e.style.display='');
+    document.getElementById('btn-en').style.background='#333';
+    document.getElementById('btn-en').style.color='#fff';
+    document.getElementById('btn-zh').style.background='#222';
+    document.getElementById('btn-zh').style.color='#aaa';
+  }
+}
+</script>
+</body>
+</html>
