@@ -1,1 +1,5 @@
+# API配置（含密钥）
+src/config.js
+# OS
+.DS_Store
 .claude/

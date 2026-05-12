@@ -18,7 +18,7 @@
 
 window.MOJI_CONFIG = {
   // GLM API 配置
-  API_KEY: '6e26864f636e4383b18ac219da673a80.uXBWfkXLp7FcNyhI',
+  API_KEY: '', // 从环境变量注入
   API_URL: 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
   MODEL: 'glm-4-flash',
 
