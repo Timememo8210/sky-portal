@@ -431,7 +431,7 @@
         }
 
         // 检查总大小（base64字符串长度 ≈ 原始大小 * 1.37）
-        var totalSize = uploadedFiles.reduce(function(sum, f) { return sum + (f.dataUrl || f.content || '').length; }, 0);
+        var totalSize = uploadedFiles.reduce(function(sum, f) { return sum + (f.dataUrl || f.text || '').length; }, 0);
         if (totalSize > 4 * 1024 * 1024) {
           // 超限，移除刚添加的文件
           uploadedFiles.pop();
@@ -571,19 +571,17 @@
     // 有文本内容 → 可生成
     // 或者有上传的文本/PDF文件（自动合并为内容）→ 可生成
     var hasFileContent = uploadedFiles.some(function(f) { return f.category === 'text' || f.category === 'pdf'; });
-    var canGenerate = hasText || hasFileContent || uploadedFiles.length > 0;
+    var hasImages = uploadedFiles.some(function(f) { return f.category === 'image'; });
+    // 只有文字或文本文件才能生成；纯图片需要配合文字描述
+    var canGenerate = hasText || hasFileContent;
 
     genBtn.disabled = !canGenerate;
 
     if (hintEl) {
-      if (!canGenerate && uploadedFiles.length > 0 && !hasText) {
+      if (!canGenerate && hasImages) {
         // 有图片但没文字也没文本文件
-        if (uploadedFiles.every(function(f) { return f.category === 'image'; })) {
-          hintEl.textContent = '💡 请输入一些文字描述你的图片';
-          hintEl.style.display = 'block';
-        } else {
-          hintEl.style.display = 'none';
-        }
+        hintEl.textContent = '💡 请输入一些文字描述你的图片';
+        hintEl.style.display = 'block';
       } else {
         hintEl.style.display = 'none';
       }
@@ -618,6 +616,9 @@
         el.style.display = 'inline-block';
       });
     }
+
+    // 初始化按钮状态（防止浏览器autofill导致按钮灰色）
+    updateGenerateBtnState();
   }
 
   /* ========== 步骤指示器 ========== */
@@ -930,7 +931,9 @@
         var editor = $('#htmlCodeEditor');
         if (!editor || !editor.value) return;
 
-        currentFullHtml = sanitizeHtml(editor.value);
+        // 注意：此处不能用 sanitizeHtml() 清洗完整HTML页面——它会剥离<html>/<head>/<style>/<body>等标签
+        // sanitizeHtml 只应用于 AI 生成的 body 片段（startGeneration 中已处理）
+        currentFullHtml = editor.value;
         if (editor) editor.value = currentFullHtml;
 
         var iframe = $('#previewFrame');
