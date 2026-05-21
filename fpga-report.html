@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FPGA 产业深度研报 | FPGA Industry Deep Dive — Sky Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f8fb;
+    --card: #ffffff;
+    --ink: #1a1f36;
+    --ink-light: #4a5568;
+    --ink-dim: #8892a8;
+    --border: #e2e8f0;
+    --border-light: #edf2f7;
+    --accent: #2563eb;
+    --accent-light: #eff4ff;
+    --accent-dark: #1d4ed8;
+    --teal: #0891b2;
+    --teal-light: #e0f7fa;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+    --orange: #ea580c;
+    --orange-light: #fff7ed;
+    --red: #dc2626;
+    --red-light: #fef2f2;
+    --purple: #7c3aed;
+    --purple-light: #f3e8ff;
+    --amber: #d97706;
+    --amber-light: #fffbeb;
+    --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg); color: var(--ink);
+    line-height: 1.7; overflow-x: hidden;
+  }
+  body.lang-zh .en { display: none !important; }
+  body.lang-en .zh { display: none !important; }
+
+  .lang-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    display: flex; background: rgba(15,23,42,0.9); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; overflow: hidden;
+  }
+  .lang-toggle button {
+    padding: 6px 16px; border: none; background: transparent;
+    color: rgba(255,255,255,0.5); font-size: 0.78rem; cursor: pointer;
+    transition: all 0.25s; font-family: inherit; font-weight: 500;
+  }
+  .lang-toggle button.active { background: var(--accent); color: #fff; }
+
+  .back-link {
+    position: fixed; top: 16px; left: 16px; z-index: 9999;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; background: rgba(15,23,42,0.9); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 100px;
+    color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.8rem;
+    font-weight: 500; transition: all 0.3s;
+  }
+  .back-link:hover { background: var(--accent); color: #fff; }
+
+  /* HERO */
+  .hero {
+    background: var(--gradient-hero);
+    padding: 100px 40px 60px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 25% 50%, rgba(37,99,235,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 75% 30%, rgba(8,145,178,0.12) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 100px;
+    background: linear-gradient(transparent, var(--bg));
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    padding: 6px 18px; border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+    color: rgba(255,255,255,0.7); letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 24px; position: relative; z-index: 2;
+  }
+  .hero-badge .dot { width: 6px; height: 6px; background: #60a5fa; border-radius: 50%; animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .hero h1 {
+    font-weight: 800; font-size: clamp(2rem, 5vw, 3.2rem);
+    color: #fff; line-height: 1.2; margin-bottom: 16px;
+    position: relative; z-index: 2;
+  }
+  .hero h1 .accent { color: #60a5fa; }
+  .hero-sub {
+    color: rgba(255,255,255,0.55); font-size: 1rem; font-weight: 300;
+    max-width: 700px; margin: 0 auto; position: relative; z-index: 2;
+  }
+
+  /* LAYOUT */
+  .layout {
+    display: grid; grid-template-columns: 230px 1fr;
+    max-width: 1400px; margin: -40px auto 0; padding: 0 24px 60px;
+    gap: 32px; position: relative; z-index: 3;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: sticky; top: 80px; align-self: start;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px;
+    box-shadow: var(--shadow-sm); max-height: calc(100vh - 100px); overflow-y: auto;
+  }
+  .sidebar h3 {
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-dim); margin-bottom: 12px; font-weight: 600;
+  }
+  .sidebar a {
+    display: block; padding: 7px 12px; margin: 2px 0;
+    font-size: 0.8rem; color: var(--ink-light);
+    text-decoration: none; border-radius: 6px;
+    transition: all 0.2s; font-weight: 450;
+    border-left: 2px solid transparent;
+  }
+  .sidebar a:hover { background: var(--accent-light); color: var(--accent); border-left-color: var(--accent); }
+  .sidebar a.active { background: var(--accent-light); color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+  .sidebar .divider { height: 1px; background: var(--border-light); margin: 10px 0; }
+
+  /* CONTENT */
+  .content { min-width: 0; }
+  .section {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 32px;
+    margin-bottom: 24px; box-shadow: var(--shadow-sm);
+    scroll-margin-top: 80px;
+  }
+  .section h2 {
+    font-size: 1.3rem; font-weight: 700; margin-bottom: 20px;
+    padding-bottom: 12px; border-bottom: 2px solid var(--border-light);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section h2 .icon {
+    width: 32px; height: 32px; border-radius: 8px; display: flex;
+    align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;
+  }
+  .section h3 { font-size: 1.02rem; font-weight: 600; margin: 20px 0 10px; color: var(--ink); }
+  .section p { font-size: 0.9rem; color: var(--ink-light); margin-bottom: 12px; }
+  .section ul { padding-left: 20px; margin-bottom: 12px; }
+  .section li { font-size: 0.88rem; color: var(--ink-light); margin-bottom: 4px; }
+
+  /* TABLES */
+  .table-wrap { overflow-x: auto; margin: 16px 0; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  thead { background: #f8fafc; }
+  th {
+    text-align: left; padding: 10px 14px; font-weight: 600;
+    color: var(--ink); border-bottom: 2px solid var(--border);
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  td {
+    padding: 10px 14px; border-bottom: 1px solid var(--border-light);
+    color: var(--ink-light); vertical-align: top;
+  }
+  tbody tr:hover { background: #f8fafc; }
+  tbody tr:last-child td { border-bottom: none; }
+
+  /* TAGS */
+  .tag {
+    display: inline-block; padding: 2px 10px; border-radius: 100px;
+    font-size: 0.7rem; font-weight: 600; white-space: nowrap;
+  }
+  .tag-blue { background: var(--accent-light); color: var(--accent); }
+  .tag-green { background: var(--green-light); color: var(--green); }
+  .tag-orange { background: var(--orange-light); color: var(--orange); }
+  .tag-red { background: var(--red-light); color: var(--red); }
+  .tag-purple { background: var(--purple-light); color: var(--purple); }
+  .tag-teal { background: var(--teal-light); color: var(--teal); }
+  .tag-amber { background: var(--amber-light); color: var(--amber); }
+
+  /* STAT CARDS */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin: 16px 0; }
+  .stat-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 16px; text-align: center;
+  }
+  .stat-card .number { font-size: 1.6rem; font-weight: 800; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+  .stat-card .label { font-size: 0.73rem; color: var(--ink-dim); margin-top: 4px; font-weight: 500; }
+
+  /* CALLOUT */
+  .callout {
+    padding: 16px 20px; border-radius: var(--radius-sm);
+    margin: 16px 0; font-size: 0.88rem; line-height: 1.6;
+    border-left: 4px solid;
+  }
+  .callout-blue { background: var(--accent-light); border-color: var(--accent); }
+  .callout-orange { background: var(--orange-light); border-color: var(--orange); }
+  .callout-green { background: var(--green-light); border-color: var(--green); }
+  .callout-red { background: var(--red-light); border-color: var(--red); }
+
+  /* PROGRESS BAR */
+  .progress-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 0.82rem; }
+  .progress-label { width: 100px; font-weight: 500; flex-shrink: 0; }
+  .progress-bar { flex: 1; height: 22px; background: var(--border-light); border-radius: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.7rem; font-weight: 600; }
+  .fill-amd { background: linear-gradient(90deg, #dc2626, #f87171); }
+  .fill-intel { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+  .fill-lattice { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+  .fill-microchip { background: linear-gradient(90deg, #0891b2, #67e8f9); }
+  .fill-other { background: linear-gradient(90deg, #6b7280, #9ca3af); }
+
+  /* SOURCE */
+  .source {
+    font-size: 0.72rem; color: var(--ink-dim); margin-top: 8px;
+    padding-top: 8px; border-top: 1px solid var(--border-light); font-style: italic;
+  }
+  .source a { color: var(--accent); text-decoration: none; }
+  .source a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center; padding: 40px 24px; color: var(--ink-dim);
+    font-size: 0.82rem; border-top: 1px solid var(--border);
+    max-width: 1400px; margin: 0 auto;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 80px 20px 50px; }
+    .layout { padding: 0 12px 40px; }
+    .section { padding: 20px; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body class="lang-zh">
+
+<a href="index.html" class="back-link">&larr; Sky Portal</a>
+
+<div class="lang-toggle">
+  <button class="active" onclick="document.body.className='lang-zh';this.classList.add('active');this.nextElementSibling.classList.remove('active')">中文</button>
+  <button onclick="document.body.className='lang-en';this.classList.add('active');this.previousElementSibling.classList.remove('active')">EN</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge"><span class="dot"></span> INDUSTRY RESEARCH &middot; 2026</div>
+  <h1>
+    <span class="zh">FPGA 可编程逻辑 <span class="accent">产业深度研报</span></span>
+    <span class="en">FPGA Programmable Logic <span class="accent">Industry Deep Dive</span></span>
+  </h1>
+  <div class="hero-sub">
+    <span class="zh">AMD/Xilinx &middot; Intel/Altera &middot; 国防军工 &middot; 技术规格 &middot; 制程节点 &middot; 竞争格局 &middot; 未来路线</span>
+    <span class="en">AMD/Xilinx &middot; Intel/Altera &middot; Defense &amp; Aerospace &middot; Specs &middot; Process Nodes &middot; Competition &middot; Roadmap</span>
+  </div>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <h3><span class="zh">目录导航</span><span class="en">Navigation</span></h3>
+  <a href="#overview"><span class="zh">市场概况</span><span class="en">Market Overview</span></a>
+  <a href="#players"><span class="zh">竞争格局</span><span class="en">Competitive Landscape</span></a>
+  <a href="#amd"><span class="zh">AMD / Xilinx 详解</span><span class="en">AMD / Xilinx Deep Dive</span></a>
+  <a href="#altera"><span class="zh">Intel / Altera 详解</span><span class="en">Intel / Altera Deep Dive</span></a>
+  <div class="divider"></div>
+  <a href="#defense"><span class="zh">国防军工应用</span><span class="en">Defense &amp; Aerospace</span></a>
+  <a href="#specs"><span class="zh">技术规格对比</span><span class="en">Technical Specifications</span></a>
+  <a href="#process"><span class="zh">制程节点与代工</span><span class="en">Process Nodes &amp; Foundry</span></a>
+  <div class="divider"></div>
+  <a href="#reliability"><span class="zh">可靠性要求</span><span class="en">Reliability Requirements</span></a>
+  <a href="#die"><span class="zh">芯片尺寸与良率</span><span class="en">Die Size &amp; Yield</span></a>
+  <a href="#roadmap"><span class="zh">下一代路线图</span><span class="en">Next-Gen Roadmap</span></a>
+  <a href="#sources"><span class="zh">数据来源</span><span class="en">Sources</span></a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="content">
+
+<!-- 1. MARKET OVERVIEW -->
+<div class="section" id="overview">
+  <h2>
+    <span class="icon" style="background:var(--accent-light);color:var(--accent);">&#x1F4CA;</span>
+    <span class="zh">FPGA 全球市场概况</span><span class="en">FPGA Global Market Overview</span>
+  </h2>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="number">$13.8B</div>
+      <div class="label"><span class="zh">2025年市场规模</span><span class="en">2025 Market Size</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="number">$15.2B</div>
+      <div class="label"><span class="zh">2026年预测</span><span class="en">2026 Forecast</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="number">$25.7B</div>
+      <div class="label"><span class="zh">2031年预测</span><span class="en">2031 Forecast</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="number">11.7%</div>
+      <div class="label">CAGR (2025&rarr;2031)</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">$3.2B</div>
+      <div class="label"><span class="zh">军工航天市场 (2032)</span><span class="en">Def &amp; Aero (2032)</span></div>
+    </div>
+  </div>
+
+  <p>
+    <span class="zh">FPGA（现场可编程门阵列）是一种可在出厂后由用户配置逻辑功能的半导体器件。与ASIC不同，FPGA无需流片即可实现定制功能，适合<strong>小批量、高可靠性、快速迭代</strong>的应用场景。全球FPGA市场2025年约$138亿，预计2031年达$257亿。其中<strong>国防航天</strong>是增速最快的细分市场，2024年约$10.9亿，CAGR 17%，预计2032年突破$32亿。</span>
+    <span class="en">FPGAs (Field-Programmable Gate Arrays) are semiconductor devices whose logic can be configured by users after manufacturing. Unlike ASICs, FPGAs require no fabrication to implement custom functions, ideal for <strong>low-volume, high-reliability, rapid-iteration</strong> use cases. The global FPGA market was ~$13.8B in 2025, projected to reach $25.7B by 2031. <strong>Defense &amp; Aerospace</strong> is the fastest-growing segment with 17% CAGR, from $1.09B in 2024 to $3.2B by 2032.</span>
+  </p>
+
+  <h3><span class="zh">主要下游应用</span><span class="en">Key End Markets</span></h3>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">应用领域</span><span class="en">Segment</span></th>
+        <th><span class="zh">占比</span><span class="en">Share</span></th>
+        <th><span class="zh">典型用途</span><span class="en">Typical Uses</span></th>
+        <th>CAGR</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="zh">通信 &amp; 数据中心</span><span class="en">Telecom &amp; Data Center</span></td>
+        <td>~35%</td>
+        <td><span class="zh">5G基站、网络加速、SmartNIC</span><span class="en">5G base stations, network accel, SmartNIC</span></td>
+        <td>~10%</td>
+      </tr>
+      <tr>
+        <td><span class="zh">国防 &amp; 航天</span><span class="en">Defense &amp; Aerospace</span></td>
+        <td>~20%</td>
+        <td><span class="zh">雷达、电子战、导弹、卫星</span><span class="en">Radar, EW, missiles, satellites</span></td>
+        <td style="color:var(--red);font-weight:700;">17%</td>
+      </tr>
+      <tr>
+        <td><span class="zh">工业 &amp; 汽车</span><span class="en">Industrial &amp; Auto</span></td>
+        <td>~20%</td>
+        <td><span class="zh">机器视觉、ADAS、工控</span><span class="en">Machine vision, ADAS, automation</span></td>
+        <td>~12%</td>
+      </tr>
+      <tr>
+        <td><span class="zh">AI &amp; 计算加速</span><span class="en">AI &amp; Compute Accel</span></td>
+        <td>~10%</td>
+        <td><span class="zh">AI推理、SoC仿真/原型</span><span class="en">AI inference, SoC emulation/prototyping</span></td>
+        <td style="color:var(--green);font-weight:700;">~18%</td>
+      </tr>
+      <tr>
+        <td><span class="zh">消费电子 &amp; 其他</span><span class="en">Consumer &amp; Other</span></td>
+        <td>~15%</td>
+        <td><span class="zh">广播视频、医疗成像、测试</span><span class="en">Broadcast video, medical imaging, test</span></td>
+        <td>~6%</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="source">
+    Sources: <a href="https://www.marketsandmarkets.com/Market-Reports/fpga-market-194123367.html">MarketsandMarkets FPGA Report</a> &middot;
+    <a href="https://www.precedenceresearch.com/field-programmable-gate-array-market">Precedence Research FPGA Market</a> &middot;
+    <a href="https://www.mordorintelligence.com/industry-reports/field-programmable-gate-array-fpga-market">Mordor Intelligence</a>
+  </div>
+</div>
+
+<!-- 2. COMPETITIVE LANDSCAPE -->
+<div class="section" id="players">
+  <h2>
+    <span class="icon" style="background:var(--red-light);color:var(--red);">&#x1F3ED;</span>
+    <span class="zh">竞争格局 — 五大玩家</span><span class="en">Competitive Landscape — Five Key Players</span>
+  </h2>
+
+  <h3><span class="zh">高端FPGA市场份额 (2025)</span><span class="en">High-End FPGA Market Share (2025)</span></h3>
+
+  <div class="progress-row">
+    <span class="progress-label">AMD (Xilinx)</span>
+    <div class="progress-bar"><div class="progress-fill fill-amd" style="width:52%">~52%</div></div>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Intel (Altera)</span>
+    <div class="progress-bar"><div class="progress-fill fill-intel" style="width:33%">~33%</div></div>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Lattice</span>
+    <div class="progress-bar"><div class="progress-fill fill-lattice" style="width:6%">~6%</div></div>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label">Microchip</span>
+    <div class="progress-bar"><div class="progress-fill fill-microchip" style="width:5%">~5%</div></div>
+  </div>
+  <div class="progress-row">
+    <span class="progress-label"><span class="zh">其他</span><span class="en">Others</span></span>
+    <div class="progress-bar"><div class="progress-fill fill-other" style="width:4%">~4%</div></div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:20px;">
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>AMD (Xilinx)</th>
+        <th>Intel (Altera)</th>
+        <th>Lattice</th>
+        <th>Microchip</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><span class="zh">收购/关系</span><span class="en">Acquisition</span></strong></td>
+        <td><span class="zh">2022年AMD以$350亿收购Xilinx</span><span class="en">AMD acquired Xilinx for $35B in 2022</span></td>
+        <td><span class="zh">2025年Intel以$44.6亿出售51%股权给Silver Lake，独立运营</span><span class="en">Intel sold 51% to Silver Lake for $4.46B in 2025, now independent</span></td>
+        <td><span class="zh">独立上市公司 (LSCC)</span><span class="en">Independent public (LSCC)</span></td>
+        <td><span class="zh">2018年收购Microsemi</span><span class="en">Acquired Microsemi in 2018</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">营收 (FY2025)</span><span class="en">Revenue (FY2025)</span></strong></td>
+        <td>~$4.5B</td>
+        <td>$1.54B</td>
+        <td>~$530M</td>
+        <td><span class="zh">~$350M (FPGA部分)</span><span class="en">~$350M (FPGA segment)</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">核心产品线</span><span class="en">Key Products</span></strong></td>
+        <td>Versal (AI Core / Premium / HBM / RF), Kintex, Artix, Zynq, Alveo</td>
+        <td>Agilex 7/5, Stratix 10, Cyclone, eASIC</td>
+        <td>Nexus 2, CertusPro-NX, MachXO5-NX</td>
+        <td>PolarFire, IGLOO2, SmartFusion2, RTG4 (rad-hard)</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">定位</span><span class="en">Focus</span></strong></td>
+        <td><span class="zh">全谱：数据中心/AI/军工/通信/汽车</span><span class="en">Full spectrum: DC/AI/Defense/Telecom/Auto</span></td>
+        <td><span class="zh">数据中心/通信/嵌入式</span><span class="en">Data center/Telecom/Embedded</span></td>
+        <td><span class="zh">低功耗边缘AI/工业/汽车</span><span class="en">Low-power edge AI/Industrial/Auto</span></td>
+        <td><span class="zh">中端/军工航天/抗辐射</span><span class="en">Mid-range/Defense/Rad-hard</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">制程</span><span class="en">Process</span></strong></td>
+        <td>TSMC 7nm (Versal), 6nm (Gen 2)</td>
+        <td>Intel 7 (Agilex 7), Intel 5 (Agilex 5)</td>
+        <td>Samsung 28nm FD-SOI (Nexus)</td>
+        <td>28nm (PolarFire), 65nm (Rad-hard)</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">军工认证</span><span class="en">Mil-Grade</span></strong></td>
+        <td><span class="tag tag-red">XQ / XQR</span> MIL-STD-883 / QML</td>
+        <td><span class="tag tag-blue">Mil-Temp</span> -55&deg;C ~ +125&deg;C</td>
+        <td><span class="tag tag-purple"><span class="zh">有限</span><span class="en">Limited</span></span></td>
+        <td><span class="tag tag-green">RTG4 / RT PolarFire</span> QML Class Q</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout callout-blue">
+    <span class="zh"><strong>AMD + Xilinx 合并效应：</strong>AMD在2022年以$350亿完成收购后，Xilinx FPGA产品线与AMD EPYC CPU、Instinct GPU形成了"异构计算"协同。Alveo加速卡已集成至AMD数据中心生态，Versal ACAP（自适应计算加速平台）是目前最先进的FPGA架构。</span>
+    <span class="en"><strong>AMD + Xilinx Synergy:</strong> After AMD's $35B acquisition in 2022, Xilinx FPGAs form a "heterogeneous compute" synergy with AMD EPYC CPUs and Instinct GPUs. Alveo accelerator cards are integrated into AMD's data center ecosystem, and Versal ACAP (Adaptive Compute Acceleration Platform) is the most advanced FPGA architecture today.</span>
+  </div>
+
+  <div class="source">
+    Sources: <a href="https://pcbsync.com/xilinx/">PCBSync — AMD Xilinx Complete Guide</a> &middot;
+    <a href="https://www.tomshardware.com/tech-industry/intel-sells-51-percent-of-altera-fpga-business-to-silver-lake-for-usd4-46-billion">Tom's Hardware — Altera Sale</a> &middot;
+    <a href="https://www.intelmarketresearch.com/high-end-fpga-market-22568">High-End FPGA Market Outlook</a>
+  </div>
+</div>
+
+<!-- 3. AMD / XILINX DEEP DIVE -->
+<div class="section" id="amd">
+  <h2>
+    <span class="icon" style="background:var(--red-light);color:var(--red);">&#x1F534;</span>
+    <span class="zh">AMD / Xilinx 详解</span><span class="en">AMD / Xilinx Deep Dive</span>
+  </h2>
+
+  <h3><span class="zh">产品线全景</span><span class="en">Product Portfolio</span></h3>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">产品系列</span><span class="en">Family</span></th>
+        <th><span class="zh">定位</span><span class="en">Segment</span></th>
+        <th><span class="zh">逻辑单元</span><span class="en">Logic Cells</span></th>
+        <th><span class="zh">制程</span><span class="en">Process</span></th>
+        <th><span class="zh">特色</span><span class="en">Key Feature</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:var(--accent-light);">
+        <td><strong>Versal Premium VP1902</strong></td>
+        <td><span class="zh">旗舰/仿真</span><span class="en">Flagship/Emulation</span></td>
+        <td style="color:var(--accent);font-weight:700;">18.5M</td>
+        <td>TSMC 7nm</td>
+        <td><span class="zh">全球最大FPGA，4 chiplet，112G PAM4</span><span class="en">World's largest FPGA, 4 chiplets, 112G PAM4</span></td>
+      </tr>
+      <tr>
+        <td><strong>Versal AI Core</strong></td>
+        <td><span class="zh">AI加速</span><span class="en">AI Acceleration</span></td>
+        <td>900K ~ 3.7M</td>
+        <td>TSMC 7nm</td>
+        <td><span class="zh">AI Engine阵列，400个AI核心</span><span class="en">AI Engine array, 400 AI cores</span></td>
+      </tr>
+      <tr>
+        <td><strong>Versal Premium</strong></td>
+        <td><span class="zh">网络/数据中心</span><span class="en">Networking/DC</span></td>
+        <td>350K ~ 9M</td>
+        <td>TSMC 7nm</td>
+        <td><span class="zh">112G PAM4收发器，PCIe Gen5</span><span class="en">112G PAM4 transceivers, PCIe Gen5</span></td>
+      </tr>
+      <tr>
+        <td><strong>Versal HBM</strong></td>
+        <td><span class="zh">高带宽计算</span><span class="en">High-BW Compute</span></td>
+        <td>~1.9M</td>
+        <td>TSMC 7nm</td>
+        <td><span class="zh">集成HBM2e，460 GB/s带宽</span><span class="en">Integrated HBM2e, 460 GB/s bandwidth</span></td>
+      </tr>
+      <tr>
+        <td><strong>Versal RF</strong></td>
+        <td><span class="zh">射频/军事雷达</span><span class="en">RF / Military Radar</span></td>
+        <td>~500K</td>
+        <td>TSMC 7nm</td>
+        <td><span class="zh">集成RF-ADC/DAC，直接射频采样</span><span class="en">Integrated RF-ADC/DAC, direct RF sampling</span></td>
+      </tr>
+      <tr>
+        <td><strong>Versal Gen 2</strong></td>
+        <td><span class="zh">下一代</span><span class="en">Next-gen</span></td>
+        <td>643K ~ 1.5M</td>
+        <td style="color:var(--accent);font-weight:700;">TSMC 6nm (N6)</td>
+        <td><span class="zh">2026 H1样品；升级版AI Edge</span><span class="en">H1 2026 samples; upgraded AI Edge</span></td>
+      </tr>
+      <tr>
+        <td><strong>Kintex UltraScale+</strong></td>
+        <td><span class="zh">中高端</span><span class="en">Mid-High</span></td>
+        <td>356K ~ 1.1M</td>
+        <td>TSMC 16nm</td>
+        <td><span class="zh">性价比优，军工/通信主力</span><span class="en">Best value; defense/telecom workhorse</span></td>
+      </tr>
+      <tr>
+        <td><strong>Artix UltraScale+</strong></td>
+        <td><span class="zh">低功耗入门</span><span class="en">Low-power entry</span></td>
+        <td>~200K</td>
+        <td>TSMC 16nm</td>
+        <td><span class="zh">最低功耗UltraScale+</span><span class="en">Lowest power UltraScale+</span></td>
+      </tr>
+      <tr>
+        <td><strong>Zynq MPSoC/RFSoC</strong></td>
+        <td><span class="zh">异构SoC</span><span class="en">Heterogeneous SoC</span></td>
+        <td>~930K</td>
+        <td>TSMC 16nm</td>
+        <td><span class="zh">Arm A53 + FPGA + RF；电子战/5G</span><span class="en">Arm A53 + FPGA + RF; EW/5G</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout callout-orange">
+    <span class="zh"><strong>VP1902 = 全球最大FPGA：</strong>18.5M逻辑单元，~740亿晶体管，4个FPGA fabric chiplet通过NoC互连，封装在同一interposer上。支持160个高速收发器（32个112Gbps PAM4 + 128个32.75Gbps），16个PCIe Gen5。主要用于大型SoC仿真和原型验证，单芯片价格估计$50,000+。</span>
+    <span class="en"><strong>VP1902 = World's Largest FPGA:</strong> 18.5M logic cells, ~74B transistors, 4 FPGA fabric chiplets interconnected via NoC on one interposer. 160 high-speed transceivers (32x 112Gbps PAM4 + 128x 32.75Gbps), 16x PCIe Gen5. Primarily for large SoC emulation/prototyping, estimated $50,000+ per chip.</span>
+  </div>
+
+  <div class="source">
+    Sources: <a href="https://www.amd.com/en/products/adaptive-socs-and-fpgas/versal.html">AMD Versal Product Page</a> &middot;
+    <a href="https://www.servethehome.com/amd-vp1902-is-leviathan-fpga-doubling-the-previous-gen-largest-fpga/">ServeTheHome — VP1902</a> &middot;
+    <a href="https://www.eejournal.com/article/amd-rocks-with-new-versal-gen-2-ai-edge-soc-fpgas/">EEJournal — Versal Gen 2</a>
+  </div>
+</div>
+
+<!-- 4. INTEL / ALTERA -->
+<div class="section" id="altera">
+  <h2>
+    <span class="icon" style="background:var(--accent-light);color:var(--accent);">&#x1F535;</span>
+    <span class="zh">Intel / Altera 详解</span><span class="en">Intel / Altera Deep Dive</span>
+  </h2>
+
+  <p>
+    <span class="zh">Intel于2015年以$167亿收购Altera，但FPGA业务一直未达预期。2024年Altera营收$15.4亿，亏损$6.15亿。2025年Intel将51%股权以$44.6亿出售给Silver Lake，Altera重新独立运营，估值$87.5亿。</span>
+    <span class="en">Intel acquired Altera for $16.7B in 2015, but the FPGA business underperformed. In 2024, Altera posted $1.54B revenue with a $615M loss. In 2025, Intel sold 51% to Silver Lake for $4.46B, re-establishing Altera as an independent company valued at $8.75B.</span>
+  </p>
+
+  <h3><span class="zh">Altera 产品线</span><span class="en">Altera Product Portfolio</span></h3>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">产品系列</span><span class="en">Family</span></th>
+        <th><span class="zh">定位</span><span class="en">Segment</span></th>
+        <th><span class="zh">逻辑单元</span><span class="en">Logic Elements</span></th>
+        <th><span class="zh">制程</span><span class="en">Process</span></th>
+        <th><span class="zh">特色</span><span class="en">Key Feature</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Agilex 7 (F / I / M / R)</strong></td>
+        <td><span class="zh">高端</span><span class="en">High-end</span></td>
+        <td>~500K ~ 4.4M ALMs</td>
+        <td>Intel 7 (10nm ESF)</td>
+        <td><span class="zh">Hyperflex 2，CXL，PCIe Gen5</span><span class="en">Hyperflex 2, CXL, PCIe Gen5</span></td>
+      </tr>
+      <tr>
+        <td><strong>Agilex 5 (E / D)</strong></td>
+        <td><span class="zh">中端</span><span class="en">Mid-range</span></td>
+        <td>~50K ~ 620K ALMs</td>
+        <td>Intel 5</td>
+        <td><span class="zh">嵌入式/边缘AI；Arm硬核</span><span class="en">Embedded/Edge AI; Arm hard core</span></td>
+      </tr>
+      <tr>
+        <td><strong>Stratix 10</strong></td>
+        <td><span class="zh">旗舰（前代）</span><span class="en">Flagship (previous gen)</span></td>
+        <td>~10.2M LEs</td>
+        <td>Intel 14nm</td>
+        <td><span class="zh">最高58.4 Gbps收发器</span><span class="en">Up to 58.4 Gbps transceivers</span></td>
+      </tr>
+      <tr>
+        <td><strong>Cyclone V / 10</strong></td>
+        <td><span class="zh">低成本</span><span class="en">Low-cost</span></td>
+        <td>~25K ~ 301K LEs</td>
+        <td>28nm / 20nm</td>
+        <td><span class="zh">成本优化，量产型</span><span class="en">Cost-optimized, volume production</span></td>
+      </tr>
+      <tr>
+        <td><strong>eASIC</strong></td>
+        <td><span class="zh">结构化ASIC</span><span class="en">Structured ASIC</span></td>
+        <td>—</td>
+        <td><span class="zh">多节点</span><span class="en">Multi-node</span></td>
+        <td><span class="zh">FPGA原型 → ASIC量产桥梁</span><span class="en">FPGA prototype → ASIC bridge</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout callout-red">
+    <span class="zh"><strong>Altera的困境：</strong>自2013年选择Intel代工后，Altera在制程推进上持续落后于Xilinx/AMD。原因是Intel工厂优先给CPU排产，FPGA排在后面。而TSMC对任何愿意付费的客户开放最新制程。这导致Agilex系列在制程上始终比Versal落后约1代。独立后，Altera是否会转投TSMC是业界最大的悬念之一。</span>
+    <span class="en"><strong>Altera's Dilemma:</strong> Since choosing Intel foundry in 2013, Altera has consistently lagged Xilinx/AMD on process nodes — Intel prioritizes CPUs over FPGAs. TSMC, by contrast, offers latest nodes to any paying customer. This put Agilex about one generation behind Versal. Post-independence, whether Altera switches to TSMC is one of the biggest industry questions.</span>
+  </div>
+
+  <div class="source">
+    Sources: <a href="https://www.eetimes.com/the-state-of-the-fpga-union-is-uncertain/">EE Times — State of FPGA Union</a> &middot;
+    <a href="https://finance.yahoo.com/news/intel-targets-lower-spending-altera-091000351.html">Yahoo Finance — Intel Altera Sale</a> &middot;
+    <a href="https://www.microchipusa.com/manufacturer-articles/-fpga-platforms-in-2025-comparing-agilex-5-e-series-versal-gen-2-and-nexus-2">MicrochipUSA — FPGA Platforms 2025</a>
+  </div>
+</div>
+
+<!-- 5. DEFENSE & AEROSPACE -->
+<div class="section" id="defense">
+  <h2>
+    <span class="icon" style="background:var(--green-light);color:var(--green);">&#x1F6E1;</span>
+    <span class="zh">国防军工应用 — 核心市场</span><span class="en">Defense &amp; Aerospace — Core Market</span>
+  </h2>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="number">$1.09B</div>
+      <div class="label"><span class="zh">2024年军用FPGA市场</span><span class="en">2024 Military FPGA Market</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="number">$3.2B</div>
+      <div class="label"><span class="zh">2032年预测</span><span class="en">2032 Forecast</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="number">17%</div>
+      <div class="label">CAGR</div>
+    </div>
+  </div>
+
+  <h3><span class="zh">FPGA在军工中的具体应用</span><span class="en">FPGA Military Applications</span></h3>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">应用领域</span><span class="en">Application</span></th>
+        <th><span class="zh">最终产品</span><span class="en">End Products</span></th>
+        <th><span class="zh">典型FPGA</span><span class="en">Typical FPGA</span></th>
+        <th><span class="zh">关键需求</span><span class="en">Key Requirements</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><span class="zh">雷达系统</span><span class="en">Radar Systems</span></strong></td>
+        <td><span class="zh">AESA雷达 (F-35, F-22)、地面防空雷达、舰载雷达</span><span class="en">AESA radar (F-35, F-22), ground-based air defense, naval radar</span></td>
+        <td>Versal RF, Zynq RFSoC, Kintex UltraScale+</td>
+        <td><span class="zh">实时DSP、高采样率、低延迟</span><span class="en">Real-time DSP, high sample rate, low latency</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">电子战 (EW)</span><span class="en">Electronic Warfare</span></strong></td>
+        <td><span class="zh">威胁探测、信号干扰、频谱监控（如AN/ALQ-99）</span><span class="en">Threat detection, jamming, spectrum monitoring (e.g. AN/ALQ-99)</span></td>
+        <td>Versal AI Core, Zynq RFSoC</td>
+        <td><span class="zh">宽带频谱处理、可重配置、低功耗</span><span class="en">Wideband spectrum, reconfigurable, low power</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">导弹与弹药</span><span class="en">Missiles &amp; Munitions</span></strong></td>
+        <td><span class="zh">制导系统、引信、弹载计算（如JDAM、AIM-120）</span><span class="en">Guidance, fuzing, on-board compute (JDAM, AIM-120)</span></td>
+        <td>Artix, Spartan, Kintex (XQ grade)</td>
+        <td><span class="zh">极端温度、抗冲击、小尺寸、低成本</span><span class="en">Extreme temp, shock-resistant, small form, low cost</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">卫星通信</span><span class="en">Satellite Communications</span></strong></td>
+        <td><span class="zh">LEO/GEO通信卫星、GPS接收机、星载处理</span><span class="en">LEO/GEO satellites, GPS receivers, on-board processing</span></td>
+        <td>Kintex XQR (rad-hard), RT PolarFire</td>
+        <td><span class="zh">抗辐射 (SEU/TID)、在轨重编程、长寿命</span><span class="en">Radiation tolerance (SEU/TID), in-orbit reprogramming, longevity</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">军事航空电子</span><span class="en">Military Avionics</span></strong></td>
+        <td><span class="zh">飞行管理、传感器融合、座舱显示</span><span class="en">Flight management, sensor fusion, cockpit displays</span></td>
+        <td>Versal ACAP, Zynq (XQ grade)</td>
+        <td><span class="zh">DO-254认证、实时性、安全性</span><span class="en">DO-254 certification, real-time, safety</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">ISR (情报/监视/侦察)</span><span class="en">ISR (Intel/Surveillance/Recon)</span></strong></td>
+        <td><span class="zh">无人机载荷、光电/红外传感、信号情报</span><span class="en">UAV payloads, EO/IR sensors, SIGINT</span></td>
+        <td>Versal Premium, Zynq MPSoC</td>
+        <td><span class="zh">高吞吐量图像处理、边缘AI推理</span><span class="en">High-throughput image processing, edge AI inference</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3><span class="zh">主要军工客户</span><span class="en">Key Defense Customers</span></h3>
+  <p>
+    <span class="zh">Lockheed Martin (F-35雷达)、Raytheon/RTX (爱国者、AESA)、Northrop Grumman (B-21)、Boeing (F-15EX/卫星)、L3Harris (电子战)、General Dynamics (舰载系统)、BAE Systems、Thales、以及美国国防部 (DoD) 直接采购和NASA。</span>
+    <span class="en">Lockheed Martin (F-35 radar), Raytheon/RTX (Patriot, AESA), Northrop Grumman (B-21), Boeing (F-15EX/satellites), L3Harris (EW), General Dynamics (naval systems), BAE Systems, Thales, plus direct procurement by U.S. DoD and NASA.</span>
+  </p>
+
+  <div class="callout callout-green">
+    <span class="zh"><strong>为什么军工偏爱FPGA？</strong> (1) <strong>可重编程</strong>：雷达/电子战需要快速适应新威胁波形 (2) <strong>长生命周期</strong>：军事平台服役20-30年，FPGA可在原硬件上升级算法 (3) <strong>供应安全</strong>：ASIC需要百万级量产才经济，军用量小（通常数千~数万颗），FPGA成本合理 (4) <strong>安全性</strong>：Xilinx第4代Defense-Grade安全架构支持加密比特流和防篡改。</span>
+    <span class="en"><strong>Why does defense love FPGAs?</strong> (1) <strong>Reprogrammable</strong>: Radar/EW must quickly adapt to new threat waveforms (2) <strong>Long lifecycle</strong>: Military platforms serve 20-30 years; FPGAs can upgrade algorithms on existing hardware (3) <strong>Supply economics</strong>: ASICs need million-unit volumes; military volumes are 1K-10K units — FPGAs are cost-effective (4) <strong>Security</strong>: Xilinx 4th-gen Defense-Grade architecture supports encrypted bitstreams and tamper resistance.</span>
+  </div>
+
+  <div class="source">
+    Sources: <a href="https://semiconductorinsight.com/blog/amds-xilinx-versal-acaps-set-to-transform-military-avionics-with-ai-acceleration/">Semiconductor Insight — Versal ACAP Military Avionics</a> &middot;
+    <a href="https://www.xilinx.com/applications/aerospace-and-defense/missiles-and-munitions.html">AMD — Aerospace &amp; Defense Solutions</a> &middot;
+    <a href="https://militaryembedded.com/radar-ew/signal-processing/fourth-gen-secure-architecture-for-defense-grade-fpgas-and-socs-released-by-xilinx">MilEmbedded — 4th Gen Defense Architecture</a>
+  </div>
+</div>
+
+<!-- 6. TECHNICAL SPECIFICATIONS -->
+<div class="section" id="specs">
+  <h2>
+    <span class="icon" style="background:var(--teal-light);color:var(--teal);">&#x1F4D0;</span>
+    <span class="zh">主流FPGA平台技术规格对比 (2025-2026)</span><span class="en">FPGA Platform Specs Comparison (2025-2026)</span>
+  </h2>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">规格</span><span class="en">Spec</span></th>
+        <th>AMD Versal Premium</th>
+        <th>AMD Versal Gen 2</th>
+        <th>Altera Agilex 7</th>
+        <th>Altera Agilex 5</th>
+        <th>Lattice Nexus 2</th>
+        <th>Microchip PolarFire</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><span class="zh">制程</span><span class="en">Process</span></strong></td>
+        <td>TSMC 7nm</td>
+        <td style="color:var(--accent);font-weight:700;">TSMC 6nm</td>
+        <td>Intel 7</td>
+        <td>Intel 5</td>
+        <td>Samsung 28nm FD-SOI</td>
+        <td>28nm</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">最大逻辑</span><span class="en">Max Logic</span></strong></td>
+        <td>18.5M cells</td>
+        <td>1.5M LUTs</td>
+        <td>4.4M ALMs</td>
+        <td>620K ALMs</td>
+        <td>200K LUTs</td>
+        <td>481K LEs</td>
+      </tr>
+      <tr>
+        <td><strong>DSP</strong></td>
+        <td>14,128</td>
+        <td>7,616</td>
+        <td>11,520</td>
+        <td>3,564</td>
+        <td>816</td>
+        <td>1,480</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">收发器速率</span><span class="en">Transceiver</span></strong></td>
+        <td>112G PAM4 / 32.75G NRZ</td>
+        <td>32G NRZ</td>
+        <td>116G PAM4</td>
+        <td>28.3G</td>
+        <td>12.5G</td>
+        <td>12.7G</td>
+      </tr>
+      <tr>
+        <td><strong>PCIe</strong></td>
+        <td>Gen5 x16</td>
+        <td>Gen5</td>
+        <td>Gen5 x16, CXL 1.1</td>
+        <td>Gen4 x8</td>
+        <td>Gen3 x4</td>
+        <td>Gen2 x4</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">片上处理器</span><span class="en">On-chip CPU</span></strong></td>
+        <td>Arm A72 dual-core</td>
+        <td>Arm A78AE</td>
+        <td>Arm A53 quad-core</td>
+        <td>Arm A76 / A55</td>
+        <td>RISC-V</td>
+        <td>RISC-V</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">典型功耗</span><span class="en">Typical Power</span></strong></td>
+        <td>30-100W</td>
+        <td>10-40W</td>
+        <td>30-75W</td>
+        <td>5-30W</td>
+        <td>0.1-2W</td>
+        <td>1-5W</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">军工版本</span><span class="en">Mil-Grade</span></strong></td>
+        <td><span class="tag tag-red">XQ</span></td>
+        <td><span class="zh">规划中</span><span class="en">Planned</span></td>
+        <td><span class="tag tag-blue">Mil-Temp</span></td>
+        <td><span class="tag tag-blue">Mil-Temp</span></td>
+        <td>&mdash;</td>
+        <td><span class="tag tag-green">RT PolarFire</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="source">
+    Sources: <a href="https://www.amd.com/en/products/adaptive-socs-and-fpgas/versal/premium-series.html">AMD Versal Premium</a> &middot;
+    <a href="https://www.microchipusa.com/manufacturer-articles/-fpga-platforms-in-2025-comparing-agilex-5-e-series-versal-gen-2-and-nexus-2">FPGA Platforms 2025 Comparison</a>
+  </div>
+</div>
+
+<!-- 7. PROCESS NODE & FOUNDRY -->
+<div class="section" id="process">
+  <h2>
+    <span class="icon" style="background:var(--amber-light);color:var(--amber);">&#x2699;</span>
+    <span class="zh">制程节点与代工厂</span><span class="en">Process Nodes &amp; Foundry</span>
+  </h2>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">厂商</span><span class="en">Vendor</span></th>
+        <th><span class="zh">当前旗舰制程</span><span class="en">Current Flagship</span></th>
+        <th><span class="zh">代工厂</span><span class="en">Foundry</span></th>
+        <th><span class="zh">下一代制程</span><span class="en">Next-Gen Node</span></th>
+        <th><span class="zh">时间线</span><span class="en">Timeline</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>AMD (Xilinx)</strong></td>
+        <td>TSMC N7 (Versal)</td>
+        <td>TSMC</td>
+        <td style="color:var(--accent);font-weight:700;">TSMC N6 (Versal Gen 2)</td>
+        <td>2026 H1 <span class="zh">样品</span><span class="en">samples</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><span class="zh">TSMC N5/N4 (未确认)</span><span class="en">TSMC N5/N4 (unconfirmed)</span></td>
+        <td>2027-2028?</td>
+      </tr>
+      <tr>
+        <td><strong>Altera</strong></td>
+        <td>Intel 7 (Agilex 7)</td>
+        <td>Intel Foundry</td>
+        <td>Intel 5 (Agilex 5)</td>
+        <td><span class="zh">量产中</span><span class="en">In production</span></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><span class="zh">Intel或TSMC?</span><span class="en">Intel or TSMC?</span></td>
+        <td><span class="zh">Intel 4 / Intel 3 / TSMC?</span><span class="en">Intel 4 / Intel 3 / TSMC?</span></td>
+        <td>2027+</td>
+      </tr>
+      <tr>
+        <td><strong>Lattice</strong></td>
+        <td>Samsung 28nm FD-SOI</td>
+        <td>Samsung</td>
+        <td><span class="zh">Samsung 更先进节点</span><span class="en">Samsung advanced node</span></td>
+        <td>2026 (Nexus 2)</td>
+      </tr>
+      <tr>
+        <td><strong>Microchip</strong></td>
+        <td>28nm (PolarFire)</td>
+        <td><span class="zh">多家 (UMC/Global)</span><span class="en">Multi (UMC/Global)</span></td>
+        <td><span class="zh">16nm (传闻)</span><span class="en">16nm (rumored)</span></td>
+        <td>TBD</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout callout-blue">
+    <span class="zh"><strong>FPGA为何追不上手机/GPU的制程？</strong> FPGA的可编程逻辑天然面积大、利用率低（典型利用率仅60-80%），晶体管密度无法像GPU那样充分利用先进制程的密度优势。FPGA需要大量I/O和片上RAM，对制程的要求更偏向<strong>低功耗、高速I/O、宽金属层</strong>，而非纯密度。因此FPGA通常比GPU/CPU落后1-2代制程。</span>
+    <span class="en"><strong>Why do FPGAs lag GPU/CPU on process nodes?</strong> FPGA programmable logic inherently wastes area (typical utilization ~60-80%), so transistor density gains from advanced nodes aren't fully leveraged. FPGAs need massive I/O and on-chip RAM, prioritizing <strong>low power, high-speed I/O, and wide metal layers</strong> over raw density. FPGAs typically trail GPUs/CPUs by 1-2 process generations.</span>
+  </div>
+
+  <div class="source">
+    Sources: <a href="https://www.eejournal.com/article/amd-tweaks-versal-premium-fpgas-to-produce-next-generation-devices/">EEJournal — Versal Gen 2 N6</a> &middot;
+    <a href="https://www.eetasia.com/embeddednews-the-future-of-the-fpga-industry-is-murky/">EE Times Asia — Future of FPGA Industry</a>
+  </div>
+</div>
+
+<!-- 8. RELIABILITY -->
+<div class="section" id="reliability">
+  <h2>
+    <span class="icon" style="background:var(--orange-light);color:var(--orange);">&#x26A0;</span>
+    <span class="zh">军用FPGA可靠性要求</span><span class="en">Military FPGA Reliability Requirements</span>
+  </h2>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">标准/要求</span><span class="en">Standard</span></th>
+        <th><span class="zh">参数</span><span class="en">Parameter</span></th>
+        <th><span class="zh">规格</span><span class="en">Specification</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><span class="zh">温度范围</span><span class="en">Temperature Range</span></strong></td>
+        <td>MIL-STD-883 Class B</td>
+        <td><strong>-55&deg;C ~ +125&deg;C</strong> (<span class="zh">全范围参数测试</span><span class="en">full-range parametric testing</span>)</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">动态老化</span><span class="en">Burn-in</span></strong></td>
+        <td>MIL-STD-883 Class B</td>
+        <td>125&deg;C/160h <span class="zh">或</span><span class="en">or</span> 150&deg;C/80h</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">认证体系</span><span class="en">Qualification</span></strong></td>
+        <td>QML (Qualified Manufacturers List)</td>
+        <td><span class="zh">Class Q (航天) / Class V (最高等级)</span><span class="en">Class Q (space) / Class V (highest grade)</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">抗辐射 — 总剂量</span><span class="en">Radiation — TID</span></strong></td>
+        <td>Total Ionizing Dose</td>
+        <td><span class="zh">100 krad(Si)+ 对航天级</span><span class="en">100 krad(Si)+ for space-grade</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">抗辐射 — 单粒子</span><span class="en">Radiation — SEE</span></strong></td>
+        <td>Single Event Effects (SEU/SEL)</td>
+        <td><span class="zh">SEL免疫，SEU自动纠正（TMR/EDAC）</span><span class="en">SEL immune, SEU self-correcting (TMR/EDAC)</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">航空认证</span><span class="en">Avionics Cert</span></strong></td>
+        <td>DO-254 (Level A-D)</td>
+        <td><span class="zh">机载电子硬件设计保证</span><span class="en">Airborne electronic hardware design assurance</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">加密安全</span><span class="en">Crypto Security</span></strong></td>
+        <td>Xilinx 4th Gen Defense Arch</td>
+        <td><span class="zh">AES-256加密比特流、防篡改、PUF认证</span><span class="en">AES-256 encrypted bitstream, anti-tamper, PUF authentication</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">使用寿命</span><span class="en">Service Life</span></strong></td>
+        <td><span class="zh">军事平台要求</span><span class="en">Military platform requirement</span></td>
+        <td><strong>20-30 <span class="zh">年</span><span class="en">years</span></strong></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>
+    <span class="zh"><strong>最关键的要求排序：</strong> (1) 可靠性 &gt; (2) 安全性 &gt; (3) 长期供应保证 &gt; (4) 性能 &gt; (5) 功耗 &gt; (6) 成本。军用FPGA不追求最高速度，而是追求在极端环境下的<strong>确定性行为和零失效率</strong>。</span>
+    <span class="en"><strong>Priority ranking:</strong> (1) Reliability &gt; (2) Security &gt; (3) Long-term supply assurance &gt; (4) Performance &gt; (5) Power &gt; (6) Cost. Military FPGAs don't chase maximum speed — they demand <strong>deterministic behavior and zero field failures</strong> under extreme conditions.</span>
+  </p>
+
+  <div class="source">
+    Sources: <a href="https://www.microchip.com/en-us/products/fpgas-and-plds/reliability">Microchip — FPGA Reliability</a> &middot;
+    <a href="https://militaryembedded.com/radar-ew/rugged-computing/how-a-robust-fpga-supply-chain-assures-defense-industry-preparedness">MilEmbedded — FPGA Supply Chain</a>
+  </div>
+</div>
+
+<!-- 9. DIE SIZE & YIELD -->
+<div class="section" id="die">
+  <h2>
+    <span class="icon" style="background:var(--purple-light);color:var(--purple);">&#x1F9E9;</span>
+    <span class="zh">芯片尺寸、晶圆产出与产量</span><span class="en">Die Size, Wafer Yield &amp; Volume</span>
+  </h2>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">产品</span><span class="en">Product</span></th>
+        <th><span class="zh">制程</span><span class="en">Process</span></th>
+        <th><span class="zh">晶体管数</span><span class="en">Transistors</span></th>
+        <th><span class="zh">Die面积 (est.)</span><span class="en">Die Area (est.)</span></th>
+        <th><span class="zh">12&Prime;晶圆产出 (est.)</span><span class="en">Dies/Wafer (est.)</span></th>
+        <th><span class="zh">封装</span><span class="en">Package</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Versal VP1902</strong></td>
+        <td>7nm</td>
+        <td>~74B</td>
+        <td><span class="zh">4&times;~350mm&sup2; (chiplet)</span><span class="en">4&times;~350mm&sup2; (chiplet)</span></td>
+        <td><span class="zh">~80个chiplet</span><span class="en">~80 chiplets</span></td>
+        <td><span class="zh">Interposer 2&times;2阵列</span><span class="en">Interposer 2&times;2 array</span></td>
+      </tr>
+      <tr>
+        <td><strong>Versal AI Core VC1902</strong></td>
+        <td>7nm</td>
+        <td>37B</td>
+        <td>~800mm&sup2;</td>
+        <td>~55</td>
+        <td>35&times;35mm FCBGA</td>
+      </tr>
+      <tr>
+        <td><strong>Kintex UltraScale+ KU15P</strong></td>
+        <td>16nm</td>
+        <td>~15B</td>
+        <td>~500mm&sup2;</td>
+        <td>~100</td>
+        <td>BGA</td>
+      </tr>
+      <tr>
+        <td><strong>Agilex 7 (largest)</strong></td>
+        <td>Intel 7</td>
+        <td>~30B</td>
+        <td>~700mm&sup2;</td>
+        <td>~65</td>
+        <td>FBGA</td>
+      </tr>
+      <tr>
+        <td><strong>Artix-7 35T</strong></td>
+        <td>28nm</td>
+        <td>~1B</td>
+        <td>~30mm&sup2;</td>
+        <td>~2000</td>
+        <td>CSG324</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3><span class="zh">年产量需求估算</span><span class="en">Annual Volume Estimates</span></h3>
+  <p>
+    <span class="zh">FPGA整体年产量远低于CPU/GPU/DRAM。整个FPGA市场约$138亿/年，平均单价从$5（低端Spartan/Cyclone）到$50,000+（VP1902旗舰），典型军用中高端FPGA单价$500-$5,000。</span>
+    <span class="en">FPGA annual volume is far lower than CPU/GPU/DRAM. The entire FPGA market is ~$13.8B/year, with ASPs from $5 (low-end Spartan/Cyclone) to $50,000+ (VP1902 flagship). Typical military mid/high-end FPGAs are $500-$5,000 each.</span>
+  </p>
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">市场</span><span class="en">Segment</span></th>
+        <th><span class="zh">年需求量 (est.)</span><span class="en">Annual Volume (est.)</span></th>
+        <th><span class="zh">单价范围</span><span class="en">ASP Range</span></th>
+        <th><span class="zh">备注</span><span class="en">Notes</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="zh">低端消费/工业</span><span class="en">Low-end Consumer/Industrial</span></td>
+        <td><span class="zh">数亿颗</span><span class="en">Hundreds of millions</span></td>
+        <td>$1 ~ $30</td>
+        <td>Artix, Spartan, Cyclone, Lattice</td>
+      </tr>
+      <tr>
+        <td><span class="zh">中端通信/数据中心</span><span class="en">Mid-range Telecom/DC</span></td>
+        <td><span class="zh">数百万颗</span><span class="en">Millions</span></td>
+        <td>$100 ~ $2,000</td>
+        <td>Kintex, Agilex 5, PolarFire</td>
+      </tr>
+      <tr>
+        <td><span class="zh">高端AI/旗舰</span><span class="en">High-end AI/Flagship</span></td>
+        <td><span class="zh">数万~十万颗</span><span class="en">Tens of thousands</span></td>
+        <td>$2,000 ~ $50,000+</td>
+        <td>Versal Premium, Agilex 7</td>
+      </tr>
+      <tr style="background:var(--green-light);">
+        <td><strong><span class="zh">军用/航天</span><span class="en">Military/Space</span></strong></td>
+        <td><strong><span class="zh">数千~数万颗</span><span class="en">Thousands to tens of K</span></strong></td>
+        <td><strong>$500 ~ $20,000</strong></td>
+        <td><span class="zh">XQ/XQR版本；单个武器型号~几百颗</span><span class="en">XQ/XQR grade; ~100s per weapon program</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="source">
+    Sources: <a href="https://www.microchipusa.com/industry-news/amd-unveils-revolutionary-vp1902">MicrochipUSA — VP1902</a> &middot;
+    <a href="https://www.cnx-software.com/2023/06/28/amd-versal-premium-vp1902-fpga-soc-provides-18-5m-logic-cells-for-soc-emulation-and-prototyping/">CNX Software — VP1902</a>
+  </div>
+</div>
+
+<!-- 10. NEXT-GEN ROADMAP -->
+<div class="section" id="roadmap">
+  <h2>
+    <span class="icon" style="background:var(--teal-light);color:var(--teal);">&#x1F52D;</span>
+    <span class="zh">下一代路线图 (2026-2030)</span><span class="en">Next-Gen Roadmap (2026-2030)</span>
+  </h2>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">时间</span><span class="en">Timeline</span></th>
+        <th>AMD (Xilinx)</th>
+        <th>Altera</th>
+        <th>Lattice</th>
+        <th>Microchip</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>2026</strong></td>
+        <td><span class="zh">Versal Gen 2 (N6) 样品；AI Edge增强</span><span class="en">Versal Gen 2 (N6) samples; AI Edge enhanced</span></td>
+        <td><span class="zh">Agilex 5 全面量产；独立运营首年</span><span class="en">Agilex 5 full ramp; first year independent</span></td>
+        <td><span class="zh">Nexus 2 量产；"Year of Nexus"</span><span class="en">Nexus 2 production; "Year of Nexus"</span></td>
+        <td><span class="zh">PolarFire 2 (传闻16nm)</span><span class="en">PolarFire 2 (rumored 16nm)</span></td>
+      </tr>
+      <tr>
+        <td><strong>2027</strong></td>
+        <td><span class="zh">Versal Gen 2 量产；下一代ACAP架构定义</span><span class="en">Versal Gen 2 production; next-gen ACAP definition</span></td>
+        <td><span class="zh">下一代Agilex (N5/TSMC?)</span><span class="en">Next-gen Agilex (N5/TSMC?)</span></td>
+        <td><span class="zh">更大容量Nexus</span><span class="en">Larger Nexus devices</span></td>
+        <td><span class="zh">PolarFire继续迭代</span><span class="en">PolarFire iteration</span></td>
+      </tr>
+      <tr style="background:var(--accent-light);">
+        <td><strong>2028-2030</strong></td>
+        <td><span class="zh"><strong>TSMC N4/N3?</strong> AI/FPGA融合架构；chiplet 2.0</span><span class="en"><strong>TSMC N4/N3?</strong> AI/FPGA convergence; chiplet 2.0</span></td>
+        <td><span class="zh"><strong>代工选择成关键</strong>；可能IPO</span><span class="en"><strong>Foundry choice decisive</strong>; potential IPO</span></td>
+        <td><span class="zh">可能升级到14nm/7nm</span><span class="en">Potential 14nm/7nm upgrade</span></td>
+        <td><span class="zh">RT PolarFire下一代</span><span class="en">Next-gen RT PolarFire</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3><span class="zh">关键技术趋势</span><span class="en">Key Technology Trends</span></h3>
+  <ul>
+    <li><span class="zh"><strong>Chiplet化</strong>：VP1902已使用4-chiplet架构。未来FPGA将进一步模块化，不同功能（逻辑、DSP、AI、I/O）分别用最适合的制程制造</span><span class="en"><strong>Chiplet architecture</strong>: VP1902 already uses 4-chiplet design. Future FPGAs will further modularize logic, DSP, AI, and I/O across optimal process nodes</span></li>
+    <li><span class="zh"><strong>AI集成加深</strong>：Versal ACAP的AI Engine已证明FPGA+AI的可行性。下一代将集成更多专用AI加速单元</span><span class="en"><strong>Deeper AI integration</strong>: Versal ACAP's AI Engine proved FPGA+AI viability. Next-gen will integrate more dedicated AI accelerator blocks</span></li>
+    <li><span class="zh"><strong>RISC-V替代Arm</strong>：Lattice和Microchip已采用RISC-V硬核。开源ISA降低授权成本，对军工供应安全也有好处</span><span class="en"><strong>RISC-V replacing Arm</strong>: Lattice and Microchip already use RISC-V hard cores. Open ISA reduces licensing cost and improves defense supply security</span></li>
+    <li><span class="zh"><strong>eFPGA IP</strong>：QuickLogic等公司提供可嵌入ASIC的FPGA IP核，实现ASIC量产 + FPGA灵活性的结合</span><span class="en"><strong>eFPGA IP</strong>: QuickLogic and others offer FPGA IP blocks embeddable into ASICs, combining ASIC volume economics with FPGA flexibility</span></li>
+    <li><span class="zh"><strong>制程追赶</strong>：AMD的Versal Gen 2转向N6是第一步，业界预计2028-2030年高端FPGA将进入5nm/3nm时代</span><span class="en"><strong>Process catch-up</strong>: AMD's Versal Gen 2 moving to N6 is step one; industry expects high-end FPGAs to reach 5nm/3nm by 2028-2030</span></li>
+    <li><span class="zh"><strong>国产替代</strong>：中国高云半导体（Gowin）、紫光同创、安路科技等在28nm以上节点追赶，但高端受制裁限制，与AMD/Altera差距仍在2-3代</span><span class="en"><strong>China domestic</strong>: Gowin, UNISOC FPGA, Anlogic etc. competing at 28nm+ nodes, but high-end constrained by sanctions — still 2-3 generations behind AMD/Altera</span></li>
+  </ul>
+
+  <div class="source">
+    Sources: <a href="https://www.fpgakey.com/technology/details/fpga-industry-trends-news-2025-altera-amd-lattice">FPGAKey — FPGA Renaissance 2025</a> &middot;
+    <a href="https://www.eejournal.com/article/amd-rocks-with-new-versal-gen-2-ai-edge-soc-fpgas/">EEJournal — Versal Gen 2</a>
+  </div>
+</div>
+
+<!-- 11. SOURCES -->
+<div class="section" id="sources">
+  <h2>
+    <span class="icon" style="background:var(--bg);color:var(--ink-dim);">&#x1F4CE;</span>
+    <span class="zh">主要数据来源</span><span class="en">Key Data Sources</span>
+  </h2>
+  <ul style="font-size:0.82rem;line-height:2;">
+    <li><a href="https://www.marketsandmarkets.com/Market-Reports/fpga-market-194123367.html">MarketsandMarkets — FPGA Market Report 2025-2030</a></li>
+    <li><a href="https://www.precedenceresearch.com/field-programmable-gate-array-market">Precedence Research — FPGA Market Size to $27.4B by 2035</a></li>
+    <li><a href="https://www.mordorintelligence.com/industry-reports/field-programmable-gate-array-fpga-market">Mordor Intelligence — FPGA Market 2025-2031</a></li>
+    <li><a href="https://pcbsync.com/xilinx/">PCBSync — AMD Xilinx Complete Guide 2026</a></li>
+    <li><a href="https://www.tomshardware.com/tech-industry/intel-sells-51-percent-of-altera-fpga-business-to-silver-lake-for-usd4-46-billion">Tom's Hardware — Intel Sells 51% of Altera</a></li>
+    <li><a href="https://www.servethehome.com/amd-vp1902-is-leviathan-fpga-doubling-the-previous-gen-largest-fpga/">ServeTheHome — AMD VP1902 Leviathan FPGA</a></li>
+    <li><a href="https://www.microchipusa.com/manufacturer-articles/-fpga-platforms-in-2025-comparing-agilex-5-e-series-versal-gen-2-and-nexus-2">MicrochipUSA — FPGA Platforms 2025 Comparison</a></li>
+    <li><a href="https://semiconductorinsight.com/blog/amds-xilinx-versal-acaps-set-to-transform-military-avionics-with-ai-acceleration/">Semiconductor Insight — Versal ACAP Military Avionics</a></li>
+    <li><a href="https://www.xilinx.com/applications/aerospace-and-defense/missiles-and-munitions.html">AMD — Aerospace & Defense Applications</a></li>
+    <li><a href="https://www.eetimes.com/the-state-of-the-fpga-union-is-uncertain/">EE Times — State of the FPGA Union</a></li>
+    <li><a href="https://www.fpgakey.com/technology/details/fpga-industry-trends-news-2025-altera-amd-lattice">FPGAKey — FPGA Industry Trends 2025</a></li>
+    <li><a href="https://www.microchip.com/en-us/products/fpgas-and-plds/radiation-tolerant-fpgas">Microchip — Radiation-Tolerant FPGAs</a></li>
+  </ul>
+</div>
+
+</main>
+</div>
+
+<div class="footer">
+  <span class="zh">FPGA 产业深度研报 &middot; 数据截至 2026年5月 &middot; 重大决策请结合最新一手数据验证</span>
+  <span class="en">FPGA Industry Deep Dive &middot; Data as of May 2026 &middot; Verify with primary sources for critical decisions</span>
+  <br><br>
+  <a href="index.html">&#x2601; Sky Portal</a> &middot;
+  <span class="zh">页面创建 2026-05-20</span>
+  <span class="en">Page created 2026-05-20</span>
+</div>
+
+<!-- SIDEBAR SCROLL SPY -->
+<script>
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('.sidebar a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const active = document.querySelector('.sidebar a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
