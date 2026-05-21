@@ -269,8 +269,8 @@
     <span class="en">HBM High Bandwidth Memory <span class="accent">Deep Dive</span></span>
   </h1>
   <div class="hero-sub">
-    <span class="zh">市场格局 · 技术路线 · Base Die制程 · 封装演进 · 竞争态势</span>
-    <span class="en">Market Landscape · Technology Roadmap · Base Die Nodes · Packaging Evolution · Competitive Dynamics</span>
+    <span class="zh">市场格局 · 技术路线 · Base Die制程 · 封装演进 · 竞争态势 · HBM5路线图</span>
+    <span class="en">Market Landscape · Technology Roadmap · Base Die Nodes · Packaging Evolution · Competitive Dynamics · HBM5 Roadmap</span>
   </div>
 </div>
 
@@ -321,14 +321,14 @@
       <div class="label"><span class="zh">2028年预测</span><span class="en">2028 Forecast</span></div>
     </div>
     <div class="stat-card">
-      <div class="number">~40%</div>
-      <div class="label"><span class="zh">CAGR (2025→2028)</span><span class="en">CAGR (2025→2028)</span></div>
+      <div class="number">$160B+</div>
+      <div class="label"><span class="zh">2030年预测（含HBM5）</span><span class="en">2030 Forecast (incl. HBM5)</span></div>
     </div>
   </div>
 
   <p>
     <span class="zh">HBM市场正经历爆发式增长。2025年需求同比增长130%，2026年预计继续增长70%。Bank of America预测2026年HBM市场规模将达到<strong>$54.6B</strong>，较上一年增长58%。到2028年，市场TAM预计突破<strong>$1000亿</strong>。所有主要供应商（SK海力士、三星、美光）的HBM产能已经预售至2026年底。</span>
-    <span class="en">The HBM market is experiencing explosive growth. Demand grew 130% YoY in 2025, with a projected 70% YoY growth in 2026. Bank of America forecasts the 2026 HBM market at <strong>$54.6B</strong>, a 58% increase from the prior year. By 2028, the market TAM is projected to exceed <strong>$100 billion</strong>. All major suppliers (SK Hynix, Samsung, Micron) have sold out HBM capacity through 2026.</span>
+    <span class="en">The HBM market is experiencing explosive growth. Demand grew 130% YoY in 2025, with a projected 70% YoY growth in 2026. Bank of America forecasts the 2026 HBM market at <strong>$54.6B</strong>, a 58% increase from the prior year. By 2028, the market TAM is projected to exceed <strong>$100 billion</strong>. With HBM5 entering mass production in 2029, the market is forecast to surpass <strong>$160 billion by 2030</strong>. All major suppliers (SK Hynix, Samsung, Micron) have sold out HBM capacity through 2026.</span>
   </p>
 
   <div class="callout callout-blue">
@@ -406,6 +406,12 @@
         <td><span class="zh">未公开</span><span class="en">Not disclosed</span></td>
         <td><span class="zh">低于SK Hynix（12层堆叠认证曾遇困难）</span><span class="en">Below SK Hynix (12-hi stack qualification challenges)</span></td>
       </tr>
+      <tr style="background:var(--purple-light);">
+        <td><strong>HBM5</strong></td>
+        <td><span class="zh">2029-2031路线图；含HBM5、HBM5E、Custom HBM5</span><span class="en">2029-2031 roadmap; HBM5, HBM5E, Custom HBM5</span></td>
+        <td><span class="zh">新加坡$70亿封装厂2027年量产，为HBM5做准备</span><span class="en">$7B Singapore packaging plant 2027, preparing for HBM5</span></td>
+        <td><span class="zh">预计2029年；P5晶圆厂2028年投产</span><span class="en">Expected 2029; P5 fab production 2028</span></td>
+      </tr>
     </tbody>
   </table>
   </div>
@@ -442,6 +448,7 @@
         <th>HBM3E</th>
         <th>HBM4</th>
         <th>HBM4E</th>
+        <th style="background:var(--purple-light);color:var(--purple);">HBM5</th>
       </tr>
     </thead>
     <tbody>
@@ -454,6 +461,7 @@
         <td>2024</td>
         <td>2026</td>
         <td>2027</td>
+        <td style="color:var(--purple);font-weight:700;">2029</td>
       </tr>
       <tr>
         <td><strong>JEDEC</strong></td>
@@ -464,6 +472,7 @@
         <td>JESD235C+</td>
         <td>JESD235D</td>
         <td><span class="zh">制定中</span><span class="en">TBD</span></td>
+        <td><span class="zh">JC-42.2制定中</span><span class="en">JC-42.2 in progress</span></td>
       </tr>
       <tr>
         <td><strong><span class="zh">接口宽度</span><span class="en">Interface</span></strong></td>
@@ -474,6 +483,7 @@
         <td>1024-bit</td>
         <td style="color:var(--blue);font-weight:700;">2048-bit</td>
         <td style="color:var(--blue);font-weight:700;">2048-bit</td>
+        <td style="color:var(--purple);font-weight:700;">4096-bit</td>
       </tr>
       <tr>
         <td><strong><span class="zh">每Pin速率</span><span class="en">Pin Rate</span></strong></td>
@@ -484,6 +494,7 @@
         <td>9.2-9.8 Gb/s</td>
         <td>6.4-12.8 Gb/s</td>
         <td>>10 Gb/s</td>
+        <td style="color:var(--purple);font-weight:700;">~8 Gb/s</td>
       </tr>
       <tr>
         <td><strong><span class="zh">带宽/Stack</span><span class="en">BW/Stack</span></strong></td>
@@ -494,6 +505,7 @@
         <td>1.2 TB/s</td>
         <td style="color:var(--blue);font-weight:700;">2.0-3.3 TB/s</td>
         <td style="color:var(--blue);font-weight:700;">~3+ TB/s</td>
+        <td style="color:var(--purple);font-weight:700;">~4 TB/s</td>
       </tr>
       <tr>
         <td><strong><span class="zh">容量/Stack</span><span class="en">Cap/Stack</span></strong></td>
@@ -504,6 +516,7 @@
         <td>24-36 GB</td>
         <td>36-64 GB</td>
         <td><span class="zh">最高96 GB</span><span class="en">Up to 96 GB</span></td>
+        <td style="color:var(--purple);font-weight:700;"><span class="zh">最高80 GB</span><span class="en">Up to 80 GB</span></td>
       </tr>
       <tr>
         <td><strong><span class="zh">堆叠层数</span><span class="en">Stack Height</span></strong></td>
@@ -514,6 +527,7 @@
         <td>8/12-Hi</td>
         <td style="color:var(--blue);font-weight:700;">12/16-Hi</td>
         <td style="color:var(--blue);font-weight:700;">16-Hi</td>
+        <td style="color:var(--purple);font-weight:700;">16/20-Hi</td>
       </tr>
       <tr>
         <td><strong><span class="zh">通道数</span><span class="en">Channels</span></strong></td>
@@ -524,6 +538,7 @@
         <td>16</td>
         <td>32</td>
         <td>32</td>
+        <td style="color:var(--purple);font-weight:700;">64</td>
       </tr>
       <tr>
         <td><strong>Vdd</strong></td>
@@ -534,6 +549,24 @@
         <td>1.1V</td>
         <td>0.8-1.05V</td>
         <td>0.75V</td>
+        <td style="color:var(--purple);font-weight:700;">~0.7V</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">功耗/Stack</span><span class="en">Power/Stack</span></strong></td>
+        <td>~10W</td>
+        <td>~15W</td>
+        <td>~20W</td>
+        <td>~25W</td>
+        <td>~25W</td>
+        <td>~35W</td>
+        <td>~42W</td>
+        <td style="color:var(--red);font-weight:700;">~100W</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">散热</span><span class="en">Cooling</span></strong></td>
+        <td colspan="5"><span class="zh">风冷</span><span class="en">Air cooling</span></td>
+        <td colspan="2"><span class="zh">液冷推荐</span><span class="en">Liquid cooling recommended</span></td>
+        <td style="color:var(--red);font-weight:700;"><span class="zh">浸没式液冷</span><span class="en">Immersion cooling</span></td>
       </tr>
       <tr>
         <td><strong><span class="zh">状态</span><span class="en">Status</span></strong></td>
@@ -544,14 +577,15 @@
         <td><span class="tag tag-green">Production</span></td>
         <td><span class="tag tag-blue">Ramp-up</span></td>
         <td><span class="tag tag-teal">Development</span></td>
+        <td><span class="tag tag-purple">Roadmap 2029</span></td>
       </tr>
     </tbody>
   </table>
   </div>
 
   <div class="callout callout-green">
-    <span class="zh">🔑 <strong>关键变化：</strong>HBM4是架构性升级 — 接口宽度从1024-bit翻倍到2048-bit，通道数从16增到32，伪通道从32增到64。这不仅是速度的提升，更是内存子系统的根本重构。</span>
-    <span class="en">🔑 <strong>Key Shift:</strong> HBM4 is an architectural upgrade — interface doubles from 1024 to 2048-bit, channels from 16 to 32, pseudo-channels from 32 to 64. This isn't just faster — it's a fundamental restructuring of the memory subsystem.</span>
+    <span class="zh">🔑 <strong>关键变化：</strong>HBM4是架构性升级 — 接口从1024→2048-bit，通道从16→32。而<strong>HBM5将再次翻倍至4096-bit/64通道</strong>，带宽达~4TB/s，功耗飙至100W/stack，首次需要浸没式液冷。每一代都是内存子系统的根本重构。</span>
+    <span class="en">🔑 <strong>Key Shift:</strong> HBM4 doubles the interface from 1024→2048-bit, channels from 16→32. <strong>HBM5 doubles again to 4096-bit/64 channels</strong>, reaching ~4TB/s bandwidth with 100W/stack power — requiring immersion cooling for the first time. Each generation fundamentally restructures the memory subsystem.</span>
   </div>
 
   <div class="source">
@@ -593,7 +627,18 @@
         <td><strong>288 GB</strong></td><td><strong>13 TB/s</strong></td><td><strong>H2 2026</strong></td>
       </tr>
       <tr><td>AMD MI300X</td><td>CDNA 3</td><td><span class="tag tag-green">HBM3E</span></td><td>192 GB</td><td>5.3 TB/s</td><td>2024</td></tr>
+      <tr><td>AMD MI400</td><td>CDNA 4</td><td><span class="tag tag-teal">HBM4</span></td><td>432 GB</td><td>19.6 TB/s</td><td>2027</td></tr>
       <tr><td>Google TPU v5p</td><td>—</td><td><span class="tag tag-green">HBM3E</span></td><td>96 GB</td><td>4.8 TB/s</td><td>2024</td></tr>
+      <tr style="background:var(--purple-light);">
+        <td><strong>NVIDIA Feynman</strong></td><td><span class="zh">下一代</span><span class="en">Next-gen</span></td>
+        <td><span class="tag tag-purple"><strong>HBM5</strong></span></td>
+        <td><strong>TBD</strong></td><td><strong>TBD</strong></td><td><strong>2029</strong></td>
+      </tr>
+      <tr style="background:var(--purple-light);">
+        <td><strong>AMD MI500</strong></td><td>CDNA 5</td>
+        <td><span class="tag tag-purple"><strong>HBM5</strong></span></td>
+        <td><strong>TBD</strong></td><td><strong>TBD</strong></td><td><strong>2029</strong></td>
+      </tr>
     </tbody>
   </table>
   </div>
@@ -664,6 +709,14 @@
         <td><strong>0.75V</strong></td>
         <td><span class="zh"><strong>定制版：NVIDIA / 客户设计</strong></span><span class="en"><strong>Custom: NVIDIA / customer designed</strong></span></td>
         <td><span class="zh">C-HBM4E：客户定制base die，可集成部分GPU功能</span><span class="en">C-HBM4E: customer-designed base die, can integrate GPU functions</span></td>
+      </tr>
+      <tr style="background:var(--purple-light);">
+        <td><strong>HBM5</strong></td>
+        <td><strong>TSMC N2 / A14 (2nm)</strong></td>
+        <td><strong>TSMC</strong></td>
+        <td><strong>~0.7V</strong></td>
+        <td><span class="zh"><strong>客户定制为主（NVIDIA、Google等）</strong></span><span class="en"><strong>Primarily customer-designed (NVIDIA, Google, etc.)</strong></span></td>
+        <td><span class="zh">4096-bit接口需要更先进制程；预计全面定制化；JEDEC或放宽厚度至825-900μm以支持20-Hi</span><span class="en">4096-bit interface demands advanced nodes; expected fully custom; JEDEC may relax thickness to 825-900μm for 20-Hi</span></td>
       </tr>
     </tbody>
   </table>
@@ -769,6 +822,11 @@
         <td>2028+</td>
         <td><span class="zh">所有HBM base die由NVIDIA设计，无论使用哪家内存</span><span class="en">All HBM base dies NVIDIA-designed, regardless of memory vendor</span></td>
       </tr>
+      <tr style="background:var(--purple-light);">
+        <td><strong><span class="zh">HBM5 · Feynman</span><span class="en">HBM5 · Feynman</span></strong></td>
+        <td>2029</td>
+        <td><span class="zh"><strong>NVIDIA Feynman架构</strong>首款HBM5 GPU；4096-bit接口；base die预计TSMC N2制程；全定制设计</span><span class="en"><strong>NVIDIA Feynman architecture</strong> — first HBM5 GPU; 4096-bit interface; base die expected TSMC N2; fully custom designed</span></td>
+      </tr>
     </tbody>
   </table>
   </div>
@@ -842,11 +900,18 @@
         <td><span class="zh"><strong>SK Hynix确认HBM4仍用MR-MUF；</strong>hybrid bonding在2026 H2商用化</span><span class="en"><strong>SK Hynix confirms MR-MUF for HBM4;</strong> hybrid bonding commercial H2 2026</span></td>
       </tr>
       <tr style="background:var(--orange-light);">
-        <td><strong>HBM4E+</strong></td>
+        <td><strong>HBM4E</strong></td>
         <td><strong>Hybrid Bonding</strong></td>
         <td><strong>SoIC / CoWoS-L</strong></td>
         <td><strong>~6-10μm</strong></td>
         <td><span class="zh">铜-铜直接键合，无焊锡凸点</span><span class="en">Cu-Cu direct bonding, bumpless</span></td>
+      </tr>
+      <tr style="background:var(--purple-light);">
+        <td><strong>HBM5</strong></td>
+        <td><strong>Hybrid Bonding (W2W + D2W)</strong></td>
+        <td><strong>SoIC / <span class="zh">下一代</span><span class="en">Next-gen</span></strong></td>
+        <td><strong>~3-6μm</strong></td>
+        <td><span class="zh"><strong>首个全面采用hybrid bonding的代次</strong>；20-Hi堆叠；JEDEC或放宽封装厚度至825-900μm；Hanmi已展示适配HBM5的Wide TC Bonder</span><span class="en"><strong>First generation with full hybrid bonding adoption</strong>; 20-Hi stacks; JEDEC may relax package thickness to 825-900μm; Hanmi showcased HBM5-ready Wide TC Bonders</span></td>
       </tr>
     </tbody>
   </table>
@@ -916,8 +981,8 @@
   </div>
 
   <div class="callout callout-blue">
-    <span class="zh">💡 <strong>关键洞察：</strong>SK Hynix已验证12层hybrid bonding HBM堆叠，但<strong>拒绝披露良率数据</strong>。同时确认HBM4 16-Hi产品仍将使用MR-MUF工艺。这说明hybrid bonding目前良率还不足以支撑大规模量产，预计要到HBM4E（2027年）才能成为主流。</span>
-    <span class="en">💡 <strong>Key Insight:</strong> SK Hynix has verified 12-die hybrid bonded HBM stacks but <strong>refused to disclose yield figures</strong>. They also confirmed MR-MUF for HBM4 16-Hi products. This suggests hybrid bonding yields aren't production-ready yet — mainstream adoption likely with HBM4E (2027).</span>
+    <span class="zh">💡 <strong>关键洞察：</strong>SK Hynix已验证12层hybrid bonding HBM堆叠，但<strong>拒绝披露良率数据</strong>。HBM4仍将使用MR-MUF工艺。Hybrid bonding真正大规模量产预计在HBM4E（2027年），而<strong>HBM5（2029年）将是首个全面标配hybrid bonding的代次</strong>——其20-Hi堆叠在传统MR-MUF下物理上不可行。TrendForce指出HBM5 20-Hi将采用wafer-to-wafer hybrid bonding。</span>
+    <span class="en">💡 <strong>Key Insight:</strong> SK Hynix has verified 12-die hybrid bonded HBM stacks but <strong>refused to disclose yield figures</strong>. HBM4 will still use MR-MUF. Full-scale hybrid bonding is expected with HBM4E (2027), and <strong>HBM5 (2029) will be the first generation where hybrid bonding is mandatory</strong> — its 20-Hi stacks are physically infeasible with traditional MR-MUF. TrendForce notes HBM5 20-Hi will adopt wafer-to-wafer hybrid bonding.</span>
   </div>
 
   <div class="source">
@@ -960,7 +1025,7 @@
         <td><strong><span class="zh">HBM支持</span><span class="en">HBM Support</span></strong></td>
         <td>HBM3/3E (8 stacks)</td>
         <td>HBM3E/HBM4 (8+ stacks)</td>
-        <td><span class="zh">HBM3/3E/4/5 (12→24 stacks)</span><span class="en">HBM3/3E/4/5 (12→24 stacks)</span></td>
+        <td><span class="zh">HBM3/3E/4/4E/5 (12→24 stacks)</span><span class="en">HBM3/3E/4/4E/5 (12→24 stacks)</span></td>
       </tr>
       <tr>
         <td><strong><span class="zh">产能 (2026)</span><span class="en">Capacity (2026)</span></strong></td>
@@ -1009,8 +1074,8 @@
 
   <h3>2. <span class="zh">散热 (Thermal)</span><span class="en">Thermal Management</span></h3>
   <p>
-    <span class="zh">散热是16-Hi及更高堆叠的首要可靠性挑战，且不会随制程缩小而改善。16-Hi堆叠的结温需要主动冷却和功耗管理策略，必须在系统架构层面进行热协同设计。</span>
-    <span class="en">Thermal management is the primary reliability challenge for 16-Hi+ stacks, and it doesn't scale away with process shrinks. Junction temperatures in 16-Hi stacks require active cooling and power management integrated at the system architecture level.</span>
+    <span class="zh">散热是16-Hi及更高堆叠的首要可靠性挑战。HBM4的16-Hi已需要液冷方案，而<strong>HBM5的20-Hi堆叠功耗将飙升至~100W/stack</strong>——是HBM3E的4倍。这意味着HBM5时代（2029年）将<strong>强制要求浸没式液冷（immersion cooling）</strong>。数据中心基础设施需要提前2-3年规划液冷改造。</span>
+    <span class="en">Thermal management is the primary reliability challenge for 16-Hi+ stacks. HBM4's 16-Hi already requires liquid cooling, and <strong>HBM5's 20-Hi stacks will consume ~100W/stack</strong> — 4× HBM3E. This means the HBM5 era (2029) will <strong>mandate immersion cooling</strong>. Data center infrastructure must plan liquid cooling upgrades 2-3 years ahead.</span>
   </p>
 
   <h3>3. <span class="zh">成本 (Cost)</span><span class="en">Cost Structure</span></h3>
@@ -1072,6 +1137,13 @@
         <td><strong>~$10+/GB</strong></td>
         <td><span class="zh">供不应求，溢价高</span><span class="en">Demand > supply, premium pricing</span></td>
       </tr>
+      <tr style="background:var(--purple-light);">
+        <td><strong>HBM5</strong></td>
+        <td><strong>~$800-1000</strong></td>
+        <td><strong>80 GB</strong></td>
+        <td><strong>~$10-12/GB</strong></td>
+        <td><span class="zh">2029年预估；hybrid bonding + N2 base die推高成本；但每GB带宽成本下降</span><span class="en">2029 est.; hybrid bonding + N2 base die increase cost; but cost per GB/s of bandwidth drops</span></td>
+      </tr>
     </tbody>
   </table>
   </div>
@@ -1102,6 +1174,7 @@
     <li><span class="zh"><strong>Hybrid bonding在2027年成为主流</strong> — 当前良率不足以量产，但6μm pitch的技术已经验证。</span><span class="en"><strong>Hybrid bonding goes mainstream in 2027</strong> — yields not production-ready yet, but 6μm pitch technology is verified.</span></li>
     <li><span class="zh"><strong>先进封装成为最大瓶颈</strong> — CoWoS产能将在2026年底达到13万片/月，但需求增长更快。Intel EMIB-T提供替代路径。</span><span class="en"><strong>Advanced packaging becomes the biggest bottleneck</strong> — CoWoS capacity reaches 130K wafers/month by end 2026, but demand grows faster. Intel EMIB-T offers an alternative path.</span></li>
     <li><span class="zh"><strong>HBM成本占比持续上升</strong> — 从20%到40%，迫使系统设计者重新思考存储架构。</span><span class="en"><strong>HBM cost share keeps rising</strong> — from 20% to 40%, forcing system architects to rethink memory architecture.</span></li>
+    <li><span class="zh"><strong>HBM5（2029年）将再次重塑产业格局</strong> — 4096-bit接口、20-Hi堆叠、~4TB/s带宽、100W功耗。首次全面采用hybrid bonding和浸没式液冷。NVIDIA Feynman和AMD MI500将是首批HBM5 GPU。SK Hynix路线图包含HBM5/HBM5E/Custom HBM5三条线。</span><span class="en"><strong>HBM5 (2029) will reshape the industry again</strong> — 4096-bit interface, 20-Hi stacks, ~4TB/s bandwidth, 100W power. First generation with mandatory hybrid bonding and immersion cooling. NVIDIA Feynman and AMD MI500 will be first HBM5 GPUs. SK Hynix roadmap includes HBM5/HBM5E/Custom HBM5 tracks.</span></li>
   </ul>
 
   <h3><span class="zh">对Intel的启示</span><span class="en">Implications for Intel</span></h3>
@@ -1144,6 +1217,11 @@
     <li><a href="https://siliconanalysts.com/data/hbm-pricing">Silicon Analysts — HBM Pricing Data (Apr 2026)</a></li>
     <li><a href="https://wccftech.com/sk-hynix-verifies-12-die-hybrid-bonded-hbm-stack-but-wont-disclose-yield-figures-as-next-gen-hbm4-ai-memory-race-heats-up/">WCCFTech — SK hynix Hybrid Bonding Verification</a></li>
     <li><a href="https://en.wikipedia.org/wiki/High_Bandwidth_Memory">Wikipedia — High Bandwidth Memory</a></li>
+    <li><a href="https://wccftech.com/sk-hynixs-roadmap-hbm5-hbm5e-gddr7-next-ddr6-400-layer-4d-nand-2029-2031/">WCCFTech — SK hynix 2029-2031 Roadmap: HBM5/HBM5E (Nov 2025)</a></li>
+    <li><a href="https://wccftech.com/next-gen-hbm-architecture-detailed-hbm4-hbm5-hbm6-hbm7-hbm8-up-to-64-tbps-bandwidth-240-gb-capacity-per-24-hi-stack-embedded-cooling/">WCCFTech — HBM5/6/7/8 Architecture: 4096-bit, 4TB/s, 80GB/stack</a></li>
+    <li><a href="https://www.trendforce.com/presscenter/news/20241030-12343.html">TrendForce — HBM5 20-Hi to Adopt Hybrid Bonding (Oct 2024)</a></li>
+    <li><a href="https://wccftech.com/work-on-next-gen-hbm5-hbm6-memory-already-underway-new-wide-tc-bonders-ready/">WCCFTech — HBM5 & HBM6 Development Underway, Hanmi Wide TC Bonders (Feb 2026)</a></li>
+    <li><a href="https://www.trendforce.com/news/2025/11/04/news-sk-hynix-unveils-2029-2031-roadmap-featuring-hbm5-gddr7-next-and-400-layer-nand/">TrendForce — SK hynix 2029-2031 Roadmap (Nov 2025)</a></li>
   </ul>
 </div>
 
