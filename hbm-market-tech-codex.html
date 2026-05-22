@@ -769,9 +769,15 @@
         var(--red);
     }
 
+    .bar-fill.purple {
+      background:
+        linear-gradient(90deg, rgba(255, 250, 240, 0.24), transparent),
+        #6d4aff;
+    }
+
     .roadmap {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 12px;
       margin-top: 18px;
     }
@@ -796,6 +802,99 @@
       display: block;
       color: var(--ink-soft);
       font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .horizon-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .spec-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      padding: 16px;
+      min-height: 142px;
+    }
+
+    .spec-card strong {
+      display: block;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .spec-card span {
+      display: block;
+      color: var(--ink-soft);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .status-tag {
+      display: inline-flex;
+      width: fit-content;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      padding: 5px 8px;
+      margin-bottom: 12px;
+      color: var(--copper-dark);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .pathway-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      margin-top: 18px;
+    }
+
+    .pathway {
+      min-height: 210px;
+      padding: 20px;
+      border-right: 1px solid var(--line);
+    }
+
+    .pathway:last-child {
+      border-right: 0;
+    }
+
+    .pathway h3 {
+      margin: 0 0 12px;
+      font-family: "Newsreader", serif;
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1;
+    }
+
+    .pathway p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .source-note {
+      margin: 16px 0 0;
+      color: var(--ink-soft);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
       line-height: 1.45;
     }
 
@@ -1011,6 +1110,7 @@
       .hero-grid,
       .market-layout,
       .tech-grid,
+      .horizon-grid,
       .chapter-head {
         grid-template-columns: 1fr;
       }
@@ -1028,6 +1128,19 @@
         grid-template-columns: 1fr;
       }
 
+      .pathway-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pathway {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .pathway:last-child {
+        border-bottom: 0;
+      }
+
       .bottleneck {
         border-right: 0;
         border-bottom: 1px solid var(--line);
@@ -1038,6 +1151,10 @@
       }
 
       .roadmap {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .spec-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
@@ -1063,7 +1180,8 @@
       .metric-board,
       .small-grid,
       .watch-grid,
-      .roadmap {
+      .roadmap,
+      .spec-grid {
         grid-template-columns: 1fr;
       }
 
@@ -1108,13 +1226,19 @@
 
       .section {
         overflow-x: hidden;
+        scroll-margin-top: 300px;
       }
 
       .section-inner,
       .hero-grid,
+      .horizon-grid,
       .metric-board,
       .metric-card,
       .panel,
+      .spec-grid,
+      .spec-card,
+      .pathway-grid,
+      .pathway,
       .tam-range,
       .supplier,
       .signal,
@@ -1155,9 +1279,10 @@
     <nav class="side-nav" aria-label="章节导航">
       <a data-section-link href="#market"><span class="zh">市场</span><span class="en">Market</span><span>01</span></a>
       <a data-section-link href="#tech"><span class="zh">技术</span><span class="en">Technology</span><span>02</span></a>
-      <a data-section-link href="#supply"><span class="zh">供应链</span><span class="en">Supply Chain</span><span>03</span></a>
-      <a data-section-link href="#watch"><span class="zh">观察指标</span><span class="en">Watch List</span><span>04</span></a>
-      <a data-section-link href="#sources"><span class="zh">来源</span><span class="en">Sources</span><span>05</span></a>
+      <a data-section-link href="#hbm5"><span class="zh">HBM5 / Base Die</span><span class="en">HBM5 / Base Die</span><span>03</span></a>
+      <a data-section-link href="#supply"><span class="zh">供应链</span><span class="en">Supply Chain</span><span>04</span></a>
+      <a data-section-link href="#watch"><span class="zh">观察指标</span><span class="en">Watch List</span><span>05</span></a>
+      <a data-section-link href="#sources"><span class="zh">来源</span><span class="en">Sources</span><span>06</span></a>
     </nav>
     <div class="side-rail-footer">
       <div class="lang-toggle" role="group" aria-label="Language">
@@ -1180,6 +1305,7 @@
     <nav aria-label="页面导航">
       <a data-section-link href="#market"><span class="zh">市场</span><span class="en">Market</span></a>
       <a data-section-link href="#tech"><span class="zh">技术</span><span class="en">Technology</span></a>
+      <a data-section-link href="#hbm5"><span class="zh">HBM5</span><span class="en">HBM5</span></a>
       <a data-section-link href="#supply"><span class="zh">供应链</span><span class="en">Supply Chain</span></a>
       <a data-section-link href="#watch"><span class="zh">观察指标</span><span class="en">Watch List</span></a>
       <a data-section-link href="#sources"><span class="zh">来源</span><span class="en">Sources</span></a>
@@ -1195,9 +1321,9 @@
     <section class="section hero">
       <div class="section-inner hero-grid">
         <div>
-          <div class="kicker"><span class="dot" aria-hidden="true"></span><span class="zh">codex_codex · 截至 2026-05-21</span><span class="en">codex_codex · As of 2026-05-21</span></div>
+          <div class="kicker"><span class="dot" aria-hidden="true"></span><span class="zh">codex_codex · 截至 2026-05-22</span><span class="en">codex_codex · As of 2026-05-22</span></div>
           <h1><span class="zh">HBM 市场<br>与技术研究<br>简报</span><span class="en">HBM Market & Technology Brief</span></h1>
-          <p class="lead"><span class="zh">HBM 正从 AI 训练的高端内存，变成推理吞吐、长上下文和自研 ASIC 的关键瓶颈。2026 年的主线不是单一代际替换，而是 HBM3E 放量、HBM4 验证、先进封装爬坡同时发生。</span><span class="en">HBM is moving from premium AI training memory to a critical bottleneck for inference throughput, long context workloads, and custom AI ASICs. The 2026 story is not a clean generation swap: HBM3E volume, HBM4 qualification, and advanced packaging ramps are all happening at once.</span></p>
+          <p class="lead"><span class="zh">HBM 正从 AI 训练的高端内存，变成推理吞吐、长上下文和自研 ASIC 的关键瓶颈。2026 年主线是 HBM3E 放量、HBM4 验证与先进封装爬坡；2029-2031 年的 HBM5 则把竞争焦点进一步推向 base die、hybrid bonding 和客户定制。</span><span class="en">HBM is moving from premium AI training memory to a critical bottleneck for inference throughput, long context workloads, and custom AI ASICs. The 2026 story is HBM3E volume, HBM4 qualification, and advanced packaging ramps; the 2029-2031 HBM5 horizon pushes the battleground toward base die design, hybrid bonding, and customer-specific memory.</span></p>
           <div class="hero-actions">
             <a class="button" href="#market"><span class="zh">进入研究</span><span class="en">Start Reading</span></a>
             <a class="button secondary" href="#sources"><span class="zh">查看来源</span><span class="en">View Sources</span></a>
@@ -1220,10 +1346,10 @@
             </div>
           </article>
           <article class="metric-card">
-            <div class="metric-label">HBM3E mainstream</div>
+            <div class="metric-label">HBM5 horizon</div>
             <div>
-              <div class="metric-value">2026</div>
-              <div class="metric-note"><span class="zh">Blackwell Ultra 与 MI350 仍主要依赖 HBM3E。</span><span class="en">Blackwell Ultra and MI350 remain largely dependent on HBM3E.</span></div>
+              <div class="metric-value">2029-31</div>
+              <div class="metric-note"><span class="zh">路线图窗口，不是已定 JEDEC 规格。</span><span class="en">A roadmap window, not a finalized JEDEC spec.</span></div>
             </div>
           </article>
           <article class="metric-card">
@@ -1254,6 +1380,7 @@
               <li><span class="number">1</span><span><span class="zh">2026 年 HBM TAM 大概率落在 450-550 亿美元区间，取决于 Blackwell Ultra、Rubin 预备量、AMD MI350 和 ASIC 客户的放量节奏。</span><span class="en">The 2026 HBM TAM likely lands in the $45B-55B range, depending on Blackwell Ultra, Rubin pre-builds, AMD MI350, and ASIC customer ramps.</span></span></li>
               <li><span class="number">2</span><span><span class="zh">HBM3E 仍是收入主力；HBM4 的重要性在于验证窗口、产品溢价和 2027 年 HBM4E/custom HBM 的先发位置。</span><span class="en">HBM3E remains the revenue workhorse; HBM4 matters for qualification windows, premium pricing, and first-mover position into 2027 HBM4E/custom HBM.</span></span></li>
               <li><span class="number">3</span><span><span class="zh">如果普通 DRAM 因供给挤压继续涨价，HBM 厂商会在高端 DRAM、server DRAM、HBM 间重新分配产能。</span><span class="en">If conventional DRAM keeps rising due to capacity diversion, suppliers will keep reallocating output across high-end DRAM, server DRAM, and HBM.</span></span></li>
+              <li><span class="number">4</span><span><span class="zh">HBM5 还不是 2026 年收入项目，但已经影响 2027-2028 年的 base die 合作、hybrid bonding 设备和定制 HBM 谈判。</span><span class="en">HBM5 is not a 2026 revenue item, but it already shapes 2027-2028 base-die partnerships, hybrid-bonding equipment plans, and custom-HBM negotiations.</span></span></li>
             </ol>
           </article>
 
@@ -1293,7 +1420,7 @@
               <div class="die">DRAM die 12/16-hi <span>TSV</span></div>
               <div class="die">DRAM die <span>micro bump</span></div>
               <div class="die">DRAM die <span>thermal path</span></div>
-              <div class="die base">Logic base die <span>PHY / test</span></div>
+              <div class="die base">Logic base die <span>PHY / control / test</span></div>
               <div class="interposer" aria-hidden="true"></div>
               <div class="die gpu">GPU / AI ASIC on 2.5D interposer</div>
             </div>
@@ -1326,6 +1453,11 @@
                 <div class="bar-track"><div class="bar-fill red" style="width: 100%"></div></div>
                 <span>3.3TB/s</span>
               </div>
+              <div class="ladder-row">
+                <span>HBM5 scenario</span>
+                <div class="bar-track"><div class="bar-fill purple" style="width: 100%"></div></div>
+                <span>~4.0TB/s</span>
+              </div>
             </div>
 
             <div class="roadmap">
@@ -1333,7 +1465,67 @@
               <div class="roadmap-item"><strong>HBM4</strong><span><span class="zh">2048-bit I/O，12/16-hi，开始客户验证和量产爬坡。</span><span class="en">2048-bit I/O, 12/16-hi stacks, entering customer qualification and production ramp.</span></span></div>
               <div class="roadmap-item"><strong>HBM4E</strong><span><span class="zh">更高速度、更深客户定制，预计成为 2027 主线。</span><span class="en">Higher speed and deeper customer customization, likely the 2027 mainline.</span></span></div>
               <div class="roadmap-item"><strong>Custom</strong><span><span class="zh">base die 与 GPU/ASIC 协同设计，供应商分化加剧。</span><span class="en">Base-die co-design with GPUs/ASICs increases supplier differentiation.</span></span></div>
+              <div class="roadmap-item"><strong>HBM5</strong><span><span class="zh">2029-2031 路线图窗口；4096-bit、16/20-hi、hybrid bonding 仍应按情景看。</span><span class="en">A 2029-2031 roadmap window; 4096-bit, 16/20-hi, and hybrid bonding should be treated as scenarios.</span></span></div>
             </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="hbm5">
+      <div class="section-inner">
+        <div class="chapter-head reveal">
+          <div>
+            <p class="eyebrow">03 / HBM5 + Base Die</p>
+            <h2><span class="zh">HBM5 的重点不是更宽总线，而是 base die 控制权</span><span class="en">HBM5 is not just a wider bus; it is a fight over the base die</span></h2>
+          </div>
+          <p class="chapter-note"><span class="zh">目前 HBM4 已有标准和产品公告；HBM5 仍处于路线图和研究窗口。比较稳妥的读法是：2029-2031 年 HBM5/HBM5E/custom HBM5 会把行业从“卖堆叠 DRAM”推向“存储子系统协同设计”。</span><span class="en">HBM4 is now backed by standards and product announcements; HBM5 remains a roadmap and research horizon. The practical read: in 2029-2031, HBM5/HBM5E/custom HBM5 pushes the industry from selling stacked DRAM toward co-designing memory subsystems.</span></p>
+        </div>
+
+        <div class="horizon-grid">
+          <article class="panel dark reveal">
+            <span class="status-tag"><span class="zh">确认 vs 情景</span><span class="en">Confirmed vs scenario</span></span>
+            <h3><span class="zh">如何看 HBM5 资料</span><span class="en">How to read HBM5 claims</span></h3>
+            <ol class="finding-list">
+              <li><span class="number">1</span><span><span class="zh"><strong>已确认：</strong>SK hynix 路线图把 HBM5、HBM5E 和 custom HBM5 放在 2029-2031 年窗口。</span><span class="en"><strong>Confirmed:</strong> SK hynix's roadmap places HBM5, HBM5E, and custom HBM5 in the 2029-2031 window.</span></span></li>
+              <li><span class="number">2</span><span><span class="zh"><strong>高可信趋势：</strong>base die 承担更多控制、功耗、测试、遥测和客户接口功能，定制化程度上升。</span><span class="en"><strong>High-confidence trend:</strong> the base die takes on more control, power, test, telemetry, and customer-interface functions.</span></span></li>
+              <li><span class="number">3</span><span><span class="zh"><strong>情景假设：</strong>4096-bit I/O、16/20-hi、约 4TB/s 和更高功耗来自路线图/研究预测，不应当作最终 JEDEC 规格。</span><span class="en"><strong>Scenario:</strong> 4096-bit I/O, 16/20-hi, roughly 4TB/s, and higher power are roadmap/research projections, not final JEDEC specs.</span></span></li>
+            </ol>
+          </article>
+
+          <article class="panel reveal">
+            <h3><span class="zh">Base die 为什么成为核心</span><span class="en">Why the base die becomes strategic</span></h3>
+            <p><span class="zh">Base die 是 HBM 堆栈底部的逻辑层，连接 DRAM die、TSV、PHY、测试/修复、电源分配和外部 GPU/ASIC 接口。HBM4 以后，它不再只是“适配层”，而是客户可定制的性能、功耗和封装边界。</span><span class="en">The base die is the logic layer at the bottom of an HBM stack, linking DRAM dies, TSVs, PHY, test/repair, power distribution, and the external GPU/ASIC interface. After HBM4, it is no longer merely an adapter; it becomes a customer-tunable boundary for performance, power, and packaging.</span></p>
+            <div class="spec-grid" aria-label="HBM5 and base die markers">
+              <div class="spec-card">
+                <strong>HBM4 baseline</strong>
+                <span><span class="zh">JEDEC HBM4 将 I/O 扩到 2048-bit；厂商产品已把单堆带宽推进到 2.8-3.3TB/s。</span><span class="en">JEDEC HBM4 expands I/O to 2048-bit; vendor products are already pushing per-stack bandwidth to 2.8-3.3TB/s.</span></span>
+              </div>
+              <div class="spec-card">
+                <strong>HBM5 scenario</strong>
+                <span><span class="zh">研究路线图常见假设是 4096-bit、16/20-hi 和约 4TB/s，但标准化仍未完成。</span><span class="en">Research roadmaps often model 4096-bit, 16/20-hi, and roughly 4TB/s, but standardization is not complete.</span></span>
+              </div>
+              <div class="spec-card">
+                <strong>Hybrid bonding</strong>
+                <span><span class="zh">TrendForce 指出 HBM5 20-hi 世代会采用 hybrid bonding，原因是高度、I/O 密度和散热限制。</span><span class="en">TrendForce expects hybrid bonding for HBM5 20-hi because stack height, I/O density, and thermal limits tighten.</span></span>
+              </div>
+            </div>
+            <p class="source-note"><span class="zh">结论：HBM5 的商业价值可能不只在 bit 或带宽，而在谁能控制 base die、堆叠工艺和客户平台验证。</span><span class="en">Conclusion: HBM5's commercial value may lie less in bits alone and more in who controls the base die, stack process, and customer platform qualification.</span></p>
+          </article>
+        </div>
+
+        <div class="pathway-grid reveal">
+          <article class="pathway">
+            <h3><span class="zh">标准路径</span><span class="en">Standard path</span></h3>
+            <p><span class="zh">内存厂定义 base die，客户按标准 HBM PHY/controller 集成。优点是可替代性更强、导入更稳；缺点是很难针对单一 GPU/ASIC 优化功耗、延迟和封装面积。</span><span class="en">The memory vendor defines the base die and customers integrate through a standard HBM PHY/controller. This improves substitutability, but limits per-accelerator optimization of power, latency, and package area.</span></p>
+          </article>
+          <article class="pathway">
+            <h3><span class="zh">定制路径</span><span class="en">Custom path</span></h3>
+            <p><span class="zh">GPU/ASIC 客户与内存厂、代工厂共同定义 base die；控制器、遥测、功耗管理甚至部分近存计算逻辑可下沉。优点是性能/能效更强，代价是验证更长、锁定更深。</span><span class="en">GPU/ASIC customers co-define the base die with memory and foundry partners; controller, telemetry, power management, and even near-memory logic can move downward. Performance and efficiency improve, but qualification lengthens and lock-in deepens.</span></p>
+          </article>
+          <article class="pathway">
+            <h3><span class="zh">代工厂变量</span><span class="en">Foundry variable</span></h3>
+            <p><span class="zh">如果 wafer-to-wafer hybrid bonding 要求 base die 与 memory die 尺寸高度匹配，能同时承接 GPU/ASIC 与 base die 的代工/封装平台会更有话语权，TSMC 的角色会继续上升。</span><span class="en">If wafer-to-wafer hybrid bonding requires tight base-die and memory-die dimension matching, foundry/packaging platforms that handle both GPU/ASIC and base die work gain leverage; TSMC's role likely rises.</span></p>
           </article>
         </div>
       </div>
@@ -1343,7 +1535,7 @@
       <div class="section-inner">
         <div class="chapter-head reveal">
           <div>
-            <p class="eyebrow">03 / Supply chain</p>
+            <p class="eyebrow">04 / Supply chain</p>
             <h2><span class="zh">三大厂竞争，胜负在量产质量和客户验证</span><span class="en">The three-way race is decided by production quality and qualification</span></h2>
           </div>
           <p class="chapter-note"><span class="zh">HBM 的供应链不像普通 DRAM 那样只看 bit output。AI 客户需要稳定的整栈良率、热表现、功耗曲线和封装协同，任何一项掉链都会影响 GPU 或 ASIC 出货。</span><span class="en">HBM supply is not measured like ordinary DRAM bit output. AI customers need stable full-stack yield, thermal behavior, power curves, and package integration; any weak link can delay GPU or ASIC shipments.</span></p>
@@ -1353,31 +1545,31 @@
           <article class="supplier featured">
             <div>
               <h3>SK hynix</h3>
-              <p><span class="zh">现阶段 HBM 龙头。优势在 NVIDIA 关系、HBM3E 量产、MR-MUF 封装经验和高份额。关键问题是 HBM4/HBM4E 能否继续守住先发优势。</span><span class="en">The current HBM leader. Its edge is the NVIDIA relationship, HBM3E volume production, MR-MUF packaging experience, and high share. The key question is whether it can defend that lead into HBM4/HBM4E.</span></p>
+              <p><span class="zh">现阶段 HBM 龙头。优势在 NVIDIA 关系、HBM3E 量产、MR-MUF 封装经验和高份额。新变量是 custom HBM：路线图显示其正把控制器功能推向 base die，并与 TSMC 合作 base die。</span><span class="en">The current HBM leader. Its edge is the NVIDIA relationship, HBM3E volume production, MR-MUF packaging experience, and high share. The new variable is custom HBM: its roadmap points to moving controller functions toward the base die and collaborating with TSMC on base dies.</span></p>
             </div>
             <div class="tag-row">
               <span class="tag"><span class="zh">份额领先</span><span class="en">Share leader</span></span>
               <span class="tag"><span class="zh">HBM3E 强势</span><span class="en">HBM3E strength</span></span>
-              <span class="tag">MR-MUF</span>
+              <span class="tag">Custom HBM5</span>
             </div>
           </article>
 
           <article class="supplier">
             <div>
               <h3>Samsung</h3>
-              <p><span class="zh">2026 年最重要变量。HBM4 采用 1c DRAM 和 4nm logic base die，memory + foundry + packaging 一体化是优势，但量产稳定性和客户认证仍是关键。</span><span class="en">The most important swing factor in 2026. Its HBM4 uses 1c DRAM and a 4nm logic base die. Memory + foundry + packaging integration is an advantage, but production stability and customer qualification remain decisive.</span></p>
+              <p><span class="zh">2026 年最重要变量。HBM4 采用 1c DRAM 和 4nm logic base die，memory + foundry + packaging 一体化是优势；同时其计划 2027 年送 custom HBM 样品，直接切入 base die 定制竞争。</span><span class="en">The most important swing factor in 2026. Its HBM4 uses 1c DRAM and a 4nm logic base die, making memory + foundry + packaging integration an advantage; it also plans custom HBM samples in 2027, directly entering the base-die customization race.</span></p>
             </div>
             <div class="tag-row">
               <span class="tag"><span class="zh">HBM4 追赶</span><span class="en">HBM4 catch-up</span></span>
               <span class="tag">4nm base die</span>
-              <span class="tag">IDM</span>
+              <span class="tag">Custom samples 2027</span>
             </div>
           </article>
 
           <article class="supplier">
             <div>
               <h3>Micron</h3>
-              <p><span class="zh">份额较小，但 HBM3E/HBM4 产品指标积极。已宣布 HBM4 36GB 12H 量产出货，并向客户送样 48GB 16H。</span><span class="en">Smaller share, but strong HBM3E/HBM4 product claims. Micron has announced production shipments of 36GB 12H HBM4 and customer samples of 48GB 16H.</span></p>
+              <p><span class="zh">份额较小，但 HBM3E/HBM4 产品指标积极。已宣布 HBM4 36GB 12H 量产出货，并向客户送样 48GB 16H。后续重点是能否把高带宽产品指标转化为 custom HBM/base die 生态位置。</span><span class="en">Smaller share, but strong HBM3E/HBM4 product claims. Micron has announced production shipments of 36GB 12H HBM4 and customer samples of 48GB 16H. The next question is whether strong bandwidth specs translate into a custom-HBM/base-die ecosystem role.</span></p>
             </div>
             <div class="tag-row">
               <span class="tag"><span class="zh">产品指标强</span><span class="en">Strong specs</span></span>
@@ -1389,8 +1581,8 @@
 
         <div class="bottleneck-strip reveal" style="margin-top: 18px;">
           <div class="bottleneck"><strong>TSV</strong><span><span class="zh">穿硅通孔密度、均匀性和可靠性决定堆叠良率。</span><span class="en">Through-silicon-via density, uniformity, and reliability determine stack yield.</span></span></div>
-          <div class="bottleneck"><strong>12/16-hi stack</strong><span><span class="zh">堆叠层数越高，翘曲、散热和已知良品 die 管理越难。</span><span class="en">Higher stacks increase warpage, thermal, and known-good-die management difficulty.</span></span></div>
-          <div class="bottleneck"><strong>Base die</strong><span><span class="zh">HBM4 后 logic base die 更像客户协同设计入口。</span><span class="en">After HBM4, the logic base die becomes the entry point for customer co-design.</span></span></div>
+          <div class="bottleneck"><strong>12/16/20-hi stack</strong><span><span class="zh">堆叠层数越高，翘曲、散热和已知良品 die 管理越难，HBM5 20-hi 会放大这些问题。</span><span class="en">Higher stacks increase warpage, thermal, and known-good-die complexity; HBM5 20-hi would magnify these issues.</span></span></div>
+          <div class="bottleneck"><strong>Base die</strong><span><span class="zh">HBM4 后 logic base die 从接口层升级为客户协同设计和供应链锁定入口。</span><span class="en">After HBM4, the logic base die moves from interface layer to customer co-design and supply-chain lock-in point.</span></span></div>
           <div class="bottleneck"><strong>2.5D package</strong><span><span class="zh">CoWoS/interposer 是 GPU 和 HBM 一起出货的硬上限之一。</span><span class="en">CoWoS/interposer capacity is one hard ceiling for shipping GPUs and HBM together.</span></span></div>
           <div class="bottleneck"><strong>Qualification</strong><span><span class="zh">NVIDIA、AMD、ASIC 客户验证周期会造成份额阶跃变化。</span><span class="en">NVIDIA, AMD, and ASIC customer qualification cycles can shift share in steps.</span></span></div>
         </div>
@@ -1401,10 +1593,10 @@
       <div class="section-inner">
         <div class="chapter-head reveal">
           <div>
-            <p class="eyebrow">04 / Watch list</p>
-            <h2><span class="zh">接下来 6-12 个月该看什么</span><span class="en">What to watch over the next 6-12 months</span></h2>
+            <p class="eyebrow">05 / Watch list</p>
+            <h2><span class="zh">接下来 6-18 个月该看什么</span><span class="en">What to watch over the next 6-18 months</span></h2>
           </div>
-          <p class="chapter-note"><span class="zh">HBM 的研究重点不只是规格表。真正有预测价值的是客户认证、封装分配、ASP 曲线和非 NVIDIA 需求的扩散。</span><span class="en">The useful signals are not just spec sheets. Customer qualification, package allocation, ASP curves, and demand outside NVIDIA carry more predictive power.</span></p>
+          <p class="chapter-note"><span class="zh">HBM 的研究重点不只是规格表。真正有预测价值的是客户认证、封装分配、ASP 曲线、非 NVIDIA 需求扩散，以及 HBM5/base die 相关的提前投资信号。</span><span class="en">The useful signals are not just spec sheets. Customer qualification, package allocation, ASP curves, demand outside NVIDIA, and early HBM5/base-die investment signals carry more predictive power.</span></p>
         </div>
 
         <div class="watch-grid">
@@ -1430,7 +1622,15 @@
           </article>
           <article class="signal reveal" data-index="06">
             <h3>Custom HBM</h3>
-            <p><span class="zh">base die 与客户 ASIC 的协同设计，会把 HBM 从标准品推向平台型组件，长期提高切换成本。</span><span class="en">Base-die co-design with customer ASICs can move HBM from a standard component toward a platform element, raising long-term switching costs.</span></p>
+            <p><span class="zh">base die 与客户 ASIC 的协同设计，会把 HBM 从标准品推向平台型组件，长期提高切换成本，也改变内存厂和代工厂的价值分配。</span><span class="en">Base-die co-design with customer ASICs can move HBM from a standard component toward a platform element, raising switching costs and changing value split between memory vendors and foundries.</span></p>
+          </article>
+          <article class="signal reveal" data-index="07">
+            <h3><span class="zh">HBM5 标准化</span><span class="en">HBM5 standardization</span></h3>
+            <p><span class="zh">重点看 4096-bit、16/20-hi、散热预算和封装高度是否进入正式标准或供应商公开规格。标准落地前，所有 HBM5 数字都应按情景处理。</span><span class="en">Watch whether 4096-bit, 16/20-hi, thermal budgets, and package-height assumptions enter formal standards or public vendor specs. Until then, HBM5 numbers are scenarios.</span></p>
+          </article>
+          <article class="signal reveal" data-index="08">
+            <h3><span class="zh">Hybrid bonding 量产学习曲线</span><span class="en">Hybrid bonding learning curve</span></h3>
+            <p><span class="zh">HBM5 20-hi 若采用 wafer-to-wafer hybrid bonding，颗粒控制、前端良率和 base die/memory die 尺寸匹配会成为新瓶颈。</span><span class="en">If HBM5 20-hi uses wafer-to-wafer hybrid bonding, particle control, front-end yield, and base-die/memory-die size matching become new bottlenecks.</span></p>
           </article>
         </div>
       </div>
@@ -1440,10 +1640,10 @@
       <div class="section-inner">
         <div class="chapter-head reveal">
           <div>
-            <p class="eyebrow">05 / Sources</p>
+            <p class="eyebrow">06 / Sources</p>
             <h2><span class="zh">主要来源</span><span class="en">Key Sources</span></h2>
           </div>
-          <p class="chapter-note"><span class="zh">页面内容综合官方产品资料、行业机构预测和供应商公告。市场数字应按区间看，不宜当作精确单点预测。</span><span class="en">This page combines official product material, industry forecasts, and supplier announcements. Market figures should be read as ranges, not precise point forecasts.</span></p>
+          <p class="chapter-note"><span class="zh">页面内容综合官方产品资料、行业机构预测、供应商公告和 HBM 路线图研究。HBM5 相关数字按情景看，除非后续进入 JEDEC 或厂商正式规格。</span><span class="en">This page combines official product material, industry forecasts, supplier announcements, and HBM roadmap research. HBM5-related numbers are scenarios unless they enter JEDEC or public vendor specifications.</span></p>
         </div>
 
         <div class="source-grid reveal">
@@ -1467,13 +1667,29 @@
             <h3>SK hynix</h3>
             <p><span class="zh">HBM4 开发、性能与功耗效率公告。</span><span class="en">HBM4 development, performance and power efficiency claims.</span></p>
           </a>
-          <a class="source-card" href="https://news.samsungsemiconductor.com/global/samsung-ships-industry-first-commercial-hbm4-with-ultimate-performance-for-ai-computing/" target="_blank" rel="noreferrer">
+          <a class="source-card" href="https://news.samsung.com/global/samsung-ships-industry-first-commercial-hbm4-with-ultimate-performance-for-ai-computing" target="_blank" rel="noreferrer">
             <h3>Samsung</h3>
-            <p><span class="zh">HBM4 商业出货、1c DRAM、4nm logic base die 与带宽。</span><span class="en">HBM4 commercial shipment, 1c DRAM, 4nm logic base die and bandwidth.</span></p>
+            <p><span class="zh">HBM4 商业出货、1c DRAM、4nm logic base die、带宽与 2027 custom HBM 样品计划。</span><span class="en">HBM4 commercial shipment, 1c DRAM, 4nm logic base die, bandwidth, and 2027 custom HBM sampling plan.</span></p>
           </a>
           <a class="source-card" href="https://www.micron.com/products/memory/hbm/hbm4" target="_blank" rel="noreferrer">
             <h3>Micron HBM4</h3>
             <p><span class="zh">HBM4 12H/16H 容量与带宽产品信息。</span><span class="en">HBM4 12H/16H density and bandwidth product details.</span></p>
+          </a>
+          <a class="source-card" href="https://www.rambus.com/interface-ip/hbm/" target="_blank" rel="noreferrer">
+            <h3>Rambus HBM</h3>
+            <p><span class="zh">HBM4/4E 2048-bit 接口、控制器和 4TB/s+ 带宽方向。</span><span class="en">HBM4/4E 2048-bit interface, controller, and 4TB/s+ bandwidth direction.</span></p>
+          </a>
+          <a class="source-card" href="https://www.trendforce.com/news/2025/11/04/news-sk-hynix-unveils-2029-2031-roadmap-featuring-hbm5-gddr7-next-and-400-layer-nand/" target="_blank" rel="noreferrer">
+            <h3>TrendForce HBM5</h3>
+            <p><span class="zh">SK hynix 2029-2031 路线图：HBM5、HBM5E、custom HBM5 与 base die 控制器迁移。</span><span class="en">SK hynix 2029-2031 roadmap: HBM5, HBM5E, custom HBM5, and controller migration toward the base die.</span></p>
+          </a>
+          <a class="source-card" href="https://www.businesswire.com/news/home/20241030527475/en/HBM5-20hi-Stack-to-Adopt-Hybrid-Bonding-Technology-Potentially-Transforming-Business-Models-Says-TrendForce" target="_blank" rel="noreferrer">
+            <h3>TrendForce Hybrid Bonding</h3>
+            <p><span class="zh">HBM5 20-hi、hybrid bonding、wafer-to-wafer 堆叠和 base die 商业模式变化。</span><span class="en">HBM5 20-hi, hybrid bonding, wafer-to-wafer stacking, and base-die business-model implications.</span></p>
+          </a>
+          <a class="source-card" href="https://semiengineering.com/hbm-roadmap-kaists-teralab/" target="_blank" rel="noreferrer">
+            <h3>KAIST / SemiEngineering</h3>
+            <p><span class="zh">HBM5-HBM8 路线图研究入口；用于情景判断，不作为最终标准。</span><span class="en">Entry point to HBM5-HBM8 roadmap research; useful for scenarios, not final specifications.</span></p>
           </a>
           <a class="source-card" href="https://developer.nvidia.com/blog/inside-the-nvidia-rubin-platform-six-new-chips-one-ai-supercomputer/" target="_blank" rel="noreferrer">
             <h3>NVIDIA Rubin</h3>
@@ -1520,9 +1736,9 @@
       progress.style.width = `${Math.min(100, Math.max(0, ratio * 100))}%`;
 
       let activeId = "";
+      const anchorLine = scrollTop + Math.min(420, window.innerHeight * 0.45);
       for (const section of sections) {
-        const top = section.offsetTop - 160;
-        if (scrollTop >= top) activeId = section.id;
+        if (anchorLine >= section.offsetTop) activeId = section.id;
       }
 
       navLinks.forEach((link) => {
@@ -1543,6 +1759,15 @@
       button.addEventListener("click", () => setLang(button.dataset.lang));
     });
     setLang(localStorage.getItem("hbm-brief-lang") || "zh");
+    if (location.hash) {
+      const hashTarget = document.querySelector(location.hash);
+      if (hashTarget) {
+        requestAnimationFrame(() => {
+          hashTarget.scrollIntoView({ block: "start" });
+          updateProgress();
+        });
+      }
+    }
     document.querySelectorAll(".reveal").forEach((item) => observer.observe(item));
     window.addEventListener("scroll", updateProgress, { passive: true });
     window.addEventListener("resize", updateProgress);
