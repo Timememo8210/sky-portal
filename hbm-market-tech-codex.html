@@ -951,12 +951,12 @@
       text-transform: uppercase;
     }
 
-    .base-tape-note {
+    .base-die-note {
       margin-top: 20px;
       scroll-margin-top: 140px;
     }
 
-    .base-tape-note h4 {
+    .base-die-note h4 {
       margin: 0 0 14px;
       font-family: "IBM Plex Mono", monospace;
       font-size: 13px;
@@ -2056,35 +2056,35 @@
                   <td><span class="quality analyst">REPORTED</span></td>
                 </tr>
                 <tr>
-                  <td><strong><span class="zh">更厚 tape 是否和封装问题相关？</span><span class="en">Is thicker tape tied to package issues?</span></strong></td>
-                  <td><span class="zh">如果指 temporary carrier / backgrind / dicing tape，较厚或更高模量材料可能是为了支撑超薄 die，减少搬运、pickup、翘曲和裂片风险。</span><span class="en">If it means temporary carrier/backgrind/dicing tape, thicker or higher-modulus material may support ultra-thin dies and reduce handling, pickup, warpage, and cracking risk.</span></td>
-                  <td><span class="zh">相关性合理：MR-MUF 高层数需要更薄 die，薄 die 更依赖临时支撑；但公开资料没有直接证明“SK 因某次失败而要求 tape 变厚”。</span><span class="en">Correlation is plausible: MR-MUF high stacks need thinner dies, which depend more on temporary support; public sources do not directly prove SK raised tape thickness because of a specific failure.</span></td>
-                  <td><span class="zh">若指 NCF film/tape，Samsung 反而公开强调降低 NCF 厚度和 7µm gap；这和 SK 的 MR-MUF 路线不是同一个 tape 问题。</span><span class="en">If it means NCF film/tape, Samsung instead emphasizes thinner NCF and a 7µm gap; that is not the same tape issue as SK's MR-MUF route.</span></td>
-                  <td><span class="quality scenario">HYPOTHESIS</span></td>
+                  <td><strong><span class="zh">如果实际说的是 base die 厚度？</span><span class="en">What if the real issue is base-die thickness?</span></strong></td>
+                  <td><span class="zh">那就不是 tape/临时支撑问题，而是底层有源 logic die 的电性与机械余量问题：PHY、模拟、PDN、ESD、TSV 和微凸点应力都要考虑。</span><span class="en">Then it is not a tape/temporary-support issue, but the electrical and mechanical margin of the bottom active logic die: PHY, analog, PDN, ESD, TSV, and micro-bump stress all matter.</span></td>
+                  <td><span class="zh">SK 的 MR-MUF 高层数路线会放大堆叠压力和 warpage 控制需求；若 base die 上还有 PHY/模拟电路，保留更厚底层是扩大良率和客户认证窗口。</span><span class="en">SK's high-stack MR-MUF route amplifies stacking pressure and warpage-control needs; if the base die also carries PHY/analog circuits, preserving a thicker bottom layer widens yield and qualification margins.</span></td>
+                  <td><span class="zh">Samsung HBM4 采用 4nm logic base die，重点在高速 PHY/PDN/功耗效率；它说明 base die 已成为有源逻辑芯片，而不是单纯机械层。</span><span class="en">Samsung's HBM4 uses a 4nm logic base die focused on high-speed PHY, PDN, and power efficiency; this shows the base die is an active logic chip, not a purely mechanical layer.</span></td>
+                  <td><span class="quality analyst">REVISED</span></td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p class="matrix-note"><span class="zh">工作假设：先确认“厚 tape”到底是临时 carrier/backgrind/dicing tape、封装 adhesive，还是 NCF film。只有第一类与 SK 的超薄 die 搬运/翘曲问题直接相关；第二、三类要按具体材料和工序重新判断。</span><span class="en">Working hypothesis: first identify whether "thick tape" means temporary carrier/backgrind/dicing tape, package adhesive, or NCF film. Only the first maps directly to SK's ultra-thin-die handling/warpage issue; the others require process-specific review.</span></p>
+          <p class="matrix-note"><span class="zh">修正：如果供应链口径里的“Base 带/底层厚度”实际指 base die 本体，而不是临时 tape、carrier 或 NCF film，就必须转到下方 base die 厚度框架判断。</span><span class="en">Correction: if the supply-chain phrase "base tape/bottom-layer thickness" actually means the physical base die, not temporary tape, carrier, or NCF film, the analysis must move to the base-die thickness framework below.</span></p>
 
-          <div class="base-tape-note" id="base-tape">
-            <h4><span class="zh">Base tape / base wafer 支撑澄清</span><span class="en">Base tape / base-wafer support clarification</span></h4>
+          <div class="base-die-note" id="base-die-thickness">
+            <h4><span class="zh">Base die 厚度澄清：不是 tape，而是有 PHY 的混合信号逻辑层</span><span class="en">Base-die thickness: not tape, but a PHY-bearing mixed-signal logic layer</span></h4>
             <div class="evidence-grid">
               <div class="evidence-card">
-                <strong>Base</strong>
-                <span><span class="zh">这里不是 DRAM 层间 NCF，也不一定是最终 HBM 里的永久材料，而是 base wafer / base die 下方的临时支撑、保护或 carrier 结构。</span><span class="en">This is not DRAM inter-die NCF and may not be a permanent material in the final HBM; it is temporary support, protection, or carrier structure under the base wafer/base die.</span></span>
+                <strong>PHY</strong>
+                <span><span class="zh">base die 承担 PHY、时钟、DQ/RX/TX、测试、repair、配置寄存器和部分控制逻辑；它不是被动垫片。</span><span class="en">The base die carries PHY, clocking, DQ/RX/TX, test, repair, configuration registers, and control logic; it is not a passive spacer.</span></span>
               </div>
               <div class="evidence-card">
-                <strong>Mechanics</strong>
-                <span><span class="zh">主因是机械：提高刚性、降低 base wafer 翘曲，减少堆叠对准误差、裂片、边缘 chipping 和后续制程误差。</span><span class="en">The main driver is mechanical: more stiffness, less base-wafer warpage, fewer stacking alignment errors, cracks, edge chipping, and downstream process errors.</span></span>
+                <strong>PDN</strong>
+                <span><span class="zh">HBM4 把 I/O 从 1024 扩到 2048，base die 要承接更密的电源/地/信号路径，PDN、IR drop 和同步开关噪声更难。</span><span class="en">HBM4 expands I/O from 1024 to 2048, forcing denser power, ground, and signal paths; PDN, IR drop, and simultaneous switching noise become harder.</span></span>
               </div>
               <div class="evidence-card">
-                <strong>Thermal</strong>
-                <span><span class="zh">热不是第一性原因。临时 tape/carrier 通常会移除；它需要耐受 reflow/mold/debond 温度，但不主导最终 HBM 的散热路径。</span><span class="en">Thermal is not the first-order reason. Temporary tape/carrier is usually removed; it must survive reflow/mold/debond temperatures but does not dominate final HBM heat flow.</span></span>
+                <strong>ESD</strong>
+                <span><span class="zh">PHY/模拟 I/O 需要 ESD、latch-up 和 substrate noise 余量。极端减薄会削弱热扩散和 ESD 鲁棒性，增加电性漂移风险。</span><span class="en">PHY and analog I/O need ESD, latch-up, and substrate-noise margin. Extreme thinning weakens heat spreading and ESD robustness, raising electrical drift risk.</span></span>
               </div>
               <div class="evidence-card">
-                <strong>SK hynix</strong>
-                <span><span class="zh">SK 的 C2W + MR-MUF 路线把 core die 堆在 base wafer 上；base 支撑刚性越关键，高层数和薄 die 越会放大这个要求。</span><span class="en">SK's C2W plus MR-MUF path stacks core dies on the base wafer; base support stiffness becomes more critical as layer count rises and dies get thinner.</span></span>
+                <strong>Stress</strong>
+                <span><span class="zh">底层承受 TSV、micro-bump、underfill/interposer 与堆叠应力。过薄会放大翘曲、裂纹和晶体管应力引起的 PVT 偏移。</span><span class="en">The bottom layer takes TSV, micro-bump, underfill/interposer, and stack stress. Over-thinning amplifies warpage, cracking, and stress-induced PVT shifts.</span></span>
               </div>
             </div>
 
@@ -2100,39 +2100,39 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong><span class="zh">你说的 Base 带是什么？</span><span class="en">What is this base tape?</span></strong></td>
-                    <td><span class="zh">更可能是 base wafer 下面的保护/支撑 tape、lamination tape、ring-frame tape 或 carrier/adhesive 组合，而不是 DRAM die 间的 NCF film。</span><span class="en">Most likely a protection/support tape, lamination tape, ring-frame tape, or carrier/adhesive stack under the base wafer, not NCF film between DRAM dies.</span></td>
-                    <td><span class="zh">SK hynix 的 WLP 说明中，HBM core chips 是堆到 base wafer 上；TSV 封装需要 WSS/carrier bonding 支撑薄 wafer，常规 ring-frame tape 不足以覆盖所有 TSV 背面制程。</span><span class="en">SK hynix's WLP description says HBM core chips are stacked on a base wafer; TSV packaging needs WSS/carrier bonding to support thinned wafers because ordinary ring-frame tape cannot cover all backside TSV processing.</span></td>
+                    <td><strong><span class="zh">这一层为什么不能像 DRAM core die 那样极薄？</span><span class="en">Why can't this layer be as thin as DRAM core dies?</span></strong></td>
+                    <td><span class="zh">因为 base die 是有源混合信号逻辑层，不只是硅支撑。它承载 PHY、模拟/时钟、电源分配、测试与修复逻辑，过度减薄会损伤电性、ESD、热扩散和应力余量。</span><span class="en">Because the base die is an active mixed-signal logic layer, not just silicon support. It carries PHY, analog/clocking, power distribution, test, and repair logic; over-thinning hurts electrical, ESD, thermal-spreading, and stress margins.</span></td>
+                    <td><span class="zh">SK hynix 早期 HBM 架构资料把 base die 分成 PHY、TSV、Test Port 三大区域；Samsung HBM4 明确采用 4nm logic base-die，Micron 也描述 HBM4 由 logic dies with TSVs 接口到系统。</span><span class="en">SK hynix's early HBM architecture material separates the base die into PHY, TSV, and test-port areas; Samsung explicitly uses a 4nm logic base die for HBM4, and Micron describes HBM4 as using logic dies with TSVs to interface with the system.</span></td>
                     <td><span class="quality official">OFFICIAL</span></td>
                   </tr>
                   <tr>
-                    <td><strong><span class="zh">为什么要更厚？</span><span class="en">Why thicker?</span></strong></td>
-                    <td><span class="zh">核心是增加支撑结构的弯曲刚度。base wafer 是堆叠平台，越薄、越大、承载 die 越多，越容易翘；更厚或更硬的 base film/carrier 可以压低 warpage。</span><span class="en">The core reason is bending stiffness. The base wafer is the stacking platform; thinner, larger, more heavily loaded wafers warp more, and a thicker or harder base film/carrier can suppress warpage.</span></td>
-                    <td><span class="zh">HBM warpage 论文指出，薄 wafer 在 carrier 和 400mm ring-frame tape 上的测量会被 tape sagging/warpage 干扰；背磨 tape 供应商也把 hard base film / anti-warpage 作为支持超薄 wafer 的关键特性。</span><span class="en">An HBM warpage paper notes that carrier and 400mm ring-frame tape sagging/warpage obscure ultra-thin chip warpage; backgrinding tape suppliers market hard base film and anti-warpage properties as key features for extra-thin wafers.</span></td>
-                    <td><span class="quality official">HIGH</span></td>
+                    <td><strong><span class="zh">厚度的首要考量是什么？</span><span class="en">What is the first-order thickness consideration?</span></strong></td>
+                    <td><span class="zh">不是“越厚散热越好”，而是电性可靠性 + 机械可靠性之间的窗口：既要足够薄以满足 HBM 总高度和 TSV/微凸点连接，又要足够厚以保护 PHY/模拟 I/O、ESD、PDN 和堆叠应力余量。</span><span class="en">Not simply "thicker is cooler"; it is an electrical-reliability plus mechanical-reliability window: thin enough for total HBM height and TSV/micro-bump connection, but thick enough to protect PHY/analog I/O, ESD, PDN, and stack-stress margin.</span></td>
+                    <td><span class="zh">TrendForce 指出 HBM4 12H/16H 名义封装高度为 775µm；DRAM die 通常 30-50µm。高度预算紧张时，行业优先把重复 DRAM die 和 bump gap 压薄，而不愿把唯一的 base logic die 推到同等极薄。</span><span class="en">TrendForce notes a 775um nominal package height for HBM4 12H/16H and DRAM dies around 30-50um. Under tight height budgets, the industry tends to thin repeated DRAM dies and bump gaps before pushing the unique base logic die to the same extreme.</span></td>
+                    <td><span class="quality analyst">HIGH</span></td>
                   </tr>
                   <tr>
-                    <td><strong><span class="zh">这是封装原因吗？</span><span class="en">Is it a packaging reason?</span></strong></td>
-                    <td><span class="zh">是，主要是封装/制程整合原因：C2W 堆叠、mass reflow、mold、base wafer backgrind、debond、singulation 都要求 base wafer 稳定。</span><span class="en">Yes, mainly packaging and process-integration driven: C2W stacking, mass reflow, mold, base-wafer backgrind, debond, and singulation all need a stable base wafer.</span></td>
-                    <td><span class="zh">公开制程描述显示 base wafer 在 core die 堆叠完成后还要模封、减薄到目标厚度、再切成 KGSD；carrier bonding/debonding 的关键要求包括厚度均匀、无 void、对准准确、边缘无污染和最小化 warpage。</span><span class="en">Public process descriptions show that after core-die stacking, the base wafer is molded, thinned to target thickness, and diced into KGSDs; carrier bonding/debonding requires uniform thickness, no voids, accurate alignment, clean edges, and minimized warpage.</span></td>
-                    <td><span class="quality official">OFFICIAL</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong><span class="zh">这是热传导原因吗？</span><span class="en">Is it thermal-conduction driven?</span></strong></td>
-                    <td><span class="zh">通常不是第一原因。临时 base tape/carrier 不留在最终 HBM 热路径中；热相关要求更多是耐高温、低残胶和不在 reflow/mold/debond 时失效。</span><span class="en">Usually not first-order. Temporary base tape/carrier is not left in the final HBM heat path; thermal requirements are more about heat resistance, low residue, and surviving reflow/mold/debond.</span></td>
-                    <td><span class="zh">最终散热主路径更受 micro-bump、EMC/MUF、underfill、base die、interposer 和 TIM 影响。MR-MUF 的热优势来自高导热 EMC/更多 thermal dummy bumps，不是临时 base tape 本身。</span><span class="en">Final heat flow is governed more by micro-bumps, EMC/MUF, underfill, base die, interposer, and TIM. MR-MUF's thermal edge comes from high-conductivity EMC and more thermal dummy bumps, not the temporary base tape itself.</span></td>
+                    <td><strong><span class="zh">PHY/模拟电路为什么让它不能过薄？</span><span class="en">Why do PHY/analog circuits resist over-thinning?</span></strong></td>
+                    <td><span class="zh">高速 PHY 是混合信号电路，受 substrate noise、地弹、串扰、PVT 漂移和 ESD/latch-up 影响。更薄 substrate 会减少热容量和扩散路径，也更容易把封装应力传到器件层。</span><span class="en">High-speed PHY is mixed-signal circuitry affected by substrate noise, ground bounce, crosstalk, PVT drift, and ESD/latch-up. A thinner substrate reduces thermal mass and spreading paths, and transmits package stress more readily to the device layer.</span></td>
+                    <td><span class="zh">imec 对极薄 Si substrate 的研究显示，减薄会降低 ESD 器件的失效电流并造成更差热扩散；这不是 HBM base die 专属实验，但对含 I/O/ESD/模拟的 logic die 是直接警示。</span><span class="en">imec's extreme-Si-thinning work shows lower ESD failure current and worse thermal spreading. It is not an HBM-base-die-only experiment, but it directly warns against over-thinning logic dies that carry I/O, ESD, and analog blocks.</span></td>
                     <td><span class="quality analyst">PROCESS INFERENCE</span></td>
                   </tr>
                   <tr>
-                    <td><strong><span class="zh">和 base die 厚度是一回事吗？</span><span class="en">Is this the same as base-die thickness?</span></strong></td>
-                    <td><span class="zh">不是一回事。临时支撑可以加厚来抗翘曲，同时最终 base die / HBM stack 仍按客户高度窗口减薄；这正是 carrier/WSS 的价值。</span><span class="en">No. Temporary support can be thicker to resist warpage while the final base die/HBM stack is still thinned to the customer's height window; that is the value of carrier/WSS.</span></td>
-                    <td><span class="zh">行业专利和 WSS 描述都把 carrier assembly 的厚度/刚性和 base wafer warpage 直接关联；支撑结构越厚，base wafer warpage 越低，但它服务的是制造过程，不等于最终产品更厚。</span><span class="en">Industry patents and WSS descriptions directly link carrier-assembly thickness/stiffness to base-wafer warpage; thicker support lowers warpage, but it serves manufacturing and does not mean the final product is thicker.</span></td>
+                    <td><strong><span class="zh">TSV/PDN/微凸点有什么影响？</span><span class="en">How do TSV, PDN, and micro-bumps matter?</span></strong></td>
+                    <td><span class="zh">base die 是 DRAM 堆栈到 interposer/GPU 的转换层：上面接 DRAM TSV/微凸点，下面接外部 I/O、电源和地。HBM4 2048 I/O 让走线、供电和测试密度翻倍，厚度过薄会让 TSV keep-out、Cu 应力、IR drop 和 micro-bump 共面性窗口更紧。</span><span class="en">The base die converts the DRAM stack to the interposer/GPU: DRAM TSV/micro-bumps above, external I/O/power/ground below. HBM4's 2048 I/O tightens routing, power, and test density; over-thinning narrows TSV keep-out, copper-stress, IR-drop, and micro-bump coplanarity margins.</span></td>
+                    <td><span class="zh">SK hynix HBM4 公告称 I/O 从上一代翻倍到 2,048，速度超过 JEDEC 8Gbps；Samsung 与 Micron 的 HBM4 页面也强调 2048 I/O 和 logic base die。</span><span class="en">SK hynix's HBM4 release says I/O doubled to 2048 and speed exceeds the JEDEC 8Gbps baseline; Samsung and Micron also emphasize 2048 I/O and logic base die in HBM4.</span></td>
+                    <td><span class="quality official">OFFICIAL</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong><span class="zh">和 SK hynix 的封装路线有关吗？</span><span class="en">Is this related to SK hynix's packaging route?</span></strong></td>
+                    <td><span class="zh">有关，但不是“封装失败才加厚”。SK 的 Advanced MR-MUF 要在高层数堆叠中控制压力、翘曲和散热；如果 base die 同时是有源 PHY/PDN 层，保留更厚的 base die 是扩大量产工艺窗口和客户认证窗口的保守选择。</span><span class="en">Related, but not proof of a packaging failure. SK's Advanced MR-MUF must control pressure, warpage, and heat at high stack counts; if the base die is also an active PHY/PDN layer, retaining more base-die thickness is a conservative way to widen the mass-production and qualification window.</span></td>
+                    <td><span class="zh">SK hynix 官方称 Advanced MR-MUF 提供良好 warpage control、降低堆叠压力；这解释了为什么它会在 DRAM die 极薄化之外，对底层 logic/base die 留出更多可靠性余量。</span><span class="en">SK hynix says Advanced MR-MUF provides good warpage control and reduces stacking pressure; this explains why it may preserve more reliability margin in the bottom logic/base die while aggressively thinning DRAM dies.</span></td>
                     <td><span class="quality analyst">HIGH</span></td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <p class="matrix-note"><span class="zh">结论：如果供应链口径说“SK hynix 要求 base 带更厚”，最合理解释是为了 base wafer 在 HBM 堆叠和后续 WLP 制程中的机械支撑、翘曲控制和对准良率；不是为了最终 HBM 工作时的主散热。若该“Base 带”是永久封装 adhesive/TIM，而不是临时 tape/carrier，则需要重新按材料 datasheet 判断。</span><span class="en">Conclusion: if a supply-chain source says SK hynix requires a thicker base tape, the most plausible explanation is mechanical support, warpage control, and alignment yield for the base wafer during HBM stacking and WLP; it is not primarily for final HBM operating heat dissipation. If the "base tape" is a permanent package adhesive/TIM rather than a temporary tape/carrier, it must be re-evaluated from the material datasheet.</span></p>
+            <p class="matrix-note"><span class="zh">修正结论：如果讨论的是集成 PHY/模拟/PDN 的 base die 本体厚度，较厚的要求主要来自电性可靠性、ESD/热扩散、TSV/微凸点应力和封装翘曲余量；热传导是局部热点和 ESD 热扩散层面的考量，不是“为了把最终 HBM 整体散热做厚”。这和上一版临时 base tape/carrier 判断不同，已按 base die 本体修正。</span><span class="en">Corrected conclusion: if the topic is the physical thickness of the base die that integrates PHY/analog/PDN, a thicker requirement is mainly about electrical reliability, ESD/thermal spreading, TSV/micro-bump stress, and package-warpage margin. Thermal matters for local hot spots and ESD heat spreading, not because final HBM should be made thicker for bulk heat removal. This differs from the prior temporary base-tape/carrier interpretation and has been corrected to base-die physics.</span></p>
           </div>
         </div>
       </div>
@@ -2473,21 +2473,17 @@
             <h3>SK hynix MR-MUF</h3>
             <p><span class="zh">MR-MUF 与 Advanced MR-MUF：12-layer HBM3 的 40% 薄化、warpage、EMC 和散热材料。</span><span class="en">MR-MUF and Advanced MR-MUF: 40% thinner 12-layer HBM3 dies, warpage, EMC, and thermal materials.</span></p>
           </a>
-          <a class="source-card" href="https://news.skhynix.com/semiconductor-back-end-process-episode-8-the-process-stages-of-wafer-level-packages/" target="_blank" rel="noreferrer">
-            <h3>SK hynix WLP / WSS</h3>
-            <p><span class="zh">HBM base wafer、core chip 堆叠、WSS/carrier bonding、base wafer 模封与减薄流程。</span><span class="en">HBM base wafer, core-chip stacking, WSS/carrier bonding, base-wafer molding, and thinning flow.</span></p>
+          <a class="source-card" href="https://doczz.net/doc/8026249/hbm--memory-solution-for-bandwidth-hungry-processors" target="_blank" rel="noreferrer">
+            <h3>SK hynix Hot Chips HBM</h3>
+            <p><span class="zh">早期 HBM base die 架构：PHY、TSV、Test Port，以及未来 base die 定制功能。</span><span class="en">Early HBM base-die architecture: PHY, TSV, test-port areas, and future base-die customization functions.</span></p>
           </a>
-          <a class="source-card" href="https://jsts.org/jsts/XmlViewer/f447028" target="_blank" rel="noreferrer">
-            <h3>JSTS / SK hynix Warpage</h3>
-            <p><span class="zh">HBM 超薄 chip warpage 量测、400mm ring-frame tape sagging 与 tape 本身翘曲问题。</span><span class="en">HBM ultra-thin chip warpage measurement, 400mm ring-frame tape sagging, and tape-induced warpage issues.</span></p>
+          <a class="source-card" href="https://www.trendforce.com/news/2025/09/29/news-breaking-the-memory-wall-hbm-basics-and-the-rise-of-hbm4-in-ai/" target="_blank" rel="noreferrer">
+            <h3>TrendForce HBM4 Basics</h3>
+            <p><span class="zh">HBM4 DRAM die 厚度、775µm 高度、2048 I/O 与 logic base die 成本/复杂度。</span><span class="en">HBM4 DRAM-die thickness, 775um height, 2048 I/O, and logic-base-die cost and complexity.</span></p>
           </a>
-          <a class="source-card" href="https://us.mitsuichemicals.com/service/product/icros_tape/index.htm" target="_blank" rel="noreferrer">
-            <h3>Mitsui ICROS Tape</h3>
-            <p><span class="zh">背磨保护 tape 的 hard base film、anti-warpage 和超薄 wafer 支撑特性。</span><span class="en">Backgrinding protective tape hard base film, anti-warpage behavior, and extra-thin wafer support properties.</span></p>
-          </a>
-          <a class="source-card" href="https://patents.justia.com/patent/20260068594" target="_blank" rel="noreferrer">
-            <h3>Base Wafer Carrier Patent</h3>
-            <p><span class="zh">base wafer carrier assembly 厚度/刚性与 warpage、alignment error、crack 降低之间的工艺关系。</span><span class="en">Process relationship between base-wafer carrier thickness/stiffness and reduced warpage, alignment error, and cracking.</span></p>
+          <a class="source-card" href="https://www.imec-int.com/en/articles/how-protect-advanced-cmos-technologies-thin-si-substrates-against-esd-events" target="_blank" rel="noreferrer">
+            <h3>imec Thin Si / ESD</h3>
+            <p><span class="zh">极薄 silicon substrate 对 ESD 鲁棒性和热扩散的影响；用于解释 logic/PHY die 不能任意减薄。</span><span class="en">Impact of extremely thinned silicon substrates on ESD robustness and thermal spreading; used to explain why logic/PHY dies cannot be thinned arbitrarily.</span></p>
           </a>
           <a class="source-card" href="https://news.samsung.com/global/samsung-ships-industry-first-commercial-hbm4-with-ultimate-performance-for-ai-computing" target="_blank" rel="noreferrer">
             <h3>Samsung</h3>
