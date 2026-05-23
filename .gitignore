@@ -3,3 +3,5 @@ src/config.js
 # OS
 .DS_Store
 .claude/
+orchestra-v2/.orchestra-v2/
+.orchestra-v2-worktrees/

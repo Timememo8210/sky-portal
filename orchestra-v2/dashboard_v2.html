@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orchestra v2 Dashboard</title>
+<style>
+  :root {
+    --bg: #f7f5ef;
+    --panel: #fffdf8;
+    --ink: #1b1f23;
+    --muted: #5f6873;
+    --line: #ded8cc;
+    --line-strong: #b9afa0;
+    --blue: #235a97;
+    --blue-soft: #e7f0fb;
+    --green: #167a5b;
+    --green-soft: #e4f6ee;
+    --red: #b4232c;
+    --red-soft: #fae8ea;
+    --gold: #9b6a16;
+    --gold-soft: #fff2cf;
+    --violet: #6554c0;
+    --violet-soft: #eeeafd;
+    --shadow: 0 12px 30px rgba(31, 35, 40, 0.08);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.45;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(247, 245, 239, 0.92);
+    backdrop-filter: blur(16px);
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .brand strong {
+    font-size: 1rem;
+    letter-spacing: 0;
+  }
+  .brand span {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  main {
+    display: grid;
+    grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+    gap: 18px;
+    padding: 18px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  section {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .control-panel {
+    align-self: start;
+    position: sticky;
+    top: 76px;
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  h1, h2, h3 {
+    margin: 0;
+    letter-spacing: 0;
+  }
+  h1 { font-size: 1rem; }
+  h2 { font-size: 0.92rem; }
+  h3 { font-size: 0.84rem; }
+  form {
+    padding: 16px;
+    display: grid;
+    gap: 14px;
+  }
+  label {
+    display: grid;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0;
+  }
+  textarea,
+  input,
+  select {
+    width: 100%;
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 9px 10px;
+    outline: none;
+  }
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  textarea:focus,
+  input:focus,
+  select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px var(--blue-soft);
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .segmented {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .segmented button {
+    border: 0;
+    padding: 9px 10px;
+    font: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    background: transparent;
+    color: var(--muted);
+  }
+  .segmented button.active {
+    background: var(--ink);
+    color: #fff;
+  }
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  button.primary,
+  button.secondary {
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button.primary { background: var(--blue); color: #fff; }
+  button.secondary { background: #fff; color: var(--ink); border-color: var(--line-strong); }
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .content {
+    display: grid;
+    gap: 18px;
+  }
+  .status-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .metric {
+    background: var(--panel);
+    padding: 14px 16px;
+    min-height: 76px;
+  }
+  .metric span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+  .metric strong {
+    display: block;
+    margin-top: 7px;
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+  }
+  .board {
+    padding: 16px;
+    display: grid;
+    gap: 12px;
+  }
+  .agents {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .agent {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    padding: 12px;
+    min-height: 160px;
+    display: grid;
+    gap: 8px;
+  }
+  .agent-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .agent-id {
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+  .agent-task {
+    color: var(--muted);
+    font-size: 0.82rem;
+    max-height: 56px;
+    overflow: hidden;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  .pill.running, .pill.reviewing, .pill.starting { background: var(--blue-soft); color: var(--blue); }
+  .pill.done, .pill.passed, .pill.complete { background: var(--green-soft); color: var(--green); }
+  .pill.failed, .pill.blocked, .pill.needs_iteration { background: var(--red-soft); color: var(--red); }
+  .pill.pending, .pill.queued, .pill.idle { background: var(--gold-soft); color: var(--gold); }
+  .bar {
+    height: 8px;
+    border-radius: 999px;
+    background: #ece7dc;
+    overflow: hidden;
+  }
+  .bar > span {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--violet);
+    transition: width 0.2s ease;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    color: var(--muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0;
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.8rem;
+    background: #f0ece3;
+    padding: 1px 5px;
+    border-radius: 4px;
+    overflow-wrap: anywhere;
+  }
+  .empty {
+    color: var(--muted);
+    padding: 8px 0;
+    font-size: 0.86rem;
+  }
+  .log-list {
+    display: grid;
+    gap: 8px;
+    max-height: 280px;
+    overflow: auto;
+  }
+  .log-line {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid var(--line);
+    font-size: 0.82rem;
+  }
+  .log-line time {
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.76rem;
+  }
+  .error {
+    display: none;
+    margin: 0 16px 16px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: var(--red-soft);
+    color: var(--red);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    .control-panel { position: static; }
+    .status-row { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    header { align-items: flex-start; flex-direction: column; }
+    main { padding: 12px; }
+    .grid-2, .actions, .status-row { grid-template-columns: 1fr; }
+    .log-line { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <strong>Orchestra v2</strong>
+    <span>Coordinator-owned state, worker-owned reports, selectable models</span>
+  </div>
+  <span class="pill idle" id="topStatus">idle</span>
+</header>
+
+<main>
+  <section class="control-panel">
+    <div class="section-head">
+      <h1>Run Setup</h1>
+      <a href="./ORCHESTRATION_PROTOCOL.md" target="_blank">Protocol</a>
+    </div>
+    <form id="runForm">
+      <label>
+        Task
+        <textarea id="task" required>Improve this project with selectable planner, worker, reviewer models, worker count control, append-only agent communication, and coordinator-owned task state.</textarea>
+      </label>
+      <label>
+        Target directory
+        <input id="targetDir" value="." required>
+      </label>
+      <div class="grid-2">
+        <label>
+          Planner
+          <select id="plannerModel"></select>
+        </label>
+        <label>
+          Reviewer
+          <select id="reviewerModel"></select>
+        </label>
+      </div>
+      <label>
+        Default worker
+        <select id="workerModel"></select>
+      </label>
+      <div class="grid-2">
+        <label>
+          Workers
+          <input id="workerCount" type="number" min="1" max="12" value="4">
+        </label>
+        <label>
+          Poll seconds
+          <input id="interval" type="number" min="2" max="300" value="20">
+        </label>
+      </div>
+      <div class="grid-2">
+        <label>
+          Max rounds
+          <input id="maxRounds" type="number" min="1" max="10" value="3">
+        </label>
+        <label>
+          Isolation
+          <input id="isolationValue" type="hidden" value="worktree">
+          <span class="segmented" aria-label="Isolation mode">
+            <button type="button" class="active" data-isolation="worktree">Worktree</button>
+            <button type="button" data-isolation="shared">Shared</button>
+          </span>
+        </label>
+      </div>
+      <label>
+        Per-worker models
+        <input id="workerModels" placeholder="Optional comma list: codex, glm-5.1, opus">
+      </label>
+      <div class="actions">
+        <button class="primary" id="startButton" type="submit">Start</button>
+        <button class="secondary" id="stopButton" type="button">Stop</button>
+      </div>
+    </form>
+    <div class="error" id="errorBox"></div>
+  </section>
+
+  <div class="content">
+    <div class="status-row">
+      <div class="metric"><span>Run</span><strong id="runId">none</strong></div>
+      <div class="metric"><span>Phase</span><strong id="phase">idle</strong></div>
+      <div class="metric"><span>Agents</span><strong id="agentCount">0</strong></div>
+      <div class="metric"><span>Updated</span><strong id="updatedAt">-</strong></div>
+    </div>
+
+    <section>
+      <div class="section-head">
+        <h2>Agents</h2>
+        <span class="pill pending" id="reviewStatus">review pending</span>
+      </div>
+      <div class="board">
+        <div class="agents" id="agents"></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Mailbox</h2>
+        <span id="mailboxCount" class="pill pending">0</span>
+      </div>
+      <div class="board">
+        <table>
+          <thead><tr><th>File</th><th>Preview</th><th>Time</th></tr></thead>
+          <tbody id="mailbox"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Warnings</h2>
+        <span id="warningCount" class="pill pending">0</span>
+      </div>
+      <div class="board">
+        <table>
+          <thead><tr><th>Time</th><th>Message</th></tr></thead>
+          <tbody id="warnings"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Log</h2>
+      </div>
+      <div class="board">
+        <div class="log-list" id="logs"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let models = {};
+const FALLBACK_MODELS = {
+  opus: { label: 'Claude Opus' },
+  sonnet: { label: 'Claude Sonnet' },
+  'glm-5.1': { label: 'GLM 5.1 via ACP' },
+  codex: { label: 'Codex' },
+  'codex-all-apps': { label: 'Codex all-apps profile' },
+  noop: { label: 'No-op simulator' }
+};
+
+function pillClass(status) {
+  return `pill ${String(status || 'pending').replace(/[^a-z0-9_-]/gi, '_')}`;
+}
+
+function setError(message) {
+  const box = $('errorBox');
+  box.style.display = message ? 'block' : 'none';
+  box.textContent = message || '';
+}
+
+function option(label, value) {
+  const node = document.createElement('option');
+  node.value = value;
+  node.textContent = label;
+  return node;
+}
+
+async function loadModels() {
+  try {
+    const res = await fetch('/api/models');
+    if (!res.ok) throw new Error('API unavailable');
+    const data = await res.json();
+    models = data.models || FALLBACK_MODELS;
+  } catch (error) {
+    models = FALLBACK_MODELS;
+    setError('Static preview mode. Run ./start_v2.sh locally to enable the API.');
+  }
+  const selects = [$('plannerModel'), $('workerModel'), $('reviewerModel')];
+  selects.forEach((select) => {
+    select.textContent = '';
+    Object.entries(models).forEach(([key, value]) => {
+      select.appendChild(option(`${value.label} (${key})`, key));
+    });
+  });
+  $('plannerModel').value = models.opus ? 'opus' : Object.keys(models)[0];
+  $('workerModel').value = models['glm-5.1'] ? 'glm-5.1' : Object.keys(models)[0];
+  $('reviewerModel').value = models.codex ? 'codex' : Object.keys(models)[0];
+}
+
+async function startRun(event) {
+  event.preventDefault();
+  setError('');
+  const payload = {
+    task: $('task').value,
+    target_dir: $('targetDir').value,
+    planner_model: $('plannerModel').value,
+    worker_model: $('workerModel').value,
+    reviewer_model: $('reviewerModel').value,
+    worker_count: Number($('workerCount').value),
+    monitor_interval_seconds: Number($('interval').value),
+    max_rounds: Number($('maxRounds').value),
+    isolation: $('isolationValue').value,
+    worker_models: $('workerModels').value.split(',').map((item) => item.trim()).filter(Boolean)
+  };
+  const res = await fetch('/api/start', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  const data = await res.json();
+  if (!res.ok) {
+    setError(data.error || 'Could not start run.');
+    return;
+  }
+  render(data);
+}
+
+async function stopRun() {
+  setError('');
+  const res = await fetch('/api/stop', { method: 'POST' });
+  const data = await res.json();
+  if (!res.ok) setError(data.error || 'Could not stop run.');
+  render(data);
+}
+
+async function poll() {
+  try {
+    const res = await fetch('/api/state');
+    if (!res.ok) return;
+    render(await res.json());
+  } catch (error) {
+    if (!Object.keys(models).length) setError(String(error));
+  }
+}
+
+function render(state) {
+  const status = state.status || 'idle';
+  $('topStatus').className = pillClass(status);
+  $('topStatus').textContent = status;
+  $('runId').textContent = state.run_id || 'none';
+  $('phase').textContent = state.phase || 'idle';
+  $('updatedAt').textContent = state.updated_at || '-';
+
+  const agents = Object.values(state.agents || {});
+  $('agentCount').textContent = String(agents.length);
+  $('agents').innerHTML = agents.length ? agents.map(renderAgent).join('') : '<div class="empty">No active agents.</div>';
+
+  const review = state.review || {};
+  $('reviewStatus').className = pillClass(review.status || 'pending');
+  $('reviewStatus').textContent = `review ${review.status || 'pending'}`;
+
+  renderRows('mailbox', state.mailbox || [], (item) => `
+    <tr><td><code>${escapeHtml(item.file || '')}</code></td><td>${escapeHtml(item.preview || '')}</td><td>${escapeHtml(item.at || '')}</td></tr>
+  `);
+  $('mailboxCount').textContent = String((state.mailbox || []).length);
+
+  renderRows('warnings', state.warnings || [], (item) => `
+    <tr><td>${escapeHtml(item.at || '')}</td><td>${escapeHtml(item.message || '')}</td></tr>
+  `);
+  $('warningCount').textContent = String((state.warnings || []).length);
+
+  const logs = (state.logs || []).slice(-80).reverse();
+  $('logs').innerHTML = logs.length ? logs.map((item) => `
+    <div class="log-line"><time>${escapeHtml(item.at || '')}</time><div>${escapeHtml(item.message || '')}</div></div>
+  `).join('') : '<div class="empty">No log lines.</div>';
+}
+
+function renderAgent(agent) {
+  const progress = Math.max(0, Math.min(100, Number(agent.progress || 0)));
+  return `
+    <article class="agent">
+      <div class="agent-top">
+        <div>
+          <div class="agent-id">${escapeHtml(agent.id || '')}</div>
+          <code>${escapeHtml(agent.model || '')}</code>
+        </div>
+        <span class="${pillClass(agent.status || 'pending')}">${escapeHtml(agent.status || 'pending')}</span>
+      </div>
+      <div class="agent-task">${escapeHtml(agent.task || '')}</div>
+      <div class="bar"><span style="width:${progress}%"></span></div>
+      <div>${escapeHtml(agent.summary || '')}</div>
+      <code>${escapeHtml(agent.workdir || '')}</code>
+    </article>
+  `;
+}
+
+function renderRows(targetId, rows, renderer) {
+  const target = $(targetId);
+  target.innerHTML = rows.length ? rows.slice(-20).reverse().map(renderer).join('') : '<tr><td colspan="3" class="empty">None</td></tr>';
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+document.querySelectorAll('[data-isolation]').forEach((button) => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('[data-isolation]').forEach((item) => item.classList.remove('active'));
+    button.classList.add('active');
+    $('isolationValue').value = button.dataset.isolation;
+  });
+});
+
+$('runForm').addEventListener('submit', startRun);
+$('stopButton').addEventListener('click', stopRun);
+
+loadModels().then(poll);
+setInterval(poll, 3000);
+</script>
+</body>
+</html>
