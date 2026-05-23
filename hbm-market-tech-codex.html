@@ -935,6 +935,7 @@
 
     .research-block {
       margin-top: 18px;
+      scroll-margin-top: 140px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: rgba(255, 250, 240, 0.84);
@@ -1979,6 +1980,80 @@
             </table>
           </div>
         </div>
+
+        <div class="research-block reveal" id="stack-mechanics">
+          <h3><span class="zh">Hi、die 厚度与翘曲：封装路线的机械约束</span><span class="en">Hi, die thickness, and warpage: the mechanical constraint behind packaging choices</span></h3>
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <strong>16-Hi</strong>
+              <span><span class="zh">表示垂直堆叠 16 层 DRAM die；另有一层 base die/logic die 在底部。</span><span class="en">Means 16 vertically stacked DRAM dies, plus a base/logic die at the bottom.</span></span>
+            </div>
+            <div class="evidence-card">
+              <strong>20-Hi</strong>
+              <span><span class="zh">HBM5 路线图常见情景，不是已公开量产规格；难点是高度、散热、键合和良率同时收紧。</span><span class="en">A common HBM5 roadmap scenario, not a public production spec; height, thermal, bonding, and yield limits tighten together.</span></span>
+            </div>
+            <div class="evidence-card">
+              <strong>Die 厚</strong>
+              <span><span class="zh">单片刚性更好、较不易弯，但 stack 总高度更难满足；TSV、热路径和封装高度都会受影响。</span><span class="en">A thicker die is stiffer, but makes total stack height harder to meet; TSV, thermal path, and package height are affected.</span></span>
+            </div>
+            <div class="evidence-card">
+              <strong>Die 薄</strong>
+              <span><span class="zh">能堆更多层，但更容易翘曲、裂片、pickup/搬运失败，需要 carrier/tape、mold 和 bonding 窗口配合。</span><span class="en">Enables higher stacks but raises warpage, cracking, pickup/handling risk, requiring carrier/tape, mold, and bonding-window control.</span></span>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th><span class="zh">问题</span><span class="en">Question</span></th>
+                  <th><span class="zh">物理逻辑</span><span class="en">Physical logic</span></th>
+                  <th><span class="zh">SK hynix / MR-MUF 含义</span><span class="en">SK hynix / MR-MUF implication</span></th>
+                  <th><span class="zh">Samsung / TC-NCF 含义</span><span class="en">Samsung / TC-NCF implication</span></th>
+                  <th><span class="zh">判断等级</span><span class="en">Confidence</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong><span class="zh">Hi 是什么？</span><span class="en">What does Hi mean?</span></strong></td>
+                  <td><span class="zh">8-Hi/12-Hi/16-Hi 是 DRAM die 层数；容量随层数上升，但总高度、热阻、对准和良率变难。</span><span class="en">8-Hi/12-Hi/16-Hi are DRAM-die counts; capacity rises, but total height, thermal resistance, alignment, and yield become harder.</span></td>
+                  <td><span class="zh">MR-MUF 的优势在于一次性 reflow + mold/EMC 填充，适合追求高层数下的散热和结构稳定。</span><span class="en">MR-MUF's advantage is mass reflow plus mold/EMC fill, useful for thermal and structural stability at higher stacks.</span></td>
+                  <td><span class="zh">TC-NCF 通过 film 厚度、层间 gap 和热压窗口控制高层数，Samsung 官方称 12H 可满足 8H 同高度规格。</span><span class="en">TC-NCF controls high stacks through film thickness, inter-die gap, and bonding window; Samsung says 12H meets the same height spec as 8H.</span></td>
+                  <td><span class="quality official">OFFICIAL</span></td>
+                </tr>
+                <tr>
+                  <td><strong><span class="zh">die 越厚翘曲越好吗？</span><span class="en">Does thicker die reduce warpage?</span></strong></td>
+                  <td><span class="zh">一般是：单片越厚刚性越高、越不容易弯；但 HBM 不能任意加厚，因为 stack 高度被 JEDEC/客户封装约束锁住。</span><span class="en">Generally yes: thicker die is stiffer and bends less; but HBM cannot thicken freely because stack height is constrained by JEDEC/customer package windows.</span></td>
+                  <td><span class="zh">SK 官方称 12-layer HBM3 为保持总厚度，DRAM die 比 8-layer HBM3 薄 40%，因此 warpage 成为显著问题。</span><span class="en">SK hynix says 12-layer HBM3 needed DRAM dies 40% thinner than 8-layer HBM3 to maintain total thickness, making warpage a significant issue.</span></td>
+                  <td><span class="zh">Samsung 通过更薄 NCF、7µm 层间 gap、消除 void 和大小不同的 bump 来改善密度、热和良率。</span><span class="en">Samsung uses thinner NCF, a 7µm inter-die gap, void elimination, and mixed bump sizes to improve density, thermals, and yield.</span></td>
+                  <td><span class="quality official">OFFICIAL</span></td>
+                </tr>
+                <tr>
+                  <td><strong><span class="zh">为什么 SK 仍坚持 MR-MUF？</span><span class="en">Why does SK keep MR-MUF?</span></strong></td>
+                  <td><span class="zh">高层数 HBM 的瓶颈是热、压力、warpage、mold fill 和整体可靠性，不只是是否能把 die 粘起来。</span><span class="en">The bottleneck is heat, pressure, warpage, mold fill, and reliability, not just attaching dies.</span></td>
+                  <td><span class="zh">SK 官方称 Advanced MR-MUF 提供更好的 warpage control、降低堆叠压力；HBM4 继续采用 Advanced MR-MUF 和 1bnm 降低量产风险。</span><span class="en">SK says Advanced MR-MUF provides better warpage control and lower stack pressure; HBM4 keeps Advanced MR-MUF and 1bnm to reduce ramp risk.</span></td>
+                  <td><span class="zh">Samsung 的补课方向不是单纯换材料，而是 HBM4 的 1c DRAM、4nm logic base die、低压 TSV、PDN 和热设计一起改。</span><span class="en">Samsung's catch-up is not just a material swap; HBM4 combines 1c DRAM, 4nm logic base die, low-voltage TSV, PDN, and thermal design.</span></td>
+                  <td><span class="quality official">OFFICIAL</span></td>
+                </tr>
+                <tr>
+                  <td><strong><span class="zh">Samsung HBM3E 问题是什么？</span><span class="en">What was the Samsung HBM3E issue?</span></strong></td>
+                  <td><span class="zh">客户认证不只测规格，还测功耗、热阻、信号完整性和长期可靠性；任何一项偏离都会造成导入延迟。</span><span class="en">Customer qualification tests not just spec sheets, but power, thermal resistance, signal integrity, and long-term reliability; any miss can delay adoption.</span></td>
+                  <td><span class="zh">SK 的优势在于较早通过客户平台认证，把 MR-MUF 的散热/warpage 稳定性转化成份额优势。</span><span class="en">SK's edge was early platform qualification, converting MR-MUF thermal/warpage stability into share leadership.</span></td>
+                  <td><span class="zh">Reuters/CNBC 曾报道 Samsung HBM3/HBM3E 在 NVIDIA 测试中遇到热和功耗问题；Samsung 后续否认“因热/功耗失败”的说法。官方技术路线显示其重点补强 thermal、power、base die 和 PDN。</span><span class="en">Reuters/CNBC reported Samsung HBM3/HBM3E heat and power issues in NVIDIA testing; Samsung later denied failure due to those causes. Its official roadmap shows focus on thermal, power, base-die, and PDN improvements.</span></td>
+                  <td><span class="quality analyst">REPORTED</span></td>
+                </tr>
+                <tr>
+                  <td><strong><span class="zh">更厚 tape 是否和封装问题相关？</span><span class="en">Is thicker tape tied to package issues?</span></strong></td>
+                  <td><span class="zh">如果指 temporary carrier / backgrind / dicing tape，较厚或更高模量材料可能是为了支撑超薄 die，减少搬运、pickup、翘曲和裂片风险。</span><span class="en">If it means temporary carrier/backgrind/dicing tape, thicker or higher-modulus material may support ultra-thin dies and reduce handling, pickup, warpage, and cracking risk.</span></td>
+                  <td><span class="zh">相关性合理：MR-MUF 高层数需要更薄 die，薄 die 更依赖临时支撑；但公开资料没有直接证明“SK 因某次失败而要求 tape 变厚”。</span><span class="en">Correlation is plausible: MR-MUF high stacks need thinner dies, which depend more on temporary support; public sources do not directly prove SK raised tape thickness because of a specific failure.</span></td>
+                  <td><span class="zh">若指 NCF film/tape，Samsung 反而公开强调降低 NCF 厚度和 7µm gap；这和 SK 的 MR-MUF 路线不是同一个 tape 问题。</span><span class="en">If it means NCF film/tape, Samsung instead emphasizes thinner NCF and a 7µm gap; that is not the same tape issue as SK's MR-MUF route.</span></td>
+                  <td><span class="quality scenario">HYPOTHESIS</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="matrix-note"><span class="zh">工作假设：先确认“厚 tape”到底是临时 carrier/backgrind/dicing tape、封装 adhesive，还是 NCF film。只有第一类与 SK 的超薄 die 搬运/翘曲问题直接相关；第二、三类要按具体材料和工序重新判断。</span><span class="en">Working hypothesis: first identify whether "thick tape" means temporary carrier/backgrind/dicing tape, package adhesive, or NCF film. Only the first maps directly to SK's ultra-thin-die handling/warpage issue; the others require process-specific review.</span></p>
+        </div>
       </div>
     </section>
 
@@ -2313,9 +2388,21 @@
             <h3>SK hynix</h3>
             <p><span class="zh">HBM4 开发、性能与功耗效率公告。</span><span class="en">HBM4 development, performance and power efficiency claims.</span></p>
           </a>
+          <a class="source-card" href="https://news.skhynix.com/rulebreaker-revolutions-mr-muf-unlocks-hbm-heat-control/" target="_blank" rel="noreferrer">
+            <h3>SK hynix MR-MUF</h3>
+            <p><span class="zh">MR-MUF 与 Advanced MR-MUF：12-layer HBM3 的 40% 薄化、warpage、EMC 和散热材料。</span><span class="en">MR-MUF and Advanced MR-MUF: 40% thinner 12-layer HBM3 dies, warpage, EMC, and thermal materials.</span></p>
+          </a>
           <a class="source-card" href="https://news.samsung.com/global/samsung-ships-industry-first-commercial-hbm4-with-ultimate-performance-for-ai-computing" target="_blank" rel="noreferrer">
             <h3>Samsung</h3>
             <p><span class="zh">HBM4 商业出货、1c DRAM、4nm logic base die、带宽与 2027 custom HBM 样品计划。</span><span class="en">HBM4 commercial shipment, 1c DRAM, 4nm logic base die, bandwidth, and 2027 custom HBM sampling plan.</span></p>
+          </a>
+          <a class="source-card" href="https://news.samsungsemiconductor.com/global/samsung-develops-industry-first-36gb-hbm3e-12h-dram/" target="_blank" rel="noreferrer">
+            <h3>Samsung HBM3E 12H</h3>
+            <p><span class="zh">Advanced TC-NCF、7µm 层间 gap、12H 与 8H 同高度规格、热阻改善。</span><span class="en">Advanced TC-NCF, 7µm inter-die gap, 12H at the same height spec as 8H, and thermal-resistance improvements.</span></p>
+          </a>
+          <a class="source-card" href="https://www.cnbc.com/2024/05/24/samsungs-hbm-chips-are-failing-nvidia-tests-reuters.html" target="_blank" rel="noreferrer">
+            <h3>Reuters / CNBC</h3>
+            <p><span class="zh">Samsung HBM3/HBM3E 客户认证争议：热、功耗问题报道与 Samsung 后续否认。</span><span class="en">Samsung HBM3/HBM3E qualification controversy: reported heat/power issues and Samsung's later denial.</span></p>
           </a>
           <a class="source-card" href="https://www.micron.com/products/memory/hbm/hbm4" target="_blank" rel="noreferrer">
             <h3>Micron HBM4</h3>
@@ -2332,6 +2419,10 @@
           <a class="source-card" href="https://www.trendforce.com/news/2025/08/26/news-nvidia-reportedly-plans-2027-hbm-logic-die-design-to-gain-supply-chain-leverage-over-tsmc-sk-hynix/" target="_blank" rel="noreferrer">
             <h3>TrendForce custom logic die</h3>
             <p><span class="zh">NVIDIA 2027 HBM logic die 设计、TSMC 12nm/3nm 路线与 custom HBM4E 产业影响。</span><span class="en">NVIDIA 2027 HBM logic-die design, TSMC 12nm/3nm path, and custom HBM4E implications.</span></p>
+          </a>
+          <a class="source-card" href="https://www.trendforce.com/news/2026/01/13/news-sk-hynix-may-stick-with-mr-muf-for-hbm4-16-high-despite-asmpt-tc-bonder-orders/" target="_blank" rel="noreferrer">
+            <h3>TrendForce 16-High HBM4</h3>
+            <p><span class="zh">SK hynix 16-high HBM4、30µm DRAM wafer、775µm 高度限制与 MR-MUF/fluxless bonding 取舍。</span><span class="en">SK hynix 16-high HBM4, 30µm DRAM wafers, 775µm height limit, and MR-MUF versus fluxless bonding tradeoffs.</span></p>
           </a>
           <a class="source-card" href="https://www.businesswire.com/news/home/20241030527475/en/HBM5-20hi-Stack-to-Adopt-Hybrid-Bonding-Technology-Potentially-Transforming-Business-Models-Says-TrendForce" target="_blank" rel="noreferrer">
             <h3>TrendForce Hybrid Bonding</h3>
