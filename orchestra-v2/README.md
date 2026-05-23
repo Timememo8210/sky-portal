@@ -1,95 +1,122 @@
-# Orchestra v2
+# Orchestra v2 / 第二版
 
-Orchestra v2 keeps the v1 idea small, but makes the collaboration protocol explicit.
-The key change is file ownership: the coordinator is the only process that edits the
-shared plan, task list, global memory, and state snapshot. Planner, worker, and
-review agents write only to their own directories or append-only mailbox files.
+## 中文说明
 
-## What Changed
+Orchestra v2 不是一个线上 SaaS。GitHub Pages 上的页面只是说明书和静态预览；真正调用 Claude、GLM 5.1、Codex 的服务必须在本地机器运行。
 
-| Area | v1 | v2 |
+如果 Mac mini 已经配好了 Claude Code、GLM 5.1 ACP、Codex，先在 Mac mini 上试用。Mac Pro 可以继续负责编辑和发布网页，不必马上重新配置 GLM 5.1。
+
+### 推荐试用方式
+
+在 Mac mini 上：
+
+```bash
+git clone git@github.com:Timememo8210/sky-portal.git
+cd sky-portal/orchestra-v2
+HOST=0.0.0.0 PORT=8420 ./start_v2.sh
+```
+
+然后：
+
+- 在 Mac mini 本机打开 `http://127.0.0.1:8420`
+- 在 Mac Pro 上打开 `http://<Mac mini 的 Tailscale 或局域网 IP>:8420`
+
+如果你原来的 v1 Dashboard 地址 `http://100.108.145.51:8420` 指向 Mac mini，那么 v2 也可以用同样的 IP，只要 v2 服务在 Mac mini 上启动并监听 `0.0.0.0`。
+
+### 为什么线上页面不能直接跑
+
+`https://timememo8210.github.io/sky-portal/orchestra-v2/dashboard_v2.html` 是静态页面。它不能直接访问 Mac mini 本机的 API，也不能直接读取 Mac mini 上的 Claude / Codex / GLM 配置。
+
+要真正运行，必须打开本地服务地址，例如：
+
+```text
+http://127.0.0.1:8420
+http://100.108.145.51:8420
+```
+
+### v2 的核心变化
+
+| 项目 | v1 | v2 |
 | --- | --- | --- |
-| Task state | Shared `state.json` plus context file | Coordinator-owned `state.json`, `todo.md`, `memory/global.md` |
-| Worker progress | Worker logs | Per-agent `status.json`, `progress.ndjson`, `handoff.md` |
-| Agent communication | Prompt context and git diff | Append-only `mailbox/*.md` files plus coordinator memory rollup |
-| Code conflicts | Workers may share one tree | Default `git worktree` isolation, one tree per worker |
-| Model routing | Hard-coded Opus / GLM / Codex | Runtime selectable planner, worker, reviewer, and worker count |
-| Review loop | Review then retry | Review issues become coordinator-owned next-round tasks |
+| 任务状态 | 共享 `state.json` 和上下文文件 | 只有主控写 `state.json`, `todo.md`, `memory/global.md` |
+| 子 Agent 进度 | 主要看日志 | 每个 Agent 写自己的 `status.json`, `progress.ndjson`, `handoff.md` |
+| Agent 沟通 | Prompt 和 git diff | 每条消息都是独立的 `mailbox/*.md` 文件 |
+| 代码冲突 | Worker 可能共用一个目录 | 默认每个 Worker 一个 `git worktree` |
+| 模型选择 | Opus / GLM / Codex 写死 | 运行前选择 planner、worker、reviewer 和 worker 数量 |
+| Review 回流 | Review 后再重试 | Review 问题变成下一轮主控任务 |
 
-## Runtime Layout
+### 运行目录结构
 
 ```text
 .orchestra-v2/
   runs/
     run-20260522-204800/
       config.json
-      state.json                 # coordinator-owned
-      todo.md                    # coordinator-owned
-      memory/
-        global.md                # coordinator-owned
+      state.json
+      todo.md
+      memory/global.md
       mailbox/
-        20260522T204812-worker-1-to-coordinator.md
-      agents/
-        worker-1/
-          task.md
-          prompt.md
-          status.json
-          progress.ndjson
-          handoff.md
+      agents/worker-1/
       review/
-        prompt-round-1.md
-        review-round-1.md
-        status.json
       worktrees/
-        worker-1/
       patches/
-        worker-1.patch
 ```
 
-## Ownership Rules
+### 本机测试
 
-1. The coordinator writes `state.json`, `todo.md`, `memory/global.md`, review
-   task allocation, and final merge decisions.
-2. A worker writes only inside `agents/<agent-id>/` and creates new files in
-   `mailbox/`. It never edits `todo.md` or global memory directly.
-3. A reviewer writes only inside `review/` and `mailbox/`.
-4. Cross-agent communication is append-only: create a new mailbox file instead of
-   appending to a shared conversation log.
-5. Code changes happen in isolated worktrees when the target directory is a git
-   repo. The coordinator collects patches and decides what to merge.
-
-## Model Selection
-
-The dashboard and `/api/start` accept:
-
-- `planner_model`: model/profile for the master planning phase.
-- `worker_model`: default model/profile for child agents.
-- `worker_models`: optional per-worker override list.
-- `reviewer_model`: model/profile for review.
-- `worker_count`: number of child agents.
-- `monitor_interval_seconds`: how often the coordinator polls child status.
-- `isolation`: `worktree` or `shared`.
-
-Built-in profiles are defined in `orchestrator_v2.py`. The `noop` profile is useful
-for testing the protocol without spending model calls.
-
-## Run
-
-```bash
-cd orchestra-v2
-./start_v2.sh
-```
-
-Then open `http://localhost:8420`.
-
-Command line run without the dashboard:
+不调用真实模型，只测试编排协议：
 
 ```bash
 python3 orchestrator_v2.py --once --config CONFIG.example.json
 ```
 
+把 `CONFIG.example.json` 里的 `planner_model`、`worker_model`、`reviewer_model` 改成 `noop`，就不会消耗 API。
+
+## English
+
+Orchestra v2 is not a hosted SaaS app. The GitHub Pages page is documentation and a static preview only. The service that calls Claude, GLM 5.1, and Codex must run on a local machine.
+
+If the Mac mini already has Claude Code, GLM 5.1 ACP, and Codex configured, test on the Mac mini first. The Mac Pro can stay as the editing and publishing machine until you decide to configure GLM 5.1 there too.
+
+### Recommended Test Path
+
+On the Mac mini:
+
+```bash
+git clone git@github.com:Timememo8210/sky-portal.git
+cd sky-portal/orchestra-v2
+HOST=0.0.0.0 PORT=8420 ./start_v2.sh
+```
+
+Then open:
+
+- `http://127.0.0.1:8420` on the Mac mini
+- `http://<Mac mini Tailscale or LAN IP>:8420` from the Mac Pro
+
+If the old v1 dashboard address `http://100.108.145.51:8420` points to the Mac mini, v2 can use the same IP once the v2 service is running there and listening on `0.0.0.0`.
+
+### Why the Online Page Cannot Run Agents
+
+`https://timememo8210.github.io/sky-portal/orchestra-v2/dashboard_v2.html` is static. It cannot directly access the Mac mini local API, nor can it read Claude / Codex / GLM credentials from the Mac mini.
+
+To run agents, open the local service instead:
+
+```text
+http://127.0.0.1:8420
+http://100.108.145.51:8420
+```
+
+### What Changed
+
+| Area | v1 | v2 |
+| --- | --- | --- |
+| Task state | Shared `state.json` plus context file | Coordinator-owned `state.json`, `todo.md`, `memory/global.md` |
+| Worker progress | Worker logs | Per-agent `status.json`, `progress.ndjson`, `handoff.md` |
+| Agent communication | Prompt context and git diff | Append-only `mailbox/*.md` files |
+| Code conflicts | Workers may share one tree | One `git worktree` per worker by default |
+| Model routing | Hard-coded Opus / GLM / Codex | Select planner, worker, reviewer, and worker count before running |
+| Review loop | Review then retry | Review issues become next-round coordinator tasks |
+
 ## Update Log
 
-- 2026-05-22: Added v2 design package, coordinator-owned status protocol,
-  append-only mailbox, selectable model profiles, worker count control, and
-  worktree-first isolation.
+- 2026-05-22: Added bilingual documentation, machine-selection guidance, coordinator-owned status protocol, append-only mailbox, selectable model profiles, worker count control, and worktree-first isolation.

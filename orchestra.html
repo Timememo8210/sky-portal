@@ -521,6 +521,39 @@ ANTHROPIC_DEFAULT_HAIKU_MODEL=<span class="string">"glm-4.5-air"</span></pre>
   <span class="en">The dashboard still defaults to <code>http://127.0.0.1:8420</code>. If 8420 is busy, run <code>PORT=8421 ./start_v2.sh</code>.</span>
 </p>
 
+<h3><span class="zh">在哪台机器运行？</span><span class="en">Which Machine Should Run It?</span></h3>
+<p>
+  <span class="zh">线上 GitHub Pages 只负责展示说明和静态预览，不能直接调用你 Mac mini 或 Mac Pro 本地的 Claude / GLM / Codex。真正运行 Agent 的 <code>orchestrator_v2.py</code> 必须在配置齐全的那台机器上启动。</span>
+  <span class="en">GitHub Pages only serves documentation and a static preview. It cannot directly call Claude / GLM / Codex on your Mac mini or Mac Pro. The real <code>orchestrator_v2.py</code> service must run on the machine where the model CLIs and API credentials are configured.</span>
+</p>
+<table>
+  <thead>
+    <tr>
+      <th><span class="zh">机器</span><span class="en">Machine</span></th>
+      <th><span class="zh">适合做什么</span><span class="en">Best For</span></th>
+      <th><span class="zh">原因</span><span class="en">Reason</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mac mini</td>
+      <td><span class="zh">优先试运行 v2</span><span class="en">First place to test v2</span></td>
+      <td><span class="zh">如果 Claude Code、GLM 5.1 ACP、Codex 已经配好，就不需要在 Mac Pro 重新配一遍。</span><span class="en">If Claude Code, GLM 5.1 ACP, and Codex are already configured there, you do not need to repeat that setup on the Mac Pro first.</span></td>
+    </tr>
+    <tr>
+      <td>Mac Pro</td>
+      <td><span class="zh">编辑、发布、也可以单独配置后运行</span><span class="en">Editing, publishing, or running after setup</span></td>
+      <td><span class="zh">本页和 v2 代码是在 Mac Pro 上发布的；但 GLM 5.1 API / ACP 如果没配，真实 Worker 不能用 GLM 跑。</span><span class="en">This page and v2 code were published from the Mac Pro; but if GLM 5.1 API / ACP is not configured, real GLM workers will not run here.</span></td>
+    </tr>
+  </tbody>
+</table>
+<pre><span class="comment"># 推荐：在 Mac mini 上启动，然后从 Mac Pro 打开</span>
+<span class="cmd">cd</span> sky-portal/orchestra-v2
+HOST=<span class="string">0.0.0.0</span> PORT=<span class="string">8420</span> <span class="cmd">./start_v2.sh</span>
+
+<span class="comment"># Mac Pro 浏览器打开</span>
+http://&lt;Mac mini 的 Tailscale 或局域网 IP&gt;:8420</pre>
+
 <h2><span class="zh">使用方法</span><span class="en">Usage</span></h2>
 
 <div class="steps">

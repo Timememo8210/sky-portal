@@ -58,6 +58,33 @@
     font-size: 0.78rem;
     color: var(--muted);
   }
+  body.en .zh { display: none !important; }
+  body.zh .en { display: none !important; }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .lang-switch {
+    display: flex;
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .lang-switch button {
+    border: 0;
+    padding: 5px 10px;
+    font: inherit;
+    font-size: 0.76rem;
+    cursor: pointer;
+    background: transparent;
+    color: var(--muted);
+  }
+  .lang-switch button.active {
+    background: var(--ink);
+    color: #fff;
+  }
   main {
     display: grid;
     grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
@@ -342,61 +369,67 @@
   }
 </style>
 </head>
-<body>
+<body class="zh">
 <header>
   <div class="brand">
     <strong>Orchestra v2</strong>
-    <span>Coordinator-owned state, worker-owned reports, selectable models</span>
+    <span><span class="zh">主控写状态，子 Agent 写报告，模型和数量可选</span><span class="en">Coordinator-owned state, worker-owned reports, selectable models</span></span>
   </div>
-  <span class="pill idle" id="topStatus">idle</span>
+  <div class="header-right">
+    <div class="lang-switch">
+      <button type="button" class="active" data-lang="zh">中</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+    <span class="pill idle" id="topStatus">idle</span>
+  </div>
 </header>
 
 <main>
   <section class="control-panel">
     <div class="section-head">
-      <h1>Run Setup</h1>
-      <a href="./ORCHESTRATION_PROTOCOL.md" target="_blank">Protocol</a>
+      <h1><span class="zh">运行设置</span><span class="en">Run Setup</span></h1>
+      <a href="./ORCHESTRATION_PROTOCOL.md" target="_blank"><span class="zh">协议</span><span class="en">Protocol</span></a>
     </div>
     <form id="runForm">
       <label>
-        Task
-        <textarea id="task" required>Improve this project with selectable planner, worker, reviewer models, worker count control, append-only agent communication, and coordinator-owned task state.</textarea>
+        <span><span class="zh">任务</span><span class="en">Task</span></span>
+        <textarea id="task" required>改进这个项目：运行前可以选择主控、子 Agent、Review 模型和子 Agent 数量；Agent 之间用追加式消息沟通；共享任务状态只由主控更新。</textarea>
       </label>
       <label>
-        Target directory
+        <span><span class="zh">目标代码目录</span><span class="en">Target directory</span></span>
         <input id="targetDir" value="." required>
       </label>
       <div class="grid-2">
         <label>
-          Planner
+          <span><span class="zh">主控 / 规划模型</span><span class="en">Planner</span></span>
           <select id="plannerModel"></select>
         </label>
         <label>
-          Reviewer
+          <span><span class="zh">审查模型</span><span class="en">Reviewer</span></span>
           <select id="reviewerModel"></select>
         </label>
       </div>
       <label>
-        Default worker
+        <span><span class="zh">默认子 Agent 模型</span><span class="en">Default worker</span></span>
         <select id="workerModel"></select>
       </label>
       <div class="grid-2">
         <label>
-          Workers
+          <span><span class="zh">子 Agent 数量</span><span class="en">Workers</span></span>
           <input id="workerCount" type="number" min="1" max="12" value="4">
         </label>
         <label>
-          Poll seconds
+          <span><span class="zh">轮询秒数</span><span class="en">Poll seconds</span></span>
           <input id="interval" type="number" min="2" max="300" value="20">
         </label>
       </div>
       <div class="grid-2">
         <label>
-          Max rounds
+          <span><span class="zh">最多迭代轮数</span><span class="en">Max rounds</span></span>
           <input id="maxRounds" type="number" min="1" max="10" value="3">
         </label>
         <label>
-          Isolation
+          <span><span class="zh">代码隔离方式</span><span class="en">Isolation</span></span>
           <input id="isolationValue" type="hidden" value="worktree">
           <span class="segmented" aria-label="Isolation mode">
             <button type="button" class="active" data-isolation="worktree">Worktree</button>
@@ -405,12 +438,12 @@
         </label>
       </div>
       <label>
-        Per-worker models
-        <input id="workerModels" placeholder="Optional comma list: codex, glm-5.1, opus">
+        <span><span class="zh">每个子 Agent 单独指定模型</span><span class="en">Per-worker models</span></span>
+        <input id="workerModels" placeholder="可选，用逗号分隔：codex, glm-5.1, opus">
       </label>
       <div class="actions">
-        <button class="primary" id="startButton" type="submit">Start</button>
-        <button class="secondary" id="stopButton" type="button">Stop</button>
+        <button class="primary" id="startButton" type="submit"><span class="zh">开始</span><span class="en">Start</span></button>
+        <button class="secondary" id="stopButton" type="button"><span class="zh">停止</span><span class="en">Stop</span></button>
       </div>
     </form>
     <div class="error" id="errorBox"></div>
@@ -418,15 +451,15 @@
 
   <div class="content">
     <div class="status-row">
-      <div class="metric"><span>Run</span><strong id="runId">none</strong></div>
-      <div class="metric"><span>Phase</span><strong id="phase">idle</strong></div>
-      <div class="metric"><span>Agents</span><strong id="agentCount">0</strong></div>
-      <div class="metric"><span>Updated</span><strong id="updatedAt">-</strong></div>
+      <div class="metric"><span><span class="zh">运行 ID</span><span class="en">Run</span></span><strong id="runId">none</strong></div>
+      <div class="metric"><span><span class="zh">阶段</span><span class="en">Phase</span></span><strong id="phase">idle</strong></div>
+      <div class="metric"><span><span class="zh">Agent 数量</span><span class="en">Agents</span></span><strong id="agentCount">0</strong></div>
+      <div class="metric"><span><span class="zh">更新时间</span><span class="en">Updated</span></span><strong id="updatedAt">-</strong></div>
     </div>
 
     <section>
       <div class="section-head">
-        <h2>Agents</h2>
+        <h2><span class="zh">Agent 进度</span><span class="en">Agents</span></h2>
         <span class="pill pending" id="reviewStatus">review pending</span>
       </div>
       <div class="board">
@@ -436,12 +469,12 @@
 
     <section>
       <div class="section-head">
-        <h2>Mailbox</h2>
+        <h2><span class="zh">消息邮箱</span><span class="en">Mailbox</span></h2>
         <span id="mailboxCount" class="pill pending">0</span>
       </div>
       <div class="board">
         <table>
-          <thead><tr><th>File</th><th>Preview</th><th>Time</th></tr></thead>
+          <thead><tr><th><span class="zh">文件</span><span class="en">File</span></th><th><span class="zh">预览</span><span class="en">Preview</span></th><th><span class="zh">时间</span><span class="en">Time</span></th></tr></thead>
           <tbody id="mailbox"></tbody>
         </table>
       </div>
@@ -449,12 +482,12 @@
 
     <section>
       <div class="section-head">
-        <h2>Warnings</h2>
+        <h2><span class="zh">警告</span><span class="en">Warnings</span></h2>
         <span id="warningCount" class="pill pending">0</span>
       </div>
       <div class="board">
         <table>
-          <thead><tr><th>Time</th><th>Message</th></tr></thead>
+          <thead><tr><th><span class="zh">时间</span><span class="en">Time</span></th><th><span class="zh">消息</span><span class="en">Message</span></th></tr></thead>
           <tbody id="warnings"></tbody>
         </table>
       </div>
@@ -462,7 +495,7 @@
 
     <section>
       <div class="section-head">
-        <h2>Log</h2>
+        <h2><span class="zh">日志</span><span class="en">Log</span></h2>
       </div>
       <div class="board">
         <div class="log-list" id="logs"></div>
@@ -474,14 +507,49 @@
 <script>
 const $ = (id) => document.getElementById(id);
 let models = {};
+let currentLang = 'zh';
+let staticPreview = false;
 const FALLBACK_MODELS = {
-  opus: { label: 'Claude Opus' },
-  sonnet: { label: 'Claude Sonnet' },
-  'glm-5.1': { label: 'GLM 5.1 via ACP' },
-  codex: { label: 'Codex' },
-  'codex-all-apps': { label: 'Codex all-apps profile' },
-  noop: { label: 'No-op simulator' }
+  opus: { label: 'Claude Opus', labelZh: 'Claude Opus' },
+  sonnet: { label: 'Claude Sonnet', labelZh: 'Claude Sonnet' },
+  'glm-5.1': { label: 'GLM 5.1 via ACP', labelZh: 'GLM 5.1（通过 ACP）' },
+  codex: { label: 'Codex', labelZh: 'Codex' },
+  'codex-all-apps': { label: 'Codex all-apps profile', labelZh: 'Codex all-apps 配置' },
+  noop: { label: 'No-op simulator', labelZh: 'No-op 测试模拟器' }
 };
+
+const COPY = {
+  staticPreview: {
+    zh: '静态预览模式。要真正运行 Agent，请在配置齐全的机器上执行 ./start_v2.sh。',
+    en: 'Static preview mode. Run ./start_v2.sh on the configured machine to enable the API.'
+  },
+  couldNotStart: { zh: '无法启动运行。', en: 'Could not start run.' },
+  couldNotStop: { zh: '无法停止运行。', en: 'Could not stop run.' },
+  noAgents: { zh: '暂无运行中的 Agent。', en: 'No active agents.' },
+  none: { zh: '无', en: 'None' },
+  noLogs: { zh: '暂无日志。', en: 'No log lines.' },
+  review: { zh: '审查', en: 'review' },
+  placeholder: {
+    zh: '可选，用逗号分隔：codex, glm-5.1, opus',
+    en: 'Optional comma list: codex, glm-5.1, opus'
+  }
+};
+
+function t(key) {
+  return COPY[key][currentLang];
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.body.className = lang;
+  document.querySelectorAll('[data-lang]').forEach((button) => {
+    button.classList.toggle('active', button.dataset.lang === lang);
+  });
+  $('workerModels').placeholder = t('placeholder');
+  if (staticPreview) setError(t('staticPreview'));
+  populateModelSelects();
+  poll();
+}
 
 function pillClass(status) {
   return `pill ${String(status || 'pending').replace(/[^a-z0-9_-]/gi, '_')}`;
@@ -500,23 +568,38 @@ function option(label, value) {
   return node;
 }
 
+function populateModelSelects() {
+  const selected = {
+    plannerModel: $('plannerModel').value || 'opus',
+    workerModel: $('workerModel').value || 'glm-5.1',
+    reviewerModel: $('reviewerModel').value || 'codex'
+  };
+  const selects = [$('plannerModel'), $('workerModel'), $('reviewerModel')];
+  selects.forEach((select) => {
+    select.textContent = '';
+    Object.entries(models).forEach(([key, value]) => {
+      const label = currentLang === 'zh' ? (value.labelZh || value.label || key) : (value.label || key);
+      select.appendChild(option(`${label} (${key})`, key));
+    });
+    select.value = selected[select.id] && models[selected[select.id]]
+      ? selected[select.id]
+      : Object.keys(models)[0];
+  });
+}
+
 async function loadModels() {
   try {
     const res = await fetch('/api/models');
     if (!res.ok) throw new Error('API unavailable');
     const data = await res.json();
     models = data.models || FALLBACK_MODELS;
+    staticPreview = false;
   } catch (error) {
     models = FALLBACK_MODELS;
-    setError('Static preview mode. Run ./start_v2.sh locally to enable the API.');
+    staticPreview = true;
+    setError(t('staticPreview'));
   }
-  const selects = [$('plannerModel'), $('workerModel'), $('reviewerModel')];
-  selects.forEach((select) => {
-    select.textContent = '';
-    Object.entries(models).forEach(([key, value]) => {
-      select.appendChild(option(`${value.label} (${key})`, key));
-    });
-  });
+  populateModelSelects();
   $('plannerModel').value = models.opus ? 'opus' : Object.keys(models)[0];
   $('workerModel').value = models['glm-5.1'] ? 'glm-5.1' : Object.keys(models)[0];
   $('reviewerModel').value = models.codex ? 'codex' : Object.keys(models)[0];
@@ -525,6 +608,10 @@ async function loadModels() {
 async function startRun(event) {
   event.preventDefault();
   setError('');
+  if (staticPreview) {
+    setError(t('staticPreview'));
+    return;
+  }
   const payload = {
     task: $('task').value,
     target_dir: $('targetDir').value,
@@ -544,7 +631,7 @@ async function startRun(event) {
   });
   const data = await res.json();
   if (!res.ok) {
-    setError(data.error || 'Could not start run.');
+    setError(data.error || t('couldNotStart'));
     return;
   }
   render(data);
@@ -552,13 +639,18 @@ async function startRun(event) {
 
 async function stopRun() {
   setError('');
+  if (staticPreview) {
+    setError(t('staticPreview'));
+    return;
+  }
   const res = await fetch('/api/stop', { method: 'POST' });
   const data = await res.json();
-  if (!res.ok) setError(data.error || 'Could not stop run.');
+  if (!res.ok) setError(data.error || t('couldNotStop'));
   render(data);
 }
 
 async function poll() {
+  if (staticPreview) return;
   try {
     const res = await fetch('/api/state');
     if (!res.ok) return;
@@ -578,11 +670,11 @@ function render(state) {
 
   const agents = Object.values(state.agents || {});
   $('agentCount').textContent = String(agents.length);
-  $('agents').innerHTML = agents.length ? agents.map(renderAgent).join('') : '<div class="empty">No active agents.</div>';
+  $('agents').innerHTML = agents.length ? agents.map(renderAgent).join('') : `<div class="empty">${t('noAgents')}</div>`;
 
   const review = state.review || {};
   $('reviewStatus').className = pillClass(review.status || 'pending');
-  $('reviewStatus').textContent = `review ${review.status || 'pending'}`;
+  $('reviewStatus').textContent = `${t('review')} ${review.status || 'pending'}`;
 
   renderRows('mailbox', state.mailbox || [], (item) => `
     <tr><td><code>${escapeHtml(item.file || '')}</code></td><td>${escapeHtml(item.preview || '')}</td><td>${escapeHtml(item.at || '')}</td></tr>
@@ -597,7 +689,7 @@ function render(state) {
   const logs = (state.logs || []).slice(-80).reverse();
   $('logs').innerHTML = logs.length ? logs.map((item) => `
     <div class="log-line"><time>${escapeHtml(item.at || '')}</time><div>${escapeHtml(item.message || '')}</div></div>
-  `).join('') : '<div class="empty">No log lines.</div>';
+  `).join('') : `<div class="empty">${t('noLogs')}</div>`;
 }
 
 function renderAgent(agent) {
@@ -621,7 +713,7 @@ function renderAgent(agent) {
 
 function renderRows(targetId, rows, renderer) {
   const target = $(targetId);
-  target.innerHTML = rows.length ? rows.slice(-20).reverse().map(renderer).join('') : '<tr><td colspan="3" class="empty">None</td></tr>';
+  target.innerHTML = rows.length ? rows.slice(-20).reverse().map(renderer).join('') : `<tr><td colspan="3" class="empty">${t('none')}</td></tr>`;
 }
 
 function escapeHtml(value) {
@@ -641,10 +733,17 @@ document.querySelectorAll('[data-isolation]').forEach((button) => {
   });
 });
 
+document.querySelectorAll('[data-lang]').forEach((button) => {
+  button.addEventListener('click', () => setLang(button.dataset.lang));
+});
+
 $('runForm').addEventListener('submit', startRun);
 $('stopButton').addEventListener('click', stopRun);
 
-loadModels().then(poll);
+loadModels().then(() => {
+  render({ status: 'idle', phase: 'idle', updated_at: '-', agents: {}, review: {}, mailbox: [], warnings: [], logs: [] });
+  poll();
+});
 setInterval(poll, 3000);
 </script>
 </body>
