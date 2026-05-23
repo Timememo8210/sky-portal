@@ -214,6 +214,41 @@
       box-shadow: 3px 3px 0 var(--line);
     }
 
+    .menu-toggle {
+      display: none;
+      width: 40px;
+      height: 38px;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      color: var(--ink);
+      cursor: pointer;
+      box-shadow: 4px 4px 0 var(--line);
+    }
+
+    .menu-toggle span {
+      width: 18px;
+      height: 2px;
+      background: currentColor;
+      transition: transform 180ms ease, opacity 180ms ease;
+    }
+
+    .menu-toggle[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
     main {
       width: 100%;
     }
@@ -1358,20 +1393,65 @@
 
     @media (max-width: 720px) {
       .topbar {
-        align-items: flex-start;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 18px;
       }
 
-      nav {
+      .topbar .brand {
+        min-width: 0;
+        font-size: 11px;
+        gap: 8px;
+      }
+
+      .topbar .brand span:last-child {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .topbar > nav {
         justify-content: flex-start;
       }
 
       .mobile-home {
-        order: -1;
+        min-height: 36px;
+        padding: 9px 10px;
+        font-size: 11px;
+        box-shadow: 4px 4px 0 var(--copper);
       }
 
-      .origin-badge {
-        order: 3;
+      .menu-toggle {
+        display: inline-flex;
+        justify-self: end;
+      }
+
+      .topbar > nav,
+      .topbar > .lang-toggle,
+      .topbar > .origin-badge {
+        display: none;
+      }
+
+      .topbar.menu-open > nav {
+        display: flex;
+        grid-column: 1 / -1;
+        gap: 8px;
+        padding-top: 6px;
+      }
+
+      .topbar.menu-open > .lang-toggle {
+        display: inline-flex;
+        grid-column: 1 / span 2;
+        width: fit-content;
+      }
+
+      .topbar.menu-open > .origin-badge {
+        display: inline-flex;
+        grid-column: 3;
+        justify-self: end;
       }
 
       .metric-board,
@@ -1438,7 +1518,7 @@
 
       .section {
         overflow-x: hidden;
-        scroll-margin-top: 300px;
+        scroll-margin-top: 86px;
       }
 
       .section-inner,
@@ -1524,6 +1604,11 @@
       <span class="brand-mark" aria-hidden="true"></span>
       <span>HBM Research / 2026</span>
     </a>
+    <button class="menu-toggle" type="button" data-menu-toggle aria-label="打开导航菜单" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
     <nav aria-label="页面导航">
       <a data-section-link href="#market"><span class="zh">市场</span><span class="en">Market</span></a>
       <a data-section-link href="#tech"><span class="zh">技术</span><span class="en">Technology</span></a>
@@ -2280,6 +2365,8 @@
 
   <script>
     const progress = document.querySelector("#progress");
+    const topbar = document.querySelector(".topbar");
+    const menuToggle = document.querySelector("[data-menu-toggle]");
     const navLinks = Array.from(document.querySelectorAll("[data-section-link]"));
     const sections = navLinks
       .map((link) => {
@@ -2287,6 +2374,19 @@
         return href && href.startsWith("#") ? document.querySelector(href) : null;
       })
       .filter(Boolean);
+
+    function setMenuOpen(open) {
+      if (!topbar || !menuToggle) return;
+      topbar.classList.toggle("menu-open", open);
+      menuToggle.setAttribute("aria-expanded", String(open));
+      const isEnglish = document.body.classList.contains("lang-en");
+      menuToggle.setAttribute(
+        "aria-label",
+        open
+          ? (isEnglish ? "Close navigation menu" : "关闭导航菜单")
+          : (isEnglish ? "Open navigation menu" : "打开导航菜单")
+      );
+    }
 
     function setLang(lang) {
       document.body.classList.toggle("lang-zh", lang === "zh");
@@ -2296,6 +2396,7 @@
       document.querySelectorAll("[data-lang]").forEach((button) => {
         button.classList.toggle("active", button.dataset.lang === lang);
       });
+      setMenuOpen(topbar && topbar.classList.contains("menu-open"));
     }
 
     function updateProgress() {
@@ -2327,6 +2428,17 @@
     document.querySelectorAll("[data-lang]").forEach((button) => {
       button.addEventListener("click", () => setLang(button.dataset.lang));
     });
+    if (menuToggle) {
+      menuToggle.addEventListener("click", () => {
+        setMenuOpen(!topbar.classList.contains("menu-open"));
+      });
+    }
+    document.querySelectorAll(".topbar nav a").forEach((link) => {
+      link.addEventListener("click", () => setMenuOpen(false));
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    });
     setLang(localStorage.getItem("hbm-brief-lang") || "zh");
     if (location.hash) {
       const hashTarget = document.querySelector(location.hash);
@@ -2339,7 +2451,10 @@
     }
     document.querySelectorAll(".reveal").forEach((item) => observer.observe(item));
     window.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("resize", updateProgress);
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 720) setMenuOpen(false);
+      updateProgress();
+    });
     updateProgress();
   </script>
 </body>
