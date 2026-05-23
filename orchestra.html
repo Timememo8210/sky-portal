@@ -514,6 +514,16 @@ ANTHROPIC_DEFAULT_HAIKU_MODEL=<span class="string">"glm-4.5-air"</span></pre>
 </div>
 
 <h3><span class="zh">v2 启动方式</span><span class="en">v2 Launch</span></h3>
+<p>
+  <span class="zh">最简单方式：在 Mac mini 上打开 <code>orchestra-v2</code> 文件夹，双击 <code>Orchestra v2.app</code>。它会后台启动服务并自动打开浏览器。要停止后台服务，双击 <code>Stop Orchestra v2.app</code>。</span>
+  <span class="en">Simplest path: on the Mac mini, open the <code>orchestra-v2</code> folder and double-click <code>Orchestra v2.app</code>. It starts the service in the background and opens the browser. To stop it, double-click <code>Stop Orchestra v2.app</code>.</span>
+</p>
+<div class="callout callout-link">
+  <strong><span class="zh">Mac 一键包</span><span class="en">Mac One-Click Package</span></strong>
+  <span class="zh">下载后解压，进入 <code>orchestra-v2</code> 文件夹，双击 <code>Orchestra v2.app</code>。如果 macOS 第一次提示未知开发者，右键 App 选择“打开”。</span>
+  <span class="en">Download, unzip, open the <code>orchestra-v2</code> folder, and double-click <code>Orchestra v2.app</code>. If macOS blocks the unsigned app the first time, right-click it and choose Open.</span><br>
+  <a href="downloads/Orchestra-v2-Mac.zip">downloads/Orchestra-v2-Mac.zip</a>
+</div>
 <pre><span class="cmd">cd</span> orchestra-v2
 <span class="cmd">./start_v2.sh</span></pre>
 <p>
@@ -547,7 +557,8 @@ ANTHROPIC_DEFAULT_HAIKU_MODEL=<span class="string">"glm-4.5-air"</span></pre>
     </tr>
   </tbody>
 </table>
-<pre><span class="comment"># 推荐：在 Mac mini 上启动，然后从 Mac Pro 打开</span>
+<pre><span class="comment"># 推荐：在 Mac mini 上双击 Orchestra v2.app</span>
+<span class="comment"># 或者用命令行启动，然后从 Mac Pro 打开</span>
 <span class="cmd">cd</span> sky-portal/orchestra-v2
 HOST=<span class="string">0.0.0.0</span> PORT=<span class="string">8420</span> <span class="cmd">./start_v2.sh</span>
 

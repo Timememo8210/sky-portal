@@ -8,7 +8,27 @@ Orchestra v2 不是一个线上 SaaS。GitHub Pages 上的页面只是说明书�
 
 ### 推荐试用方式
 
-在 Mac mini 上：
+最简单方式：在 Mac mini 上打开 `orchestra-v2` 文件夹，双击：
+
+```text
+Orchestra v2.app
+```
+
+它会后台启动服务并自动打开浏览器。要停止服务，双击：
+
+```text
+Stop Orchestra v2.app
+```
+
+如果你想用命令行，也可以在 Mac mini 上：
+
+如果 Mac mini 上还没有代码，也可以先下载压缩包：
+
+```text
+https://timememo8210.github.io/sky-portal/downloads/Orchestra-v2-Mac.zip
+```
+
+解压后进入 `orchestra-v2` 文件夹，双击 `Orchestra v2.app`。如果 macOS 第一次提示来自未知开发者，右键点击 App，选择“打开”。
 
 ```bash
 git clone git@github.com:Timememo8210/sky-portal.git
@@ -80,7 +100,27 @@ If the Mac mini already has Claude Code, GLM 5.1 ACP, and Codex configured, test
 
 ### Recommended Test Path
 
-On the Mac mini:
+Simplest path: on the Mac mini, open the `orchestra-v2` folder and double-click:
+
+```text
+Orchestra v2.app
+```
+
+It starts the service in the background and opens the browser. To stop the service, double-click:
+
+```text
+Stop Orchestra v2.app
+```
+
+Command-line path:
+
+If the Mac mini does not have the code yet, download:
+
+```text
+https://timememo8210.github.io/sky-portal/downloads/Orchestra-v2-Mac.zip
+```
+
+Unzip it, open the `orchestra-v2` folder, and double-click `Orchestra v2.app`. If macOS blocks the unsigned app the first time, right-click it and choose Open.
 
 ```bash
 git clone git@github.com:Timememo8210/sky-portal.git
