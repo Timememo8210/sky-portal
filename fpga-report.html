@@ -272,6 +272,7 @@
 <!-- SIDEBAR -->
 <nav class="sidebar">
   <h3><span class="zh">目录导航</span><span class="en">Navigation</span></h3>
+  <a href="#fundamentals" style="color:var(--orange);font-weight:600;"><span class="zh">从零理解芯片</span><span class="en">Chip Fundamentals</span></a>
   <a href="#intro"><span class="zh">什么是FPGA</span><span class="en">What is FPGA</span></a>
   <a href="#howwork"><span class="zh">编程原理</span><span class="en">How Programming Works</span></a>
   <div class="divider"></div>
@@ -293,6 +294,285 @@
 
 <!-- MAIN CONTENT -->
 <main class="content">
+
+<!-- 0. FUNDAMENTALS — Understanding Chips from Scratch -->
+<div class="section" id="fundamentals">
+  <h2>
+    <span class="icon" style="background:var(--orange-light);color:var(--orange);">&#x1F3EB;</span>
+    <span class="zh">从零理解：芯片到底在干什么？</span><span class="en">From Zero: What Does a Chip Actually Do?</span>
+  </h2>
+
+  <p>
+    <span class="zh">要真正理解 FPGA，我们需要先退一步，搞清楚<strong>芯片世界里最基本的事情</strong>——然后你会发现 FPGA 的独特之处自然就浮出水面了。</span>
+    <span class="en">To truly understand FPGAs, we need to step back and grasp <strong>the most basic things in the chip world</strong> — then FPGA's uniqueness will emerge naturally.</span>
+  </p>
+
+  <h3><span class="zh">第一层：所有芯片的"原子"——逻辑门</span><span class="en">Layer 1: The "Atom" of All Chips — Logic Gates</span></h3>
+  <p>
+    <span class="zh">不管是 CPU、GPU 还是 FPGA，<strong>所有数字芯片的最底层都是同一样东西：晶体管组成的逻辑门</strong>。</span>
+    <span class="en">Whether CPU, GPU, or FPGA, <strong>every digital chip is built from the same foundation: logic gates made of transistors</strong>.</span>
+  </p>
+  <p>
+    <span class="zh">逻辑门就干三件事：</span>
+    <span class="en">A logic gate does exactly three things:</span>
+  </p>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">逻辑门</span><span class="en">Gate</span></th>
+        <th><span class="zh">做什么</span><span class="en">What It Does</span></th>
+        <th><span class="zh">生活类比</span><span class="en">Real-Life Analogy</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>AND</strong></td><td><span class="zh">两个输入都是 1 才输出 1</span><span class="en">Outputs 1 only if BOTH inputs are 1</span></td><td><span class="zh">保险箱需要两把钥匙同时转</span><span class="en">Safe needs two keys turned simultaneously</span></td></tr>
+      <tr><td><strong>OR</strong></td><td><span class="zh">任一输入是 1 就输出 1</span><span class="en">Outputs 1 if EITHER input is 1</span></td><td><span class="zh">门铃——前门或后门都能响</span><span class="en">Doorbell — front or back door both ring it</span></td></tr>
+      <tr><td><strong>NOT</strong></td><td><span class="zh">输入取反</span><span class="en">Inverts input</span></td><td><span class="zh">开关——开变关，关变开</span><span class="en">Light switch — on becomes off, off becomes on</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>
+    <span class="zh"><strong>关键事实</strong>：用这三种门的组合，你可以搭出任何数字计算电路——加法器、乘法器、存储器、视频解码器，一切。一颗现代芯片里有几十亿到上千亿个这样的门。区别在于：<em>这些门是怎么连在一起的</em>。</span>
+    <span class="en"><strong>Key fact</strong>: By combining these three gates, you can build ANY digital circuit — adders, multipliers, memory, video decoders, everything. A modern chip has billions to hundreds of billions of gates. The difference lies in: <em>how these gates are wired together</em>.</span>
+  </p>
+
+  <h3><span class="zh">第二层：四种芯片，四种"接线方式"</span><span class="en">Layer 2: Four Chip Types, Four Wiring Philosophies</span></h3>
+
+  <p>
+    <span class="zh">我用一个<strong>餐厅的比喻</strong>来解释。想象你需要做饭：</span>
+    <span class="en">Let me use a <strong>restaurant analogy</strong>. Imagine you need to prepare meals:</span>
+  </p>
+
+  <div class="table-wrap">
+  <table style="font-size:0.88rem;">
+    <thead>
+      <tr>
+        <th></th>
+        <th>ASIC</th>
+        <th>CPU</th>
+        <th>GPU</th>
+        <th>FPGA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><span class="zh">餐厅类比</span><span class="en">Restaurant Analogy</span></strong></td>
+        <td>
+          <span class="zh"><strong>流水线工厂</strong><br>专门做一种菜。烤鸭工厂只烤鸭，做得最快最好，但改做汉堡？推倒重建整条线。</span>
+          <span class="en"><strong>Assembly line factory</strong><br>Makes one dish. A duck factory only roasts duck — fastest and best, but want burgers? Tear down the whole line.</span>
+        </td>
+        <td>
+          <span class="zh"><strong>全能大厨</strong><br>一个人，一次做一道菜，但什么菜都会做。给他菜谱（程序），他按步骤来。速度不快，但万能。</span>
+          <span class="en"><strong>Master chef</strong><br>One person, one dish at a time, but can cook anything. Give him a recipe (program), he follows steps. Not fastest, but universal.</span>
+        </td>
+        <td>
+          <span class="zh"><strong>1000 个切菜工</strong><br>每个人只会一个简单动作（切、搅、烤），但 1000 人同时干，速度惊人。适合重复动作。</span>
+          <span class="en"><strong>1000 prep cooks</strong><br>Each does one simple action (chop, stir, grill), but 1000 doing it simultaneously is blazing fast. Great for repetitive work.</span>
+        </td>
+        <td>
+          <span class="zh"><strong>万能厨房</strong><br>厨房里有各种设备和管道接头，你可以<strong>重新连接管道</strong>，把它变成烤鸭厨房、汉堡厨房、或者日料厨房。换菜单？重新接管道就行。</span>
+          <span class="en"><strong>Rewireable kitchen</strong><br>Kitchen has all equipment and pipe connectors. You <strong>reconnect the pipes</strong> to turn it into a duck kitchen, burger kitchen, or sushi kitchen. New menu? Rewire the pipes.</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">技术本质</span><span class="en">Technical Reality</span></strong></td>
+        <td><span class="zh">电路在工厂光刻时<strong>永久固化</strong></span><span class="en">Circuit <strong>permanently fixed</strong> at fabrication</span></td>
+        <td><span class="zh">固定的电路 + <strong>按指令逐步执行</strong></span><span class="en">Fixed circuit + <strong>step-by-step instructions</strong></span></td>
+        <td><span class="zh">固定的电路 + <strong>海量并行执行</strong>同一指令</span><span class="en">Fixed circuit + <strong>massively parallel</strong> same instruction</span></td>
+        <td><span class="zh">电路在用户手里<strong>可重新配置</strong></span><span class="en">Circuit <strong>reconfigurable</strong> in user's hands</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">执行模式</span><span class="en">Execution Model</span></strong></td>
+        <td><span class="zh">数据流过固定电路<br>（没有"指令"概念）</span><span class="en">Data flows through fixed circuit<br>(no "instruction" concept)</span></td>
+        <td><span class="zh">取指→解码→执行→写回<br>一条一条来</span><span class="en">Fetch→Decode→Execute→Write<br>one by one</span></td>
+        <td><span class="zh">同一指令同时喂给<br>数千个核心</span><span class="en">Same instruction fed to<br>thousands of cores simultaneously</span></td>
+        <td><span class="zh">数据流过<strong>你设计的</strong>电路<br>（也没有"指令"概念）</span><span class="en">Data flows through <strong>your custom</strong> circuit<br>(also no "instruction" concept)</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">速度</span><span class="en">Speed</span></strong></td>
+        <td style="color:var(--green);font-weight:600;"><span class="zh">最快</span><span class="en">Fastest</span></td>
+        <td><span class="zh">慢（串行瓶颈）</span><span class="en">Slow (serial bottleneck)</span></td>
+        <td><span class="zh">看任务——并行任务极快</span><span class="en">Depends — parallel tasks very fast</span></td>
+        <td><span class="zh">接近 ASIC 速度</span><span class="en">Near-ASIC speed</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">灵活性</span><span class="en">Flexibility</span></strong></td>
+        <td style="color:var(--red);"><span class="zh">零——出厂即固化</span><span class="en">Zero — fixed at factory</span></td>
+        <td style="color:var(--green);font-weight:600;"><span class="zh">最高——换软件就行</span><span class="en">Highest — just change software</span></td>
+        <td><span class="zh">中——受限于并行模型</span><span class="en">Medium — limited to parallel patterns</span></td>
+        <td style="color:var(--green);"><span class="zh">高——重配置电路</span><span class="en">High — reconfigure circuit</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout callout-blue">
+    <span class="zh"><strong>最关键的区别：CPU/GPU 是"软件定义功能"，FPGA/ASIC 是"硬件即功能"。</strong><br><br>CPU 运行程序时，是一个固定的电路在<em>一步步读取并执行你的指令</em>。无论你写什么程序，底层的电路都是一样的——区别在于指令不同。<br><br>FPGA 没有"指令"的概念。你做的不是写程序，而是<strong>设计一个电路</strong>。配置完成后，FPGA 内部的电路<em>就变成了你设计的那个样子</em>——数据直接流过这个电路，中间没有"取指→解码→执行"的过程。这就是为什么 FPGA 能接近 ASIC 的速度：<strong>它本质上就是一个定制电路，只不过这个电路可以擦掉重画</strong>。</span>
+    <span class="en"><strong>The key distinction: CPU/GPU are "software-defined," while FPGA/ASIC are "hardware IS the function."</strong><br><br>When a CPU runs a program, a fixed circuit <em>reads and executes your instructions step by step</em>. No matter what program you write, the underlying circuit is the same — only the instructions differ.<br><br>FPGA has no concept of "instructions." You don't write a program — you <strong>design a circuit</strong>. Once configured, the FPGA's internal wiring <em>becomes the circuit you designed</em> — data flows directly through it with no fetch-decode-execute overhead. That's why FPGAs approach ASIC speed: <strong>it IS a custom circuit, except this circuit can be erased and redrawn</strong>.</span>
+  </div>
+
+  <h3><span class="zh">第三层：FPGA 的优势和代价</span><span class="en">Layer 3: FPGA's Strengths and Trade-offs</span></h3>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">维度</span><span class="en">Dimension</span></th>
+        <th><span class="zh">FPGA 的优势</span><span class="en">FPGA Advantage</span></th>
+        <th><span class="zh">FPGA 的代价</span><span class="en">FPGA Trade-off</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><span class="zh">可编程性</span><span class="en">Programmability</span></strong></td>
+        <td style="color:var(--green);">
+          <span class="zh">出厂后还能改功能。军事装备可以战场升级雷达算法，不用拆芯片</span>
+          <span class="en">Function changeable after deployment. Military systems can upgrade radar algorithms in the field</span>
+        </td>
+        <td>
+          <span class="zh">开发难度高——需要硬件设计思维，不是写代码那么简单</span>
+          <span class="en">High development difficulty — requires hardware design thinking, not simple coding</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">面积 / 效率</span><span class="en">Area / Efficiency</span></strong></td>
+        <td>
+          <span class="zh">比 CPU/GPU 做同样功能面积更小、功耗更低</span>
+          <span class="en">Smaller area and lower power than CPU/GPU for the same function</span>
+        </td>
+        <td style="color:var(--red);">
+          <span class="zh"><strong>比同功能 ASIC 大 10-40 倍</strong>。因为"可编程"需要额外的 SRAM 开关和布线资源，这些都占面积</span>
+          <span class="en"><strong>10-40x larger than equivalent ASIC</strong>. "Programmability" requires extra SRAM switches and routing — all consuming die area</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">速度</span><span class="en">Speed</span></strong></td>
+        <td>
+          <span class="zh">确定性延迟（可以精确到每个时钟周期）——适合雷达、5G、高频交易</span>
+          <span class="en">Deterministic latency (precise to every clock cycle) — ideal for radar, 5G, HFT</span>
+        </td>
+        <td style="color:var(--red);">
+          <span class="zh"><strong>主频比 ASIC 低 3-10 倍</strong>（FPGA ~500MHz vs ASIC 可达 3GHz+）。信号经过可编程开关有额外延迟</span>
+          <span class="en"><strong>Clock speed 3-10x lower than ASIC</strong> (FPGA ~500MHz vs ASIC 3GHz+). Signals through programmable switches add delay</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">成本</span><span class="en">Cost</span></strong></td>
+        <td style="color:var(--green);">
+          <span class="zh"><strong>NRE = $0</strong>。不用花 $5M-$500M 做掩膜版。量小的时候绝对划算</span>
+          <span class="en"><strong>NRE = $0</strong>. No $5M-$500M mask costs. Absolutely cost-effective at low volumes</span>
+        </td>
+        <td style="color:var(--red);">
+          <span class="zh"><strong>单价贵</strong>。同功能 ASIC 量产后可能 $5/片，FPGA 可能 $500/片</span>
+          <span class="en"><strong>High unit cost</strong>. Same function ASIC at volume: $5/chip; FPGA: $500/chip</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">功耗</span><span class="en">Power</span></strong></td>
+        <td>
+          <span class="zh">比 CPU 做同样工作功耗低得多</span>
+          <span class="en">Much lower power than CPU for the same workload</span>
+        </td>
+        <td>
+          <span class="zh">比 ASIC 功耗高 2-5 倍（可编程互连的漏电流）</span>
+          <span class="en">2-5x higher power than ASIC (programmable interconnect leakage)</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">上市速度</span><span class="en">Time-to-Market</span></strong></td>
+        <td style="color:var(--green);font-weight:600;">
+          <span class="zh"><strong>数周到数月</strong>。写完 HDL，综合，烧录，就能用</span>
+          <span class="en"><strong>Weeks to months</strong>. Write HDL, synthesize, program, done</span>
+        </td>
+        <td>
+          <span class="zh">ASIC 需要 12-24 个月流片周期</span>
+          <span class="en">ASIC requires 12-24 month tape-out cycle</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3><span class="zh">第四层：为什么军方特别爱 FPGA？</span><span class="en">Layer 4: Why Does the Military Love FPGAs?</span></h3>
+
+  <p>
+    <span class="zh">军事/航天是 FPGA 最大的高利润市场。这不是偶然——FPGA 的特性几乎是为国防需求定制的：</span>
+    <span class="en">Military/aerospace is FPGA's highest-margin market. This isn't coincidental — FPGA's characteristics are almost tailor-made for defense:</span>
+  </p>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">军方需求</span><span class="en">Military Need</span></th>
+        <th><span class="zh">为什么 FPGA 是最佳答案</span><span class="en">Why FPGA Is the Best Answer</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><span class="zh">小批量</span><span class="en">Low Volume</span></strong></td>
+        <td><span class="zh">一个武器型号可能只需要 200 颗芯片。为 200 颗做 ASIC 掩膜版？疯了。FPGA 的 NRE=$0 完美匹配。</span><span class="en">A weapons program might need only 200 chips. Design an ASIC mask for 200 units? Insane. FPGA's NRE=$0 is a perfect fit.</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">战场升级</span><span class="en">Field Upgrades</span></strong></td>
+        <td><span class="zh">敌方换了新的雷达干扰方式？不用把飞机运回工厂——更新 FPGA 的配置文件就行。<strong>F-35 的雷达就是这么升级的。</strong></span><span class="en">Enemy deploys new radar jamming? No need to ship the aircraft home — update the FPGA config. <strong>That's how the F-35 radar gets upgraded.</strong></span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">确定性延迟</span><span class="en">Deterministic Latency</span></strong></td>
+        <td><span class="zh">雷达信号处理需要纳秒级精确时序。CPU 有缓存未命中、中断、操作系统调度——延迟不可预测。FPGA 是纯硬件电路，每个时钟周期做什么完全确定。</span><span class="en">Radar signal processing needs nanosecond-precise timing. CPUs have cache misses, interrupts, OS scheduling — unpredictable latency. FPGA is pure hardware circuit, deterministic every clock cycle.</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">抗辐射</span><span class="en">Radiation Hardness</span></strong></td>
+        <td><span class="zh">卫星在太空会被宇宙射线轰击（单粒子翻转 SEU）。反熔丝 FPGA 天生免疫——电路是物理烧通的金属连接，宇宙射线翻转不了。SRAM FPGA 则用三模冗余（TMR）对抗。</span><span class="en">Satellites get bombarded by cosmic rays (Single Event Upset). Antifuse FPGAs are naturally immune — circuits are physically fused metal connections that cosmic rays can't flip. SRAM FPGAs use Triple Modular Redundancy (TMR).</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">供应链安全</span><span class="en">Supply Chain Security</span></strong></td>
+        <td><span class="zh">FPGA 的功能由配置文件（bitstream）定义，不是芯片本身。即使芯片被截获，没有 bitstream 就是一块空白硅片。bitstream 可以加密。</span><span class="en">FPGA's function is defined by the bitstream, not the chip itself. Even if the chip is intercepted, without the bitstream it's a blank piece of silicon. Bitstreams can be encrypted.</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">极端温度</span><span class="en">Extreme Temperature</span></strong></td>
+        <td><span class="zh">军规 FPGA 工作范围 -55&deg;C 到 +125&deg;C（MIL-STD-883）。商用芯片通常只保证 0-70&deg;C。</span><span class="en">Military-grade FPGAs operate from -55&deg;C to +125&deg;C (MIL-STD-883). Commercial chips typically only guarantee 0-70&deg;C.</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3><span class="zh">总结：FPGA 的定位</span><span class="en">Summary: FPGA's Position</span></h3>
+
+  <p>
+    <span class="zh">FPGA 不是 CPU 的替代品，也不是 ASIC 的替代品——它填补的是一个独特的生态位：</span>
+    <span class="en">FPGA doesn't replace CPUs or ASICs — it fills a unique ecological niche:</span>
+  </p>
+
+  <div style="background:var(--accent-light);padding:24px;border-radius:var(--radius);margin:16px 0;font-size:0.92rem;line-height:1.8;">
+    <span class="zh">
+      <strong>量不够大</strong>，ASIC 的 NRE 摊不下来？→ 用 FPGA<br>
+      <strong>需要改功能</strong>，ASIC 改不了？→ 用 FPGA<br>
+      <strong>CPU 太慢</strong>，需要硬件级并行？→ 用 FPGA<br>
+      <strong>要求确定性延迟</strong>，CPU/GPU 做不到？→ 用 FPGA<br>
+      <strong>需要抗辐射</strong>，商用芯片不行？→ 用 FPGA<br><br>
+      <em>但如果你量大到百万级、功能确定不变 → ASIC 更好</em><br>
+      <em>如果你的任务是通用计算或 AI 训练 → CPU/GPU 更好</em>
+    </span>
+    <span class="en">
+      <strong>Volume too low</strong> to amortize ASIC NRE? → Use FPGA<br>
+      <strong>Need to change function</strong> that ASIC can't? → Use FPGA<br>
+      <strong>CPU too slow</strong>, need hardware-level parallelism? → Use FPGA<br>
+      <strong>Need deterministic latency</strong> that CPU/GPU can't deliver? → Use FPGA<br>
+      <strong>Need radiation hardness</strong> that commercial chips lack? → Use FPGA<br><br>
+      <em>But if volume reaches millions and function is fixed → ASIC wins</em><br>
+      <em>If the task is general computing or AI training → CPU/GPU wins</em>
+    </span>
+  </div>
+
+  <div class="callout callout-blue">
+    <span class="zh"><strong>一句话总结：</strong>FPGA 是一块可以擦掉重画的定制电路板。它比 CPU 快（因为没有取指解码的开销），比 ASIC 灵活（因为可以重新配置），比 GPU 更精确（因为没有调度抖动）。代价是：面积比等效 ASIC 大 10-40 倍，主频低 3-10 倍，单价贵 100 倍。但对于量小、要求灵活、需要确定性延迟的场景——尤其是军事和航天——这些代价完全值得。</span>
+    <span class="en"><strong>One-line summary:</strong> FPGA is a custom circuit board that can be erased and redrawn. Faster than CPU (no fetch-decode overhead), more flexible than ASIC (reconfigurable), more precise than GPU (no scheduling jitter). The price: 10-40x more area, 3-10x lower clock speed, 100x higher unit cost than equivalent ASIC. But for low-volume, flexible, deterministic-latency scenarios — especially military and aerospace — these trade-offs are absolutely worth it.</span>
+  </div>
+</div>
 
 <!-- 0a. WHAT IS FPGA -->
 <div class="section" id="intro">
