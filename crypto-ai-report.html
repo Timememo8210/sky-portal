@@ -103,6 +103,46 @@
       background: var(--ink); color: var(--paper); border-color: var(--ink);
     }
 
+    /* ─── Mobile Menu Toggle ─── */
+    .menu-toggle {
+      display: none;
+      width: 40px; height: 38px;
+      align-items: center; justify-content: center; gap: 4px; flex-direction: column;
+      border: 1px solid var(--line); border-radius: var(--radius);
+      background: var(--panel); cursor: pointer;
+      box-shadow: 4px 4px 0 var(--line);
+    }
+    .menu-toggle span {
+      display: block; width: 18px; height: 2px; background: var(--ink);
+      transition: transform 200ms ease, opacity 200ms ease;
+    }
+    .menu-toggle[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .menu-toggle[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    @media (max-width: 860px) {
+      .menu-toggle { display: flex; }
+      .topbar { flex-wrap: wrap; }
+      .topbar nav {
+        display: none;
+        width: 100%; order: 3;
+        flex-direction: column; gap: 6px;
+        padding-top: 10px; border-top: 1px solid var(--line-soft);
+        margin-top: 6px;
+      }
+      .topbar.menu-open nav {
+        display: flex;
+      }
+      .topbar nav a {
+        border-radius: var(--radius); padding: 10px 12px;
+        font-size: 13px; text-align: left;
+      }
+    }
+
     /* ─── Sections ─── */
     .section {
       padding: clamp(40px, 7vw, 88px) clamp(16px, 4vw, 48px);
@@ -499,7 +539,6 @@
       .grid-3 { grid-template-columns: 1fr 1fr; }
       .token-grid { grid-template-columns: 1fr; }
       .risk-matrix { grid-template-columns: 1fr; }
-      nav { display: none; }
     }
     @media (max-width: 480px) {
       .metric-board { grid-template-columns: 1fr; }
@@ -514,8 +553,11 @@
 <div class="progress" id="progress"></div>
 
 <!-- ─── Topbar ─── -->
-<header class="topbar">
+<header class="topbar" id="topbar">
   <a href="index.html" class="portal-home">← SKY PORTAL</a>
+  <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-label="打开菜单">
+    <span></span><span></span><span></span>
+  </button>
   <nav>
     <a href="#thesis">核心论点</a>
     <a href="#bitcoin">BTC</a>
@@ -1322,6 +1364,27 @@ const io = new IntersectionObserver(entries => {
   });
 }, { rootMargin: '-30% 0px -60% 0px' });
 navSections.forEach(s => io.observe(s));
+
+// Mobile hamburger menu
+const menuBtn = document.getElementById('menuToggle');
+const topbar = document.getElementById('topbar');
+menuBtn.addEventListener('click', () => {
+  const open = topbar.classList.toggle('menu-open');
+  menuBtn.setAttribute('aria-expanded', open);
+  menuBtn.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+});
+topbar.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', () => {
+    topbar.classList.remove('menu-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && topbar.classList.contains('menu-open')) {
+    topbar.classList.remove('menu-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+});
 
 // Animate elements on scroll
 const fadeEls = document.querySelectorAll('.panel, .token-card, .callout, .timeline-item');
