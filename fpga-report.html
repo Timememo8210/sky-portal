@@ -1428,9 +1428,10 @@
 <div class="section" id="reliability">
   <h2>
     <span class="icon" style="background:var(--orange-light);color:var(--orange);">&#x26A0;</span>
-    <span class="zh">军用FPGA可靠性要求</span><span class="en">Military FPGA Reliability Requirements</span>
+    <span class="zh">军用FPGA可靠性与抗辐射深度解析</span><span class="en">Military FPGA Reliability &amp; Radiation Hardening Deep Dive</span>
   </h2>
 
+  <h3><span class="zh">基本可靠性要求</span><span class="en">Basic Reliability Requirements</span></h3>
   <div class="table-wrap">
   <table>
     <thead>
@@ -1444,7 +1445,7 @@
       <tr>
         <td><strong><span class="zh">温度范围</span><span class="en">Temperature Range</span></strong></td>
         <td>MIL-STD-883 Class B</td>
-        <td><strong>-55&deg;C ~ +125&deg;C</strong> (<span class="zh">全范围参数测试</span><span class="en">full-range parametric testing</span>)</td>
+        <td><strong>-55&deg;C ~ +125&deg;C</strong></td>
       </tr>
       <tr>
         <td><strong><span class="zh">动态老化</span><span class="en">Burn-in</span></strong></td>
@@ -1455,16 +1456,6 @@
         <td><strong><span class="zh">认证体系</span><span class="en">Qualification</span></strong></td>
         <td>QML (Qualified Manufacturers List)</td>
         <td><span class="zh">Class Q (航天) / Class V (最高等级)</span><span class="en">Class Q (space) / Class V (highest grade)</span></td>
-      </tr>
-      <tr>
-        <td><strong><span class="zh">抗辐射 — 总剂量</span><span class="en">Radiation — TID</span></strong></td>
-        <td>Total Ionizing Dose</td>
-        <td><span class="zh">100 krad(Si)+ 对航天级</span><span class="en">100 krad(Si)+ for space-grade</span></td>
-      </tr>
-      <tr>
-        <td><strong><span class="zh">抗辐射 — 单粒子</span><span class="en">Radiation — SEE</span></strong></td>
-        <td>Single Event Effects (SEU/SEL)</td>
-        <td><span class="zh">SEL免疫，SEU自动纠正（TMR/EDAC）</span><span class="en">SEL immune, SEU self-correcting (TMR/EDAC)</span></td>
       </tr>
       <tr>
         <td><strong><span class="zh">航空认证</span><span class="en">Avionics Cert</span></strong></td>
@@ -1485,14 +1476,299 @@
   </table>
   </div>
 
+  <!-- ============ TID DEEP DIVE ============ -->
+  <h3><span class="zh">抗辐射深度解析 ①：总剂量 TID — 慢性"中毒"</span><span class="en">Radiation Deep Dive ①: Total Ionizing Dose (TID) — Chronic "Poisoning"</span></h3>
+
+  <p>
+    <span class="zh"><strong>TID 是什么？</strong>想象你在太阳底下暴晒——不是被一颗子弹打中，而是日积月累的紫外线损伤。TID 就是芯片在辐射环境中累积吸收的总电离辐射剂量，单位是 rad(Si) 或 krad(Si)。</span>
+    <span class="en"><strong>What is TID?</strong> Think of sun exposure — not a single bullet hit, but cumulative UV damage over years. TID is the total ionizing radiation dose accumulated by a chip in a radiation environment, measured in rad(Si) or krad(Si).</span>
+  </p>
+
+  <p>
+    <span class="zh"><strong>TID 对芯片做了什么？</strong>电离辐射在晶体管的栅极氧化层中积累正电荷陷阱。随着剂量增加：</span>
+    <span class="en"><strong>What does TID do to chips?</strong> Ionizing radiation accumulates positive charge traps in transistor gate oxide. As dose increases:</span>
+  </p>
+  <ul style="margin:8px 0 16px 20px;font-size:0.88rem;color:var(--ink-light);">
+    <li><span class="zh">晶体管的阈值电压漂移 → 逻辑翻转变慢甚至失效</span><span class="en">Transistor threshold voltage shifts → logic switching slows or fails</span></li>
+    <li><span class="zh">漏电流增大 → 功耗飙升、信号干扰</span><span class="en">Leakage current increases → power surges, signal interference</span></li>
+    <li><span class="zh">最终导致芯片参数超标直至完全失效</span><span class="en">Eventually chip parameters exceed limits until total failure</span></li>
+  </ul>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">TID 等级</span><span class="en">TID Level</span></th>
+        <th><span class="zh">对应环境</span><span class="en">Environment</span></th>
+        <th><span class="zh">典型任务</span><span class="en">Typical Mission</span></th>
+        <th><span class="zh">代表芯片</span><span class="en">Example Chips</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>25 krad</strong></td>
+        <td><span class="zh">低轨道 (LEO) 3-5 年任务</span><span class="en">Low Earth Orbit (LEO) 3-5 year mission</span></td>
+        <td><span class="zh">对地观测卫星、空间站实验</span><span class="en">Earth observation, ISS experiments</span></td>
+        <td>XQRKU060 (min)</td>
+      </tr>
+      <tr>
+        <td><strong>100 krad</strong></td>
+        <td><span class="zh">中/高轨道 (MEO/GEO) 15+ 年</span><span class="en">MEO/GEO orbit 15+ years</span></td>
+        <td><span class="zh">通信卫星、导航卫星 (GPS)</span><span class="en">Communication satellites, GPS</span></td>
+        <td>XQRKU060, RT PolarFire</td>
+      </tr>
+      <tr style="background:var(--red-light);">
+        <td><strong>300 krad+</strong></td>
+        <td><span class="zh">深空探测、核环境</span><span class="en">Deep space, nuclear environments</span></td>
+        <td><span class="zh">木星探测、核反应堆监控</span><span class="en">Jupiter probes, nuclear reactor monitoring</span></td>
+        <td>RTAX (antifuse), 专用 ASIC</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout callout-blue">
+    <span class="zh"><strong>制程瓶颈 #1：为什么 TID 和制程节点密切相关？</strong><br><br>更先进的制程（7nm, 5nm）栅极氧化层更薄，电荷陷阱密度反而降低了——这一点<em>有利于</em> TID 耐受。但同时，更小的晶体管工作电压更低（0.7V vs 老工艺的 1.2V），热载流子效应和界面态更复杂，需要专门优化。<br><br>目前航天级 FPGA 的制程瓶颈在 <strong>20nm</strong>（AMD XQRKU060 是 20nm，已是最先进的航天 FPGA）。商用 FPGA 已到 7nm/6nm，但航天认证落后 2-3 代，因为每个制程节点需要 3-5 年的辐射测试和认证周期。</span>
+    <span class="en"><strong>Process Bottleneck #1: Why TID is closely tied to process node</strong><br><br>Advanced nodes (7nm, 5nm) have thinner gate oxides with lower charge trap density — this actually <em>helps</em> TID tolerance. But smaller transistors run at lower voltages (0.7V vs 1.2V in older nodes), with more complex hot carrier and interface state effects requiring specialized optimization.<br><br>Current space-grade FPGA process bottleneck is <strong>20nm</strong> (AMD XQRKU060 at 20nm is the most advanced space FPGA). Commercial FPGAs are at 7nm/6nm, but space qualification lags by 2-3 generations because each node needs 3-5 years of radiation testing and qualification.</span>
+  </div>
+
+  <!-- ============ SEE DEEP DIVE ============ -->
+  <h3><span class="zh">抗辐射深度解析 ②：单粒子效应 SEE — 瞬间"狙击"</span><span class="en">Radiation Deep Dive ②: Single Event Effects (SEE) — Instant "Sniper Hit"</span></h3>
+
+  <p>
+    <span class="zh">如果 TID 是慢性中毒，<strong>SEE 就是被狙击手打了一枪</strong>——一颗高能粒子（宇宙射线中的重离子、质子、中子）穿过芯片，沿途产生大量电荷，瞬间改变电路状态。</span>
+    <span class="en">If TID is chronic poisoning, <strong>SEE is a sniper shot</strong> — a single high-energy particle (heavy ion, proton, or neutron from cosmic rays) penetrates the chip, generating a trail of charge that instantly alters circuit state.</span>
+  </p>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">效应类型</span><span class="en">Effect Type</span></th>
+        <th><span class="zh">全称</span><span class="en">Full Name</span></th>
+        <th><span class="zh">会发生什么</span><span class="en">What Happens</span></th>
+        <th><span class="zh">严重程度</span><span class="en">Severity</span></th>
+        <th><span class="zh">可恢复？</span><span class="en">Recoverable?</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>SEU</strong></td>
+        <td>Single Event Upset</td>
+        <td><span class="zh">SRAM 单元中一个 bit 从 0 翻成 1（或反之）。对 FPGA 极其危险——因为配置存储器就是 SRAM，一个 bit 翻转可能改变整个电路的连接方式</span><span class="en">One bit in an SRAM cell flips from 0 to 1 (or vice versa). Extremely dangerous for FPGAs — configuration memory IS SRAM, so one bit flip can rewire the entire circuit</span></td>
+        <td style="color:var(--orange);font-weight:600;"><span class="zh">高</span><span class="en">High</span></td>
+        <td style="color:var(--green);"><span class="zh">是 — 重写正确值即可</span><span class="en">Yes — rewrite correct value</span></td>
+      </tr>
+      <tr>
+        <td><strong>MBU</strong></td>
+        <td>Multi-Bit Upset</td>
+        <td><span class="zh">一颗粒子同时翻转多个相邻 bit。在先进制程中更常见（因为晶体管间距更小）</span><span class="en">One particle flips multiple adjacent bits. More common in advanced nodes (smaller transistor pitch)</span></td>
+        <td style="color:var(--red);font-weight:600;"><span class="zh">很高</span><span class="en">Very High</span></td>
+        <td><span class="zh">困难 — 可能超出 EDAC 纠错能力</span><span class="en">Difficult — may exceed EDAC correction</span></td>
+      </tr>
+      <tr>
+        <td><strong>SET</strong></td>
+        <td>Single Event Transient</td>
+        <td><span class="zh">组合逻辑中产生一个毛刺脉冲，如果被时钟沿采样就变成永久错误</span><span class="en">A glitch pulse in combinational logic; becomes permanent error if sampled by a clock edge</span></td>
+        <td style="color:var(--orange);"><span class="zh">中</span><span class="en">Medium</span></td>
+        <td><span class="zh">是 — 脉冲过后自动消失（除非被锁存）</span><span class="en">Yes — pulse dissipates (unless latched)</span></td>
+      </tr>
+      <tr style="background:var(--red-light);">
+        <td><strong>SEL</strong></td>
+        <td>Single Event Latchup</td>
+        <td><span class="zh"><strong>最危险。</strong>粒子触发 CMOS 中的寄生 PNPN 闩锁结构 → 形成低阻短路通路 → 大电流 → 如果不立即断电，芯片会烧毁</span><span class="en"><strong>Most dangerous.</strong> Particle triggers parasitic PNPN latchup in CMOS → forms low-resistance short → large current → chip burns if power not cut immediately</span></td>
+        <td style="color:var(--red);font-weight:600;"><span class="zh">致命</span><span class="en">Fatal</span></td>
+        <td style="color:var(--red);"><span class="zh">需要断电重启；可能永久损坏</span><span class="en">Requires power cycle; may cause permanent damage</span></td>
+      </tr>
+      <tr>
+        <td><strong>SEFI</strong></td>
+        <td>Single Event Functional Interrupt</td>
+        <td><span class="zh">全局控制逻辑（时钟管理、配置控制器）被打乱，整个 FPGA 停摆</span><span class="en">Global control logic (clock mgr, config controller) disrupted, entire FPGA halts</span></td>
+        <td style="color:var(--red);font-weight:600;"><span class="zh">致命</span><span class="en">Fatal</span></td>
+        <td><span class="zh">需要完全重配置</span><span class="en">Requires full reconfiguration</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout callout-blue">
+    <span class="zh"><strong>制程瓶颈 #2：为什么先进制程让 SEU 更难对付？</strong><br><br>制程越先进，晶体管越小，每个存储节点上的电荷量（<strong>临界电荷 Q<sub>crit</sub></strong>）越少。一颗宇宙射线粒子沉积的电荷更容易超过 Q<sub>crit</sub>，翻转 bit 的概率更高。<br><br>具体数据：28nm FDS-OI 工艺（Lattice Nexus）的 FIT 率约 1（每十亿小时 1 次故障）。普通 28nm SRAM FPGA 的 FIT 率约 100。先进到 7nm/5nm 后，如果不做特殊设计，SEU 率会更高。<br><br><strong>这就是为什么航天 FPGA 制程落后商用 2-3 代。</strong>不是做不出来，而是要确保每个新制程在辐射环境下的 SEU 率可控，需要大量测试（用粒子加速器模拟太空辐射）和专门的抗辐射电路设计。</span>
+    <span class="en"><strong>Process Bottleneck #2: Why advanced nodes make SEU harder to handle</strong><br><br>Smaller transistors mean less charge per storage node (<strong>critical charge Q<sub>crit</sub></strong>). A single cosmic ray particle deposits enough charge to exceed Q<sub>crit</sub> more easily, increasing bit-flip probability.<br><br>Data point: 28nm FDS-OI (Lattice Nexus) achieves FIT rate of ~1 (1 failure per billion hours). Standard 28nm SRAM FPGA has FIT rate ~100. At 7nm/5nm without special design, SEU rates would be even higher.<br><br><strong>This is why space FPGAs lag commercial by 2-3 generations.</strong> Not because they can't be built, but because every new node's SEU rate must be proven controllable through extensive testing (particle accelerators simulating space radiation) and specialized rad-hard circuit design.</span>
+  </div>
+
+  <!-- ============ MITIGATION TECHNIQUES ============ -->
+  <h3><span class="zh">如何对抗辐射？六大设计技术</span><span class="en">How to Fight Radiation: Six Design Techniques</span></h3>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th><span class="zh">技术</span><span class="en">Technique</span></th>
+        <th><span class="zh">原理</span><span class="en">Principle</span></th>
+        <th><span class="zh">代价</span><span class="en">Cost</span></th>
+        <th><span class="zh">对抗什么</span><span class="en">Mitigates</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:var(--accent-light);">
+        <td><strong>TMR<br><span style="font-size:0.72rem;color:var(--ink-dim);">Triple Modular Redundancy</span></strong></td>
+        <td>
+          <span class="zh">把每个关键逻辑电路<strong>复制三份</strong>，输出通过"投票器"（2-out-of-3 majority voter）决定正确值。即使一份被宇宙射线翻转了，另外两份投票胜出。<br><br><strong>类比：</strong>三个法官同时判案。一个法官被贿赂了？没关系，另外两个的判决生效。</span>
+          <span class="en">Every critical logic circuit is <strong>triplicated</strong>. Outputs go through a "voter" (2-out-of-3 majority). Even if one copy gets flipped by cosmic rays, the other two win the vote.<br><br><strong>Analogy:</strong> Three judges ruling simultaneously. One judge bribed? No problem — the other two's verdict stands.</span>
+        </td>
+        <td style="color:var(--red);">
+          <span class="zh"><strong>面积 &times;3, 功耗 &times;3</strong><br>一颗芯片只能用 1/3 的逻辑资源</span>
+          <span class="en"><strong>Area &times;3, power &times;3</strong><br>Only 1/3 of chip logic usable</span>
+        </td>
+        <td>SEU, SET</td>
+      </tr>
+      <tr>
+        <td><strong>EDAC<br><span style="font-size:0.72rem;color:var(--ink-dim);">Error Detection &amp; Correction</span></strong></td>
+        <td>
+          <span class="zh">在存储器（BRAM、配置SRAM）中加入纠错码。<strong>SEC-DED</strong>（单 bit 纠错 + 双 bit 检测）最常用。每 32/64 bit 数据附加 7-8 bit 校验码。<br><br><strong>类比：</strong>快递包裹加了防损泡沫。一处破损能自动修好，两处破损能报警。</span>
+          <span class="en">Adds error-correcting codes to memory (BRAM, config SRAM). <strong>SEC-DED</strong> (Single Error Correct + Double Error Detect) is most common. Adds 7-8 parity bits per 32/64 data bits.<br><br><strong>Analogy:</strong> Bubble wrap on a package. One dent auto-repaired, two dents trigger an alarm.</span>
+        </td>
+        <td>
+          <span class="zh">面积 +15-25%<br>存储效率降低</span>
+          <span class="en">+15-25% area<br>Reduced storage efficiency</span>
+        </td>
+        <td>SEU (memory)</td>
+      </tr>
+      <tr style="background:var(--accent-light);">
+        <td><strong><span class="zh">配置刷新<br><span style="font-size:0.72rem;color:var(--ink-dim);">Scrubbing</span></span><span class="en">Config Scrubbing</span></strong></td>
+        <td>
+          <span class="zh">FPGA 运行时，后台持续读取配置 SRAM 并与正确值比对。发现翻转的 bit 立即改回来。<strong>不影响正在运行的电路</strong>——相当于在飞机飞行中修引擎。<br><br>AMD XQRKU060 内置硬化 scrubbing 引擎，全芯片配置扫描一轮约 100ms。</span>
+          <span class="en">While FPGA runs, a background process continuously reads config SRAM and compares against golden values. Flipped bits are corrected immediately — <strong>without disrupting the running circuit</strong>. Like fixing an engine mid-flight.<br><br>AMD XQRKU060 has a hardened scrubbing engine that scans all config bits in ~100ms.</span>
+        </td>
+        <td>
+          <span class="zh">少量带宽和功耗<br>需要外部 golden copy</span>
+          <span class="en">Minor bandwidth/power<br>Needs external golden copy</span>
+        </td>
+        <td>SEU (config)</td>
+      </tr>
+      <tr>
+        <td><strong>RHBD<br><span style="font-size:0.72rem;color:var(--ink-dim);">Rad-Hard By Design</span></strong></td>
+        <td>
+          <span class="zh">在电路设计层面加固。AMD XQRKU060 使用<strong>超过 40 种专利电路设计和版图技术</strong>降低 SEU 截面积。例如：加大存储节点电容、增加反馈路径、物理分离互补节点使单粒子无法同时打到两个节点。</span>
+          <span class="en">Hardening at circuit design level. AMD XQRKU060 uses <strong>40+ proprietary patented circuit and layout techniques</strong> to reduce SEU cross-section. Examples: enlarged storage node capacitance, additional feedback paths, physical separation of complementary nodes so a single particle can't hit both.</span>
+        </td>
+        <td>
+          <span class="zh">面积 +20-50%<br>速度降低</span>
+          <span class="en">+20-50% area<br>Speed reduction</span>
+        </td>
+        <td>SEU, SEL, SET</td>
+      </tr>
+      <tr style="background:var(--accent-light);">
+        <td><strong>RHBP<br><span style="font-size:0.72rem;color:var(--ink-dim);">Rad-Hard By Process</span></strong></td>
+        <td>
+          <span class="zh">在晶圆制造层面加固：<br>&bull; <strong>SOI（绝缘体上硅）</strong>：晶体管下方有一层氧化物绝缘层，截断闩锁电流通路 → SEL 完全免疫<br>&bull; <strong>加厚栅氧化层</strong>：减缓 TID 电荷积累<br>&bull; <strong>特殊掺杂</strong>：降低寄生效应</span>
+          <span class="en">Hardening at fabrication level:<br>&bull; <strong>SOI (Silicon on Insulator)</strong>: oxide layer below transistors cuts off latchup current path → SEL completely immune<br>&bull; <strong>Thicker gate oxide</strong>: slows TID charge accumulation<br>&bull; <strong>Special doping profiles</strong>: reduces parasitic effects</span>
+        </td>
+        <td>
+          <span class="zh">晶圆成本 +50-200%<br>制程选择受限</span>
+          <span class="en">Wafer cost +50-200%<br>Limited process options</span>
+        </td>
+        <td>SEL, TID</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">反熔丝</span><span class="en">Antifuse</span></strong></td>
+        <td>
+          <span class="zh">配置存储不用 SRAM，而是用物理烧通的金属连接。宇宙射线无法翻转一根已经烧通的导线——这提供了<strong>天然 SEU 免疫</strong>。<br><br>代价：一次性编程（OTP），不可更改。Microchip RTAX 系列用的就是这种技术。</span>
+          <span class="en">Configuration storage uses physically fused metal connections instead of SRAM. Cosmic rays can't flip a fused wire — this provides <strong>natural SEU immunity</strong>.<br><br>Trade-off: One-time programmable (OTP), irreversible. Microchip RTAX series uses this technology.</span>
+        </td>
+        <td style="color:var(--red);">
+          <span class="zh"><strong>不可重编程</strong><br>制程落后（150nm）</span>
+          <span class="en"><strong>Not reprogrammable</strong><br>Old process (150nm)</span>
+        </td>
+        <td><span class="zh">SEU 完全免疫</span><span class="en">SEU fully immune</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ============ THREE ARCHITECTURES COMPARED ============ -->
+  <h3><span class="zh">三种抗辐射架构对决</span><span class="en">Three Radiation Architectures Compared</span></h3>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th><span class="zh">SRAM + TMR + Scrubbing<br><span style="font-weight:400;font-size:0.72rem;">（AMD XQRKU060）</span></span><span class="en">SRAM + TMR + Scrubbing<br><span style="font-weight:400;font-size:0.72rem;">(AMD XQRKU060)</span></span></th>
+        <th><span class="zh">Flash<br><span style="font-weight:400;font-size:0.72rem;">（Microchip RT PolarFire）</span></span><span class="en">Flash<br><span style="font-weight:400;font-size:0.72rem;">(Microchip RT PolarFire)</span></span></th>
+        <th><span class="zh">反熔丝<br><span style="font-weight:400;font-size:0.72rem;">（Microchip RTAX）</span></span><span class="en">Antifuse<br><span style="font-weight:400;font-size:0.72rem;">(Microchip RTAX)</span></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><span class="zh">制程</span><span class="en">Process</span></strong></td>
+        <td>20nm</td>
+        <td>28nm</td>
+        <td>150nm</td>
+      </tr>
+      <tr>
+        <td><strong>TID</strong></td>
+        <td>100 krad</td>
+        <td>100 krad</td>
+        <td>300 krad+</td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">SEU 配置</span><span class="en">SEU Config</span></strong></td>
+        <td><span class="zh">易受攻击 → TMR + Scrubbing 弥补</span><span class="en">Vulnerable → TMR + Scrubbing mitigate</span></td>
+        <td><span class="zh">Flash 本身比 SRAM 抗 SEU 强 100x</span><span class="en">Flash inherently 100x more SEU-resistant than SRAM</span></td>
+        <td style="color:var(--green);font-weight:600;"><span class="zh">完全免疫</span><span class="en">Fully immune</span></td>
+      </tr>
+      <tr>
+        <td><strong>SEL</strong></td>
+        <td><span class="zh">免疫 (LET &gt;80 MeV)</span><span class="en">Immune (LET &gt;80 MeV)</span></td>
+        <td><span class="zh">免疫</span><span class="en">Immune</span></td>
+        <td><span class="zh">免疫</span><span class="en">Immune</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">可重编程</span><span class="en">Reprogrammable</span></strong></td>
+        <td style="color:var(--green);font-weight:600;"><span class="zh">无限次（在轨可更新）</span><span class="en">Unlimited (in-orbit updates)</span></td>
+        <td><span class="zh">~1000 次</span><span class="en">~1000 cycles</span></td>
+        <td style="color:var(--red);"><span class="zh">一次性</span><span class="en">One-time</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">逻辑容量</span><span class="en">Logic Capacity</span></strong></td>
+        <td style="color:var(--green);font-weight:600;"><span class="zh">最大（726K LUT）</span><span class="en">Largest (726K LUT)</span></td>
+        <td><span class="zh">中（500K LE）</span><span class="en">Medium (500K LE)</span></td>
+        <td style="color:var(--red);"><span class="zh">最小（4M gates）</span><span class="en">Smallest (4M gates)</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">功耗</span><span class="en">Power</span></strong></td>
+        <td><span class="zh">高（SRAM 漏电 + TMR 3x）</span><span class="en">High (SRAM leakage + TMR 3x)</span></td>
+        <td style="color:var(--green);font-weight:600;"><span class="zh">最低</span><span class="en">Lowest</span></td>
+        <td><span class="zh">低</span><span class="en">Low</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="zh">典型用途</span><span class="en">Typical Use</span></strong></td>
+        <td><span class="zh">大型卫星、空间站、军用通信</span><span class="en">Large satellites, space stations, mil comms</span></td>
+        <td><span class="zh">小卫星、CubeSat、汽车</span><span class="en">SmallSats, CubeSat, automotive</span></td>
+        <td><span class="zh">深空探测、核环境、关键控制</span><span class="en">Deep space, nuclear, critical control</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
   <p>
     <span class="zh"><strong>最关键的要求排序：</strong> (1) 可靠性 &gt; (2) 安全性 &gt; (3) 长期供应保证 &gt; (4) 性能 &gt; (5) 功耗 &gt; (6) 成本。军用FPGA不追求最高速度，而是追求在极端环境下的<strong>确定性行为和零失效率</strong>。</span>
     <span class="en"><strong>Priority ranking:</strong> (1) Reliability &gt; (2) Security &gt; (3) Long-term supply assurance &gt; (4) Performance &gt; (5) Power &gt; (6) Cost. Military FPGAs don't chase maximum speed — they demand <strong>deterministic behavior and zero field failures</strong> under extreme conditions.</span>
   </p>
 
+  <div class="callout callout-blue">
+    <span class="zh"><strong>总结：FPGA 抗辐射的核心矛盾</strong><br><br>FPGA 的灵魂是"可编程"——但可编程的核心机制（SRAM 配置存储）恰恰是辐射最容易攻击的目标。这就像造了一扇万能钥匙能开的门，然后发现宇宙射线就是一把万能钥匙。<br><br>解决方案只有三条路：<br>1. <strong>冗余弥补</strong>（TMR + EDAC + Scrubbing）— 接受 SRAM 会被翻转，但靠冗余纠错。代价：面积 &times;3，功耗 &times;3<br>2. <strong>换存储介质</strong>（Flash / 反熔丝）— 从根源消除问题。代价：不可或有限重编程<br>3. <strong>两者结合</strong> — 现代航天 FPGA 的主流做法</span>
+    <span class="en"><strong>Summary: The core paradox of FPGA radiation hardening</strong><br><br>FPGA's soul is "programmability" — but the core mechanism (SRAM config storage) is exactly what radiation attacks most easily. It's like building a door that any master key can open, then discovering cosmic rays ARE master keys.<br><br>Only three paths:<br>1. <strong>Redundancy compensation</strong> (TMR + EDAC + Scrubbing) — accept SRAM will flip, correct with redundancy. Cost: 3x area, 3x power<br>2. <strong>Change storage medium</strong> (Flash / Antifuse) — eliminate the problem at source. Cost: non/limited reprogrammability<br>3. <strong>Combine both</strong> — the mainstream approach for modern space FPGAs</span>
+  </div>
+
   <div class="source">
-    Sources: <a href="https://www.microchip.com/en-us/products/fpgas-and-plds/reliability">Microchip — FPGA Reliability</a> &middot;
-    <a href="https://militaryembedded.com/radar-ew/rugged-computing/how-a-robust-fpga-supply-chain-assures-defense-industry-preparedness">MilEmbedded — FPGA Supply Chain</a>
+    Sources: <a href="https://pcbsync.com/xilinx-rad-hard-fpgas/">PCBSync — Xilinx Rad-Hard FPGAs Guide</a> &middot;
+    <a href="https://www.edn.com/a-comparison-of-space-grade-fpgas-part-1/">EDN — Space-Grade FPGAs Compared</a> &middot;
+    <a href="https://docs.amd.com/v/u/en-US/wp523-xqrku060">AMD — XQRKU060 White Paper</a> &middot;
+    <a href="https://militaryembedded.com/comms/satellites/rad-hard-vast-improvements-space-exploration">MilEmbedded — Rad-Hard SRAM FPGAs</a> &middot;
+    <a href="https://www.sciencedirect.com/science/article/abs/pii/S0026269224000880">ScienceDirect — Recent Advances in FPGA Radiation</a> &middot;
+    <a href="https://www.microchip.com/en-us/products/fpgas-and-plds/reliability">Microchip — FPGA Reliability</a>
   </div>
 </div>
 
