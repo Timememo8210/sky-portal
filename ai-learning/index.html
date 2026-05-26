@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 学习 — Sky Portal</title>
+<style>
+:root {
+  --bg: #f7f8fa;
+  --panel: #ffffff;
+  --ink: #1f2328;
+  --muted: #667085;
+  --soft: #8a94a6;
+  --line: #e4e7ec;
+  --line-strong: #d0d5dd;
+  --teal: #0f766e;
+  --teal-soft: #e8f5f3;
+  --amber: #b45309;
+  --amber-soft: #fff4df;
+  --indigo: #4f46e5;
+  --indigo-soft: #eef2ff;
+  --rose: #be123c;
+  --rose-soft: #fff1f2;
+  --green: #15803d;
+  --green-soft: #ecfdf3;
+  --blue: #0369a1;
+  --blue-soft: #e0f2fe;
+  --shadow: 0 12px 30px rgba(16, 24, 40, 0.06);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--teal); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+button, input { font: inherit; }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(247, 248, 250, 0.92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-weight: 700;
+  min-width: 0;
+}
+
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: var(--teal);
+  flex: 0 0 auto;
+}
+
+.top-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.top-links a {
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.top-links a:hover {
+  background: var(--panel);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.layout {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 28px 24px 72px;
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr) 260px;
+  gap: 28px;
+}
+
+.side, .toc {
+  position: sticky;
+  top: 68px;
+  align-self: start;
+}
+
+.side {
+  border-right: 1px solid var(--line);
+  padding-right: 18px;
+}
+
+.side-title,
+.toc-title {
+  color: var(--soft);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.side a,
+.toc a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.side a:hover,
+.toc a:hover {
+  background: var(--panel);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.main { min-width: 0; }
+
+.page-head {
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.eyebrow {
+  color: var(--teal);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 760px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 1.04rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.stat {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 1.45rem;
+  line-height: 1.15;
+}
+
+.stat-date strong {
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.stat span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+section {
+  scroll-margin-top: 84px;
+  padding: 34px 0 0;
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.42rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.section-note {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  max-width: 760px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.tag.teal { color: var(--teal); background: var(--teal-soft); }
+.tag.amber { color: var(--amber); background: var(--amber-soft); }
+.tag.indigo { color: var(--indigo); background: var(--indigo-soft); }
+.tag.rose { color: var(--rose); background: var(--rose-soft); }
+.tag.green { color: var(--green); background: var(--green-soft); }
+.tag.blue { color: var(--blue); background: var(--blue-soft); }
+.tag.gray { color: #475467; background: #eef0f3; }
+
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.map-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 15px;
+  min-height: 154px;
+}
+
+.map-card h3 {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.map-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.map-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.mini {
+  color: var(--muted);
+  background: #f1f3f5;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.flow-step {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.flow-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  width: 10px;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.flow-step .num {
+  color: var(--soft);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.flow-step h3 {
+  margin: 3px 0 5px;
+  font-size: 0.98rem;
+}
+
+.flow-step p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.toolbar {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: minmax(210px, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 8px 10px;
+  min-width: 0;
+}
+
+.search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.filter-btn,
+.tool-btn {
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  color: var(--muted);
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.filter-btn.active,
+.tool-btn:hover,
+.filter-btn:hover {
+  color: var(--teal);
+  border-color: rgba(15, 118, 110, 0.35);
+  background: var(--teal-soft);
+}
+
+.result-line {
+  color: var(--soft);
+  font-size: 0.86rem;
+  margin: 8px 0 0;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  min-width: 1080px;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: 12px 13px;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  color: #344054;
+  background: #f9fafb;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+tbody tr:hover { background: #fbfcfd; }
+tbody tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 800; min-width: 120px; }
+
+.mobile-concepts { display: none; }
+
+.concept-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.concept-list {
+  display: grid;
+  gap: 12px;
+}
+
+details.concept {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+details.concept[open] {
+  box-shadow: var(--shadow);
+}
+
+.concept summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 18px;
+}
+
+.concept summary::-webkit-details-marker { display: none; }
+
+.concept-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.concept-title h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.35;
+}
+
+.concept-title p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.chev {
+  color: var(--soft);
+  transition: transform 0.18s;
+  flex: 0 0 auto;
+}
+
+details[open] .chev { transform: rotate(180deg); }
+
+.concept-body {
+  border-top: 1px solid var(--line);
+  padding: 0 18px 18px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 22px;
+}
+
+.field {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.field h4 {
+  margin: 0 0 6px;
+  color: #344054;
+  font-size: 0.82rem;
+}
+
+.field p,
+.field ul {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.field li { margin: 4px 0; }
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.compare {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.compare h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.compare p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.note-band {
+  background: #f4fbfa;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 8px;
+  padding: 15px 16px;
+  color: #28524d;
+  font-size: 0.94rem;
+}
+
+.queue-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.queue-item {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.queue-item h3 {
+  margin: 0 0 7px;
+  font-size: 0.98rem;
+}
+
+.queue-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.timeline {
+  border-left: 2px solid var(--line-strong);
+  padding-left: 18px;
+}
+
+.timeline-item {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 20px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 4px var(--bg);
+}
+
+.timeline-item h3 {
+  margin: 0 0 6px;
+  font-size: 0.98rem;
+}
+
+.timeline-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.source-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 18px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.footer {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  color: var(--soft);
+  font-size: 0.88rem;
+}
+
+.lucide {
+  width: 17px;
+  height: 17px;
+  stroke-width: 2.2;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 1180px) {
+  .layout { grid-template-columns: 200px minmax(0, 1fr); }
+  .toc { display: none; }
+  .map-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .flow-step:not(:last-child)::after { display: none; }
+}
+
+@media (max-width: 820px) {
+  .topbar-inner {
+    padding: 10px 14px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .top-links {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .top-links a {
+    text-align: center;
+    padding: 5px 6px;
+    font-size: 0.86rem;
+  }
+  .layout {
+    display: block;
+    padding: 20px 14px 48px;
+  }
+  .side {
+    position: static;
+    border: 0;
+    padding: 0;
+    margin-bottom: 18px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .side-title { display: none; }
+  .side a {
+    white-space: nowrap;
+    background: var(--panel);
+    border: 1px solid var(--line);
+  }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .map-grid,
+  .queue-grid,
+  .compare-grid,
+  .field-grid {
+    grid-template-columns: 1fr;
+  }
+  .flow { grid-template-columns: 1fr; }
+  .toolbar { grid-template-columns: 1fr; }
+  .filters { justify-content: flex-start; }
+  .table-scroll { display: none; }
+  .mobile-concepts {
+    display: grid;
+    gap: 10px;
+  }
+  .mobile-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .mobile-card h3 {
+    margin: 0 0 5px;
+    font-size: 1rem;
+  }
+  .mobile-card p {
+    margin: 0 0 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .source-list { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .top-links { display: none; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark"><i data-lucide="book-open"></i></span>
+      <span>Sky Portal · AI 学习</span>
+    </a>
+    <nav class="top-links" aria-label="页面导航">
+      <a href="#map">学习地图</a>
+      <a href="#table">概念表</a>
+      <a href="#deep">深入解释</a>
+      <a href="#compare">对比专题</a>
+      <a href="#changelog">Changelog</a>
+    </nav>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side">
+    <div class="side-title">Knowledge Base</div>
+    <a href="#map"><i data-lucide="map"></i>地图</a>
+    <a href="#training"><i data-lucide="workflow"></i>训练流程</a>
+    <a href="#table"><i data-lucide="table"></i>概念表</a>
+    <a href="#hardware"><i data-lucide="cpu"></i>硬件算力</a>
+    <a href="#queue"><i data-lucide="list-plus"></i>后续队列</a>
+    <a href="#sources"><i data-lucide="link"></i>来源</a>
+  </aside>
+
+  <main class="main">
+    <div class="page-head">
+      <div class="eyebrow">AI Concept Notebook</div>
+      <h1>AI 学习知识库</h1>
+      <p class="lead">用“先人话、后术语”的方式整理 AI 概念。每次新增概念都会进入同一张表，并在 changelog 里保留时间线，方便长期复习和分享。</p>
+      <div class="stats">
+        <div class="stat"><strong>17</strong><span>第一版概念</span></div>
+        <div class="stat"><strong>5</strong><span>今日深入条目</span></div>
+        <div class="stat"><strong>8</strong><span>知识区分类</span></div>
+        <div class="stat stat-date"><strong>2026-05-26</strong><span>最近更新</span></div>
+      </div>
+    </div>
+
+    <section id="map">
+      <div class="section-head">
+        <div>
+          <h2>学习地图</h2>
+          <p class="section-note">这张地图先帮你建立脉络：数据如何变成向量，模型如何读上下文，模型如何训练和对齐，最后如何接入真实应用。</p>
+        </div>
+      </div>
+      <div class="map-grid">
+        <article class="map-card">
+          <h3><i data-lucide="binary"></i>基础表示</h3>
+          <p>把文字、图片、声音变成模型能计算的数字空间。</p>
+          <div class="map-list">
+            <span class="mini">Token</span><span class="mini">Embedding</span><span class="mini">向量相似度</span><span class="mini">点积</span>
+          </div>
+        </article>
+        <article class="map-card">
+          <h3><i data-lucide="network"></i>模型结构</h3>
+          <p>解释 Transformer、Attention 和 MoE 这类模型骨架。</p>
+          <div class="map-list">
+            <span class="mini">Transformer</span><span class="mini">Attention</span><span class="mini">MoE</span><span class="mini">Context</span>
+          </div>
+        </article>
+        <article class="map-card">
+          <h3><i data-lucide="workflow"></i>训练全过程</h3>
+          <p>从基座模型到可用助手：预训练、后训练、评测和安全。</p>
+          <div class="map-list">
+            <span class="mini">预训练</span><span class="mini">SFT</span><span class="mini">RLHF</span><span class="mini">DPO</span>
+          </div>
+        </article>
+        <article class="map-card">
+          <h3><i data-lucide="database"></i>知识增强</h3>
+          <p>让模型在回答前先找资料，降低知识过期和幻觉风险。</p>
+          <div class="map-list">
+            <span class="mini">RAG</span><span class="mini">向量数据库</span><span class="mini">检索</span><span class="mini">重排序</span>
+          </div>
+        </article>
+        <article class="map-card">
+          <h3><i data-lucide="image"></i>多模态</h3>
+          <p>把图像、文字、音频和视频接到同一套语义表示里。</p>
+          <div class="map-list">
+            <span class="mini">CLIP</span><span class="mini">VLM</span><span class="mini">图文对齐</span><span class="mini">视觉编码器</span>
+          </div>
+        </article>
+        <article class="map-card">
+          <h3><i data-lucide="sparkles"></i>生成模型</h3>
+          <p>解释文本续写、图片生成、视频生成背后的生成机制。</p>
+          <div class="map-list">
+            <span class="mini">Diffusion</span><span class="mini">Latent Space</span><span class="mini">去噪</span><span class="mini">采样</span>
+          </div>
+        </article>
+        <article class="map-card">
+          <h3><i data-lucide="bot"></i>Agent 与世界模型</h3>
+          <p>从“回答问题”走向“感知、规划、调用工具、执行任务”。</p>
+          <div class="map-list">
+            <span class="mini">Agent</span><span class="mini">World Model</span><span class="mini">工具调用</span><span class="mini">规划</span>
+          </div>
+        </article>
+        <article class="map-card">
+          <h3><i data-lucide="server-cog"></i>硬件与部署</h3>
+          <p>训练和推理不仅看芯片，还看显存、带宽、通信和稳定性。</p>
+          <div class="map-list">
+            <span class="mini">GPU</span><span class="mini">TPU</span><span class="mini">HBM</span><span class="mini">KV Cache</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="training">
+      <div class="section-head">
+        <div>
+          <h2>今天的主线：大语言模型训练流程</h2>
+          <p class="section-note">一句话：预训练造出“有底子的基座模型”，后训练把它调成“能和人协作的助手”。</p>
+        </div>
+      </div>
+      <div class="flow">
+        <article class="flow-step">
+          <div class="num">01</div>
+          <h3>数据准备</h3>
+          <p>收集、清洗、去重、配比文本、代码、多模态数据。</p>
+        </article>
+        <article class="flow-step">
+          <div class="num">02</div>
+          <h3>预训练</h3>
+          <p>用自监督学习预测下一个 token，形成基础语言和知识能力。</p>
+        </article>
+        <article class="flow-step">
+          <div class="num">03</div>
+          <h3>后训练</h3>
+          <p>SFT、RLHF、DPO、安全训练，让模型更会听指令。</p>
+        </article>
+        <article class="flow-step">
+          <div class="num">04</div>
+          <h3>评测安全</h3>
+          <p>能力测试、人工评测、红队测试、拒答和安全策略验证。</p>
+        </article>
+        <article class="flow-step">
+          <div class="num">05</div>
+          <h3>部署推理</h3>
+          <p>服务真实用户，关注延迟、吞吐、显存、KV cache 和监控。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="table">
+      <div class="section-head">
+        <div>
+          <h2>核心概念表</h2>
+          <p class="section-note">桌面端适合横向比较；手机端自动变成概念卡片。后续每次你问新概念，我会按同一字段追加或修订。</p>
+        </div>
+      </div>
+
+      <div class="toolbar" role="search">
+        <label class="search">
+          <i data-lucide="search"></i>
+          <input id="conceptSearch" type="search" placeholder="搜索概念、英文名、比喻或关键词">
+        </label>
+        <div class="filters" aria-label="概念分类筛选">
+          <button class="filter-btn active" data-filter="all">全部</button>
+          <button class="filter-btn" data-filter="基础表示">基础表示</button>
+          <button class="filter-btn" data-filter="模型结构">模型结构</button>
+          <button class="filter-btn" data-filter="训练流程">训练流程</button>
+          <button class="filter-btn" data-filter="对齐评估">对齐评估</button>
+          <button class="filter-btn" data-filter="知识增强">知识增强</button>
+          <button class="filter-btn" data-filter="生成模型">生成模型</button>
+          <button class="filter-btn" data-filter="硬件部署">硬件部署</button>
+        </div>
+      </div>
+
+      <div class="table-scroll" tabindex="0" aria-label="AI 学习核心概念表，可横向滚动">
+        <table>
+          <thead>
+            <tr>
+              <th>概念</th>
+              <th>英文</th>
+              <th>分类</th>
+              <th>一句话解释</th>
+              <th>人话比喻</th>
+              <th>技术核心</th>
+              <th>流程位置</th>
+              <th>资源/硬件</th>
+              <th>易混点</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-concept data-topic="基础表示" data-search="token 上下文 计费 输入 输出 文本切片">
+              <td>Token</td><td>Token</td><td><span class="tag gray">基础表示</span></td>
+              <td>模型真正读写的最小文本片段。</td><td>像把句子切成积木块。</td><td>文本分词后的离散单元。</td><td>输入、输出、训练、计费</td><td>影响上下文长度和推理成本。</td><td>不一定等于一个汉字或一个英文单词。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+            <tr data-concept data-topic="基础表示" data-search="embedding 向量 语义 空间 表示">
+              <td>Embedding</td><td>Embedding</td><td><span class="tag gray">基础表示</span></td>
+              <td>把文字、图片或声音变成一串数字坐标。</td><td>像给每段内容分配一个语义地址。</td><td>高维向量表示。</td><td>检索、多模态、RAG</td><td>需要向量化模型和存储。</td><td>向量接近不等于事实完全相同。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+            <tr data-concept data-topic="基础表示" data-search="向量相似度 点积 余弦 相似 图片 文本 检索">
+              <td>向量相似度</td><td>Vector Similarity</td><td><span class="tag gray">基础表示</span></td>
+              <td>比较两个向量在语义空间里靠不靠近。</td><td>像看两个地址在地图上离多远。</td><td>点积、余弦相似度、欧氏距离。</td><td>搜索、去重、推荐、RAG</td><td>向量库、ANN 索引、批量计算。</td><td>比较的是语义相近，不是绝对一致。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+            <tr data-concept data-topic="模型结构" data-search="transformer attention 架构 大模型 gpt bert">
+              <td>Transformer</td><td>Transformer</td><td><span class="tag indigo">模型结构</span></td>
+              <td>现代大语言模型最核心的神经网络架构之一。</td><td>像一套能并行阅读上下文的理解机器。</td><td>主要依靠 Attention，而非循环网络。</td><td>模型骨架</td><td>矩阵计算密集，适合 GPU/TPU。</td><td>Transformer 不是一个具体模型名。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+            <tr data-concept data-topic="模型结构" data-search="attention self attention 注意力 多头 上下文">
+              <td>Attention</td><td>Attention</td><td><span class="tag indigo">模型结构</span></td>
+              <td>让模型决定当前 token 应该重点看哪些上下文。</td><td>像读文章时把注意力放在关键句上。</td><td>Query、Key、Value 的相似度加权。</td><td>理解上下文</td><td>长上下文会增加计算和显存压力。</td><td>不是人类意识，只是权重分配机制。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+            <tr data-concept data-topic="训练流程" data-search="预训练 pretraining next token 自监督 基座模型">
+              <td>预训练</td><td>Pretraining</td><td><span class="tag teal">训练流程</span></td>
+              <td>用海量数据训练出“有底子”的基座模型。</td><td>像先读完整个图书馆。</td><td>通常做 next-token prediction 等自监督学习。</td><td>大模型训练主阶段</td><td>最吃数据、GPU/TPU、HBM、网络通信。</td><td>不是把互联网可靠地背成数据库。</td><td><span class="tag green">已深入</span></td>
+            </tr>
+            <tr data-concept data-topic="训练流程" data-search="后训练 post training alignment 指令 微调 助手">
+              <td>后训练</td><td>Post-training</td><td><span class="tag teal">训练流程</span></td>
+              <td>把基座模型调成更会对话、更安全的助手。</td><td>像博学的人进岗位培训。</td><td>SFT、偏好对齐、安全调优、工具使用训练。</td><td>预训练之后</td><td>数据少得多但质量要求高。</td><td>不等于 RLHF，也不只是改语气。</td><td><span class="tag green">已深入</span></td>
+            </tr>
+            <tr data-concept data-topic="训练流程" data-search="sft supervised fine tuning 监督微调 标准答案">
+              <td>监督微调</td><td>SFT</td><td><span class="tag teal">训练流程</span></td>
+              <td>用“问题 + 理想答案”教模型模仿好回答。</td><td>像老师给学生看标准答案。</td><td>用监督学习继续训练模型输出。</td><td>后训练早期常见步骤</td><td>高质量标注数据比数量更关键。</td><td>SFT 不等于完整后训练。</td><td><span class="tag green">已深入</span></td>
+            </tr>
+            <tr data-concept data-topic="对齐评估" data-search="reward model rm 奖励模型 打分 偏好">
+              <td>奖励模型</td><td>Reward Model</td><td><span class="tag blue">对齐评估</span></td>
+              <td>学习给多个回答打分，判断哪个更符合偏好。</td><td>像训练一个评分老师。</td><td>用人类排序数据训练偏好打分器。</td><td>经典 RLHF 中间环节</td><td>需要成对或排序偏好数据。</td><td>评分高不等于事实一定正确。</td><td><span class="tag green">已深入</span></td>
+            </tr>
+            <tr data-concept data-topic="对齐评估" data-search="rlhf reinforcement learning human feedback ppo 偏好 对齐">
+              <td>RLHF</td><td>RLHF</td><td><span class="tag blue">对齐评估</span></td>
+              <td>用人类偏好和强化学习让回答更符合产品目标。</td><td>像按老师评分反复改作文。</td><td>常见流程是 SFT → RM → PPO。</td><td>后训练偏好对齐</td><td>工程复杂，显存和采样成本高于普通 SFT。</td><td>不能保证模型永远真实或安全。</td><td><span class="tag green">已深入</span></td>
+            </tr>
+            <tr data-concept data-topic="对齐评估" data-search="dpo direct preference optimization 偏好优化">
+              <td>DPO</td><td>DPO</td><td><span class="tag blue">对齐评估</span></td>
+              <td>直接用“好答案 vs 差答案”优化模型偏好。</td><td>像直接告诉学生 A 比 B 好。</td><td>不显式训练 reward model，不跑 PPO 式 RL。</td><td>后训练偏好对齐</td><td>仍需要高质量偏好数据和参考模型。</td><td>不是没有人类反馈，也不是总优于 RLHF。</td><td><span class="tag green">已深入</span></td>
+            </tr>
+            <tr data-concept data-topic="对齐评估" data-search="evaluation benchmark eval 红队 安全 幻觉">
+              <td>评测</td><td>Evaluation</td><td><span class="tag blue">对齐评估</span></td>
+              <td>判断模型有没有变强、哪里危险、能不能发布。</td><td>像考试、路考和压力测试。</td><td>benchmark、人工偏好、红队、安全测试。</td><td>训练后和发布前</td><td>多为推理负载，也会消耗大量 GPU 时间。</td><td>单个榜单不能代表真实能力。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+            <tr data-concept data-topic="硬件部署" data-search="gpu tpu 显存 hbm cuda 训练 推理">
+              <td>GPU / TPU</td><td>GPU / TPU</td><td><span class="tag rose">硬件部署</span></td>
+              <td>加速大规模矩阵和张量计算的主要硬件。</td><td>像一整排专做矩阵乘法的流水线。</td><td>GPU 更通用，TPU 是 Google 的 ML 专用 ASIC。</td><td>训练和推理</td><td>看算力、显存、HBM、互联、生态和成本。</td><td>不是芯片越多就一定训练越快。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+            <tr data-concept data-topic="硬件部署" data-search="inference 推理 kv cache 延迟 吞吐 prefill decode">
+              <td>推理</td><td>Inference</td><td><span class="tag rose">硬件部署</span></td>
+              <td>训练完成后，模型实际生成答案的过程。</td><td>像考试时现场作答。</td><td>前向计算，常分 prefill 和 decode。</td><td>部署服务阶段</td><td>关注延迟、吞吐、KV cache、显存和带宽。</td><td>推理也可能很贵，尤其是高并发长上下文。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+            <tr data-concept data-topic="知识增强" data-search="rag retrieval augmented generation 检索 增强 资料">
+              <td>RAG</td><td>RAG</td><td><span class="tag gray">知识增强</span></td>
+              <td>先检索资料，再让模型基于资料回答。</td><td>像开卷考试，先翻资料再作答。</td><td>检索器 + 生成模型的组合。</td><td>应用层增强</td><td>向量库、索引、重排序、引用管理。</td><td>RAG 不能自动保证资料正确。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+            <tr data-concept data-topic="生成模型" data-search="diffusion model 扩散 去噪 图片 生成">
+              <td>扩散模型</td><td>Diffusion Model</td><td><span class="tag gray">生成模型</span></td>
+              <td>从噪声一步步去噪生成图片、视频或音频。</td><td>像从雪花噪点里慢慢画出图像。</td><td>学习正向加噪和反向去噪过程。</td><td>生成式 AI</td><td>训练和采样都算力密集。</td><td>不是从图库里复制一张图。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+            <tr data-concept data-topic="模型结构" data-search="world model 世界模型 环境 预测 机器人 自动驾驶">
+              <td>世界模型</td><td>World Model</td><td><span class="tag indigo">模型结构</span></td>
+              <td>学习世界状态如何随动作变化。</td><td>像在脑子里模拟下一步会发生什么。</td><td>环境的压缩空间和时间表示。</td><td>Agent、机器人、规划</td><td>需要环境交互数据或仿真数据。</td><td>不等于大语言模型拥有完整现实理解。</td><td><span class="tag amber">待深入</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mobile-concepts" aria-label="AI 学习核心概念卡片">
+        <article class="mobile-card" data-mobile-concept data-topic="基础表示" data-search="token 上下文 计费 输入 输出 文本切片"><h3>Token <span class="tag amber">待深入</span></h3><p>模型真正读写的最小文本片段，像把句子切成积木块。</p><span class="mini">基础表示</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="基础表示" data-search="embedding 向量 语义 空间 表示"><h3>Embedding <span class="tag amber">待深入</span></h3><p>把文字、图片或声音变成一串数字坐标，像给内容分配语义地址。</p><span class="mini">基础表示</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="基础表示" data-search="向量相似度 点积 余弦 相似 图片 文本 检索"><h3>向量相似度 <span class="tag amber">待深入</span></h3><p>比较两个向量在语义空间里靠不靠近，常用于搜索、去重和 RAG。</p><span class="mini">基础表示</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="模型结构" data-search="transformer attention 架构 大模型 gpt bert"><h3>Transformer <span class="tag amber">待深入</span></h3><p>现代大语言模型的重要骨架，用 Attention 处理上下文。</p><span class="mini">模型结构</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="模型结构" data-search="attention self attention 注意力 多头 上下文"><h3>Attention <span class="tag amber">待深入</span></h3><p>让模型决定当前 token 应该重点看哪些上下文。</p><span class="mini">模型结构</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="训练流程" data-search="预训练 pretraining next token 自监督 基座模型"><h3>预训练 <span class="tag green">已深入</span></h3><p>用海量数据训练出“有底子”的基座模型，像先读完整个图书馆。</p><span class="mini">训练流程</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="训练流程" data-search="后训练 post training alignment 指令 微调 助手"><h3>后训练 <span class="tag green">已深入</span></h3><p>把基座模型调成更会对话、更安全的助手，像进入岗位培训。</p><span class="mini">训练流程</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="训练流程" data-search="sft supervised fine tuning 监督微调 标准答案"><h3>监督微调 SFT <span class="tag green">已深入</span></h3><p>用“问题 + 理想答案”教模型模仿好回答。</p><span class="mini">训练流程</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="对齐评估" data-search="reward model rm 奖励模型 打分 偏好"><h3>奖励模型 RM <span class="tag green">已深入</span></h3><p>学习给多个回答打分，判断哪个更符合人类偏好。</p><span class="mini">对齐评估</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="对齐评估" data-search="rlhf reinforcement learning human feedback ppo 偏好 对齐"><h3>RLHF <span class="tag green">已深入</span></h3><p>用人类偏好和强化学习，让模型更倾向产品目标里的好回答。</p><span class="mini">对齐评估</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="对齐评估" data-search="dpo direct preference optimization 偏好优化"><h3>DPO <span class="tag green">已深入</span></h3><p>直接用“好答案 vs 差答案”的对比优化模型偏好。</p><span class="mini">对齐评估</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="对齐评估" data-search="evaluation benchmark eval 红队 安全 幻觉"><h3>评测 Evaluation <span class="tag amber">待深入</span></h3><p>判断模型有没有变强、哪里危险、能不能发布。</p><span class="mini">对齐评估</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="硬件部署" data-search="gpu tpu 显存 hbm cuda 训练 推理"><h3>GPU / TPU <span class="tag amber">待深入</span></h3><p>加速大规模矩阵和张量计算的主要硬件。</p><span class="mini">硬件部署</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="硬件部署" data-search="inference 推理 kv cache 延迟 吞吐 prefill decode"><h3>推理 Inference <span class="tag amber">待深入</span></h3><p>训练完成后，模型实际生成答案的过程。</p><span class="mini">硬件部署</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="知识增强" data-search="rag retrieval augmented generation 检索 增强 资料"><h3>RAG <span class="tag amber">待深入</span></h3><p>先检索资料，再让模型基于资料回答，像开卷考试。</p><span class="mini">知识增强</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="生成模型" data-search="diffusion model 扩散 去噪 图片 生成"><h3>扩散模型 <span class="tag amber">待深入</span></h3><p>从噪声一步步去噪生成图片、视频或音频。</p><span class="mini">生成模型</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="模型结构" data-search="world model 世界模型 环境 预测 机器人 自动驾驶"><h3>世界模型 <span class="tag amber">待深入</span></h3><p>学习世界状态如何随动作变化，像在脑子里模拟下一步。</p><span class="mini">模型结构</span></article>
+      </div>
+      <div class="result-line" id="resultLine">显示全部概念。</div>
+    </section>
+
+    <section id="deep">
+      <div class="section-head">
+        <div>
+          <h2>深入解释：预训练、后训练与偏好对齐</h2>
+          <p class="section-note">每个概念固定用同一套字段：一句话、人话比喻、技术定义、作用、方法、资源要求、常见误区和复习问题。</p>
+        </div>
+        <div class="concept-tools">
+          <button class="tool-btn" id="expandAll"><i data-lucide="panel-bottom-open"></i> 全部展开</button>
+          <button class="tool-btn" id="collapseAll"><i data-lucide="panel-top-close"></i> 全部收起</button>
+        </div>
+      </div>
+
+      <div class="concept-list">
+        <details class="concept" open>
+          <summary>
+            <div class="concept-title">
+              <div>
+                <h3>预训练 Pretraining <span class="tag green">v1.0</span> <span class="tag teal">已公开事实 + 业界常见做法</span></h3>
+                <p>用海量数据训练基座模型，主要形成语言、知识关联、代码模式和通用能力。</p>
+              </div>
+              <i class="chev" data-lucide="chevron-down"></i>
+            </div>
+          </summary>
+          <div class="concept-body">
+            <div class="field-grid">
+              <div class="field"><h4>一句话</h4><p>预训练是在造“底子”：模型通过海量文本、代码或多模态数据，学习怎么根据上下文预测下一个 token。</p></div>
+              <div class="field"><h4>人话比喻</h4><p>像一个人先读图书馆、网页、代码库和教材。它还没学会怎么当客服或老师，但已经有了语言和知识底盘。</p></div>
+              <div class="field"><h4>技术定义</h4><p>通常是自监督学习，不需要人工逐条写标准答案；语言模型最典型目标是 next-token prediction。</p></div>
+              <div class="field"><h4>作用</h4><p>很大程度上决定模型的基础能力底盘和上限：语言结构、常识关联、代码模式、推理雏形和跨领域泛化。</p></div>
+              <div class="field"><h4>常见方法</h4><p>Causal LM、混合精度训练、数据/张量/流水线并行，配合大规模数据清洗、去重和数据配比。</p></div>
+              <div class="field"><h4>资源要求</h4><p>通常是最耗数据和算力的阶段；瓶颈不只是 GPU/TPU 数量，还包括 HBM 显存与带宽、互联通信、存储吞吐和故障恢复。</p></div>
+              <div class="field"><h4>输出是什么</h4><p>一个基座模型。它会续写、补全和泛化，但还不一定稳定听指令，也不一定符合产品安全边界。</p></div>
+              <div class="field"><h4>常见误区</h4><p>预训练不是“把互联网变成可靠数据库”。模型学到的是统计规律和关联，可能记错、混淆、过时或编造。</p></div>
+              <div class="field"><h4>复习问题</h4><ul><li>为什么预训练通常比后训练更耗算力？</li><li>为什么说基座模型有知识，但还不一定好用？</li></ul></div>
+              <div class="field"><h4>相关概念</h4><p>Token、Transformer、Attention、Scaling Law、GPU/TPU、后训练。</p></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="concept" open>
+          <summary>
+            <div class="concept-title">
+              <div>
+                <h3>后训练 Post-training <span class="tag green">v1.0</span> <span class="tag teal">业界常见做法</span></h3>
+                <p>预训练之后的一组行为塑形流程，把基座模型调成更会和人协作的助手。</p>
+              </div>
+              <i class="chev" data-lucide="chevron-down"></i>
+            </div>
+          </summary>
+          <div class="concept-body">
+            <div class="field-grid">
+              <div class="field"><h4>一句话</h4><p>后训练不是重新从零训练，而是让已有能力更符合人的使用方式：听指令、会解释、懂边界、少乱答。</p></div>
+              <div class="field"><h4>人话比喻</h4><p>预训练像读书多年，后训练像上岗培训。同一个人有知识，但还要学会怎么回答客户、怎么拒绝危险请求。</p></div>
+              <div class="field"><h4>技术定义</h4><p>后训练是预训练之后的统称，可能包含 SFT、RLHF、DPO、拒绝采样、安全微调、工具调用训练和专项能力增强。</p></div>
+              <div class="field"><h4>作用</h4><p>改善指令遵循、多轮对话、回答结构、帮助性、安全性、工具使用和产品体验。</p></div>
+              <div class="field"><h4>常见方法</h4><p>监督微调、偏好对齐、红队数据回灌、安全拒答训练、代码或工具使用专项数据训练。</p></div>
+              <div class="field"><h4>资源要求</h4><p>计算量通常远小于预训练，但数据质量要求更高；少量高质量样本也可能明显改变模型风格和行为。</p></div>
+              <div class="field"><h4>输出是什么</h4><p>一个更适合聊天、办公、编程或工具调用的模型；部署时还可能配合系统提示、过滤器和监控策略。</p></div>
+              <div class="field"><h4>常见误区</h4><p>后训练不等于 RLHF；后训练也不只是“改口气”。它更准确地说是在塑造行为、偏好和安全边界。</p></div>
+              <div class="field"><h4>复习问题</h4><ul><li>为什么后训练能让模型明显更好用？</li><li>为什么不能把后训练简单理解成“补知识”？</li></ul></div>
+              <div class="field"><h4>相关概念</h4><p>SFT、RLHF、DPO、Reward Model、Evaluation、Safety Tuning。</p></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="concept">
+          <summary>
+            <div class="concept-title">
+              <div>
+                <h3>监督微调 SFT <span class="tag green">v1.0</span></h3>
+                <p>用人工或高质量模型生成的“问题 + 理想答案”样本，让模型模仿好回答。</p>
+              </div>
+              <i class="chev" data-lucide="chevron-down"></i>
+            </div>
+          </summary>
+          <div class="concept-body">
+            <div class="field-grid">
+              <div class="field"><h4>一句话</h4><p>SFT 是后训练中最直观的一步：给模型看标准答案，让它学回答格式和表达方式。</p></div>
+              <div class="field"><h4>人话比喻</h4><p>像老师给学生一批范文和解题步骤：“遇到这种题，不要乱写，按这个结构答。”</p></div>
+              <div class="field"><h4>技术核心</h4><p>通常继续用监督学习和交叉熵损失训练，让模型在给定指令时输出示范答案。</p></div>
+              <div class="field"><h4>资源要求</h4><p>比预训练更依赖样本质量。小模型可用 LoRA/QLoRA 等低成本方式，大模型全量微调仍需要多卡高显存。</p></div>
+              <div class="field"><h4>常见误区</h4><p>SFT 不是知识库；它主要教“怎么答”，不能自动保证事实正确，也会继承或放大样本里的坏习惯。</p></div>
+              <div class="field"><h4>相关概念</h4><p>Instruction Tuning、LoRA、RLHF、DPO、数据标注。</p></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="concept">
+          <summary>
+            <div class="concept-title">
+              <div>
+                <h3>Reward Model / RLHF <span class="tag green">v1.0</span></h3>
+                <p>用人类偏好训练“评分老师”，再用强化学习让模型更偏向高评分回答。</p>
+              </div>
+              <i class="chev" data-lucide="chevron-down"></i>
+            </div>
+          </summary>
+          <div class="concept-body">
+            <div class="field-grid">
+              <div class="field"><h4>一句话</h4><p>RLHF 是从人类反馈中学习：人先比较多个回答，模型再学会更常给出人类偏好的回答。</p></div>
+              <div class="field"><h4>人话比喻</h4><p>学生写几份作文，老师排序；再训练一个评分老师，学生之后按评分老师的偏好反复改作文。</p></div>
+              <div class="field"><h4>经典流程</h4><p>InstructGPT 的典型流程是 SFT → 训练 Reward Model → 用 PPO 做强化学习优化。</p></div>
+              <div class="field"><h4>资源要求</h4><p>需要偏好比较数据。PPO 式 RLHF 工程复杂，通常要生成样本、跑策略模型、参考模型、奖励模型和价值模型。</p></div>
+              <div class="field"><h4>常见误区</h4><p>RLHF 不是让模型掌握绝对真理；它让模型贴近标注者和产品定义的偏好，可能引入讨好、冗长或偏见。</p></div>
+              <div class="field"><h4>相关概念</h4><p>PPO、KL 约束、偏好数据、Reward Hacking、DPO。</p></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="concept">
+          <summary>
+            <div class="concept-title">
+              <div>
+                <h3>DPO Direct Preference Optimization <span class="tag green">v1.0</span></h3>
+                <p>直接用“被偏好的回答”和“不被偏好的回答”训练模型，流程比传统 PPO-RLHF 更简洁。</p>
+              </div>
+              <i class="chev" data-lucide="chevron-down"></i>
+            </div>
+          </summary>
+          <div class="concept-body">
+            <div class="field-grid">
+              <div class="field"><h4>一句话</h4><p>DPO 不单独训练显式奖励模型，而是把偏好对比直接写进模型优化目标。</p></div>
+              <div class="field"><h4>人话比喻</h4><p>不再先培养一个“评分老师”，而是直接告诉学生：这份答案比那份好，以后往这个方向写。</p></div>
+              <div class="field"><h4>技术核心</h4><p>用 chosen/rejected 成对偏好数据，并通常引入一个冻结的参考模型，控制新模型不要偏离太远。</p></div>
+              <div class="field"><h4>资源要求</h4><p>训练流程通常比 PPO-RLHF 轻，但仍需要高质量偏好数据、当前模型和参考模型的显存预算。</p></div>
+              <div class="field"><h4>常见误区</h4><p>DPO 不是“不需要反馈”。它仍然需要偏好数据，只是不用显式 reward model 和 PPO 式强化学习循环。</p></div>
+              <div class="field"><h4>相关概念</h4><p>RLHF、Preference Data、Reference Model、Alignment。</p></div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="compare">
+      <div class="section-head">
+        <div>
+          <h2>对比专题</h2>
+          <p class="section-note">先把最容易混的几组关系固定下来。</p>
+        </div>
+      </div>
+      <div class="compare-grid">
+        <article class="compare">
+          <h3>预训练 vs 后训练</h3>
+          <p><strong>预训练</strong>主要是建立基础能力，数据最大、算力最大，常用自监督目标。<strong>后训练</strong>主要是塑造可用性和行为边界，数据少得多但质量要求高。</p>
+        </article>
+        <article class="compare">
+          <h3>SFT vs RLHF vs DPO</h3>
+          <p><strong>SFT</strong>看标准答案学习；<strong>RLHF</strong>先学评分再用强化学习优化；<strong>DPO</strong>直接用偏好对比优化。</p>
+        </article>
+        <article class="compare">
+          <h3>训练 vs 推理</h3>
+          <p><strong>训练</strong>要前向、反向、梯度和优化器状态；<strong>推理</strong>通常只做前向，但长上下文和高并发会让 KV cache、显存和延迟成为瓶颈。</p>
+        </article>
+        <article class="compare">
+          <h3>GPU vs TPU</h3>
+          <p>二者都能做大规模张量计算。GPU 生态更通用，TPU 是 Google 的机器学习专用 ASIC；适不适合取决于框架、互联、成本、可获得性和团队经验。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="hardware">
+      <div class="section-head">
+        <div>
+          <h2>硬件与算力：不要只看“用了多少卡”</h2>
+          <p class="section-note">大模型训练像一座大型工厂。芯片是核心机器，但仓库、传送带、电力、排程和故障恢复同样决定产能。</p>
+        </div>
+      </div>
+      <div class="note-band">
+        训练大模型通常使用 GPU 或 TPU 集群。关键瓶颈包括：模型权重、激活值、梯度、优化器状态占用的显存；HBM 带宽；GPU/TPU 之间的高速互联；数据读取和 checkpoint 存储；以及集群稳定性。闭源模型的参数量、训练硬件和训练成本如果没有官方披露，应标记为推测。
+      </div>
+    </section>
+
+    <section id="queue">
+      <div class="section-head">
+        <div>
+          <h2>后续概念队列</h2>
+          <p class="section-note">这些概念已经进入第一版目录。后续你每问一个，我会按同一模板补成深入条目，并在 changelog 中记录版本变化。</p>
+        </div>
+      </div>
+      <div class="queue-grid">
+        <article class="queue-item"><h3>Token / Embedding / 向量相似度</h3><p>理解 RAG、图片相似度、检索和多模态对齐的地基。</p></article>
+        <article class="queue-item"><h3>Transformer / Attention</h3><p>解释现代大语言模型如何处理上下文和长距离依赖。</p></article>
+        <article class="queue-item"><h3>RAG / 向量数据库</h3><p>把模型接到资料库，降低知识过期和幻觉风险。</p></article>
+        <article class="queue-item"><h3>CLIP / 多模态</h3><p>解释图片和文字怎么进入同一个语义空间。</p></article>
+        <article class="queue-item"><h3>Diffusion Model</h3><p>解释图片、视频和音频生成为什么常从噪声开始。</p></article>
+        <article class="queue-item"><h3>World Model / Agent</h3><p>从回答问题走向预测世界、规划动作和调用工具。</p></article>
+      </div>
+    </section>
+
+    <section id="changelog">
+      <div class="section-head">
+        <div>
+          <h2>Changelog</h2>
+          <p class="section-note">每次新增或修订都会记录日期、概念、版本和变化原因。以后如果同一概念的理解升级，会保留旧说法和新说法的差异。</p>
+        </div>
+      </div>
+      <div class="timeline">
+        <article class="timeline-item">
+          <h3>2026-05-26 · 新增 · v1.0</h3>
+          <p>建立 AI 学习知识库第一版；新增学习地图、概念表、预训练、后训练、SFT、Reward Model/RLHF、DPO、硬件算力说明和后续概念队列。</p>
+        </article>
+        <article class="timeline-item">
+          <h3>后续规则</h3>
+          <p>新增概念用 v1.0；事实或表达小修用 v1.1；分类、关系或主流理解发生变化时升级到 v2.0，并保留“旧理解 vs 新理解”。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="section-head">
+        <div>
+          <h2>主要来源</h2>
+          <p class="section-note">第一版优先使用论文、官方研究页面和可访问性文档。闭源模型未公开的参数、硬件和训练细节不写成事实。</p>
+        </div>
+      </div>
+      <ul class="source-list">
+        <li><a href="https://research.google/pubs/attention-is-all-you-need/" target="_blank" rel="noopener">Attention Is All You Need</a></li>
+        <li><a href="https://arxiv.org/abs/2005.14165" target="_blank" rel="noopener">Language Models are Few-Shot Learners</a></li>
+        <li><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">Training language models to follow instructions with human feedback</a></li>
+        <li><a href="https://arxiv.org/abs/2305.18290" target="_blank" rel="noopener">Direct Preference Optimization</a></li>
+        <li><a href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener">Retrieval-Augmented Generation</a></li>
+        <li><a href="https://arxiv.org/abs/2103.00020" target="_blank" rel="noopener">CLIP</a></li>
+        <li><a href="https://arxiv.org/abs/2006.11239" target="_blank" rel="noopener">Denoising Diffusion Probabilistic Models</a></li>
+        <li><a href="https://arxiv.org/abs/2101.03961" target="_blank" rel="noopener">Switch Transformers</a></li>
+        <li><a href="https://arxiv.org/abs/1803.10122" target="_blank" rel="noopener">World Models</a></li>
+        <li><a href="https://developer.nvidia.com/blog/mastering-llm-techniques-inference-optimization/" target="_blank" rel="noopener">NVIDIA LLM inference optimization</a></li>
+        <li><a href="https://cloud.google.com/tpu/docs/system-architecture-tpu-vm" target="_blank" rel="noopener">Google Cloud TPU architecture</a></li>
+        <li><a href="https://docs.pytorch.org/docs/stable/fsdp.html" target="_blank" rel="noopener">PyTorch FSDP</a></li>
+        <li><a href="https://arxiv.org/abs/1910.02054" target="_blank" rel="noopener">ZeRO memory optimization</a></li>
+        <li><a href="https://www.w3.org/TR/WCAG22/#reflow" target="_blank" rel="noopener">WCAG 2.2 Reflow</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/overflow-x" target="_blank" rel="noopener">MDN overflow-x</a></li>
+        <li><a href="https://designsystem.digital.gov/components/table/" target="_blank" rel="noopener">USWDS Table</a></li>
+      </ul>
+    </section>
+
+    <div class="footer">
+      Sky Portal · AI 学习 · 更新于 2026-05-26 · <a href="../index.html">返回首页</a>
+    </div>
+  </main>
+
+  <aside class="toc">
+    <div class="toc-title">On This Page</div>
+    <a href="#map">学习地图</a>
+    <a href="#training">训练流程</a>
+    <a href="#table">核心概念表</a>
+    <a href="#deep">深入解释</a>
+    <a href="#compare">对比专题</a>
+    <a href="#changelog">Changelog</a>
+  </aside>
+</div>
+
+<script src="../src/assets/lucide.min.js"></script>
+<script>
+const filterButtons = Array.from(document.querySelectorAll(".filter-btn"));
+const searchInput = document.getElementById("conceptSearch");
+const tableConcepts = Array.from(document.querySelectorAll("[data-concept]"));
+const mobileConcepts = Array.from(document.querySelectorAll("[data-mobile-concept]"));
+const concepts = tableConcepts.concat(mobileConcepts);
+const resultLine = document.getElementById("resultLine");
+let activeFilter = "all";
+
+function normalize(value) {
+  return (value || "").toLowerCase().trim();
+}
+
+function conceptText(el) {
+  return normalize(el.textContent + " " + (el.dataset.search || ""));
+}
+
+function applyFilters() {
+  const query = normalize(searchInput.value);
+  let visibleTableRows = 0;
+
+  concepts.forEach((el) => {
+    const topicMatch = activeFilter === "all" || el.dataset.topic === activeFilter;
+    const queryMatch = !query || conceptText(el).includes(query);
+    const show = topicMatch && queryMatch;
+    el.style.display = show ? "" : "none";
+    if (show && el.tagName === "TR") visibleTableRows += 1;
+  });
+
+  resultLine.textContent = query || activeFilter !== "all"
+    ? "当前筛选显示 " + visibleTableRows + " 个概念。"
+    : "显示全部概念。";
+}
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    activeFilter = button.dataset.filter;
+    filterButtons.forEach((item) => item.classList.toggle("active", item === button));
+    applyFilters();
+  });
+});
+
+searchInput.addEventListener("input", applyFilters);
+
+document.getElementById("expandAll").addEventListener("click", () => {
+  document.querySelectorAll("details.concept").forEach((item) => { item.open = true; });
+});
+
+document.getElementById("collapseAll").addEventListener("click", () => {
+  document.querySelectorAll("details.concept").forEach((item) => { item.open = false; });
+});
+
+if (window.lucide) {
+  window.lucide.createIcons();
+}
+</script>
+</body>
+</html>
