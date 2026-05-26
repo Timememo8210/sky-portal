@@ -776,8 +776,8 @@ details[open] .chev { transform: rotate(180deg); }
       <h1>AI 学习知识库</h1>
       <p class="lead">用“先人话、后术语”的方式整理 AI 概念。每次新增概念都会进入同一张表，并在 changelog 里保留时间线，方便长期复习和分享。</p>
       <div class="stats">
-        <div class="stat"><strong>17</strong><span>第一版概念</span></div>
-        <div class="stat"><strong>5</strong><span>今日深入条目</span></div>
+        <div class="stat"><strong>18</strong><span>知识库概念</span></div>
+        <div class="stat"><strong>6</strong><span>已深入条目</span></div>
         <div class="stat"><strong>8</strong><span>知识区分类</span></div>
         <div class="stat stat-date"><strong>2026-05-26</strong><span>最近更新</span></div>
       </div>
@@ -809,7 +809,7 @@ details[open] .chev { transform: rotate(180deg); }
           <h3><i data-lucide="workflow"></i>训练全过程</h3>
           <p>从基座模型到可用助手：预训练、后训练、评测和安全。</p>
           <div class="map-list">
-            <span class="mini">预训练</span><span class="mini">SFT</span><span class="mini">RLHF</span><span class="mini">DPO</span>
+            <span class="mini">预训练</span><span class="mini">SFT</span><span class="mini">RLHF</span><span class="mini">DPO</span><span class="mini">蒸馏</span>
           </div>
         </article>
         <article class="map-card">
@@ -871,7 +871,7 @@ details[open] .chev { transform: rotate(180deg); }
         <article class="flow-step">
           <div class="num">03</div>
           <h3>后训练</h3>
-          <p>SFT、RLHF、DPO、安全训练，让模型更会听指令。</p>
+          <p>SFT、RLHF、DPO、安全训练和蒸馏，让模型更会听指令或更易部署。</p>
         </article>
         <article class="flow-step">
           <div class="num">04</div>
@@ -960,6 +960,10 @@ details[open] .chev { transform: rotate(180deg); }
               <td>监督微调</td><td>SFT</td><td><span class="tag teal">训练流程</span></td>
               <td>用“问题 + 理想答案”教模型模仿好回答。</td><td>像老师给学生看标准答案。</td><td>用监督学习继续训练模型输出。</td><td>后训练早期常见步骤</td><td>高质量标注数据比数量更关键。</td><td>SFT 不等于完整后训练。</td><td><span class="tag green">已深入</span></td>
             </tr>
+            <tr data-concept data-topic="训练流程" data-search="蒸馏 distillation knowledge distillation teacher student logits soft targets 模型压缩 小模型 教师 学生">
+              <td>蒸馏</td><td>Knowledge Distillation</td><td><span class="tag teal">训练流程</span></td>
+              <td>让小模型模仿大模型或教师模型的能力和行为。</td><td>像优秀老师把解题思路和风格教给学生。</td><td>用教师模型的 logits、概率分布、生成答案或推理轨迹训练学生模型。</td><td>模型压缩、能力迁移、部署前优化</td><td>比从零预训练省，但会消耗教师生成数据和学生训练成本。</td><td>不是复制参数，也不是保证无损压缩。</td><td><span class="tag green">已深入</span></td>
+            </tr>
             <tr data-concept data-topic="对齐评估" data-search="reward model rm 奖励模型 打分 偏好">
               <td>奖励模型</td><td>Reward Model</td><td><span class="tag blue">对齐评估</span></td>
               <td>学习给多个回答打分，判断哪个更符合偏好。</td><td>像训练一个评分老师。</td><td>用人类排序数据训练偏好打分器。</td><td>经典 RLHF 中间环节</td><td>需要成对或排序偏好数据。</td><td>评分高不等于事实一定正确。</td><td><span class="tag green">已深入</span></td>
@@ -1009,6 +1013,7 @@ details[open] .chev { transform: rotate(180deg); }
         <article class="mobile-card" data-mobile-concept data-topic="训练流程" data-search="预训练 pretraining next token 自监督 基座模型"><h3>预训练 <span class="tag green">已深入</span></h3><p>用海量数据训练出“有底子”的基座模型，像先读完整个图书馆。</p><span class="mini">训练流程</span></article>
         <article class="mobile-card" data-mobile-concept data-topic="训练流程" data-search="后训练 post training alignment 指令 微调 助手"><h3>后训练 <span class="tag green">已深入</span></h3><p>把基座模型调成更会对话、更安全的助手，像进入岗位培训。</p><span class="mini">训练流程</span></article>
         <article class="mobile-card" data-mobile-concept data-topic="训练流程" data-search="sft supervised fine tuning 监督微调 标准答案"><h3>监督微调 SFT <span class="tag green">已深入</span></h3><p>用“问题 + 理想答案”教模型模仿好回答。</p><span class="mini">训练流程</span></article>
+        <article class="mobile-card" data-mobile-concept data-topic="训练流程" data-search="蒸馏 distillation knowledge distillation teacher student logits soft targets 模型压缩 小模型 教师 学生"><h3>蒸馏 Distillation <span class="tag green">已深入</span></h3><p>让小模型模仿教师模型的能力和行为，常用于降低部署成本。</p><span class="mini">训练流程</span></article>
         <article class="mobile-card" data-mobile-concept data-topic="对齐评估" data-search="reward model rm 奖励模型 打分 偏好"><h3>奖励模型 RM <span class="tag green">已深入</span></h3><p>学习给多个回答打分，判断哪个更符合人类偏好。</p><span class="mini">对齐评估</span></article>
         <article class="mobile-card" data-mobile-concept data-topic="对齐评估" data-search="rlhf reinforcement learning human feedback ppo 偏好 对齐"><h3>RLHF <span class="tag green">已深入</span></h3><p>用人类偏好和强化学习，让模型更倾向产品目标里的好回答。</p><span class="mini">对齐评估</span></article>
         <article class="mobile-card" data-mobile-concept data-topic="对齐评估" data-search="dpo direct preference optimization 偏好优化"><h3>DPO <span class="tag green">已深入</span></h3><p>直接用“好答案 vs 差答案”的对比优化模型偏好。</p><span class="mini">对齐评估</span></article>
@@ -1025,7 +1030,7 @@ details[open] .chev { transform: rotate(180deg); }
     <section id="deep">
       <div class="section-head">
         <div>
-          <h2>深入解释：预训练、后训练与偏好对齐</h2>
+          <h2>深入解释：训练阶段、对齐与蒸馏</h2>
           <p class="section-note">每个概念固定用同一套字段：一句话、人话比喻、技术定义、作用、方法、资源要求、常见误区和复习问题。</p>
         </div>
         <div class="concept-tools">
@@ -1113,6 +1118,32 @@ details[open] .chev { transform: rotate(180deg); }
           <summary>
             <div class="concept-title">
               <div>
+                <h3>蒸馏 Knowledge Distillation <span class="tag green">v1.0</span></h3>
+                <p>用强模型当老师，把能力、答题风格或推理行为迁移给更小、更便宜或更专用的学生模型。</p>
+              </div>
+              <i class="chev" data-lucide="chevron-down"></i>
+            </div>
+          </summary>
+          <div class="concept-body">
+            <div class="field-grid">
+              <div class="field"><h4>一句话</h4><p>蒸馏就是让一个“学生模型”模仿“教师模型”，尽量学会教师的输出分布、答题风格、推理过程或专项能力。</p></div>
+              <div class="field"><h4>人话比喻</h4><p>不是把老师的大脑复制给学生，而是老师把解题思路、答案倾向、常见坑和表达风格浓缩成训练材料，让学生学完后做题更快、成本更低。</p></div>
+              <div class="field"><h4>技术定义</h4><p>经典知识蒸馏用教师模型的 soft targets 或 logits 训练学生模型；大语言模型里也常用教师生成的指令答案、推理轨迹、偏好样本或任务示范来训练学生。</p></div>
+              <div class="field"><h4>作用</h4><p>常用于模型压缩、能力迁移和部署优化：把大模型的部分能力迁到小模型、端侧模型、垂直领域模型或低延迟服务上。</p></div>
+              <div class="field"><h4>常见方法</h4><p>Logits 蒸馏、response distillation、feature distillation、sequence-level distillation、self-distillation，以及用教师模型生成 SFT 数据。</p></div>
+              <div class="field"><h4>资源要求</h4><p>通常比从零预训练省很多；主要成本在教师模型生成数据、学生模型训练、评测和反复筛选数据。如果教师很大或样本很多，生成成本仍然不低。</p></div>
+              <div class="field"><h4>输出是什么</h4><p>一个更小、更快、更便宜或更专用的学生模型。它可能在目标任务上接近教师，但不一定保留教师的全部能力。</p></div>
+              <div class="field"><h4>常见误区</h4><p>蒸馏不是直接复制权重，也不是保证无损压缩；学生模型可能继承教师的偏见和错误，蒸馏数据没覆盖到的能力也可能学不到。</p></div>
+              <div class="field"><h4>复习问题</h4><ul><li>为什么蒸馏能降低部署成本？</li><li>蒸馏和 SFT 的区别是什么？</li><li>为什么蒸馏不是无损压缩？</li></ul></div>
+              <div class="field"><h4>相关概念</h4><p>SFT、Teacher Model、Student Model、Logits、Soft Targets、模型压缩、量化、剪枝、推理成本。</p></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="concept">
+          <summary>
+            <div class="concept-title">
+              <div>
                 <h3>Reward Model / RLHF <span class="tag green">v1.0</span></h3>
                 <p>用人类偏好训练“评分老师”，再用强化学习让模型更偏向高评分回答。</p>
               </div>
@@ -1172,6 +1203,10 @@ details[open] .chev { transform: rotate(180deg); }
           <p><strong>SFT</strong>看标准答案学习；<strong>RLHF</strong>先学评分再用强化学习优化；<strong>DPO</strong>直接用偏好对比优化。</p>
         </article>
         <article class="compare">
+          <h3>蒸馏 vs SFT</h3>
+          <p><strong>SFT</strong>通常学人工或精选示范答案；<strong>蒸馏</strong>学教师模型的输出分布、答案、推理轨迹或行为风格，目标常是能力迁移和降低推理成本。</p>
+        </article>
+        <article class="compare">
           <h3>训练 vs 推理</h3>
           <p><strong>训练</strong>要前向、反向、梯度和优化器状态；<strong>推理</strong>通常只做前向，但长上下文和高并发会让 KV cache、显存和延迟成为瓶颈。</p>
         </article>
@@ -1220,6 +1255,10 @@ details[open] .chev { transform: rotate(180deg); }
       </div>
       <div class="timeline">
         <article class="timeline-item">
+          <h3>2026-05-26 · 新增 · v1.1</h3>
+          <p>新增蒸馏（Knowledge Distillation）条目；补充教师模型/学生模型、soft targets/logits、模型压缩、能力迁移和部署成本解释。</p>
+        </article>
+        <article class="timeline-item">
           <h3>2026-05-26 · 新增 · v1.0</h3>
           <p>建立 AI 学习知识库第一版；新增学习地图、概念表、预训练、后训练、SFT、Reward Model/RLHF、DPO、硬件算力说明和后续概念队列。</p>
         </article>
@@ -1242,6 +1281,8 @@ details[open] .chev { transform: rotate(180deg); }
         <li><a href="https://arxiv.org/abs/2005.14165" target="_blank" rel="noopener">Language Models are Few-Shot Learners</a></li>
         <li><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">Training language models to follow instructions with human feedback</a></li>
         <li><a href="https://arxiv.org/abs/2305.18290" target="_blank" rel="noopener">Direct Preference Optimization</a></li>
+        <li><a href="https://arxiv.org/abs/1503.02531" target="_blank" rel="noopener">Distilling the Knowledge in a Neural Network</a></li>
+        <li><a href="https://arxiv.org/abs/1606.07947" target="_blank" rel="noopener">Sequence-Level Knowledge Distillation</a></li>
         <li><a href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener">Retrieval-Augmented Generation</a></li>
         <li><a href="https://arxiv.org/abs/2103.00020" target="_blank" rel="noopener">CLIP</a></li>
         <li><a href="https://arxiv.org/abs/2006.11239" target="_blank" rel="noopener">Denoising Diffusion Probabilistic Models</a></li>
