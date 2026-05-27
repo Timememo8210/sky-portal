@@ -114,11 +114,11 @@ button, input { font: inherit; }
   margin: 0 auto;
   padding: 28px 24px 72px;
   display: grid;
-  grid-template-columns: 230px minmax(0, 1fr) 260px;
+  grid-template-columns: 230px minmax(0, 1fr);
   gap: 28px;
 }
 
-.side, .toc {
+.side {
   position: sticky;
   top: 68px;
   align-self: start;
@@ -129,8 +129,7 @@ button, input { font: inherit; }
   padding-right: 18px;
 }
 
-.side-title,
-.toc-title {
+.side-title {
   color: var(--soft);
   font-size: 0.78rem;
   font-weight: 800;
@@ -139,8 +138,7 @@ button, input { font: inherit; }
   margin-bottom: 10px;
 }
 
-.side a,
-.toc a {
+.side a {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -151,14 +149,73 @@ button, input { font: inherit; }
   font-weight: 600;
 }
 
-.side a:hover,
-.toc a:hover {
+.side a:hover {
   background: var(--panel);
   color: var(--ink);
   text-decoration: none;
 }
 
 .main { min-width: 0; }
+
+.toc-menu {
+  position: fixed;
+  top: 72px;
+  right: 24px;
+  z-index: 30;
+}
+
+.toc-menu summary {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--muted);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 800;
+  padding: 8px 11px;
+  backdrop-filter: blur(12px);
+}
+
+.toc-menu summary::-webkit-details-marker { display: none; }
+
+.toc-menu[open] summary {
+  color: var(--teal);
+  border-color: rgba(15, 118, 110, 0.35);
+  background: var(--teal-soft);
+}
+
+.toc-menu nav {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 220px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  padding: 8px;
+}
+
+.toc-menu a {
+  display: flex;
+  align-items: center;
+  padding: 7px 9px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.toc-menu a:hover {
+  background: var(--teal-soft);
+  color: var(--teal);
+  text-decoration: none;
+}
 
 .page-head {
   padding-bottom: 22px;
@@ -715,7 +772,7 @@ details[open] .chev { transform: rotate(180deg); }
 
 @media (max-width: 1180px) {
   .layout { grid-template-columns: 200px minmax(0, 1fr); }
-  .toc { display: none; }
+  .toc-menu { right: 14px; }
   .map-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .flow-step:not(:last-child)::after { display: none; }
@@ -757,6 +814,7 @@ details[open] .chev { transform: rotate(180deg); }
     background: var(--panel);
     border: 1px solid var(--line);
   }
+  .toc-menu { display: none; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .map-grid,
   .queue-grid,
@@ -1714,18 +1772,20 @@ details[open] .chev { transform: rotate(180deg); }
     </div>
   </main>
 
-  <aside class="toc">
-    <div class="toc-title">On This Page</div>
-    <a href="#map">学习地图</a>
-    <a href="#training">训练流程</a>
-    <a href="#table">核心概念表</a>
-    <a href="#deep">深入解释</a>
-    <a href="#compare">对比专题</a>
-    <a href="#hardware">硬件算力</a>
-    <a href="#queue">后续队列</a>
-    <a href="#sources">主要来源</a>
-    <a href="#changelog">Changelog</a>
-  </aside>
+  <details class="toc-menu" id="pageToc">
+    <summary><i data-lucide="list"></i> 本页目录</summary>
+    <nav aria-label="本页目录">
+      <a href="#map">学习地图</a>
+      <a href="#training">训练流程</a>
+      <a href="#table">核心概念表</a>
+      <a href="#deep">深入解释</a>
+      <a href="#compare">对比专题</a>
+      <a href="#hardware">硬件算力</a>
+      <a href="#queue">后续队列</a>
+      <a href="#sources">主要来源</a>
+      <a href="#changelog">Changelog</a>
+    </nav>
+  </details>
 </div>
 
 <script src="../src/assets/lucide.min.js"></script>
@@ -1788,6 +1848,16 @@ function openHashConcept() {
 
 window.addEventListener("hashchange", openHashConcept);
 openHashConcept();
+
+const pageToc = document.getElementById("pageToc");
+if (pageToc) {
+  pageToc.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => { pageToc.open = false; });
+  });
+  document.addEventListener("click", (event) => {
+    if (pageToc.open && !pageToc.contains(event.target)) pageToc.open = false;
+  });
+}
 
 if (window.lucide) {
   window.lucide.createIcons();
