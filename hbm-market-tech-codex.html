@@ -2130,10 +2130,99 @@
                     <td><span class="quality analyst">HIGH</span></td>
                   </tr>
                 </tbody>
-              </table>
-            </div>
-            <p class="matrix-note"><span class="zh">修正结论：如果讨论的是集成 PHY/模拟/PDN 的 base die 本体厚度，较厚的要求主要来自电性可靠性、ESD/热扩散、TSV/微凸点应力和封装翘曲余量；热传导是局部热点和 ESD 热扩散层面的考量，不是“为了把最终 HBM 整体散热做厚”。这和上一版临时 base tape/carrier 判断不同，已按 base die 本体修正。</span><span class="en">Corrected conclusion: if the topic is the physical thickness of the base die that integrates PHY/analog/PDN, a thicker requirement is mainly about electrical reliability, ESD/thermal spreading, TSV/micro-bump stress, and package-warpage margin. Thermal matters for local hot spots and ESD heat spreading, not because final HBM should be made thicker for bulk heat removal. This differs from the prior temporary base-tape/carrier interpretation and has been corrected to base-die physics.</span></p>
+            </table>
           </div>
+          <p class="matrix-note"><span class="zh">修正结论：如果讨论的是集成 PHY/模拟/PDN 的 base die 本体厚度，较厚的要求主要来自电性可靠性、ESD/热扩散、TSV/微凸点应力和封装翘曲余量；热传导是局部热点和 ESD 热扩散层面的考量，不是“为了把最终 HBM 整体散热做厚”。这和上一版临时 base tape/carrier 判断不同，已按 base die 本体修正。</span><span class="en">Corrected conclusion: if the topic is the physical thickness of the base die that integrates PHY/analog/PDN, a thicker requirement is mainly about electrical reliability, ESD/thermal spreading, TSV/micro-bump stress, and package-warpage margin. Thermal matters for local hot spots and ESD heat spreading, not because final HBM should be made thicker for bulk heat removal. This differs from the prior temporary base-tape/carrier interpretation and has been corrected to base-die physics.</span></p>
+          </div>
+
+        </div>
+
+        <div class="research-block reveal" id="hbf-vs-hbm">
+          <h3><span class="zh">HBF vs HBM：同样追求高带宽，但服务不同内存层级</span><span class="en">HBF vs HBM: both chase bandwidth, but they serve different memory tiers</span></h3>
+          <div class="evidence-grid">
+            <div class="evidence-card">
+              <strong>HBM</strong>
+              <span><span class="zh">DRAM 堆叠，易失、低延迟、高带宽，是 GPU/ASIC 的热数据工作内存。2026 年 HBM TAM 约 450-550 亿美元。</span><span class="en">Stacked DRAM: volatile, low latency, high bandwidth, and the hot working memory for GPUs/ASICs. 2026 HBM TAM is roughly $45B-55B.</span></span>
+            </div>
+            <div class="evidence-card">
+              <strong>HBF</strong>
+              <span><span class="zh">High Bandwidth Flash，NAND/Flash 堆叠，非易失、容量大、成本/bit 低，目标是推理容量层，而不是训练主内存。</span><span class="en">High Bandwidth Flash: stacked NAND/flash, non-volatile, high capacity, low cost per bit, aimed at inference capacity tiers rather than training main memory.</span></span>
+            </div>
+            <div class="evidence-card">
+              <strong>512GB</strong>
+              <span><span class="zh">Sandisk 第一代 HBF 目标为 16-die stack、512GB、1.6TB/s 读带宽，物理 footprint/power/height 接近 HBM4。</span><span class="en">Sandisk's first-gen HBF target is a 16-die stack with 512GB and 1.6TB/s read bandwidth, with HBM4-like footprint, power, and stack height.</span></span>
+            </div>
+            <div class="evidence-card">
+              <strong>2030+</strong>
+              <span><span class="zh">HBF 标准化已启动，但商业化仍早。样品目标 2026H2，首批 AI 推理设备样品约 2027 年，需求加速窗口更像 2030 年后。</span><span class="en">HBF standardization has started, but commercialization is early. Samples are targeted for 2H26, first AI-inference device samples around 2027, and larger demand more likely after 2030.</span></span>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th><span class="zh">维度</span><span class="en">Dimension</span></th>
+                  <th><span class="zh">HBM</span><span class="en">HBM</span></th>
+                  <th><span class="zh">HBF</span><span class="en">HBF</span></th>
+                  <th><span class="zh">产业判断</span><span class="en">Industry read</span></th>
+                  <th><span class="zh">等级</span><span class="en">Quality</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong><span class="zh">本质</span><span class="en">Core technology</span></strong></td>
+                  <td><span class="zh">High Bandwidth Memory：3D 堆叠 DRAM，通过 TSV/micro-bump/base die 与 GPU/ASIC 近距离连接。</span><span class="en">High Bandwidth Memory: 3D-stacked DRAM connected near the GPU/ASIC through TSVs, micro-bumps, and a base die.</span></td>
+                  <td><span class="zh">High Bandwidth Flash：基于 NAND/Flash，利用 CBA、堆叠和宽接口把 flash 做成高容量、高读带宽内存。</span><span class="en">High Bandwidth Flash: NAND/flash-based memory using CBA, stacking, and wide interfaces to deliver high capacity and high read bandwidth.</span></td>
+                  <td><span class="zh">名字相似，但介质完全不同：HBM 是 DRAM，HBF 是 Flash/NAND。</span><span class="en">Similar names, different media: HBM is DRAM; HBF is flash/NAND.</span></td>
+                  <td><span class="quality official">OFFICIAL</span></td>
+                </tr>
+                <tr>
+                  <td><strong><span class="zh">共同点</span><span class="en">Common ground</span></strong></td>
+                  <td><span class="zh">都靠 3D 堆叠、封装、热/翘曲控制和宽接口解决 AI 的 memory wall。</span><span class="en">Both use 3D stacking, packaging, thermal/warpage control, and wide interfaces to attack the AI memory wall.</span></td>
+                  <td><span class="zh">Sandisk 明确把 HBF 设计成 augment HBM 的技术，并强调 16-high、低 warpage 堆叠和 HBM4-like footprint。</span><span class="en">Sandisk positions HBF as augmenting HBM, with 16-high stacking, low warpage, and an HBM4-like footprint.</span></td>
+                  <td><span class="zh">HBF 复用了 HBM 时代的封装/堆叠语言，但系统角色更靠近“容量层”。</span><span class="en">HBF borrows HBM-era stacking and packaging language, but its system role is closer to a capacity tier.</span></td>
+                  <td><span class="quality official">OFFICIAL</span></td>
+                </tr>
+                <tr>
+                  <td><strong><span class="zh">带宽/容量</span><span class="en">Bandwidth / capacity</span></strong></td>
+                  <td><span class="zh">HBM4 进入 2048 I/O；单 stack 带宽可达 2TB/s 以上，容量通常是数十 GB 级。</span><span class="en">HBM4 moves to 2048 I/O; per-stack bandwidth can exceed 2TB/s, while capacity is typically in the tens of GB.</span></td>
+                  <td><span class="zh">Sandisk HBF fact sheet：第一代 1.6TB/s read、512GB/16-die stack；Kioxia 另有 5TB、64GB/s flash module 原型。</span><span class="en">Sandisk's HBF fact sheet targets 1.6TB/s read and 512GB per 16-die stack; Kioxia separately prototyped a 5TB, 64GB/s flash module.</span></td>
+                  <td><span class="zh">HBF 的卖点不是打赢 HBM 延迟，而是用 8-16x 容量缓解 inference 的模型权重、KV cache、RAG/vector 数据瓶颈。</span><span class="en">HBF's pitch is not beating HBM latency; it is using 8-16x capacity to ease inference bottlenecks from model weights, KV cache, RAG, and vector data.</span></td>
+                  <td><span class="quality official">OFFICIAL</span></td>
+                </tr>
+                <tr>
+                  <td><strong><span class="zh">延迟/写入</span><span class="en">Latency / writes</span></strong></td>
+                  <td><span class="zh">DRAM 低延迟、适合频繁读写和训练/推理热数据；断电丢失，需要 refresh。</span><span class="en">DRAM has low latency and suits frequent reads/writes plus hot training/inference data; it is volatile and needs refresh.</span></td>
+                  <td><span class="zh">Flash 非易失、无 refresh，但 page 更大、延迟更高、写入耐久有限。TrendForce 转述专家口径称 HBF 更适合 read-intensive workload。</span><span class="en">Flash is non-volatile and needs no refresh, but has larger pages, higher latency, and finite write endurance. TrendForce relays expert views that HBF fits read-intensive workloads.</span></td>
+                  <td><span class="zh">HBF 不是 drop-in HBM；软件、编译器、缓存策略和数据布局必须配合。</span><span class="en">HBF is not drop-in HBM; software, compilers, caching policy, and data layout must cooperate.</span></td>
+                  <td><span class="quality analyst">ANALYST</span></td>
+                </tr>
+                <tr>
+                  <td><strong><span class="zh">最适 workload</span><span class="en">Best-fit workload</span></strong></td>
+                  <td><span class="zh">训练、prefill、attention 热路径、实时 activation、带宽和延迟都非常敏感的 GPU/ASIC 工作内存。</span><span class="en">Training, prefill, attention hot paths, live activations, and GPU/ASIC working memory where both bandwidth and latency are critical.</span></td>
+                  <td><span class="zh">推理、模型权重常驻、RAG/ANN reranking、超大向量库、本地大容量读密集数据层。</span><span class="en">Inference, resident model weights, RAG/ANN reranking, giant vector databases, and local high-capacity read-heavy data tiers.</span></td>
+                  <td><span class="zh">HBF 更像“让 GPU/ASIC 旁边多一个高带宽大容量 flash tier”，不是替代全部 HBM。</span><span class="en">HBF is more like adding a high-bandwidth, high-capacity flash tier beside the GPU/ASIC, not replacing all HBM.</span></td>
+                  <td><span class="quality analyst">RESEARCH</span></td>
+                </tr>
+                <tr>
+                  <td><strong><span class="zh">市场阶段</span><span class="en">Market stage</span></strong></td>
+                  <td><span class="zh">已量产、已形成 2026 年 450-550 亿美元级 TAM，三大玩家为 SK hynix、Samsung、Micron。</span><span class="en">In volume production with a 2026 TAM around $45B-55B; the three main vendors are SK hynix, Samsung, and Micron.</span></td>
+                  <td><span class="zh">标准化/样品阶段：Sandisk + SK hynix 推 OCP workstream；Sandisk 目标 2026H2 样品、2027 初 AI 推理设备样品。</span><span class="en">Standardization/sample stage: Sandisk and SK hynix are pushing an OCP workstream; Sandisk targets 2H26 samples and early-2027 AI inference device samples.</span></td>
+                  <td><span class="zh">HBF 目前没有成熟公开 TAM；2030 后可能放量，2038 超过 HBM 属专家情景，不是确定预测。</span><span class="en">HBF has no mature public TAM yet; volume is more plausible after 2030, while a 2038 HBM-overlap/overtake view is an expert scenario, not a firm forecast.</span></td>
+                  <td><span class="quality scenario">SCENARIO</span></td>
+                </tr>
+                <tr>
+                  <td><strong><span class="zh">领先者</span><span class="en">Leaders</span></strong></td>
+                  <td><span class="zh">SK hynix 份额和客户认证领先；Samsung 靠 HBM4/4nm base die 追赶；Micron 是重要第二/第三供应源。</span><span class="en">SK hynix leads in share and customer qualification; Samsung is catching up through HBM4/4nm base die; Micron is an important second/third source.</span></td>
+                  <td><span class="zh">Sandisk 是 HBF 概念和 fact sheet 主导者；SK hynix 提供 HBM/封装/量产标准化力量；Kioxia 走高带宽 flash module 路线。</span><span class="en">Sandisk leads the HBF concept and fact-sheet path; SK hynix contributes HBM/package/volume standardization muscle; Kioxia pursues a high-bandwidth flash-module path.</span></td>
+                  <td><span class="zh">长期赢家可能不是单一 NAND 厂，而是能把 NAND、controller、封装、OCP 标准和 GPU/ASIC 软件栈一起打通的生态。</span><span class="en">The long-term winner may not be one NAND vendor, but the ecosystem that aligns NAND, controllers, packaging, OCP standards, and GPU/ASIC software stacks.</span></td>
+                  <td><span class="quality analyst">ANALYST</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="matrix-note"><span class="zh">结论：HBM 是现在 AI 加速器的主工作内存；HBF 是面向推理的未来容量层。短期 HBF 更可能补充 HBM，减少“为了放下模型而堆昂贵 HBM”的压力；长期若软件栈成熟，可能侵蚀一部分因容量而配置的 HBM 需求，但很难替代训练和热数据路径中的 HBM。</span><span class="en">Conclusion: HBM is today's primary AI accelerator working memory; HBF is a future inference capacity tier. Near term, HBF is more likely to complement HBM and reduce pressure to add expensive HBM merely for capacity. Longer term, if the software stack matures, it may cannibalize some capacity-driven HBM demand, but it is unlikely to replace HBM in training and hot-data paths.</span></p>
         </div>
       </div>
     </section>
@@ -2433,7 +2522,7 @@
             <p class="eyebrow">06 / Sources</p>
             <h2><span class="zh">主要来源</span><span class="en">Key Sources</span></h2>
           </div>
-          <p class="chapter-note"><span class="zh">页面内容综合官方产品资料、行业机构预测、供应商公告和 HBM 路线图研究。HBM5 相关数字按情景看，除非后续进入 JEDEC 或厂商正式规格。</span><span class="en">This page combines official product material, industry forecasts, supplier announcements, and HBM roadmap research. HBM5-related numbers are scenarios unless they enter JEDEC or public vendor specifications.</span></p>
+          <p class="chapter-note"><span class="zh">页面内容综合官方产品资料、行业机构预测、供应商公告和 HBM/HBF 路线图研究。HBM5 与 HBF 市场规模相关数字按情景看，除非后续进入 JEDEC/OCP 或厂商正式规格。</span><span class="en">This page combines official product material, industry forecasts, supplier announcements, and HBM/HBF roadmap research. HBM5 and HBF market-size figures are scenarios unless they enter JEDEC/OCP or public vendor specifications.</span></p>
         </div>
 
         <div class="source-grid reveal">
@@ -2484,6 +2573,26 @@
           <a class="source-card" href="https://www.imec-int.com/en/articles/how-protect-advanced-cmos-technologies-thin-si-substrates-against-esd-events" target="_blank" rel="noreferrer">
             <h3>imec Thin Si / ESD</h3>
             <p><span class="zh">极薄 silicon substrate 对 ESD 鲁棒性和热扩散的影响；用于解释 logic/PHY die 不能任意减薄。</span><span class="en">Impact of extremely thinned silicon substrates on ESD robustness and thermal spreading; used to explain why logic/PHY dies cannot be thinned arbitrarily.</span></p>
+          </a>
+          <a class="source-card" href="https://www.sandisk.com/company/newsroom/press-releases/2026/2026-02-25-sandisk-and-sk-hynix-begin-global-standardization-of-next-generation-memory-solution-high-bandwidth-flash-hbf" target="_blank" rel="noreferrer">
+            <h3>Sandisk / SK hynix HBF</h3>
+            <p><span class="zh">HBF 全球标准化、OCP workstream、AI 推理定位与 NAND/SoC/packaging 生态合作。</span><span class="en">HBF global standardization, OCP workstream, AI inference positioning, and NAND/SoC/packaging ecosystem work.</span></p>
+          </a>
+          <a class="source-card" href="https://documents.sandisk.com/content/dam/asset-library/en_us/assets/public/sandisk/collateral/company/Sandisk-HBF-Fact-Sheet.pdf" target="_blank" rel="noreferrer">
+            <h3>Sandisk HBF Fact Sheet</h3>
+            <p><span class="zh">HBF 512GB/16-die stack、1.6TB/s read bandwidth、8-16x HBM 容量与 CBA/advanced stacking。</span><span class="en">HBF 512GB per 16-die stack, 1.6TB/s read bandwidth, 8-16x HBM capacity, and CBA/advanced stacking.</span></p>
+          </a>
+          <a class="source-card" href="https://www.trendforce.com/news/2026/02/26/news-sk-hynix-sandisk-kick-off-global-standardization-of-hbf-market-set-to-surge-by-2030/" target="_blank" rel="noreferrer">
+            <h3>TrendForce HBF Standardization</h3>
+            <p><span class="zh">HBF 作为 HBM 与 SSD 之间的新内存层、2030 年后需求加速与 2026H2/2027 样品节奏。</span><span class="en">HBF as a new tier between HBM and SSDs, post-2030 demand acceleration, and the 2H26/2027 sampling cadence.</span></p>
+          </a>
+          <a class="source-card" href="https://www.kioxia.com/en-jp/about/news/2025/20250820-1.html" target="_blank" rel="noreferrer">
+            <h3>Kioxia HBF Module</h3>
+            <p><span class="zh">5TB、64GB/s 高带宽 flash module 原型，面向 MEC/AI edge 的另一条 HBF-like 路线。</span><span class="en">5TB, 64GB/s high-bandwidth flash module prototype, a different HBF-like path for MEC and AI edge.</span></p>
+          </a>
+          <a class="source-card" href="https://arxiv.org/abs/2603.01175" target="_blank" rel="noreferrer">
+            <h3>HAVEN HBF Research</h3>
+            <p><span class="zh">HBF 增强 GPU 用于 RAG/ANN reranking：面向 read-heavy 大向量库的系统架构研究。</span><span class="en">HBF-augmented GPU research for RAG/ANN reranking: a system architecture for read-heavy giant vector databases.</span></p>
           </a>
           <a class="source-card" href="https://news.samsung.com/global/samsung-ships-industry-first-commercial-hbm4-with-ultimate-performance-for-ai-computing" target="_blank" rel="noreferrer">
             <h3>Samsung</h3>
