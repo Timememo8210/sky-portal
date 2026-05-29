@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📊 每日行情 2026-05-28 — PCE降温 三大指数连创新高</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0f;color:#e0e0e8;font-family:-apple-system,'Helvetica Neue','PingFang SC',sans-serif;line-height:1.7;padding:20px 16px}
+.wrap{max-width:900px;margin:0 auto}
+h1{text-align:center;color:#4ade80;font-size:1.8em;margin-bottom:4px}
+.subtitle{text-align:center;color:#6b6b80;font-size:0.9em;margin-bottom:28px}
+h2{color:#4ade80;font-size:1.3em;margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.08)}
+h3{color:#4ade80;margin:16px 0 10px}
+.card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.card h4{color:#fff;font-size:1.05em;margin-bottom:8px}
+.card p{margin-bottom:6px;font-size:0.92em}
+.card .src{color:#6b6b80;font-size:0.8em;margin-top:6px}
+.stock-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}
+.stock-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px 10px;text-align:center}
+.stock-ticker{font-family:'SF Mono',monospace;font-weight:700;color:#4ade80;font-size:0.95em}
+.stock-price{color:#fff;font-size:1.1em;font-weight:600;margin:6px 0 4px}
+.stock-change{font-family:'SF Mono',monospace;font-weight:600;font-size:0.82em;padding:3px 10px;border-radius:5px;display:inline-block}
+.up{background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3)}
+.down{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)}
+.flat{background:rgba(255,255,255,0.06);color:#888;border:1px solid rgba(255,255,255,0.1)}
+.news-item{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.news-item:last-child{border-bottom:none}
+.poster-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.poster-card{border-radius:12px;padding:20px 24px;color:#fff}
+.poster-icon{font-size:2em;margin-bottom:8px}
+.poster-data{margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6}
+.footer{text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);color:#444;font-size:0.85em}
+.footer a{color:#4ade80;text-decoration:none}
+button#btn-zh,button#btn-en{padding:4px 12px;border-radius:4px;cursor:pointer;font-size:0.85em;border:1px solid #555}
+button#btn-zh{background:#333;color:#fff}
+button#btn-en{background:#222;color:#aaa}
+.highlight{background:rgba(74,222,128,0.1);border-left:3px solid #4ade80;padding:12px 16px;border-radius:8px;margin:12px 0}
+.tag{display:inline-block;font-size:0.72em;padding:2px 8px;border-radius:4px;margin-left:4px;vertical-align:middle}
+.tag-red{background:rgba(239,68,68,0.15);color:#f87171}
+.tag-green{background:rgba(34,197,94,0.15);color:#4ade80}
+.tag-blue{background:rgba(96,165,250,0.15);color:#60a5fa}
+.tag-yellow{background:rgba(251,191,36,0.15);color:#fbbf24}
+.kline-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.kline-label{font-family:'SF Mono',monospace;font-size:0.8em;font-weight:600;color:#4ade80;text-align:center;margin-bottom:4px;letter-spacing:0.03em}
+@media(max-width:768px){.stock-grid{grid-template-columns:repeat(2,1fr)}.kline-grid{grid-template-columns:1fr}.poster-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div style="text-align:right;margin-bottom:8px">
+<button onclick="switchLang('zh')" id="btn-zh">中文</button>
+<button onclick="switchLang('en')" id="btn-en">EN</button>
+</div>
+
+<div id="poster">
+<div class="poster-grid">
+<div class="poster-card" style="background:linear-gradient(135deg,#059669,#064e3b)">
+<div class="poster-icon">🇺🇸</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">三大指数连续第二天齐创新高</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">Triple ATH for 2nd Straight Day</div>
+<div class="zh poster-data">• S&P 500 7,556 📈 +0.47%（年内新高）<br>• Nasdaq 26,917 📈 +0.91%（盘中26,935）<br>• Dow 50,663 📈 +0.34%</div>
+<div class="en poster-data" style="display:none">• S&P 500 7,556 +0.47% (new ATH)<br>• Nasdaq 26,917 +0.91% (intraday 26,935)<br>• Dow 50,663 +0.34%</div>
+</div>
+<div class="poster-card" style="background:linear-gradient(135deg,#7c3aed,#4c1d95)">
+<div class="poster-icon">🔥</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">PCE通胀降温 + AI存储狂潮</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">Cooling PCE + AI Memory Frenzy</div>
+<div class="zh poster-data">• 核心PCE环比+0.2%（预期+0.3%）<br>• 美光市值破万亿，瑞银目标价$1,625<br>• SK海力士同步突破万亿市值</div>
+<div class="en poster-data" style="display:none">• Core PCE +0.2% MoM (est. +0.3%)<br>• Micron joins $1T club; UBS target $1,625<br>• SK Hynix also crosses $1T market cap</div>
+</div>
+<div class="poster-card" style="background:linear-gradient(135deg,#1d4ed8,#1e3a5f)">
+<div class="poster-icon">🇨🇳</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">A股创业板大涨 港股分化</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">ChiNext Surges, HK Mixed</div>
+<div class="zh poster-data">• 创业板 4,125 📈 +1.96%<br>• 上证 4,099 📈 +0.12%<br>• 恒指 25,231 📉 -1.27%</div>
+<div class="en poster-data" style="display:none">• ChiNext 4,125 +1.96%<br>• Shanghai 4,099 +0.12%<br>• HSI 25,231 -1.27%</div>
+</div>
+<div class="poster-card" style="background:linear-gradient(135deg,#b45309,#78350f)">
+<div class="poster-icon">🇮🇷</div>
+<div class="zh" style="font-size:1.4em;font-weight:700">美伊和谈进展</div>
+<div class="en" style="display:none;font-size:1.1em;font-weight:600;opacity:0.9">US-Iran Deal Progress</div>
+<div class="zh poster-data">• 伊朗承诺恢复霍尔木兹通航<br>• 油价大跌5%至$88附近<br>• 特朗普：谈判"进展顺利"</div>
+<div class="en poster-data" style="display:none">• Iran pledges to restore Hormuz shipping<br>• Oil drops 5% to ~$88<br>• Trump: talks "progressing well"</span></div>
+</div>
+</div>
+</div>
+
+<h1>📊 每日行情</h1>
+<p class="subtitle">2026-05-28 Thursday · Sky Portal Daily Market · <a href="index.html">All Reports</a></p>
+
+<h2>🇺🇸 <span class="zh">美股行情（5/28 收盘）</span><span class="en" style="display:none">US Markets (May 28 Close)</span></h2>
+
+<div class="stock-grid">
+<div class="stock-item"><div class="stock-ticker">DJI</div><div class="stock-price">50,663</div><div class="stock-change up">+0.34%</div></div>
+<div class="stock-item"><div class="stock-ticker">S&P 500</div><div class="stock-price">7,556</div><div class="stock-change up">+0.47%</div></div>
+<div class="stock-item"><div class="stock-ticker">NASDAQ</div><div class="stock-price">26,917</div><div class="stock-change up">+0.91%</div></div>
+<div class="stock-item"><div class="stock-ticker">SOX</div><div class="stock-price">12,702</div><div class="stock-change down">-1.36%</div></div>
+<div class="stock-item"><div class="stock-ticker">Oil (WTI)</div><div class="stock-price">~$88</div><div class="stock-change down">-5%+</div></div>
+</div>
+
+<div class="highlight">
+<span class="zh">📌 三大指数连续第二天齐创历史新高！4月核心PCE环比+0.2%低于预期（+0.3%），通胀降温提振降息预期。纳指盘中最高26,935点。美伊和谈乐观情绪推动油价大跌。费城半导体指数（SOX）在前日暴涨后短线回调1.36%。</span>
+<span class="en" style="display:none">📌 All three major indexes set records for the 2nd consecutive day! April Core PCE came in at +0.2% MoM, below the +0.3% consensus, boosting rate-cut hopes. Nasdaq intraday high 26,935. US-Iran deal optimism sent oil plunging. SOX pulled back -1.36% after recent surge.</span>
+</div>
+
+<div class="card">
+<h4><span class="zh">美光科技延续涨势，AI存储芯片成为市场焦点</span><span class="en" style="display:none">Micron Extends Rally as AI Memory Takes Center Stage</span></h4>
+<p><span class="zh">美光科技（MU）继周二暴涨19%突破万亿市值后，周三再涨3.6%。瑞银将目标价从$535大幅上调至$1,625，认为存储芯片长期协议推动AI落地的趋势将持续。SK海力士隔夜也突破万亿市值。投资者将存储芯片视为参与AI牛市的核心标的。美光年内涨幅已超120%。</span><span class="en" style="display:none">Micron (MU) extended gains, rising another 3.6% after Tuesday's 19% surge past the $1T market cap mark. UBS raised its price target from $535 to $1,625, citing long-term memory contracts powering AI deployment. SK Hynix also crossed $1T overnight. Investors now view memory chips as the primary way to play the AI bull market. Micron YTD gain exceeds 120%.</span></p>
+<p class="src">来源：Sina Finance / CLS / Investopedia / MarketWatch</p>
+</div>
+
+<div class="card">
+<h4><span class="zh">高盛上调标普年末目标至8,000，花旗持谨慎态度</span><span class="en" style="display:none">Goldman Raises S&P Year-End Target to 8,000; Citi Cautious</span></h4>
+<p><span class="zh">高盛将标普500年末目标从7,600上调至8,000，认为即使面临地缘政治逆风，盈利增长仍将保持强劲。花旗则持不同看法，策略师认为在10年期国债收益率约4.5%、通胀预期走高的背景下，估值进一步扩张空间有限，年末目标7,700（仅比当前高2%）。美联储新主席Warsh偏鹰派立场，市场定价12月加息25bp的概率升至30.5%。</span><span class="en" style="display:none">Goldman Sachs raised its S&P 500 year-end target from 7,600 to 8,000, citing resilient earnings growth despite geopolitical headwinds. Citi disagrees: strategist Drew Pettit sees limited room for multiple expansion given ~4.5% 10Y yields and rising inflation expectations, targeting 7,700 (just 2% above current). Under new Fed Chair Warsh's hawkish tilt, markets price 30.5% odds of a 25bp hike in December.</span></p>
+<p class="src">来源：CNBC / Sina Finance / Reuters</p>
+</div>
+
+<h2>🇨🇳 <span class="zh">A股行情（5/28 收盘）</span><span class="en" style="display:none">A-Shares (May 28 Close)</span></h2>
+
+<div class="stock-grid">
+<div class="stock-item"><div class="stock-ticker">上证</div><div class="stock-price">4,099</div><div class="stock-change up">+0.12%</div></div>
+<div class="stock-item"><div class="stock-ticker">深成指</div><div class="stock-price">15,821</div><div class="stock-change up">+0.80%</div></div>
+<div class="stock-item"><div class="stock-ticker">创业板</div><div class="stock-price">4,125</div><div class="stock-change up">+1.96%</div></div>
+<div class="stock-item"><div class="stock-ticker">沪深300</div><div class="stock-price">~4,948</div><div class="stock-change up">+0.53%</div></div>
+<div class="stock-item"><div class="stock-ticker">成交额</div><div class="stock-price">—</div><div class="stock-change flat">CNY</div></div>
+</div>
+
+<div class="card">
+<h4><span class="zh">A股探底回升，创业板指大涨近2%领涨</span><span class="en" style="display:none">A-Shares Recover from Lows, ChiNext Surges Nearly 2%</span></h4>
+<p><span class="zh">A股三大指数早盘低开，随后逐步收复失地，创业板指表现最为强劲，收盘大涨1.96%。半导体和科技板块强势反弹，通信ETF涨超5%。上证指数小幅收涨0.12%报4,099点。多数科技和半导体股票在尾盘大幅拉升，市场情绪回暖。板块方面，通信、半导体、AI概念涨幅居前，有色金属、医药偏弱。</span><span class="en" style="display:none">A-shares opened lower but gradually recovered. ChiNext led the charge with a 1.96% surge. Semiconductor and tech sectors staged a strong rebound, with the Communication ETF up over 5%. Shanghai index edged up 0.12% to 4,099. Most tech and semiconductor stocks rallied late in the session, lifting sentiment. Communication, semis, and AI led; non-ferrous metals and pharma lagged.</span></p>
+<p class="src">来源：同花顺 / 新浪财经 / 证券时报</p>
+</div>
+
+<h2>🇭🇰 <span class="zh">港股行情（5/28 收盘）</span><span class="en" style="display:none">Hong Kong (May 28 Close)</span></h2>
+
+<div class="stock-grid">
+<div class="stock-item"><div class="stock-ticker">恒指</div><div class="stock-price">25,231</div><div class="stock-change down">-1.27%</div></div>
+<div class="stock-item"><div class="stock-ticker">恒生科技</div><div class="stock-price">4,889</div><div class="stock-change down">-0.39%</div></div>
+</div>
+
+<div class="card">
+<h4><span class="zh">港股整体承压，智谱逆势暴涨13.5%续创新高</span><span class="en" style="display:none">HK Under Pressure; Zhipu Defies Gravity +13.5% ATH</span></h4>
+<p><span class="zh">港股恒生指数收跌1.27%报25,231点，恒生科技跌0.39%。科网股多数下跌：美团、腾讯、百度、阿里巴巴均收低。但AI概念股走势分化：智谱全天攀升暴涨超13%，总市值突破7,200亿港元，上市以来累计涨幅近13倍；华虹半导体涨超11%，中芯国际涨超3%。小鹏集团午后拉升涨5.57%，消息面上拟举行董事会审批Q1业绩。香港获评全球最大跨境财富管理中心。</span><span class="en" style="display:none">Hang Seng Index fell 1.27% to 25,231; Hang Seng Tech -0.39%. Major internet names mostly lower: Meituan, Tencent, Baidu, Alibaba all closed in the red. AI names diverged: Zhipu surged 13%+ to a new all-time high, market cap topping HK$720B (up ~13x from IPO). Hua Hong Semi +11%, SMIC +3%. XPeng rallied 5.57% ahead of Q1 earnings board meeting. Hong Kong named world's largest cross-border wealth management center by BCG.</span></p>
+<p class="src">来源：21经济网 / 东方财富 / 英为财情</p>
+</div>
+
+<h2>🔬 <span class="zh">核心驱动因素</span><span class="en" style="display:none">Key Drivers</span></h2>
+
+<div class="card">
+<h4><span class="zh">1. PCE通胀低于预期，提振降息预期</span><span class="en" style="display:none">1. Cooler-Than-Expected PCE Boosts Rate-Cut Hopes</span></h4>
+<p><span class="zh">4月核心PCE环比上涨0.2%，低于市场预期的0.3%，为通胀降温提供了关键信号。叠加伊朗承诺恢复霍尔木兹海峡通航导致油价大跌超5%，市场对美联储未来政策路径的预期有所松动。尽管新任美联储主席Warsh偏鹰派，但通胀数据的改善使得三大指数连续第二天齐创历史新高，美债收益率回落。</span><span class="en" style="display:none">April Core PCE rose 0.2% MoM, below the 0.3% consensus — a key signal that inflation is cooling. Combined with a 5%+ oil price drop on Iran's pledge to restore Strait of Hormuz shipping, markets recalibrated Fed rate expectations. Despite new Fed Chair Warsh's hawkish lean, the improved inflation data propelled all three major indexes to consecutive all-time highs for a second day. Bond yields eased.</span></p>
+<p class="src">来源：MarketWatch / Investopedia / Bureau of Economic Analysis</p>
+</div>
+
+<div class="card">
+<h4><span class="zh">2. AI存储芯片史诗级行情：美光、海力士双双破万亿</span><span class="en" style="display:none">2. Epic AI Memory Rally: Micron & Hynix Both Cross $1T</span></h4>
+<p><span class="zh">美光科技（MU）周二暴涨19%，市值首次突破1万亿美元，周三延续涨势再涨3.6%。瑞银将目标价从$535上调近三倍至$1,625，认为存储供应商签署长期协议推动AI落地的趋势将持续，股价仍有翻倍以上空间。韩国同业SK海力士也突破万亿市值。投资者已将存储芯片视为参与AI牛市的首选标的，取代了此前对GPU的单一依赖。美光年内涨幅超120%，费半指数52周涨幅85%。</span><span class="en" style="display:none">Micron surged 19% on Tuesday past the $1T mark, adding another 3.6% on Wednesday. UBS nearly tripled its price target from $535 to $1,625, citing long-term memory contracts driving AI adoption with over 100% upside potential. SK Hynix also crossed $1T. Investors now view memory chips as the preferred vehicle for the AI bull market, diversifying beyond GPU-only exposure. Micron YTD +120%; SOX +85% over 52 weeks.</span></p>
+<p class="src">来源：UBS / Sina Finance / CLS / Yahoo Finance</p>
+</div>
+
+<div class="card">
+<h4><span class="zh">3. 美伊和谈乐观：油价大跌缓解通胀压力</span><span class="en" style="display:none">3. US-Iran Deal Optimism: Oil Plunge Eases Inflation</span></h4>
+<p><span class="zh">伊朗国家电视台报道该国承诺在一个月内将霍尔木兹海峡的商业通航恢复至战前水平，推动美国原油期货大跌逾5%至每桶$88左右。特朗普表示与伊朗结束战争的谈判"进展顺利"。但白宫否认了伊朗官方媒体的报道，称其"完全捏造"。尽管真伪存疑，市场选择相信乐观情景，风险偏好大幅回升。如果停火协议最终达成，将进一步缓解能源通胀压力。</span><span class="en" style="display:none">Iranian state TV reported the country committed to restoring pre-war commercial shipping through the Strait of Hormuz within a month, sending US crude futures down 5%+ to ~$88/bbl. Trump said peace talks are "progressing well." The White House denied the Iranian media report as "complete fabrication." Despite the contradiction, markets embraced the optimistic scenario, lifting risk appetite sharply. A finalized ceasefire would further ease energy-driven inflation.</span></p>
+<p class="src">来源：Reuters / MarketWatch / Sina Finance</p>
+</div>
+
+<h2>🔮 <span class="zh">市场展望</span><span class="en" style="display:none">Market Outlook</span></h2>
+
+<div class="card">
+<h4><span class="zh">看多因素 <span class="tag tag-green">Bullish</span></span><span class="en" style="display:none">Bullish Factors <span class="tag tag-green">Bullish</span></span></h4>
+<p><span class="zh">
+• PCE通胀降温 + 油价回落构成双重利好，为美股进一步上行打开空间<br>
+• AI/存储芯片主线持续强化：美光、海力士双双破万亿，涨价周期延续至2027年<br>
+• 高盛上调标普年末目标至8,000，看好盈利增长持续性<br>
+• A股创业板强势反弹近2%，科技板块韧性凸显，成交活跃
+</span><span class="en" style="display:none">
+• Cooling PCE + falling oil form a double tailwind, opening room for further upside<br>
+• AI/memory theme strengthening: Micron & Hynix both at $1T, pricing cycle extends to 2027<br>
+• Goldman Sachs raises S&P year-end target to 8,000 on resilient earnings<br>
+• ChiNext surges nearly 2%, tech resilience on display, active turnover
+</span></p>
+</div>
+
+<div class="card">
+<h4><span class="zh">关注风险 <span class="tag tag-red">Risks</span></span><span class="en" style="display:none">Key Risks <span class="tag tag-red">Risks</span></span></h4>
+<p><span class="zh">
+• 花旗警告美股估值过高，标普年末目标仅7,700（比当前高2%），10年期收益率4.5%+制约上行<br>
+• 费半指数SOX短线回调1.36%，AI/半导体年内涨幅巨大，技术性调整压力上升<br>
+• 美伊和谈仍有变数：白宫否认伊朗"恢复通航"报道，冲突可能再度升级<br>
+• 美联储Warsh偏鹰派，12月加息概率30.5%，债市压力持续<br>
+• 港股恒指跌1.27%，科网股整体承压，与A股/AI概念分化明显
+</span><span class="en" style="display:none">
+• Citi warns of stretched valuations; S&P year-end target just 7,700 (+2%), 10Y at 4.5%+ caps upside<br>
+• SOX pulls back -1.36%; massive YTD gains raise technical correction risk<br>
+• US-Iran deal uncertainty: WH denies Hormuz report, conflict could flare again<br>
+• Fed Chair Warsh hawkish; 30.5% probability of December hike, bond pressure persists<br>
+• HK HSI -1.27%; internet names under pressure, diverging from A-share/AI themes
+</span></p>
+</div>
+
+<div class="card">
+<h4><span class="zh">💡 关注方向</span><span class="en" style="display:none">💡 Focus Areas</span></h4>
+<p><span class="zh">
+• AI存储芯片（美光/海力士涨价周期，长期协议驱动）<br>
+• 美伊和谈进展与油价走势（能源、航运、航空板块）<br>
+• 特朗普访华及中美贸易谈判（关税、稀土、台湾问题）<br>
+• A股创业板半导体反弹持续性（通信ETF、科创50）<br>
+• 港股AI概念股分化（智谱续创新高 vs 科网股调整）
+</span><span class="en" style="display:none">
+• AI memory chips (Micron/Hynix pricing cycle, long-term contracts)<br>
+• US-Iran deal progress & oil moves (energy, shipping, airlines)<br>
+• Trump's Beijing visit & US-China trade talks (tariffs, rare earths, Taiwan)<br>
+• ChiNext semiconductor rebound sustainability (Comm ETF, STAR 50)<br>
+• HK AI stock divergence (Zhipu ATH vs internet correction)
+</span></p>
+</div>
+
+<h2>📊 <span class="zh">K线图</span><span class="en" style="display:none">Charts</span></h2>
+<div class="kline-grid">
+<div class="kline-item"><div class="kline-label">NVDA — NVIDIA</div><div id="tv-nvda"></div></div>
+<div class="kline-item"><div class="kline-label">MU — Micron</div><div id="tv-mu"></div></div>
+<div class="kline-item"><div class="kline-label">SMH — Semi ETF</div><div id="tv-smh"></div></div>
+<div class="kline-item"><div class="kline-label">SPY — S&P 500</div><div id="tv-spy"></div></div>
+<div class="kline-item"><div class="kline-label">SOX — Philadelphia Semi</div><div id="tv-sox"></div></div>
+<div class="kline-item"><div class="kline-label">000001 — 上证指数</div><div id="tv-sse"></div></div>
+</div>
+
+<div class="footer">
+<p>📊 Sky Portal Daily Market · Generated by Sky AI · <a href="index.html">All Reports</a></p>
+<p style="margin-top:8px;font-size:0.75em;color:#444">Data sources: MarketWatch, WSJ, Yahoo Finance, Investopedia, 东方财富, 新浪财经, 财联社, 英为财情, MacroMicro, Reuters</p>
+</div>
+
+</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.zh').forEach(el => el.style.display = lang === 'zh' ? '' : 'none');
+  document.querySelectorAll('.en').forEach(el => el.style.display = lang === 'en' ? '' : 'none');
+  document.getElementById('btn-zh').style.background = lang === 'zh' ? '#555' : '#333';
+  document.getElementById('btn-zh').style.color = lang === 'zh' ? '#fff' : '#aaa';
+  document.getElementById('btn-en').style.background = lang === 'en' ? '#555' : '#222';
+  document.getElementById('btn-en').style.color = lang === 'en' ? '#fff' : '#aaa';
+}
+</script>
+
+<!-- TradingView Widgets -->
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+<script type="text/javascript">
+var symbols = [
+  {id:'tv-nvda', sym:'NASDAQ:NVDA'},
+  {id:'tv-mu', sym:'NASDAQ:MU'},
+  {id:'tv-smh', sym:'NASDAQ:SMH'},
+  {id:'tv-spy', sym:'AMEX:SPY'},
+  {id:'tv-sox', sym:'NASDAQ:SOX'},
+  {id:'tv-sse', sym:'SSE:000001'}
+];
+symbols.forEach(function(s){
+  new TradingView.widget({
+    symbol: s.sym, interval: '1D', height: 180, width: '100%',
+    theme: 'dark', style: '1', chart_type: 'candlesticks',
+    hide_top_toolbar: true, hide_legend: true, save_image: false,
+    calendar: false, hide_volume: true,
+    backgroundColor: 'rgba(20,20,30,1)', gridColor: 'rgba(42,42,42,1)',
+    container_id: s.id
+  });
+});
+</script>
+
+</body>
+</html>
