@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日研报 2026-05-30 | Sky Portal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0f0f0f;color:#ccc;font-family:-apple-system,'Helvetica Neue','PingFang SC',sans-serif;line-height:1.7;max-width:900px;margin:0 auto;padding:24px 16px}
+a{color:#f0a040;text-decoration:none}
+a:hover{text-decoration:underline}
+h1{color:#f0a040;font-size:1.5em;margin-bottom:4px}
+h2{color:#f0a040;font-size:1.25em;margin:28px 0 12px;padding-bottom:6px;border-bottom:1px solid #2a2a2a}
+h3{color:#fff;font-size:1.05em;margin:18px 0 8px}
+.card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:12px;padding:20px;margin-bottom:16px}
+.tag-up{background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);font-family:'SF Mono',monospace;font-weight:600;font-size:0.82em;padding:3px 10px;border-radius:5px;display:inline-block}
+.tag-down{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3);font-family:'SF Mono',monospace;font-weight:600;font-size:0.82em;padding:3px 10px;border-radius:5px;display:inline-block}
+.stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.stock-item{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:12px;text-align:center}
+.stock-item .sym{color:#fff;font-weight:700;font-size:1.1em}
+.stock-item .price{color:#ccc;font-size:1.05em;margin:4px 0}
+.source{font-size:0.85em;color:#888;margin-top:6px}
+.footer{text-align:center;margin-top:32px;padding:16px;border-top:1px solid #2a2a2a;color:#888;font-size:0.9em}
+.poster{max-width:900px;margin:0 auto 32px;font-family:-apple-system,'Helvetica Neue','PingFang SC',sans-serif}
+.poster-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.poster-card{border-radius:12px;padding:20px 24px;color:#fff}
+.lang-btn{background:#333;color:#fff;border:1px solid #555;padding:4px 12px;border-radius:4px;cursor:pointer;margin-right:6px;font-size:0.85em}
+.lang-btn.active{background:#555;color:#fff}
+.lang-btn-right{text-align:right;margin-bottom:8px}
+.zh{display:block}.en{display:none}
+</style>
+</head>
+<body>
+
+<!-- 海报区域 -->
+<div class="poster">
+<div class="lang-btn-right">
+<button onclick="switchLang('zh')" id="btn-zh" class="lang-btn active">中文</button>
+<button onclick="switchLang('en')" id="btn-en" class="lang-btn">EN</button>
+</div>
+<div class="poster-grid">
+<div class="poster-card" style="background:#d92d20">
+<div style="font-size:2em;margin-bottom:8px">🔬</div>
+<div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">半导体与AI</div>
+<div class="en" style="font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">Semiconductors & AI</div>
+<div class="zh" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• 芯片股狂飙，Barron's称五大赢家将屹立不倒<br>• Intel暴跌5.14%，但MU和AVGO分别涨超5%</div>
+<div class="en" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Chip rally goes parabolic; Barron's picks 5 winners<br>• INTC -5.14%, but MU +5.14% and AVGO +4.73%</div>
+</div>
+<div class="poster-card" style="background:linear-gradient(135deg,#004D98 60%,#A50044 100%)">
+<div style="font-size:2em;margin-bottom:8px">⚽</div>
+<div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">FC Barcelona</div>
+<div class="en" style="font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">FC Barcelona</div>
+<div class="zh" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Anthony Gordon正式亮相巴萨，发布会秀西语<br>• 巴萨开启Julián Álvarez和Bernardo Silva谈判</div>
+<div class="en" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Anthony Gordon unveiled, shows off Spanish at presser<br>• Barça open talks for Julián Álvarez & Bernardo Silva</div>
+</div>
+<div class="poster-card" style="background:#e08c0b">
+<div style="font-size:2em;margin-bottom:8px">🏀</div>
+<div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">体育赛事</div>
+<div class="en" style="font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">Sports Events</div>
+<div class="zh" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• NBA西决G7今晚开打：雷霆vs马刺<br>• 开拓者2026年无选秀权，或交易进入</div>
+<div class="en" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• NBA WCF Game 7 tonight: Thunder vs Spurs<br>• Trail Blazers have no 2026 draft picks</div>
+</div>
+<div class="poster-card" style="background:#10a37f">
+<div style="font-size:2em;margin-bottom:8px">🤖</div>
+<div class="zh" style="font-size:1.4em;font-weight:700;line-height:1.2">AI 动态</div>
+<div class="en" style="font-size:1.1em;font-weight:600;opacity:0.9;margin-top:4px">AI Updates</div>
+<div class="zh" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Anthropic估值$9650亿超越OpenAI<br>• Claude Opus 4.8发布，编码和推理全面升级</div>
+<div class="en" style="margin-top:10px;font-size:0.9em;opacity:0.9;line-height:1.6">• Anthropic valued at $965B, surpasses OpenAI<br>• Claude Opus 4.8 released with coding/reasoning gains</div>
+</div>
+</div>
+</div>
+
+<script>
+function switchLang(lang){
+document.querySelectorAll('.zh').forEach(el=>el.style.display=lang==='zh'?'block':'none');
+document.querySelectorAll('.en').forEach(el=>el.style.display=lang==='en'?'block':'none');
+document.getElementById('btn-zh').classList.toggle('active',lang==='zh');
+document.getElementById('btn-zh').style.background=lang==='zh'?'#555':'#333';
+document.getElementById('btn-en').classList.toggle('active',lang==='en');
+document.getElementById('btn-en').style.background=lang==='en'?'#555':'#222';
+}
+</script>
+
+<h1>📡 每日研报</h1>
+<p style="color:#888;margin-bottom:20px">2026-05-30（周六） · 数据截至 2026-05-29 收盘 · 股价数据来源：StockAnalysis / Yahoo Finance</p>
+
+<!-- 板块1: M365 Copilot -->
+<h2>💼 M365 Copilot 专栏</h2>
+
+<div class="card">
+<h3>🆕 Copilot五月大更新：53项新功能上线</h3>
+<p class="zh">Microsoft 365 Copilot五月推送了史上最大规模更新，共53项新功能。最重磅的包括：Copilot Chat集成GPT-5.5 Thinking模型用于多步推理，Claude Opus 4.8作为新模型选项上线。Copilot App全新改版，整合聊天、内容创建和引用于一体，并新增Apple CarPlay支持。Teams新增视频回放（Video Recap）和通话委托功能，Word新增文档摘要和个性化写作建议，PowerPoint支持幻灯片解释和内置技能。Learning Agent和扩展版Prompt Gallery也正式发布。</p>
+<p class="en">Microsoft 365 Copilot's May update is the biggest ever, with 53 new features. Highlights include: GPT-5.5 Thinking integrated into Copilot Chat, Claude Opus 4.8 as a new model option, a redesigned Copilot App combining chats, creation, and references, plus Apple CarPlay support. Teams gets video recap and call delegation, Word adds document summaries and personalized writing suggestions, and PowerPoint supports slide explanations. Learning Agent and expanded Prompt Gallery are also live.</p>
+<p class="source">Source: <a href="https://techcommunity.microsoft.com/blog/microsoft365copilotblog/what%25E2%2580%2599s-new-in-microsoft-365-copilot--may-2026/4522010">Microsoft Tech Community</a> · <a href="https://www.aguidetocloud.com/blog/microsoft-365-copilot-may-2026-updates/">A Guide to Cloud</a></p>
+</div>
+
+<div class="card">
+<h3>💡 Copilot技巧：Plan模式 + 语音聊天提效</h3>
+<p class="zh">五月推出的Plan模式允许用户制定复杂的多步骤AI工作流，一次对话中串联多个任务。结合Copilot Chat的语音聊天功能（Hey Copilot语音唤醒），用户可以完全免手操作。Calendar Agent支持自然语言设置会议规则，自动处理不想参加的会议。这些功能大幅提升了日常办公效率，尤其适合管理繁忙日程的职场人士。</p>
+<p class="en">The new Plan mode lets users create complex multi-step AI workflows in a single conversation. Combined with Copilot Chat's voice feature (Hey Copilot wake word), you can work hands-free. Calendar Agent supports natural-language meeting rules to auto-decline unwanted meetings. These features significantly boost daily productivity for busy professionals.</p>
+<p class="source">Source: <a href="https://www.youtube.com/watch?v=6rpBb0dpO2I">YouTube</a> · <a href="https://www.alwaysbeyond.com/blog/microsoft-365-new-features-april-may-2026">Always Beyond</a></p>
+</div>
+
+<!-- 板块2: 半导体与AI -->
+<h2>🔬 半导体与AI</h2>
+
+<div class="card">
+<h3>📊 芯片股狂飙，Barron's筛选五大"真赢家"</h3>
+<p class="zh">AI驱动的芯片股涨势已进入"抛物线"阶段，Barron's发表封面文章警告泡沫风险。报道指出，尽管几乎所有芯片股都在上涨，但当潮水退去，只有五家公司能屹立不倒——它们都仍被低估。NVIDIA以$5.23万亿市值稳居全球第一大公司，但5月涨幅仅8%，落后于其他半导体股票。Broadcom、AMD和Micron是今年表现最亮眼的大市值芯片股。PHLX半导体指数四月飙升超40%，创下2000年以来最佳月度表现。</p>
+<p class="en">The AI-driven chip rally has gone parabolic, with Barron's warning of bubble risks in a cover story. The report argues only five companies will remain standing when the dust settles—all still undervalued. NVIDIA leads as the world's largest company at $5.23T market cap, but gained only 8% in May, lagging other semiconductor names. Broadcom, AMD, and Micron have been the standout large-cap performers. The PHLX Semiconductor Index surged 40%+ in April, the best month since 2000.</p>
+<p class="source">Source: <a href="https://www.barrons.com/articles/chip-stock-rally-2026-nvidia-amd-broadcom-tsm-micron-df290dbc">Barron's</a> · <a href="https://www.tomshardware.com/tech-industry/semiconductors">Tom's Hardware</a></p>
+</div>
+
+<div class="card">
+<h3>🔧 Intel Core Ultra Series 3 发布，TSMC面临产能瓶颈</h3>
+<p class="zh">Intel于5月20日发布Core Ultra Series 3处理器，集成CPU、GPU和NPU，瞄准边缘AI机器人计算市场。与此同时，TSMC面临日益严重的产能瓶颈——美国商务部已下令TSMC暂停向中国企业出货7nm及更先进AI芯片。分析师指出TSMC正成为AI进步的瓶颈，投资者开始从TSMC分散投资到其他AI受益公司，MediaTek股价相对TSMC跑出历史性超额收益。Samsung和TSMC还面临劳工紧张局势。</p>
+<p class="en">Intel launched Core Ultra Series 3 on May 20, integrating CPU, GPU, and NPU for edge AI robotics compute. Meanwhile, TSMC faces mounting capacity constraints—the US Commerce Department ordered TSMC to halt 7nm+ AI chip shipments to Chinese firms. Analysts warn TSMC is becoming a bottleneck for AI progress. Investors are diversifying from TSMC to other AI beneficiaries, with MediaTek outperforming TSMC by a record margin.</p>
+<p class="source">Source: <a href="https://www.originbrief.app/en/reports/semiconductor-chip-industry/2026-05-25/weekly">OriginBrief</a> · <a href="https://brief.bismarckanalysis.com/p/ai-2026-tsmc-risks-being-a-bottleneck">Bismarck Analysis</a></p>
+</div>
+
+<!-- 股价 -->
+<h2>📈 半导体股票（5/29 收盘）</h2>
+<div class="stock-grid">
+<div class="stock-item">
+<div class="sym">INTC</div>
+<div class="price">$114.68</div>
+<span class="tag-down">-5.14%</span>
+</div>
+<div class="stock-item">
+<div class="sym">TSM</div>
+<div class="price">$418.45</div>
+<span class="tag-down">-1.51%</span>
+</div>
+<div class="stock-item">
+<div class="sym">NVDA</div>
+<div class="price">$211.14</div>
+<span class="tag-down">-1.45%</span>
+</div>
+<div class="stock-item">
+<div class="sym">AMD</div>
+<div class="price">$522.00</div>
+<span class="tag-up">+4.61%</span>
+</div>
+<div class="stock-item">
+<div class="sym">ASML</div>
+<div class="price">$1,612.76</div>
+<span class="tag-up">+0.44%</span>
+</div>
+<div class="stock-item">
+<div class="sym">MU</div>
+<div class="price">$971.00</div>
+<span class="tag-up">+5.14%</span>
+</div>
+<div class="stock-item">
+<div class="sym">AVGO</div>
+<div class="price">$446.77</div>
+<span class="tag-up">+4.73%</span>
+</div>
+<div class="stock-item">
+<div class="sym">QCOM</div>
+<div class="price">$251.02</div>
+<span class="tag-up">+3.18%</span>
+</div>
+<div class="stock-item">
+<div class="sym">TSLA</div>
+<div class="price">$435.79</div>
+<span class="tag-down">-0.33%</span>
+</div>
+<div class="stock-item">
+<div class="sym">SMH</div>
+<div class="price">$600.31</div>
+<span class="tag-up">+0.08%</span>
+</div>
+</div>
+<p class="source" style="margin-top:8px">数据来源：StockAnalysis · Yahoo Finance · 截至 2026-05-29 收盘</p>
+
+<!-- 板块3: 巴萨 -->
+<h2>⚽ FC Barcelona</h2>
+
+<div class="card">
+<h3>🔴🔵 Anthony Gordon正式亮相巴萨，发布会秀西语</h3>
+<p class="zh">Anthony Gordon于周五在巴塞罗那完成正式签约仪式，€8000万转会费签约5年。Gordon在新闻发布会上用西班牙语回答问题，赢得球迷喝彩。他此前已成功通过体检，并与体育总监Deco、名宿Bojan Krkić共进晚餐。这位英格兰前锋的加盟是巴萨今夏最重要的引援，世界杯前抢先把转会搞定。</p>
+<p class="en">Anthony Gordon was officially unveiled as a Barcelona player on Friday, completing his €80M five-year deal. Gordon impressed at his press conference by answering questions in Spanish. He had already passed his medical and dined with sporting director Deco and club legend Bojan Krkić. The English forward's signing is Barcelona's biggest summer acquisition, sealed before the World Cup.</p>
+<p class="source">Source: <a href="https://www.skysports.com/football/video/17098/13549171/anthony-gordon-reveals-spanish-skills-at-barca-signing-press-conference">Sky Sports</a> · <a href="https://www.beinsports.com/en-us/soccer/la-liga/articles/anthony-gordon-officially-joins-fc-barcelona-2026-05-29">beIN SPORTS</a></p>
+</div>
+
+<div class="card">
+<h3>📋 巴萨开启Julián Álvarez和Bernardo Silva谈判</h3>
+<p class="zh">据Barca Blaugranes报道，巴萨已开启对曼城前锋Julián Álvarez和中场Bernardo Silva的谈判。同时，巴萨须在6月15日前决定是否以€3000万买断Marcus Rashford的租借。由于Gordon的加盟，财政和战术层面可能没有足够空间同时容纳Rashford，俱乐部需要在多个目标之间做出取舍。八名巴萨球员被西班牙国家队征召参加世界杯。</p>
+<p class="en">Barça have opened talks for Manchester City forward Julián Álvarez and midfielder Bernardo Silva, per Barca Blaugranes. Meanwhile, the club has until June 15 to decide on a €30M permanent deal for Marcus Rashford. With Gordon's signing, there may not be enough financial or tactical room for both, forcing tough choices. Eight Barça players were called up by Spain for the World Cup.</p>
+<p class="source">Source: <a href="https://www.barcablaugranes.com/barcelona-news/121937/fc-barcelona-news-29-may-2026-barca-open-talks-for-julian-alvarez-and-bernardo-silva">Barca Blaugranes</a> · <a href="https://sports.yahoo.com/articles/barcelona-until-15-june-crucial-080000465.html">Yahoo Sports</a></p>
+</div>
+
+<!-- 板块4: 体育赛事 -->
+<h2>🏟️ 体育赛事（NBA & World Cup）</h2>
+
+<div class="card" style="border-color:rgba(76,175,80,0.3);background:rgba(76,175,80,0.05)">
+<h3 style="color:#4CAF50">🏀 NBA西决G7今晚开打：雷霆 vs 马刺</h3>
+<p class="zh">西部决赛将进入抢七大战！马刺在G6以118-91大胜雷霆，Wembanyama砍下28分10篮板，将系列赛扳成3-3。第七场将于周六晚在俄克拉荷马城进行，胜者将在6月3日的NBA总决赛中对阵纽约尼克斯。尼克斯已连续赢下11场比赛，自首轮G4以来势不可挡，这也是他们本世纪首次打入总决赛。SGA刚拿下连续第二个MVP。</p>
+<p class="en">The Western Conference Finals are going to Game 7! The Spurs blew out the Thunder 118-91 in G6 with Wembanyama scoring 28+10, tying the series 3-3. Game 7 tips off Saturday night in Oklahoma City, with the winner facing the Knicks in the NBA Finals starting June 3. New York has won 11 straight and makes its first Finals appearance this century. SGA just won his second straight MVP.</p>
+<p class="source">Source: <a href="https://www.cbssports.com/nba/news/2026-nba-playoff-bracket-matchups-schedule/">CBS Sports</a> · <a href="https://www.nba.com/playoffs/2026/latest">NBA.com</a></p>
+</div>
+
+<div class="card" style="border-color:rgba(76,175,80,0.3);background:rgba(76,175,80,0.05)">
+<h3 style="color:#4CAF50">🏀 开拓者2026年无选秀权，或交易进入</h3>
+<p class="zh">波特兰开拓者在2026年NBA选秀中没有任何签位，这是早年交易的结果——首轮签归芝加哥，次轮签归圣安东尼奥。多位分析师建议管理层通过交易购买选秀权，目标包括Tennessee前锋Nate Ament和墨西哥球员Karim Lopez。如果按兵不动，开拓者将首次在没有选秀签的情况下度过选秀夜。</p>
+<p class="en">The Portland Trail Blazers have no picks in the 2026 NBA Draft—the first-rounder belongs to Chicago and the second to San Antonio from past trades. Analysts suggest trading in to target players like Tennessee forward Nate Ament or Karim Lopez from Mexico. Without a trade, Portland faces a draft night with zero selections for the first time.</p>
+<p class="source">Source: <a href="https://www.oregonlive.com/blazers/2026/05/a-quiet-june-the-portland-trail-blazers-have-no-picks-in-the-2026-nba-draft.html">OregonLive</a> · <a href="https://www.blazersedge.com/gameday-coverage/112488/portland-trail-blazers-2026-nba-draft-trades-joe-cronin-tom-dundon">Blazer's Edge</a></p>
+</div>
+
+<!-- 板块5: Portland -->
+<h2>🌲 Portland 本地</h2>
+
+<div class="card">
+<h3>🌤️ 周末天气预报</h3>
+<p class="zh">波特兰本周经历了一波热浪，周四最高温度达86°F（30°C），下午可能有雷暴。周末预计天气转凉，从持续温暖回归到更典型的五月天气。AccuWeather数据显示五月最高温度范围在65-87°F之间。建议关注周六Salem市中心的街道封闭通知，因Oregon州议会附近有一日活动。</p>
+<p class="en">Portland experienced a heat wave this week with Thursday's high reaching 86°F (30°C), with possible afternoon thunderstorms. The weekend is expected to cool down to more typical May weather. AccuWeather shows May highs ranging from 65-87°F. Note street closures in downtown Salem on Saturday near the Oregon State Capitol for a day event.</p>
+<p class="source">Source: <a href="https://www.oregonlive.com/weather/2026/05/portlands-sunny-warm-thursday-includes-slight-chance-of-thunderstorm-by-evening.html">OregonLive</a> · <a href="https://www.accuweather.com/en/us/downtown-portland/97201/may-weather/2627656">AccuWeather</a></p>
+</div>
+
+<div class="card">
+<h3>🏛️ Portland市议会推进面具禁令，面临法律风险</h3>
+<p class="zh">Portland市议会正在推进一项有争议的条例，要求执法官员（包括联邦特工）禁止佩戴面具并公开身份标识。尽管市长Keith Wilson、市议员Steve Novick和市检察官Robert Taylor都警告该条例几乎必然面临法律挑战，市议会仍执意推进。同时，Portland警方在两周内查获了近$200万的毒品。Columbia河上的浮动房屋发生火灾，多处房屋被毁。</p>
+<p class="en">Portland City Council is pushing ahead with a controversial ordinance to ban masks and require identification for law enforcement including federal agents, despite warnings from the Mayor, a councilor, and the City Attorney that it faces near-certain legal challenges. Separately, Portland police seized nearly $2M in drugs over two weeks, and multiple floating homes on the Columbia River were destroyed by fire.</p>
+<p class="source">Source: <a href="https://www.oregonlive.com/politics/2026/05/one-in-a-million-chance-portland-leaders-push-ahead-on-masking-plan-despite-legal-risk-warnings.html">OregonLive</a> · <a href="https://www.koin.com/video/portland-police-seize-nearly-2m-in-drugs-in-two-weeks/11077663/">KOIN</a> · <a href="https://www.kgw.com">KGW</a></p>
+</div>
+
+<!-- 板块6: AI动态 -->
+<h2>🤖 AI 工具/产品动态</h2>
+
+<div class="card">
+<h3>🏆 Anthropic估值$9650亿，超越OpenAI成为最有价值AI公司</h3>
+<p class="zh">Anthropic宣布完成$650亿新一轮融资，由Altimeter Capital、Greenoaks、Dragoneer和Sequoia Capital领投。此轮融资将公司估值推至$9650亿，正式超越OpenAI（上次估值$8520亿）成为全球最有价值的AI初创公司。不仅估值，Anthropic的收入也已超过OpenAI。《纽约时报》称这是AI行业领导权的历史性转移。</p>
+<p class="en">Anthropic announced a $65B funding round led by Altimeter Capital, Greenoaks, Dragoneer, and Sequoia Capital, pushing its valuation to $965B—surpassing OpenAI's last valuation of $852B as the world's most valuable AI startup. Anthropic has also overtaken OpenAI in revenue. The New York Times called it a historic shift in AI industry leadership.</p>
+<p class="source">Source: <a href="https://www.nytimes.com/2026/05/28/technology/anthropic-tops-openai-valuation.html">NYT</a> · <a href="https://mashable.com/tech/anthropic-overtakes-openai-ai-company-valuation-revenue">Mashable</a> · <a href="https://www.theguardian.com/technology/2026/may/28/anthropic-ai-valuation">The Guardian</a></p>
+</div>
+
+<div class="card">
+<h3>🚀 Claude Opus 4.8发布：编码/推理/agentic任务全面升级</h3>
+<p class="zh">Anthropic发布Claude Opus 4.8，在编码、推理和agentic任务上全面超越Opus 4.7。新功能包括：用户可控制Claude投入任务的effort level，Claude Code新增"动态工作流"功能可处理大规模问题，Opus 4.8快速模式速度提升2.5倍且成本降低三倍。早期测试者反馈Opus 4.8在agentic任务中判断更可靠、推理更敏锐。</p>
+<p class="en">Anthropic released Claude Opus 4.8 with major gains in coding, reasoning, and agentic tasks over Opus 4.7. New features include user-controlled effort levels, Claude Code's "dynamic workflows" for large-scale problems, and a fast mode that's 2.5× faster at one-third the cost. Early testers report more reliable judgment and sharper reasoning in agentic workflows.</p>
+<p class="source">Source: <a href="https://www.anthropic.com/news/claude-opus-4-8">Anthropic</a></p>
+</div>
+
+<div class="card">
+<h3>🔮 OpenAI重组押注Agent未来，Google DeepMind称2029年可能实现AGI</h3>
+<p class="zh">OpenAI正在进行重大组织架构调整，将重心从"问答模型"转向"Agent系统"。这一转变反映了行业整体趋势——AI正从"问模型"进化到"管理系统"。Google DeepMind CEO表示AGI在2029年前成为现实是有可能的。Meta的"Avocado"AI模型发布被推迟至2026年5月，内部测试显示它落后于Google和Anthropic的竞品。此外，Anthropic收购了被OpenAI、Google和Cloudflare广泛使用的开发工具初创公司。</p>
+<p class="en">OpenAI is restructuring around an agent-focused future, shifting from "ask a model" to "supervise a system." Google DeepMind's CEO said AGI could be a reality by 2029. Meta delayed its "Avocado" AI model launch to May 2026 after internal tests showed it lagging behind rivals. Anthropic also acquired a dev tools startup used by OpenAI, Google, and Cloudflare.</p>
+<p class="source">Source: <a href="https://www.linkedin.com/posts/gregstarling_this-week-in-ai-may-18-2026-ai-is-moving-activity-7462198755434524673-E8Ic">LinkedIn</a> · <a href="https://techcrunch.com/2026/05/18/anthropic-has-acquired-the-dev-tools-startup-used-by-openai-google-and-cloudflare/">TechCrunch</a></p>
+</div>
+
+<div class="footer">
+<p>📡 Sky Daily Research Report · Generated by <a href="https://openclaw.ai">OpenClaw</a> · GLM 5.1</p>
+<p><a href="index.html">📚 All Reports</a></p>
+</div>
+
+</body>
+</html>
