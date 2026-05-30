@@ -423,8 +423,6 @@
   .d4 { animation-delay: 0.2s; }
   .d5 { animation-delay: 0.25s; }
   .d6 { animation-delay: 0.3s; }
-  .d7 { animation-delay: 0.35s; }
-  .d8 { animation-delay: 0.4s; }
 
   /* === MOBILE NAV DROPDOWN === */
   .mobile-nav-toggle {
@@ -610,14 +608,14 @@
   </div>
 
   <div class="card-grid">
-    <!-- Project 1 -->
+    <!-- Project 01: Knowledge Extraction Engine (merged old 1+2) -->
     <div class="project-card phase-short" onclick="toggleCard(this)">
       <div class="card-top">
         <div class="card-num"><span class="zh">项目 01</span><span class="en">Project 01</span></div>
-        <div class="card-title"><span class="zh">领导问题画像</span><span class="en">Leader Question Profile</span></div>
+        <div class="card-title"><span class="zh">知识提取引擎</span><span class="en">Knowledge Extraction Engine</span></div>
         <div class="card-summary">
-          <span class="zh">通过AI分析邮件和会议发言，提取每位领导者的高频问题，建立"问题指纹"。让工程师在汇报前就预判领导会问什么。</span>
-          <span class="en">Analyze emails and meeting transcripts with AI to extract each leader's high-frequency questions and build a "question fingerprint." Engineers can anticipate what leaders will ask before briefings.</span>
+          <span class="zh">从领导者的邮件和会议发言中提取高频问题画像（Top 10-20），同时从优秀员工的工作中提取他们的自问自答模式。两者的共同目标：系统化整理"隐藏的思考框架"，让AI学会问对的问题。</span>
+          <span class="en">Extract high-frequency question profiles (Top 10-20) from leaders' emails and meeting speech, while mining self-questioning patterns from top performers. The shared goal: systematically compile "hidden thinking frameworks" so AI learns to ask the right questions.</span>
         </div>
       </div>
       <div class="card-toggle">
@@ -627,93 +625,49 @@
       <div class="card-detail">
         <div class="detail-inner">
           <div class="detail-section">
-            <div class="detail-label"><span class="zh">输入数据</span><span class="en">Input Data</span></div>
+            <div class="detail-label"><span class="zh">维度一：领导问题画像</span><span class="en">Dimension 1: Leader Question Profile</span></div>
             <div class="detail-content">
               <ul>
-                <li><span class="zh">领导者邮件（发件/回复/转发）</span><span class="en">Leader emails (sent/replied/forwarded)</span></li>
-                <li><span class="zh">会议录音转写文本</span><span class="en">Meeting transcript recordings</span></li>
-                <li><span class="zh">会议纪要与行动项</span><span class="en">Meeting minutes and action items</span></li>
+                <li><span class="zh">输入：邮件往来 + 会议录音转写 + 会议纪要</span><span class="en">Input: email correspondence + meeting transcripts + minutes</span></li>
+                <li><span class="zh">方法：用LLM分析每位VP/PM/部门领导的发言，提取问题句式、关注领域、追问逻辑</span><span class="en">Method: Use LLM to analyze each leader's speech, extract question patterns, focus areas, and follow-up logic</span></li>
+                <li><span class="zh">输出：每位领导者的Top 10-20高频问题清单——"问题指纹"</span><span class="en">Output: Top 10-20 high-frequency question list for each leader—the "question fingerprint"</span></li>
               </ul>
             </div>
-          </div>
-          <div class="detail-section">
-            <div class="detail-label"><span class="zh">方法</span><span class="en">Methodology</span></div>
-            <div class="detail-content">
-              <span class="zh">使用LLM分析每位VP/PM/部门领导在会议中的发言和邮件往来，通过NLP提取问题句式、关注领域、追问逻辑，生成Top 10-20高频问题清单。</span>
-              <span class="en">Use LLM to analyze each VP/PM/department leader's meeting speech and email correspondence, extract question patterns, focus areas, and follow-up logic via NLP, and generate a Top 10-20 high-frequency question list.</span>
-            </div>
-          </div>
-          <div class="detail-section">
-            <div class="detail-label"><span class="zh">示例输出</span><span class="en">Example Output</span></div>
             <div class="detail-example">
               <span class="zh"><strong>VP Zhang 的典型问题模式：</strong><br>① 良率偏低是否集中在特定wafer位置？<br>② 之前有没有类似的pattern？<br>③ 当时的根因是什么？怎么解决的？<br>④ 现在的情况和当时有什么异同？</span>
               <span class="en"><strong>VP Zhang's typical question pattern:</strong><br>① Is the low yield concentrated at specific wafer locations?<br>② Have we seen similar patterns before?<br>③ What was the root cause then? How was it resolved?<br>④ What's different between then and now?</span>
             </div>
           </div>
           <div class="detail-section">
+            <div class="detail-label"><span class="zh">维度二：优秀员工问题提取</span><span class="en">Dimension 2: Top Performer Question Mining</span></div>
+            <div class="detail-content">
+              <span class="zh">优秀员工之所以优秀，往往不是因为知道更多答案，而是会问更好的问题。找出Top 10%工程师，分析他们的debug笔记、分析报告和工作记录中隐含的假设检验逻辑和因果推理链，系统化整理为全员可用的"思考框架"。</span>
+              <span class="en">Top performers excel not because they know more answers, but because they ask better questions. Identify the top 10% engineers, analyze their debug notes, analysis reports, and work logs for implicit hypothesis-testing logic and causal reasoning chains, and compile them into a "thinking framework" available to all.</span>
+            </div>
+            <div class="detail-content" style="margin-top:0.5rem">
+              <span class="zh">比任何wiki或培训文档都有用——这是"活的方法论"，从实际工作中提炼，而非理论教学。新员工可以快速获得资深工程师的思维框架。</span>
+              <span class="en">More useful than any wiki or training document—this is "living methodology," distilled from real work, not theoretical teaching. New engineers can quickly acquire senior-level thinking frameworks.</span>
+            </div>
+          </div>
+          <div class="detail-section">
             <div class="detail-label"><span class="zh">核心价值</span><span class="en">Core Value</span></div>
             <div class="detail-content">
-              <span class="zh">工程师准备汇报时，AI自动提示"这位领导大概率会问以下问题"并给出建议答案框架。从被动应对变为主动准备。</span>
-              <span class="en">When engineers prepare briefings, AI automatically suggests "this leader will likely ask the following questions" and provides recommended answer frameworks. Shift from reactive to proactive preparation.</span>
+              <span class="zh">从两个维度提取"问题智慧"：向上理解领导的决策逻辑，向下学习优秀员工的执行方法。两者结合，构建组织级的知识图谱。</span>
+              <span class="en">Extract "question intelligence" from two dimensions: upward to understand leaders' decision logic, downward to learn top performers' execution methods. Combined, they build an organizational knowledge graph.</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Project 2 -->
+    <!-- Project 02: Pre-Answer Engine (same as old 3) -->
     <div class="project-card phase-short" onclick="toggleCard(this)">
       <div class="card-top">
         <div class="card-num"><span class="zh">项目 02</span><span class="en">Project 02</span></div>
-        <div class="card-title"><span class="zh">优秀员工问题提取</span><span class="en">Best Performer Question Mining</span></div>
-        <div class="card-summary">
-          <span class="zh">找出团队Top 10%工程师，分析他们的自问自答模式，系统化整理为全员可用的"思考框架"。</span>
-          <span class="en">Identify the top 10% engineers, analyze their self-questioning patterns, and systematically compile them into a "thinking framework" available to all.</span>
-        </div>
-      </div>
-      <div class="card-toggle">
-        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
-        <span class="arrow">▼</span>
-      </div>
-      <div class="card-detail">
-        <div class="detail-inner">
-          <div class="detail-section">
-            <div class="detail-label"><span class="zh">核心理念</span><span class="en">Core Concept</span></div>
-            <div class="detail-content">
-              <span class="zh">优秀员工之所以优秀，往往不是因为他们知道更多答案，而是他们会问更好的问题。这些问题本身就代表了方法论。通过AI提取这些"隐藏的思考模式"，可以让全团队受益。</span>
-              <span class="en">Top performers excel not because they know more answers, but because they ask better questions. These questions themselves represent methodology. By extracting these "hidden thinking patterns" with AI, the entire team can benefit.</span>
-            </div>
-          </div>
-          <div class="detail-section">
-            <div class="detail-label"><span class="zh">方法</span><span class="en">Methodology</span></div>
-            <div class="detail-content">
-              <ul>
-                <li><span class="zh">收集优秀工程师的工作记录、debug笔记、分析报告</span><span class="en">Collect top engineers' work logs, debug notes, and analysis reports</span></li>
-                <li><span class="zh">用AI分析其中隐含的假设检验逻辑和因果推理链</span><span class="en">Use AI to analyze implicit hypothesis-testing logic and causal reasoning chains</span></li>
-                <li><span class="zh">系统化整理成结构化的"问题清单+思考路径"</span><span class="en">Systematically compile into structured "question lists + thinking paths"</span></li>
-                <li><span class="zh">构建可复用的分析模板和checklist</span><span class="en">Build reusable analysis templates and checklists</span></li>
-              </ul>
-            </div>
-          </div>
-          <div class="detail-section">
-            <div class="detail-label"><span class="zh">价值</span><span class="en">Value</span></div>
-            <div class="detail-content">
-              <span class="zh">比任何wiki或培训文档都有用，因为这是"活的方法论"——从实际工作中提炼，而非理论教学。新员工可以快速获得资深工程师的思维框架。</span>
-              <span class="en">More useful than any wiki or training document, because it's "living methodology"—distilled from real work, not theoretical teaching. New engineers can quickly acquire senior-level thinking frameworks.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 3 -->
-    <div class="project-card phase-short" onclick="toggleCard(this)">
-      <div class="card-top">
-        <div class="card-num"><span class="zh">项目 03</span><span class="en">Project 03</span></div>
         <div class="card-title"><span class="zh">AI 预答系统</span><span class="en">Pre-Answer Engine</span></div>
         <div class="card-summary">
-          <span class="zh">将领导问题和优秀员工问题喂给AI，让它主动搜索内部数据并预生成答案。工程师登录系统看到的不是空白搜索框，而是"答案已备好"。</span>
-          <span class="en">Feed leadership and top performer questions to AI, enabling it to proactively search internal data and pre-generate answers. Engineers see not a blank search box, but "answers ready."</span>
+          <span class="zh">将项目01提取的两类问题喂给AI，让它主动搜索内部数据并预生成答案。工程师登录系统看到的不是空白搜索框，而是"答案已备好"。</span>
+          <span class="en">Feed both types of questions from Project 01 to AI, enabling it to proactively search internal data and pre-generate answers. Engineers see not a blank search box, but "answers ready."</span>
         </div>
       </div>
       <div class="card-toggle">
@@ -726,7 +680,7 @@
             <div class="detail-label"><span class="zh">工作流程</span><span class="en">Workflow</span></div>
             <div class="detail-content">
               <ul>
-                <li><span class="zh">整合项目1和项目2的问题库</span><span class="en">Integrate question databases from Projects 1 &amp; 2</span></li>
+                <li><span class="zh">整合项目01的问题库（领导画像 + 员工思维框架）</span><span class="en">Integrate question databases from Project 01 (leader profiles + performer frameworks)</span></li>
                 <li><span class="zh">AI自动匹配当前项目/产品上下文</span><span class="en">AI auto-matches current project/product context</span></li>
                 <li><span class="zh">后台持续搜索可访问的数据源</span><span class="en">Continuously searches accessible data sources in the background</span></li>
                 <li><span class="zh">预生成结构化答案（含数据图表引用）</span><span class="en">Pre-generates structured answers (with data/chart citations)</span></li>
@@ -750,19 +704,19 @@
 <section id="mid-term" class="fade-up">
   <div class="section-head">
     <span class="section-tag tag-mid"><span class="zh">中期</span><span class="en">Mid-term</span></span>
-    <h2><span class="zh">AI 采取行动 + 解决问题</span><span class="en">AI Takes Action + Solves Problems</span></h2>
+    <h2><span class="zh">AI 采取行动</span><span class="en">AI Takes Action</span></h2>
     <span class="timeline-label">6-18 <span class="zh">个月</span><span class="en">Months</span></span>
   </div>
 
   <div class="card-grid">
-    <!-- Project 4 -->
+    <!-- Project 03: AI Intelligent Assistant (merged old 4+5) -->
     <div class="project-card phase-mid" onclick="toggleCard(this)">
       <div class="card-top">
-        <div class="card-num"><span class="zh">项目 04</span><span class="en">Project 04</span></div>
-        <div class="card-title"><span class="zh">领导者数字分身</span><span class="en">Leader Digital Avatar</span></div>
+        <div class="card-num"><span class="zh">项目 03</span><span class="en">Project 03</span></div>
+        <div class="card-title"><span class="zh">AI 智能助手</span><span class="en">AI Intelligent Assistant</span></div>
         <div class="card-summary">
-          <span class="zh">基于短期积累的问题画像，AI化身"虚拟领导"，在工程师日常工作过程中主动提问，像那位领导一样审视项目进展。</span>
-          <span class="en">Based on accumulated question profiles, AI becomes a "virtual leader," proactively asking questions during engineers' daily work, reviewing project progress like that leader would.</span>
+          <span class="zh">基于项目01的领导画像，打造AI助手。两种工作模式：异步模式下AI在日常工作中像领导一样主动提问和审视；实时模式下开会时AI实时监听、后台拉数据、生成答案。</span>
+          <span class="en">Based on Project 01's leader profiles, build an AI assistant. Two modes: async mode where AI proactively questions like a leader during daily work; real-time mode where AI listens during meetings, pulls data, and generates answers on the fly.</span>
         </div>
       </div>
       <div class="card-toggle">
@@ -772,59 +726,43 @@
       <div class="card-detail">
         <div class="detail-inner">
           <div class="detail-section">
-            <div class="detail-label"><span class="zh">工作方式</span><span class="en">How It Works</span></div>
+            <div class="detail-label"><span class="zh">模式A：异步导师（Leader Avatar）</span><span class="en">Mode A: Async Mentor (Leader Avatar)</span></div>
             <div class="detail-content">
               <span class="zh">不是等开会才被问，而是工作过程中实时被"审视"。AI根据项目上下文，主动发出提醒和追问——"你检查过这个位置的pattern了吗？""跟上一批比异常点在哪里？""这个参数变化是否在spec范围内？"</span>
               <span class="en">Not waiting for meetings to be questioned, but proactively "reviewed" during work. AI sends reminders and follow-ups based on project context—"Have you checked the pattern at this location?" "Where are the anomalies compared to the last batch?" "Is this parameter change within spec range?"</span>
             </div>
-          </div>
-          <div class="detail-section">
-            <div class="detail-label"><span class="zh">进阶价值</span><span class="en">Advanced Value</span></div>
-            <div class="detail-content">
+            <div class="detail-content" style="margin-top:0.5rem">
               <span class="zh">相当于给每位工程师配备了一个"影子导师"，融合了多位领导者的思维方式和关注点。特别适合新员工和跨部门协作场景。</span>
-              <span class="en">Equivalent to equipping each engineer with a "shadow mentor" that blends the thinking patterns and focus areas of multiple leaders. Especially valuable for new hires and cross-functional collaboration scenarios.</span>
+              <span class="en">Equivalent to equipping each engineer with a "shadow mentor" that blends the thinking patterns and focus areas of multiple leaders. Especially valuable for new hires and cross-functional collaboration.</span>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 5 -->
-    <div class="project-card phase-mid" onclick="toggleCard(this)">
-      <div class="card-top">
-        <div class="card-num"><span class="zh">项目 05</span><span class="en">Project 05</span></div>
-        <div class="card-title"><span class="zh">会议实时助手</span><span class="en">Meeting Copilot</span></div>
-        <div class="card-summary">
-          <span class="zh">开会时AI实时监听，领导刚问完问题，AI已在后台拉取数据、生成初步答案，投屏展示或推送到与会者设备。</span>
-          <span class="en">AI listens in real-time during meetings. As soon as a leader asks a question, AI pulls data in the background and generates preliminary answers, displayed on-screen or pushed to participants' devices.</span>
-        </div>
-      </div>
-      <div class="card-toggle">
-        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
-        <span class="arrow">▼</span>
-      </div>
-      <div class="card-detail">
-        <div class="detail-inner">
           <div class="detail-section">
-            <div class="detail-label"><span class="zh">技术路径</span><span class="en">Technical Path</span></div>
+            <div class="detail-label"><span class="zh">模式B：会议实时助手（Meeting Copilot）</span><span class="en">Mode B: Meeting Copilot</span></div>
             <div class="detail-content">
               <ul>
                 <li><span class="zh">实时语音转写（利用现有Teams/会议系统）</span><span class="en">Real-time speech transcription (leveraging existing Teams/meeting systems)</span></li>
-                <li><span class="zh">问题识别与分类（基于项目1的模型）</span><span class="en">Question identification and classification (based on Project 1 models)</span></li>
+                <li><span class="zh">问题识别与分类（基于项目01的模型）</span><span class="en">Question identification and classification (based on Project 01 models)</span></li>
                 <li><span class="zh">后台数据查询与答案生成（RAG架构）</span><span class="en">Background data query and answer generation (RAG architecture)</span></li>
                 <li><span class="zh">结果推送到会议聊天窗口或侧边栏</span><span class="en">Results pushed to meeting chat window or sidebar</span></li>
               </ul>
             </div>
           </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">为什么合并</span><span class="en">Why Combined</span></div>
+            <div class="detail-content">
+              <span class="zh">异步和实时本质上都是"基于领导画像的AI助手"，只是应用场景不同。共享同一套问题模型和数据架构，统一开发更高效。</span>
+              <span class="en">Async and real-time are essentially the same "leader profile-based AI assistant" in different scenarios. They share the same question models and data architecture—unified development is more efficient.</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Project 6 -->
+    <!-- Project 04: Critical Data Integration (same as old 6) -->
     <div class="project-card phase-mid" onclick="toggleCard(this)">
       <div class="card-top">
-        <div class="card-num"><span class="zh">项目 06</span><span class="en">Project 06</span></div>
-        <div class="card-title"><span class="zh">部分数据库打通 + 局部自动化</span><span class="en">Partial Data Integration + Local Automation</span></div>
+        <div class="card-num"><span class="zh">项目 04</span><span class="en">Project 04</span></div>
+        <div class="card-title"><span class="zh">关键数据打通</span><span class="en">Critical Data Integration</span></div>
         <div class="card-summary">
           <span class="zh">不需要等全部数据库就绪。先打通最关键的2-3个数据库（良率数据+defect map+process spec），让AI在这个子集上开始自动分析、生成报告。</span>
           <span class="en">No need to wait for all databases. First integrate the 2-3 most critical databases (yield data + defect map + process spec), enabling AI to automatically run analyses and generate reports on this subset.</span>
@@ -863,19 +801,19 @@
 <section id="long-term" class="fade-up">
   <div class="section-head">
     <span class="section-tag tag-long"><span class="zh">长期</span><span class="en">Long-term</span></span>
-    <h2><span class="zh">全数据打通 + AI 自我优化</span><span class="en">Full Data Integration + AI Self-Optimization</span></h2>
+    <h2><span class="zh">AI 自我优化</span><span class="en">AI Self-Optimization</span></h2>
     <span class="timeline-label">18+ <span class="zh">个月</span><span class="en">Months</span></span>
   </div>
 
   <div class="card-grid">
-    <!-- Project 7 -->
+    <!-- Project 05: Full Data Intelligence Platform (merged old 7+8) -->
     <div class="project-card phase-long" onclick="toggleCard(this)">
       <div class="card-top">
-        <div class="card-num"><span class="zh">项目 07</span><span class="en">Project 07</span></div>
-        <div class="card-title"><span class="zh">全数据库打通 + Single Source of Truth</span><span class="en">Full Database Integration + Single Source of Truth</span></div>
+        <div class="card-num"><span class="zh">项目 05</span><span class="en">Project 05</span></div>
+        <div class="card-title"><span class="zh">全数据智能平台</span><span class="en">Full Data Intelligence Platform</span></div>
         <div class="card-summary">
-          <span class="zh">所有数据库AI可读、可访问。建立确定性的数据源，Spec零模糊、零矛盾。这是地基——短期开始建，长期才能完成。</span>
-          <span class="en">All databases AI-readable and accessible. Establish deterministic data sources with zero ambiguity, zero contradictions in specs. This is the foundation—start building short-term, complete long-term.</span>
+          <span class="zh">两个层面同步推进：基础层实现全数据库打通和Single Source of Truth（Spec零模糊、零矛盾）；智能层让AI自动诊断、提出方案、验证、持续学习。这是同一个终极目标的不同层面。</span>
+          <span class="en">Two layers in parallel: the foundation layer achieves full database integration and Single Source of Truth (zero ambiguity in specs); the intelligence layer enables AI to auto-diagnose, propose solutions, verify, and continuously learn. These are different facets of the same ultimate goal.</span>
         </div>
       </div>
       <div class="card-toggle">
@@ -885,52 +823,32 @@
       <div class="card-detail">
         <div class="detail-inner">
           <div class="detail-section">
-            <div class="detail-label"><span class="zh">为什么是底线</span><span class="en">Why It's Foundational</span></div>
+            <div class="detail-label"><span class="zh">基础层：全数据打通 + SSOT</span><span class="en">Foundation Layer: Full Data + SSOT</span></div>
             <div class="detail-content">
               <span class="zh">半导体行业中，工艺规格（Spec）是不可有错误、不可有模糊地带的。如果一个参数在A系统里写的是5nm±0.2，在B系统里写的是5nm±0.15，AI就无法做出正确判断。全数据打通的核心不只是"连起来"，而是"统一且准确"。</span>
               <span class="en">In the semiconductor industry, process specs cannot have errors or ambiguity. If a parameter reads 5nm±0.2 in system A and 5nm±0.15 in system B, AI cannot make correct judgments. The core of full data integration is not just "connecting" but "unified and accurate."</span>
             </div>
-          </div>
-          <div class="detail-section">
-            <div class="detail-label"><span class="zh">关键里程碑</span><span class="en">Key Milestones</span></div>
-            <div class="detail-content">
-              <ul>
-                <li><span class="zh">数据源清单梳理与优先级排序</span><span class="en">Data source inventory and prioritization</span></li>
-                <li><span class="zh">统一数据模型与API标准定义</span><span class="en">Unified data model and API standard definition</span></li>
-                <li><span class="zh">冲突检测与自动修复机制</span><span class="en">Conflict detection and auto-resolution mechanisms</span></li>
-                <li><span class="zh">数据质量监控Dashboard</span><span class="en">Data quality monitoring dashboard</span></li>
-              </ul>
+            <div class="detail-content" style="margin-top:0.5rem">
+              <span class="zh">关键里程碑：数据源清单梳理与优先级排序 → 统一数据模型与API标准定义 → 冲突检测与自动修复机制 → 数据质量监控Dashboard。</span>
+              <span class="en">Key milestones: data source inventory and prioritization → unified data model and API standard definition → conflict detection and auto-resolution → data quality monitoring dashboard.</span>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Project 8 -->
-    <div class="project-card phase-long" onclick="toggleCard(this)">
-      <div class="card-top">
-        <div class="card-num"><span class="zh">项目 08</span><span class="en">Project 08</span></div>
-        <div class="card-title"><span class="zh">AI 自动解决问题 + 自我优化</span><span class="en">AI Auto-Solves Problems + Self-Optimizes</span></div>
-        <div class="card-summary">
-          <span class="zh">AI不仅回答"良率为什么低"，而是提出解决方案、验证可行性，并从历史数据中持续学习、自动优化分析模型。最终形态：数据流和决策链的全自动优化。</span>
-          <span class="en">AI doesn't just answer "why is yield low"—it proposes solutions, verifies feasibility, and continuously learns from historical data to auto-optimize analysis models. End state: fully automated data flow and decision chain optimization.</span>
-        </div>
-      </div>
-      <div class="card-toggle">
-        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
-        <span class="arrow">▼</span>
-      </div>
-      <div class="card-detail">
-        <div class="detail-inner">
           <div class="detail-section">
-            <div class="detail-label"><span class="zh">能力层级</span><span class="en">Capability Levels</span></div>
+            <div class="detail-label"><span class="zh">智能层：AI 自我优化闭环</span><span class="en">Intelligence Layer: AI Self-Optimization Loop</span></div>
             <div class="detail-content">
               <ul>
-                <li><span class="zh"><strong>诊断层：</strong>自动定位问题根因（基于历史pattern匹配+因果推理）</span><span class="en"><strong>Diagnosis:</strong> Auto-identify root causes (based on historical pattern matching + causal reasoning)</span></li>
+                <li><span class="zh"><strong>诊断层：</strong>自动定位问题根因（基于历史pattern匹配+因果推理）</span><span class="en"><strong>Diagnosis:</strong> Auto-identify root causes (historical pattern matching + causal reasoning)</span></li>
                 <li><span class="zh"><strong>方案层：</strong>生成多个候选解决方案，评估可行性和风险</span><span class="en"><strong>Solution:</strong> Generate multiple candidate solutions, assess feasibility and risk</span></li>
                 <li><span class="zh"><strong>验证层：</strong>通过模拟或小规模实验验证方案有效性</span><span class="en"><strong>Verification:</strong> Validate solution effectiveness through simulation or small-scale experiments</span></li>
                 <li><span class="zh"><strong>学习层：</strong>将成功/失败案例纳入知识库，持续优化</span><span class="en"><strong>Learning:</strong> Incorporate success/failure cases into knowledge base for continuous optimization</span></li>
               </ul>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">为什么合并</span><span class="en">Why Combined</span></div>
+            <div class="detail-content">
+              <span class="zh">数据打通和AI优化是同一个终极目标的两个层面。没有统一准确的数据，AI无法做出正确判断；没有AI优化，数据打通只是"连起来"而不能"用起来"。两者必须同步推进。</span>
+              <span class="en">Data integration and AI optimization are two layers of the same ultimate goal. Without unified, accurate data, AI cannot make correct judgments; without AI optimization, data integration is just "connected" but not "usable." Both must advance in tandem.</span>
             </div>
           </div>
         </div>
@@ -942,18 +860,18 @@
 <!-- ========== DIGITAL TWIN ========== -->
 <section id="digital-twin" class="fade-up">
   <div class="section-head">
-    <span class="section-tag tag-twin"><span class="zh">个人维度</span><span class="en">Personal</span></span>
+    <span class="section-tag tag-twin"><span class="zh">独立项目</span><span class="en">Standalone</span></span>
     <h2><span class="zh">数字分身（Digital Twin）</span><span class="en">Digital Twin</span></h2>
   </div>
 
   <div class="card-grid">
     <div class="project-card phase-twin" onclick="toggleCard(this)">
       <div class="card-top">
-        <div class="card-num"><span class="zh">特别项目</span><span class="en">Special Project</span></div>
+        <div class="card-num"><span class="zh">项目 06</span><span class="en">Project 06</span></div>
         <div class="card-title"><span class="zh">个人数字分身</span><span class="en">Personal Digital Twin</span></div>
         <div class="card-summary">
           <span class="zh">录制员工的鼠标、键盘和屏幕操作，AI分析工作方式，学习使用者的思考模式和工作方法。目标：AI至少可以达到使用者本人的能力水平。</span>
-          <span class="en">Record employees' mouse, keyboard, and screen operations. AI analyzes work patterns, learning the user's thinking mode and work methods. Goal: AI reaches at least the user's own capability level.</span>
+          <span class="en">Record mouse, keyboard, and screen operations; AI analyzes work patterns and learns the user's thinking and working methods. Goal: AI can match the user's own capability level.</span>
         </div>
       </div>
       <div class="card-toggle">
@@ -963,26 +881,19 @@
       <div class="card-detail">
         <div class="detail-inner">
           <div class="detail-section">
-            <div class="detail-label"><span class="zh">两种模式</span><span class="en">Two Modes</span></div>
+            <div class="detail-label"><span class="zh">两种部署模式</span><span class="en">Two Deployment Modes</span></div>
             <div class="detail-content">
               <ul>
-                <li><span class="zh"><strong>个人版：</strong>自己录制自己的操作，AI学习复制自己，不分享给他人。隐私完全可控。最可行的起步点。</span><span class="en"><strong>Personal:</strong> Self-record your own operations, AI learns to replicate you, not shared with others. Privacy fully controlled. Most viable starting point.</span></li>
-                <li><span class="zh"><strong>公司版：</strong>组织层面的工作方式分析和最佳实践提取。需要完善的合规框架和员工同意机制。</span><span class="en"><strong>Enterprise:</strong> Organization-level work pattern analysis and best practice extraction. Requires comprehensive compliance framework and employee consent mechanisms.</span></li>
+                <li><span class="zh"><strong>个人版（推荐先行）：</strong>自己录制、AI复制自己、不分享。无隐私争议，个人自主决策。AI的目标不是学习别人的能力，而是复制自己的能力。</span><span class="en"><strong>Personal Edition (recommended first):</strong> Self-record, AI replicates yourself, no sharing. No privacy controversy, individual autonomy. AI's goal is not to learn others' capabilities but to replicate your own.</span></li>
+                <li><span class="zh"><strong>企业版（长期）：</strong>公司层面分析员工行为、提取方法论。需要解决隐私、合规和文化接受度问题。</span><span class="en"><strong>Enterprise Edition (long-term):</strong> Company-level behavioral analysis and methodology extraction. Requires addressing privacy, compliance, and cultural acceptance.</span></li>
               </ul>
             </div>
           </div>
           <div class="detail-section">
-            <div class="detail-label"><span class="zh">核心理念</span><span class="en">Core Philosophy</span></div>
+            <div class="detail-label"><span class="zh">核心洞察</span><span class="en">Core Insight</span></div>
             <div class="detail-content">
-              <span class="zh">AI的能力不必追求超越所有人，而是首先达到使用者本人的能力水平。这听起来门槛不高，但想象一下：如果你的数字分身可以24/7以你的方式处理工作，你的效率就倍增了。这是最务实、最可落地的AI应用方向。</span>
-              <span class="en">AI capability need not pursue surpassing everyone—first reach the user's own level. This may seem like a low bar, but imagine: if your digital twin can handle work your way 24/7, your efficiency doubles. This is the most pragmatic, actionable AI application direction.</span>
-            </div>
-          </div>
-          <div class="detail-section">
-            <div class="detail-label"><span class="zh">隐私考量</span><span class="en">Privacy Considerations</span></div>
-            <div class="detail-content">
-              <span class="zh">公司层面分析员工工作方式涉及隐私问题。但个人为自己的数字分身录制数据，不分享给任何人，则不存在隐私侵犯。建议从个人版开始推广，先证明价值，再逐步探索公司级应用。</span>
-              <span class="en">Company-level analysis of employee work patterns involves privacy concerns. But personal recording for one's own digital twin, not shared with anyone, involves no privacy infringement. Recommend starting with personal edition, proving value first, then gradually exploring enterprise applications.</span>
+              <span class="zh">AI的能力至少可以达到使用者本人的水平——而不是去学习别人的能力。个人数字分身是最可行的起步点：无需等待公司级基础设施，个人即可开始验证。</span>
+              <span class="en">AI's capability can at least match the user's own level—not learning from others. The personal digital twin is the most feasible starting point: no need to wait for company infrastructure; individuals can begin validating immediately.</span>
             </div>
           </div>
         </div>
@@ -991,11 +902,11 @@
   </div>
 </section>
 
-<!-- ========== FEASIBILITY REPORTS ========== -->
-<section id="feasibility" class="feasibility-section fade-up">
+<!-- ========== FEASIBILITY ========== -->
+<section id="feasibility" class="fade-up">
   <div class="section-head">
     <span class="section-tag tag-short"><span class="zh">可行性</span><span class="en">Feasibility</span></span>
-    <h2><span class="zh">最小可行性报告</span><span class="en">Minimum Viability Reports</span></h2>
+    <h2><span class="zh">最小可行性报告</span><span class="en">Minimum Viability Report</span></h2>
   </div>
 
   <!-- Cost Summary Table -->
@@ -1006,69 +917,48 @@
           <th><span class="zh">项目</span><span class="en">Project</span></th>
           <th><span class="zh">阶段</span><span class="en">Phase</span></th>
           <th><span class="zh">预估成本</span><span class="en">Est. Cost</span></th>
-          <th><span class="zh">周期</span><span class="en">Timeline</span></th>
+          <th><span class="zh">周期</span><span class="en">Duration</span></th>
           <th><span class="zh">风险</span><span class="en">Risk</span></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><span class="zh">01 领导问题画像</span><span class="en">01 Leader Question Profile</span></td>
+          <td><span class="zh">01 知识提取引擎</span><span class="en">01 Knowledge Extraction</span></td>
           <td><span class="zh">短期</span><span class="en">Short</span></td>
-          <td class="feas-cost">$50K-100K</td>
-          <td>2-4 <span class="zh">个月</span><span class="en">months</span></td>
+          <td class="feas-cost">$100K-200K</td>
+          <td>2-6 <span class="zh">个月</span><span class="en">months</span></td>
           <td><span class="feas-risk risk-low"><span class="zh">低</span><span class="en">Low</span></span></td>
         </tr>
         <tr>
-          <td><span class="zh">02 优秀员工问题提取</span><span class="en">02 Best Performer Mining</span></td>
-          <td><span class="zh">短期</span><span class="en">Short</span></td>
-          <td class="feas-cost">$80K-150K</td>
-          <td>3-6 <span class="zh">个月</span><span class="en">months</span></td>
-          <td><span class="feas-risk risk-low"><span class="zh">低</span><span class="en">Low</span></span></td>
-        </tr>
-        <tr>
-          <td><span class="zh">03 AI预答系统</span><span class="en">03 Pre-Answer Engine</span></td>
+          <td><span class="zh">02 AI预答系统</span><span class="en">02 Pre-Answer Engine</span></td>
           <td><span class="zh">短期</span><span class="en">Short</span></td>
           <td class="feas-cost">$100K-200K</td>
           <td>4-6 <span class="zh">个月</span><span class="en">months</span></td>
           <td><span class="feas-risk risk-mid"><span class="zh">中</span><span class="en">Med</span></span></td>
         </tr>
         <tr>
-          <td><span class="zh">04 领导者数字分身</span><span class="en">04 Leader Digital Avatar</span></td>
+          <td><span class="zh">03 AI智能助手</span><span class="en">03 AI Intelligent Assistant</span></td>
           <td><span class="zh">中期</span><span class="en">Mid</span></td>
-          <td class="feas-cost">$200K-500K</td>
-          <td>8-12 <span class="zh">个月</span><span class="en">months</span></td>
+          <td class="feas-cost">$300K-800K</td>
+          <td>8-14 <span class="zh">个月</span><span class="en">months</span></td>
           <td><span class="feas-risk risk-mid"><span class="zh">中</span><span class="en">Med</span></span></td>
         </tr>
         <tr>
-          <td><span class="zh">05 会议实时助手</span><span class="en">05 Meeting Copilot</span></td>
-          <td><span class="zh">中期</span><span class="en">Mid</span></td>
-          <td class="feas-cost">$300K-600K</td>
-          <td>10-14 <span class="zh">个月</span><span class="en">months</span></td>
-          <td><span class="feas-risk risk-mid"><span class="zh">中</span><span class="en">Med</span></span></td>
-        </tr>
-        <tr>
-          <td><span class="zh">06 局部数据库打通</span><span class="en">06 Partial Data Integration</span></td>
+          <td><span class="zh">04 关键数据打通</span><span class="en">04 Critical Data Integration</span></td>
           <td><span class="zh">中期</span><span class="en">Mid</span></td>
           <td class="feas-cost">$500K-1M</td>
           <td>12-18 <span class="zh">个月</span><span class="en">months</span></td>
           <td><span class="feas-risk risk-mid"><span class="zh">中</span><span class="en">Med</span></span></td>
         </tr>
         <tr>
-          <td><span class="zh">07 全数据打通 + SSOT</span><span class="en">07 Full Data + SSOT</span></td>
+          <td><span class="zh">05 全数据智能平台</span><span class="en">05 Full Data Intelligence</span></td>
           <td><span class="zh">长期</span><span class="en">Long</span></td>
-          <td class="feas-cost">$2M-8M</td>
-          <td>18-36 <span class="zh">个月</span><span class="en">months</span></td>
+          <td class="feas-cost">$5M-15M+</td>
+          <td>18-48 <span class="zh">个月</span><span class="en">months</span></td>
           <td><span class="feas-risk risk-high"><span class="zh">高</span><span class="en">High</span></span></td>
         </tr>
         <tr>
-          <td><span class="zh">08 AI自我优化</span><span class="en">08 AI Self-Optimization</span></td>
-          <td><span class="zh">长期</span><span class="en">Long</span></td>
-          <td class="feas-cost">$3M-10M+</td>
-          <td>24-48 <span class="zh">个月</span><span class="en">months</span></td>
-          <td><span class="feas-risk risk-high"><span class="zh">高</span><span class="en">High</span></span></td>
-        </tr>
-        <tr>
-          <td><span class="zh">数字分身（个人版）</span><span class="en">Digital Twin (Personal)</span></td>
+          <td><span class="zh">06 个人数字分身</span><span class="en">06 Personal Digital Twin</span></td>
           <td><span class="zh">独立</span><span class="en">Standalone</span></td>
           <td class="feas-cost">$5K-20K/<span class="zh">人</span><span class="en">person</span></td>
           <td>1-3 <span class="zh">个月</span><span class="en">months</span></td>
@@ -1080,23 +970,23 @@
 
   <!-- Detailed Feasibility Cards -->
   <div class="feas-grid">
-    <!-- Feas 1 -->
+    <!-- Feas 01 -->
     <div class="feas-card">
       <div class="feas-head">
         <div class="feas-num num-short">01</div>
-        <div class="feas-name"><span class="zh">领导问题画像</span><span class="en">Leader Question Profile</span></div>
+        <div class="feas-name"><span class="zh">知识提取引擎</span><span class="en">Knowledge Extraction</span></div>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
-        <span class="feas-value"><span class="zh">1-2名AI工程师 + 邮件/会议数据访问权限</span><span class="en">1-2 AI engineers + email/meeting data access</span></span>
+        <span class="feas-value"><span class="zh">2-3名AI工程师 + 邮件/会议数据访问权限 + 5-10名优秀员工参与</span><span class="en">2-3 AI engineers + email/meeting data access + 5-10 top performers</span></span>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
-        <span class="feas-value feas-cost">$50K-100K</span>
+        <span class="feas-value feas-cost">$100K-200K</span>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
-        <span class="feas-value"><span class="zh">M365 Copilot API + LLM（GPT-4级别）</span><span class="en">M365 Copilot API + LLM (GPT-4 level)</span></span>
+        <span class="feas-value"><span class="zh">M365 Copilot API + LLM + 结构化访谈工具</span><span class="en">M365 Copilot API + LLM + structured interview tools</span></span>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
@@ -1104,42 +994,14 @@
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
-        <span class="feas-value"><span class="zh">选1-2位领导试点，收集3个月会议数据</span><span class="en">Pilot with 1-2 leaders, collect 3 months of meeting data</span></span>
+        <span class="feas-value"><span class="zh">选2-3位领导+3-5名优秀工程师试点，收集数据</span><span class="en">Pilot with 2-3 leaders + 3-5 top performers, collect data</span></span>
       </div>
     </div>
 
-    <!-- Feas 2 -->
+    <!-- Feas 02 -->
     <div class="feas-card">
       <div class="feas-head">
         <div class="feas-num num-short">02</div>
-        <div class="feas-name"><span class="zh">优秀员工问题提取</span><span class="en">Best Performer Mining</span></div>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
-        <span class="feas-value"><span class="zh">1名AI工程师 + 5-10名优秀员工参与</span><span class="en">1 AI engineer + 5-10 top performers</span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
-        <span class="feas-value feas-cost">$80K-150K</span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
-        <span class="feas-value"><span class="zh">LLM + 结构化访谈/工作日志采集工具</span><span class="en">LLM + structured interview/work log collection tools</span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
-        <span class="feas-value"><span class="feas-risk risk-low"><span class="zh">低</span><span class="en">Low</span></span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
-        <span class="feas-value"><span class="zh">选定3-5名志愿者，记录2周工作思考过程</span><span class="en">Select 3-5 volunteers, document 2 weeks of thinking process</span></span>
-      </div>
-    </div>
-
-    <!-- Feas 3 -->
-    <div class="feas-card">
-      <div class="feas-head">
-        <div class="feas-num num-short">03</div>
         <div class="feas-name"><span class="zh">AI 预答系统</span><span class="en">Pre-Answer Engine</span></div>
       </div>
       <div class="feas-row">
@@ -1152,7 +1014,7 @@
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
-        <span class="feas-value"><span class="zh">项目1+2产出 + RAG + 内部搜索API</span><span class="en">Project 1+2 output + RAG + internal search API</span></span>
+        <span class="feas-value"><span class="zh">项目01产出 + RAG + 内部搜索API</span><span class="en">Project 01 output + RAG + internal search API</span></span>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
@@ -1160,71 +1022,43 @@
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
-        <span class="feas-value"><span class="zh">基于项目1结果，搭建RAG原型系统</span><span class="en">Build RAG prototype based on Project 1 results</span></span>
+        <span class="feas-value"><span class="zh">基于项目01结果，搭建RAG原型系统</span><span class="en">Build RAG prototype based on Project 01 results</span></span>
       </div>
     </div>
 
-    <!-- Feas 4 -->
+    <!-- Feas 03 -->
+    <div class="feas-card">
+      <div class="feas-head">
+        <div class="feas-num num-mid">03</div>
+        <div class="feas-name"><span class="zh">AI 智能助手</span><span class="en">AI Intelligent Assistant</span></div>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
+        <span class="feas-value"><span class="zh">3-5名工程师 + UX设计师 + 实时基础设施</span><span class="en">3-5 engineers + UX designer + real-time infrastructure</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
+        <span class="feas-value feas-cost">$300K-800K</span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
+        <span class="feas-value"><span class="zh">项目01深度产出 + Agent框架 + 语音转写 + RAG</span><span class="en">Deep Project 01 output + Agent framework + speech-to-text + RAG</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
+        <span class="feas-value"><span class="feas-risk risk-mid"><span class="zh">中 — 需验证AI提问质量 + 延迟和数据安全</span><span class="en">Med — AI question quality + latency and data security</span></span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
+        <span class="feas-value"><span class="zh">选1位领导画像开发异步MVP，同时用Teams转录API做离线验证</span><span class="en">Select 1 leader profile for async MVP, use Teams transcription API for offline validation</span></span>
+      </div>
+    </div>
+
+    <!-- Feas 04 -->
     <div class="feas-card">
       <div class="feas-head">
         <div class="feas-num num-mid">04</div>
-        <div class="feas-name"><span class="zh">领导者数字分身</span><span class="en">Leader Digital Avatar</span></div>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
-        <span class="feas-value"><span class="zh">2-3名AI工程师 + UX设计师</span><span class="en">2-3 AI engineers + UX designer</span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
-        <span class="feas-value feas-cost">$200K-500K</span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
-        <span class="feas-value"><span class="zh">项目1深度产出 + Agent框架</span><span class="en">Deep Project 1 output + Agent framework</span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
-        <span class="feas-value"><span class="feas-risk risk-mid"><span class="zh">中 — 需验证AI提问质量</span><span class="en">Med — need to validate AI question quality</span></span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
-        <span class="feas-value"><span class="zh">选1位领导的画像，开发MVP对话式agent</span><span class="en">Select 1 leader's profile, develop conversational agent MVP</span></span>
-      </div>
-    </div>
-
-    <!-- Feas 5 -->
-    <div class="feas-card">
-      <div class="feas-head">
-        <div class="feas-num num-mid">05</div>
-        <div class="feas-name"><span class="zh">会议实时助手</span><span class="en">Meeting Copilot</span></div>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
-        <span class="feas-value"><span class="zh">3-4名工程师 + 实时基础设施</span><span class="en">3-4 engineers + real-time infrastructure</span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
-        <span class="feas-value feas-cost">$300K-600K</span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
-        <span class="feas-value"><span class="zh">语音转写 + RAG + 实时推送架构</span><span class="en">Speech transcription + RAG + real-time push</span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
-        <span class="feas-value"><span class="feas-risk risk-mid"><span class="zh">中 — 延迟和数据安全要求</span><span class="en">Med — latency and data security</span></span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
-        <span class="feas-value"><span class="zh">利用Teams转录API，做离线版本先验证</span><span class="en">Use Teams transcription API, validate with offline version first</span></span>
-      </div>
-    </div>
-
-    <!-- Feas 6 -->
-    <div class="feas-card">
-      <div class="feas-head">
-        <div class="feas-num num-mid">06</div>
-        <div class="feas-name"><span class="zh">部分数据库打通</span><span class="en">Partial Data Integration</span></div>
+        <div class="feas-name"><span class="zh">关键数据打通</span><span class="en">Critical Data Integration</span></div>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
@@ -1248,66 +1082,38 @@
       </div>
     </div>
 
-    <!-- Feas 7 -->
+    <!-- Feas 05 -->
     <div class="feas-card">
       <div class="feas-head">
-        <div class="feas-num num-long">07</div>
-        <div class="feas-name"><span class="zh">全数据打通 + SSOT</span><span class="en">Full Data + SSOT</span></div>
+        <div class="feas-num num-long">05</div>
+        <div class="feas-name"><span class="zh">全数据智能平台</span><span class="en">Full Data Intelligence</span></div>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
-        <span class="feas-value"><span class="zh">专职团队10+人（数据+平台+治理）</span><span class="en">Dedicated team 10+ (data + platform + governance)</span></span>
+        <span class="feas-value"><span class="zh">专职团队15+人（数据+平台+治理+ML）</span><span class="en">Dedicated team 15+ (data + platform + governance + ML)</span></span>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
-        <span class="feas-value feas-cost">$2M-8M</span>
+        <span class="feas-value feas-cost">$5M-15M+</span>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
-        <span class="feas-value"><span class="zh">企业数据平台 + 治理框架 + API标准</span><span class="en">Enterprise data platform + governance + API standards</span></span>
+        <span class="feas-value"><span class="zh">项目04扩展 + 企业数据平台 + 模型微调基础设施 + 反馈闭环</span><span class="en">Project 04 expansion + enterprise data platform + model fine-tuning infra + feedback loop</span></span>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
-        <span class="feas-value"><span class="feas-risk risk-high"><span class="zh">高 — 组织阻力+预算+优先级</span><span class="en">High — org resistance + budget + priority</span></span></span>
+        <span class="feas-value"><span class="feas-risk risk-high"><span class="zh">高 — 组织阻力+预算+技术成熟度</span><span class="en">High — org resistance + budget + tech maturity</span></span></span>
       </div>
       <div class="feas-row">
         <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
-        <span class="feas-value"><span class="zh">从项目6扩展，逐步接入更多数据源</span><span class="en">Expand from Project 6, gradually connect more sources</span></span>
+        <span class="feas-value"><span class="zh">从项目04扩展更多数据源，建立"AI决策→人工审核→反馈"闭环</span><span class="en">Expand from Project 04 to more sources, build "AI decision → human review → feedback" loop</span></span>
       </div>
     </div>
 
-    <!-- Feas 8 -->
+    <!-- Feas 06 Digital Twin -->
     <div class="feas-card">
       <div class="feas-head">
-        <div class="feas-num num-long">08</div>
-        <div class="feas-name"><span class="zh">AI 自我优化</span><span class="en">AI Self-Optimization</span></div>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
-        <span class="feas-value"><span class="zh">ML团队5+人 + 领域专家持续输入</span><span class="en">ML team 5+ + continuous domain expert input</span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
-        <span class="feas-value feas-cost">$3M-10M+</span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
-        <span class="feas-value"><span class="zh">项目7产出 + 模型微调基础设施 + 反馈闭环</span><span class="en">Project 7 output + model fine-tuning infra + feedback loop</span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
-        <span class="feas-value"><span class="feas-risk risk-high"><span class="zh">高 — 技术成熟度+可靠性验证</span><span class="en">High — tech maturity + reliability verification</span></span></span>
-      </div>
-      <div class="feas-row">
-        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
-        <span class="feas-value"><span class="zh">建立"AI决策→人工审核→反馈"的闭环</span><span class="en">Build "AI decision → human review → feedback" loop</span></span>
-      </div>
-    </div>
-
-    <!-- Feas Digital Twin -->
-    <div class="feas-card">
-      <div class="feas-head">
-        <div class="feas-num num-twin">DT</div>
+        <div class="feas-num num-twin">06</div>
         <div class="feas-name"><span class="zh">个人数字分身</span><span class="en">Personal Digital Twin</span></div>
       </div>
       <div class="feas-row">
@@ -1362,36 +1168,36 @@
     <div class="road-item r-short">
       <div class="road-phase"><span class="zh">第 1-3 个月 · 启动</span><span class="en">Month 1-3 · Launch</span></div>
       <div class="road-text">
-        <span class="zh">启动<strong>项目01（领导问题画像）</strong>试点：选定2-3位领导，收集邮件和3个月会议数据，建立第一批"问题指纹"。同时启动<strong>项目02（优秀员工问题提取）</strong>：招募5名优秀工程师志愿者，记录工作思考过程。数字分身个人版可同步启动概念验证。</span>
-        <span class="en">Launch <strong>Project 01 (Leader Question Profile)</strong> pilot: select 2-3 leaders, collect email and 3 months of meeting data, build the first batch of "question fingerprints." Simultaneously start <strong>Project 02 (Best Performer Mining)</strong>: recruit 5 top performer volunteers to document their thinking processes. Digital Twin personal edition proof-of-concept can start in parallel.</span>
+        <span class="zh">启动<strong>项目01（知识提取引擎）</strong>试点：选定2-3位领导收集邮件和会议数据建立"问题指纹"，同时招募5名优秀工程师志愿者记录工作思考过程。数字分身<strong>项目06</strong>可同步启动个人版概念验证。</span>
+        <span class="en">Launch <strong>Project 01 (Knowledge Extraction Engine)</strong> pilot: select 2-3 leaders to collect email and meeting data for "question fingerprints," while recruiting 5 top performer volunteers to document thinking processes. <strong>Project 06</strong> Digital Twin personal proof-of-concept can start in parallel.</span>
       </div>
     </div>
     <div class="road-item r-short">
       <div class="road-phase"><span class="zh">第 3-6 个月 · 验证</span><span class="en">Month 3-6 · Validate</span></div>
       <div class="road-text">
-        <span class="zh">基于项目01和02的产出，构建<strong>项目03（AI预答系统）</strong>的MVP。向团队展示早期成果：领导看到自己的"问题指纹"，工程师看到预生成的答案。收集反馈，迭代优化。开始规划<strong>项目06</strong>的第一个数据源打通（良率数据API化）。</span>
-        <span class="en">Based on Project 01 and 02 outputs, build <strong>Project 03 (Pre-Answer Engine)</strong> MVP. Show early results to the team: leaders see their "question fingerprints," engineers see pre-generated answers. Collect feedback, iterate. Start planning <strong>Project 06</strong>'s first data source integration (yield data API-enablement).</span>
+        <span class="zh">基于项目01的产出，构建<strong>项目02（AI预答系统）</strong>的MVP。向团队展示早期成果：领导看到自己的"问题指纹"，工程师看到预生成的答案。收集反馈，迭代优化。开始规划<strong>项目04</strong>的第一个数据源打通。</span>
+        <span class="en">Based on Project 01 outputs, build <strong>Project 02 (Pre-Answer Engine)</strong> MVP. Show early results to the team: leaders see their "question fingerprints," engineers see pre-generated answers. Collect feedback, iterate. Start planning <strong>Project 04</strong>'s first data source integration.</span>
       </div>
     </div>
     <div class="road-item r-mid">
       <div class="road-phase"><span class="zh">第 6-12 个月 · 扩展</span><span class="en">Month 6-12 · Scale</span></div>
       <div class="road-text">
-        <span class="zh">将短期项目推广到更多领导者和团队。启动<strong>项目04（领导者数字分身）</strong>MVP开发。推进<strong>项目06</strong>，打通2-3个关键数据库。开始<strong>项目05（会议实时助手）</strong>的原型开发，利用Teams转录API做离线验证。</span>
-        <span class="en">Scale short-term projects to more leaders and teams. Start <strong>Project 04 (Leader Digital Avatar)</strong> MVP development. Advance <strong>Project 06</strong>, integrating 2-3 key databases. Begin <strong>Project 05 (Meeting Copilot)</strong> prototype development, using Teams transcription API for offline validation.</span>
+        <span class="zh">将短期项目推广到更多领导者和团队。启动<strong>项目03（AI智能助手）</strong>MVP开发：先上线异步导师模式，再扩展会议实时助手。推进<strong>项目04</strong>，打通2-3个关键数据库。</span>
+        <span class="en">Scale short-term projects to more leaders and teams. Start <strong>Project 03 (AI Intelligent Assistant)</strong> MVP: launch async mentor mode first, then expand to Meeting Copilot. Advance <strong>Project 04</strong>, integrating 2-3 key databases.</span>
       </div>
     </div>
     <div class="road-item r-mid">
       <div class="road-phase"><span class="zh">第 12-18 个月 · 深化</span><span class="en">Month 12-18 · Deepen</span></div>
       <div class="road-text">
-        <span class="zh">项目05上线试运行，项目06进入第二阶段（接入更多数据源）。项目04全面推广。开始规划<strong>项目07（全数据打通）</strong>的企业级数据治理方案。建立AI决策审核机制，为项目08做准备。</span>
-        <span class="en">Project 05 goes live in trial, Project 06 enters phase 2 (more data sources). Project 04 scales organization-wide. Begin planning <strong>Project 07 (Full Data Integration)</strong> enterprise data governance. Establish AI decision review mechanisms, preparing for Project 08.</span>
+        <span class="zh">项目03全面推广（异步+实时双模式运行）。项目04进入第二阶段，接入更多数据源。开始规划<strong>项目05（全数据智能平台）</strong>的企业级数据治理方案和AI自优化闭环。</span>
+        <span class="en">Project 03 scales organization-wide (async + real-time dual mode). Project 04 enters phase 2 with more data sources. Begin planning <strong>Project 05 (Full Data Intelligence Platform)</strong> enterprise data governance and AI self-optimization loop.</span>
       </div>
     </div>
     <div class="road-item r-long">
       <div class="road-phase"><span class="zh">第 18-36 个月 · 变革</span><span class="en">Month 18-36 · Transform</span></div>
       <div class="road-text">
-        <span class="zh">全面推进<strong>项目07（全数据打通+SSOT）</strong>。在数据基础完善的前提下，启动<strong>项目08（AI自我优化）</strong>的闭环系统建设。个人数字分身从实验转向规模化部署。最终形态：AI成为研发基础设施的核心组件，实现数据流和决策链的全自动优化。</span>
-        <span class="en">Fully advance <strong>Project 07 (Full Data + SSOT)</strong>. With solid data foundations, launch <strong>Project 08 (AI Self-Optimization)</strong> closed-loop system. Personal Digital Twins move from experiment to scaled deployment. End state: AI becomes a core component of R&amp;D infrastructure, achieving fully automated data flow and decision chain optimization.</span>
+        <span class="zh">全面推进<strong>项目05</strong>：基础层完成全数据打通和SSOT，智能层建立AI自动诊断→提出方案→验证→持续学习的闭环。个人数字分身从实验转向规模化部署。最终形态：AI成为研发基础设施的核心组件。</span>
+        <span class="en">Fully advance <strong>Project 05</strong>: foundation layer completes full data integration and SSOT, intelligence layer builds AI auto-diagnose → propose solutions → verify → continuously learn loop. Personal Digital Twins move from experiment to scaled deployment. End state: AI becomes a core component of R&amp;D infrastructure.</span>
       </div>
     </div>
   </div>
