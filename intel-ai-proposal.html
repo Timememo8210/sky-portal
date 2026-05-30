@@ -340,7 +340,11 @@ body{font-family:var(--font);background:var(--light-bg);color:var(--text-dark);l
       <h3 data-zh="AI驱动的Defect检测与分析" data-en="AI-Driven Defect Inspection & Analysis">AI驱动的Defect检测与分析</h3>
       <p data-zh="KLA利用深度学习算法分析wafer defect数据，结合FDC信号和inline量测数据，实现从defect到problem tool的快速traceback，将root cause分析时间从天级缩短到小时级。" data-en="KLA uses deep learning to analyze wafer defect data combined with FDC signals and inline measurements, enabling rapid defect-to-tool traceback and reducing root cause analysis from days to hours.">KLA利用深度学习算法分析wafer defect数据，结合FDC信号和inline量测数据，实现从defect到problem tool的快速traceback，将root cause分析时间从天级缩短到小时级。</p>
       <span class="btag" data-zh="Defect分析 · Deep Learning" data-en="Defect Analysis · Deep Learning">Defect分析 · Deep Learning</span>
-的AI基础设施，包括GPU加速的FDC分析、大规模时序数据建模和digital twin仿真。NVIDIA的cuOpt和NIM微服务为fab调度优化提供实时决策支持。" data-en="Google Cloud and NVIDIA partner to provide AI infrastructure for semiconductor manufacturing, including GPU-accelerated FDC analysis, large-scale time-series modeling, and digital twin simulation. NVIDIA's cuOpt and NIM microservices enable real-time decision support for fab scheduling optimization.">Google Cloud和NVIDIA合作提供面向半导体制造的AI基础设施，包括GPU加速的FDC分析、大规模时序数据建模和digital twin仿真。NVIDIA的cuOpt和NIM微服务为fab调度优化提供实时决策支持。</p>
+    </div>
+    <div class="bcard">
+      <div class="vendor">Google Cloud & NVIDIA</div>
+      <h3 data-zh="GPU加速的AI基础设施" data-en="GPU-Accelerated AI Infrastructure">GPU加速的AI基础设施</h3>
+      <p data-zh="Google Cloud和NVIDIA合作提供面向半导体制造的AI基础设施，包括GPU加速的FDC分析、大规模时序数据建模和digital twin仿真。NVIDIA的cuOpt和NIM微服务为fab调度优化提供实时决策支持。" data-en="Google Cloud and NVIDIA partner to provide AI infrastructure for semiconductor manufacturing, including GPU-accelerated FDC analysis, large-scale time-series modeling, and digital twin simulation. NVIDIA's cuOpt and NIM microservices enable real-time decision support for fab scheduling optimization.">Google Cloud和NVIDIA合作提供面向半导体制造的AI基础设施，包括GPU加速的FDC分析、大规模时序数据建模和digital twin仿真。NVIDIA的cuOpt和NIM微服务为fab调度优化提供实时决策支持。</p>
       <span class="btag" data-zh="GPU加速 · Digital Twin" data-en="GPU Acceleration · Digital Twin">GPU加速 · Digital Twin</span>
     </div>
   </div>
@@ -459,10 +463,10 @@ body{font-family:var(--font);background:var(--light-bg);color:var(--text-dark);l
       <h3><span class="tl" data-zh="步骤 4" data-en="STEP 4">步骤 4</span><span data-zh="全自动化行动" data-en="Fully Automated Actions">全自动化行动</span></h3>
       <p data-zh="在模型足够成熟后，实现全自动化或半自动化的设备行动：自动shutdown、quarantine、PM scheduling和参数tune。工程师从执行者升级为监督者。" data-en="Once models are mature enough, achieve fully automated or semi-automated equipment actions: auto-shutdown, quarantine, PM scheduling, and parameter tuning. Engineers evolve from executors to supervisors.">在模型足够成熟后，实现全自动化或半自动化的设备行动：自动shutdown、quarantine、PM scheduling和参数tune。工程师从执行者升级为监督者。</p>
       <div class="ttags">
-        <span class="ttag">Auto Shutdown</span>
-        <span class="ttag">Auto Quarantine</span>
-        <span class="ttag">Auto PM Scheduling</span>
-        <span class="ttag">Auto Tune</span>
+        <span class="ttag" data-zh="自动停机" data-en="Auto Shutdown">自动停机</span>
+        <span class="ttag" data-zh="自动隔离" data-en="Auto Quarantine">自动隔离</span>
+        <span class="ttag" data-zh="自动PM排程" data-en="Auto PM Scheduling">自动PM排程</span>
+        <span class="ttag" data-zh="自动调参" data-en="Auto Tune">自动调参</span>
       </div>
     </div>
   </div>
@@ -614,8 +618,7 @@ body{font-family:var(--font);background:var(--light-bg);color:var(--text-dark);l
 </div><!-- /main -->
 
 <script>
-// ===== SHA-256 Password Protection =====
-// Password: xiaobo → SHA-256 hash
+// ===== Access Control =====
 async function sha256(msg) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
@@ -628,7 +631,6 @@ const CORRECT_HASH = '7b9f7e4f8e1a3c6d9e2b5a8f1c4d7e0a3b6c9e2f5a8d1e4b7c0a3f6d9e
 const EXPECTED = '6e8f4c2d7a3b9e1f5d4c8b2a6e9f1d3c7a5b8e2f6d4c9a1e7f3b5d8c2a6e4f'; // will be replaced
 
 (async () => {
-  // Compute correct hash for "xiaobo"
   const correctHash = await sha256('xiaobo');
   
   const overlay = document.getElementById('loginOverlay');
