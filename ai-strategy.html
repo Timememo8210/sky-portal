@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Strategy | AI 策略 | Sky Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #0071c5;
+    --blue-light: #00a3e0;
+    --blue-dark: #004a8f;
+    --blue-bg: #e8f4fd;
+    --blue-bg2: #f0f7ff;
+    --green: #00856a;
+    --green-bg: #e6f7f2;
+    --orange: #d4790e;
+    --orange-bg: #fff7e6;
+    --purple: #6b4fa0;
+    --purple-bg: #f3eef9;
+    --red: #c53929;
+    --red-bg: #fce8e6;
+    --ink: #1a1a2e;
+    --text: #333;
+    --text-dim: #666;
+    --text-light: #999;
+    --paper: #f5f7fa;
+    --white: #ffffff;
+    --border: #e0e4ea;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --font: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', sans-serif;
+    --font-serif: 'Noto Serif SC', Georgia, serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font); background: var(--paper); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+
+  /* === LANGUAGE TOGGLE === */
+  body.lang-zh .en { display: none !important; }
+  body.lang-en .zh { display: none !important; }
+  .lang-toggle {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    display: flex; background: var(--white); border: 1px solid var(--border);
+    border-radius: 100px; overflow: hidden; box-shadow: var(--shadow-sm);
+  }
+  .lang-toggle button {
+    padding: 7px 16px; border: none; background: transparent;
+    color: var(--text-light); font-size: 0.82rem; cursor: pointer;
+    transition: all 0.25s; font-family: var(--font); font-weight: 500;
+  }
+  .lang-toggle button.active { background: var(--blue); color: #fff; }
+
+  /* === BACK LINK === */
+  .back-link {
+    position: fixed; top: 16px; left: 16px; z-index: 9999;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 18px; background: var(--white); border: 1px solid var(--border);
+    border-radius: 100px; color: var(--text-dim); text-decoration: none;
+    font-size: 0.82rem; transition: all 0.3s; box-shadow: var(--shadow-sm);
+  }
+  .back-link:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+  /* === NAV === */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border); padding: 0 2rem;
+    transform: translateY(-100%); transition: transform 0.35s ease;
+  }
+  .nav.visible { transform: translateY(0); }
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto; display: flex;
+    align-items: center; gap: 0.5rem; padding: 10px 0;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav a {
+    white-space: nowrap; padding: 6px 14px; border-radius: 100px;
+    text-decoration: none; font-size: 0.8rem; color: var(--text-dim);
+    transition: all 0.2s; border: 1px solid transparent;
+  }
+  .nav a:hover { color: var(--blue); background: var(--blue-bg); border-color: rgba(0,113,197,0.2); }
+  .nav a.active { color: var(--blue); background: var(--blue-bg); border-color: rgba(0,113,197,0.3); font-weight: 500; }
+
+  /* === HERO === */
+  .hero {
+    position: relative; min-height: 55vh; display: flex;
+    align-items: center; justify-content: center; overflow: hidden;
+    background: linear-gradient(135deg, #f8fbff 0%, #e8f0fe 50%, #f0f4ff 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-pattern {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image:
+      repeating-linear-gradient(0deg, var(--blue) 0, var(--blue) 1px, transparent 1px, transparent 40px),
+      repeating-linear-gradient(90deg, var(--blue) 0, var(--blue) 1px, transparent 1px, transparent 40px);
+  }
+  .hero-content {
+    position: relative; z-index: 2; text-align: center;
+    padding: 4rem 2rem; max-width: 860px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue-bg); border: 1px solid rgba(0,113,197,0.2);
+    padding: 6px 18px; border-radius: 100px;
+    font-size: 0.75rem; color: var(--blue); letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 2rem;
+    font-weight: 500;
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px; background: var(--blue); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .hero h1 {
+    font-family: var(--font-serif); font-weight: 900;
+    font-size: clamp(2.2rem, 5.5vw, 3.8rem); color: var(--ink);
+    line-height: 1.2; margin-bottom: 1.2rem;
+  }
+  .hero h1 span { color: var(--blue); }
+  .hero-sub {
+    color: var(--text-dim); font-size: 1.05rem; font-weight: 300;
+    max-width: 600px; margin: 0 auto 2rem; line-height: 1.8;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px; background: var(--blue); color: #fff;
+    border: none; border-radius: 100px; font-size: 0.9rem;
+    cursor: pointer; text-decoration: none; font-family: var(--font);
+    font-weight: 500; transition: all 0.3s;
+  }
+  .hero-cta:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,113,197,0.3); }
+
+  /* === EVOLUTION DIAGRAM === */
+  .evolution {
+    max-width: 1100px; margin: 0 auto; padding: 3rem 2rem 1rem;
+  }
+  .evolution-title {
+    text-align: center; margin-bottom: 2.5rem;
+  }
+  .evolution-title h2 {
+    font-family: var(--font-serif); font-weight: 700; font-size: 1.6rem;
+    color: var(--ink); margin-bottom: 0.5rem;
+  }
+  .evolution-title p { color: var(--text-dim); font-size: 0.9rem; }
+  .evolution-track {
+    display: flex; align-items: stretch; gap: 0; position: relative;
+    max-width: 900px; margin: 0 auto;
+  }
+  .evo-step {
+    flex: 1; text-align: center; padding: 1.5rem 0.8rem;
+    position: relative; cursor: default;
+  }
+  .evo-step:not(:last-child)::after {
+    content: '→'; position: absolute; right: -8px; top: 50%;
+    transform: translateY(-50%); font-size: 1.2rem; color: var(--text-light);
+    z-index: 2;
+  }
+  .evo-icon {
+    width: 52px; height: 52px; border-radius: 50%; margin: 0 auto 0.8rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; background: var(--white); border: 2px solid var(--border);
+    transition: all 0.3s;
+  }
+  .evo-step:nth-child(1) .evo-icon { background: #f0f0f0; border-color: #ccc; }
+  .evo-step:nth-child(2) .evo-icon { background: var(--blue-bg); border-color: rgba(0,113,197,0.3); }
+  .evo-step:nth-child(3) .evo-icon { background: var(--green-bg); border-color: rgba(0,133,106,0.3); }
+  .evo-step:nth-child(4) .evo-icon { background: var(--orange-bg); border-color: rgba(212,121,14,0.3); }
+  .evo-step:nth-child(5) .evo-icon { background: var(--purple-bg); border-color: rgba(107,79,160,0.3); }
+  .evo-label {
+    font-size: 0.82rem; font-weight: 600; color: var(--ink); margin-bottom: 0.3rem;
+  }
+  .evo-sublabel { font-size: 0.72rem; color: var(--text-light); }
+  .evo-bracket {
+    margin-top: 0.8rem; padding-top: 0.6rem; border-top: 2px dashed var(--border);
+    font-size: 0.7rem; color: var(--blue); font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  /* === MAIN CONTAINER === */
+  .main {
+    max-width: 1100px; margin: 0 auto; padding: 1rem 2rem 4rem;
+  }
+
+  /* === SECTION HEADERS === */
+  .section-head {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 3rem 0 1.5rem; padding-bottom: 0.8rem;
+    border-bottom: 3px solid var(--ink);
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-tag {
+    font-size: 0.68rem; font-weight: 700; padding: 4px 12px;
+    border-radius: 4px; letter-spacing: 0.08em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .tag-short { background: var(--blue-bg); color: var(--blue); }
+  .tag-mid { background: var(--green-bg); color: var(--green); }
+  .tag-long { background: var(--orange-bg); color: var(--orange); }
+  .tag-twin { background: var(--purple-bg); color: var(--purple); }
+  .section-head h2 {
+    font-family: var(--font-serif); font-weight: 700; font-size: 1.5rem;
+    color: var(--ink); flex: 1;
+  }
+  .section-head .timeline-label {
+    font-size: 0.75rem; color: var(--text-light); white-space: nowrap;
+  }
+
+  /* === PROJECT CARDS === */
+  .card-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.2rem;
+  }
+  .project-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    transition: all 0.3s; position: relative;
+    cursor: pointer;
+  }
+  .project-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%; opacity: 0; transition: opacity 0.3s;
+  }
+  .project-card:hover {
+    transform: translateY(-3px); box-shadow: var(--shadow-lg);
+    border-color: transparent;
+  }
+  .project-card:hover::before { opacity: 1; }
+  .project-card.phase-short::before { background: var(--blue); }
+  .project-card.phase-mid::before { background: var(--green); }
+  .project-card.phase-long::before { background: var(--orange); }
+  .project-card.phase-twin::before { background: var(--purple); }
+  .card-top { padding: 1.5rem 1.5rem 0; }
+  .card-num {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .phase-short .card-num { color: var(--blue); }
+  .phase-mid .card-num { color: var(--green); }
+  .phase-long .card-num { color: var(--orange); }
+  .phase-twin .card-num { color: var(--purple); }
+  .card-title {
+    font-family: var(--font-serif); font-weight: 700; font-size: 1.15rem;
+    color: var(--ink); line-height: 1.4; margin-bottom: 0.5rem;
+  }
+  .card-summary {
+    font-size: 0.88rem; color: var(--text-dim); line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .card-toggle {
+    display: flex; align-items: center; gap: 4px;
+    padding: 10px 1.5rem; border-top: 1px solid var(--border);
+    font-size: 0.78rem; color: var(--text-light); transition: all 0.2s;
+    background: rgba(0,0,0,0.01);
+  }
+  .card-toggle:hover { background: rgba(0,0,0,0.03); color: var(--text); }
+  .card-toggle .arrow {
+    transition: transform 0.3s; font-size: 0.65rem;
+  }
+  .project-card.expanded .card-toggle .arrow { transform: rotate(180deg); }
+  .card-detail {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+  }
+  .project-card.expanded .card-detail { max-height: 2000px; }
+  .detail-inner { padding: 0 1.5rem 1.5rem; }
+  .detail-section {
+    margin-bottom: 1rem; padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .detail-section:first-child { border-top: none; padding-top: 0; }
+  .detail-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text-light); margin-bottom: 0.5rem;
+  }
+  .detail-content { font-size: 0.88rem; color: var(--text); line-height: 1.75; }
+  .detail-content ul { padding-left: 1.2rem; }
+  .detail-content li { margin-bottom: 0.3rem; }
+  .detail-content li::marker { color: var(--text-light); }
+  .detail-example {
+    background: var(--blue-bg2); border-left: 3px solid var(--blue);
+    padding: 0.8rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 0.85rem; color: var(--ink); line-height: 1.7;
+    margin: 0.5rem 0;
+  }
+
+  /* === FEASIBILITY REPORT CARDS === */
+  .feasibility-section { margin-top: 3.5rem; }
+  .feas-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+  .feas-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.5rem;
+    transition: all 0.3s;
+  }
+  .feas-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .feas-head {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1rem; padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .feas-num {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: #fff;
+  }
+  .feas-num.num-short { background: var(--blue); }
+  .feas-num.num-mid { background: var(--green); }
+  .feas-num.num-long { background: var(--orange); }
+  .feas-num.num-twin { background: var(--purple); }
+  .feas-name { font-size: 0.9rem; font-weight: 600; color: var(--ink); flex: 1; }
+  .feas-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 0.5rem 0; border-bottom: 1px solid #f0f2f5;
+    font-size: 0.82rem;
+  }
+  .feas-row:last-child { border-bottom: none; }
+  .feas-label { color: var(--text-dim); font-weight: 500; flex-shrink: 0; }
+  .feas-value { color: var(--ink); text-align: right; font-weight: 500; }
+  .feas-cost { color: var(--blue); font-weight: 700; }
+  .feas-risk { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 600; }
+  .risk-low { background: var(--green-bg); color: var(--green); }
+  .risk-mid { background: var(--orange-bg); color: var(--orange); }
+  .risk-high { background: var(--red-bg); color: var(--red); }
+
+  /* === COST SUMMARY === */
+  .cost-table-wrap {
+    overflow-x: auto; margin: 1.5rem 0; border-radius: var(--radius);
+    border: 1px solid var(--border); background: var(--white);
+  }
+  .cost-table {
+    width: 100%; border-collapse: collapse; font-size: 0.85rem;
+    min-width: 600px;
+  }
+  .cost-table thead { background: var(--ink); color: #fff; }
+  .cost-table th {
+    padding: 12px 16px; text-align: left; font-weight: 600;
+    font-size: 0.78rem; letter-spacing: 0.04em;
+  }
+  .cost-table td { padding: 12px 16px; border-bottom: 1px solid #f0f2f5; }
+  .cost-table tr:hover { background: var(--blue-bg2); }
+  .cost-table .total-row { background: #f8f9fb; font-weight: 600; }
+  .cost-table .total-row td { border-bottom: none; }
+
+  /* === EXEC SUMMARY === */
+  .exec-summary {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 2rem 2.5rem;
+    margin: 2rem 0; position: relative; overflow: hidden;
+  }
+  .exec-summary::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--blue), var(--green), var(--orange), var(--purple));
+  }
+  .exec-summary h3 {
+    font-family: var(--font-serif); font-weight: 700; font-size: 1.3rem;
+    color: var(--ink); margin-bottom: 1rem;
+  }
+  .exec-summary p {
+    font-size: 0.92rem; color: var(--text-dim); line-height: 1.85;
+    margin-bottom: 0.8rem;
+  }
+
+  /* === TIMELINE ROADMAP === */
+  .roadmap {
+    position: relative; padding-left: 2.5rem; margin: 1.5rem 0;
+  }
+  .roadmap::before {
+    content: ''; position: absolute; left: 11px; top: 0; bottom: 0;
+    width: 3px; border-radius: 2px;
+    background: linear-gradient(to bottom, var(--blue), var(--green), var(--orange), var(--purple));
+  }
+  .road-item {
+    position: relative; padding: 0 0 2rem 1.5rem;
+  }
+  .road-item:last-child { padding-bottom: 0; }
+  .road-item::before {
+    content: ''; position: absolute; left: -2.5rem; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 3px solid var(--white); z-index: 1;
+  }
+  .road-item.r-short::before { background: var(--blue); }
+  .road-item.r-mid::before { background: var(--green); }
+  .road-item.r-long::before { background: var(--orange); }
+  .road-item.r-twin::before { background: var(--purple); }
+  .road-phase {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 0.3rem;
+  }
+  .r-short .road-phase { color: var(--blue); }
+  .r-mid .road-phase { color: var(--green); }
+  .r-long .road-phase { color: var(--orange); }
+  .r-twin .road-phase { color: var(--purple); }
+  .road-text { font-size: 0.9rem; color: var(--text); line-height: 1.65; }
+
+  /* === FOOTER === */
+  footer {
+    text-align: center; padding: 2.5rem 1rem; font-size: 0.78rem;
+    color: var(--text-light); border-top: 1px solid var(--border);
+    max-width: 1100px; margin: 0 auto;
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+
+  /* === ANIMATIONS === */
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.1s; }
+  .d3 { animation-delay: 0.15s; }
+  .d4 { animation-delay: 0.2s; }
+  .d5 { animation-delay: 0.25s; }
+  .d6 { animation-delay: 0.3s; }
+  .d7 { animation-delay: 0.35s; }
+  .d8 { animation-delay: 0.4s; }
+
+  /* === MOBILE NAV DROPDOWN === */
+  .mobile-nav-toggle {
+    display: none; position: fixed; bottom: 20px; right: 20px;
+    z-index: 9998; width: 48px; height: 48px; border-radius: 50%;
+    background: var(--blue); color: #fff; border: none; font-size: 1.2rem;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(0,113,197,0.4);
+    transition: transform 0.3s;
+  }
+  .mobile-nav-toggle:hover { transform: scale(1.05); }
+  .mobile-nav-panel {
+    display: none; position: fixed; bottom: 80px; right: 20px;
+    z-index: 9998; background: var(--white); border-radius: var(--radius);
+    box-shadow: var(--shadow-lg); border: 1px solid var(--border);
+    padding: 0.8rem; min-width: 180px;
+    transform: scale(0.9); opacity: 0;
+    transition: all 0.25s ease;
+  }
+  .mobile-nav-panel.open { transform: scale(1); opacity: 1; }
+  .mobile-nav-panel a {
+    display: block; padding: 8px 14px; border-radius: var(--radius-sm);
+    text-decoration: none; font-size: 0.85rem; color: var(--text);
+    transition: all 0.2s;
+  }
+  .mobile-nav-panel a:hover { background: var(--blue-bg); color: var(--blue); }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .hero { min-height: 45vh; }
+    .hero-content { padding: 3rem 1.5rem; }
+    .hero h1 { font-size: 2rem; }
+    .hero-sub { font-size: 0.92rem; }
+    .main { padding: 1rem 1rem 3rem; }
+    .card-grid { grid-template-columns: 1fr; }
+    .feas-grid { grid-template-columns: 1fr; }
+    .section-head { flex-wrap: wrap; }
+    .section-head h2 { font-size: 1.2rem; }
+    .nav { display: none; }
+    .mobile-nav-toggle { display: flex; align-items: center; justify-content: center; }
+    .mobile-nav-panel { display: block; }
+    .back-link { font-size: 0.75rem; padding: 6px 14px; top: 10px; left: 10px; }
+    .lang-toggle { top: 10px; right: 10px; }
+    .lang-toggle button { padding: 6px 12px; font-size: 0.78rem; }
+    .evolution-track { flex-direction: column; gap: 0; }
+    .evo-step:not(:last-child)::after {
+      right: 50%; top: auto; bottom: -6px;
+      transform: translateX(50%) rotate(90deg);
+    }
+    .evo-step { padding: 0.8rem; }
+    .exec-summary { padding: 1.5rem; }
+    .cost-table-wrap { margin: 1rem -1rem; border-radius: 0; border-left: none; border-right: none; }
+  }
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 1.6rem; }
+    .card-title { font-size: 1rem; }
+  }
+</style>
+</head>
+<body class="lang-zh">
+
+<!-- Back Link -->
+<a class="back-link" href="./index.html">☁️ Sky Portal</a>
+
+<!-- Language Toggle -->
+<div class="lang-toggle">
+  <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
+  <button id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+
+<!-- Sticky Nav -->
+<nav class="nav" id="stickyNav">
+  <div class="nav-inner">
+    <a href="#overview" class="active"><span class="zh">总览</span><span class="en">Overview</span></a>
+    <a href="#evolution"><span class="zh">能力演进</span><span class="en">Evolution</span></a>
+    <a href="#short-term"><span class="zh">短期项目</span><span class="en">Short-term</span></a>
+    <a href="#mid-term"><span class="zh">中期项目</span><span class="en">Mid-term</span></a>
+    <a href="#long-term"><span class="zh">长期项目</span><span class="en">Long-term</span></a>
+    <a href="#digital-twin"><span class="zh">数字分身</span><span class="en">Digital Twin</span></a>
+    <a href="#feasibility"><span class="zh">可行性报告</span><span class="en">Feasibility</span></a>
+    <a href="#roadmap"><span class="zh">路线图</span><span class="en">Roadmap</span></a>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<button class="mobile-nav-toggle" id="mobileNavBtn" onclick="toggleMobileNav()">☰</button>
+<div class="mobile-nav-panel" id="mobileNavPanel">
+  <a href="#overview" onclick="closeMobileNav()"><span class="zh">📋 总览</span><span class="en">📋 Overview</span></a>
+  <a href="#evolution" onclick="closeMobileNav()"><span class="zh">📊 能力演进</span><span class="en">📊 Evolution</span></a>
+  <a href="#short-term" onclick="closeMobileNav()"><span class="zh">🟢 短期项目</span><span class="en">🟢 Short-term</span></a>
+  <a href="#mid-term" onclick="closeMobileNav()"><span class="zh">🟡 中期项目</span><span class="en">🟡 Mid-term</span></a>
+  <a href="#long-term" onclick="closeMobileNav()"><span class="zh">🟠 长期项目</span><span class="en">🟠 Long-term</span></a>
+  <a href="#digital-twin" onclick="closeMobileNav()"><span class="zh">🟣 数字分身</span><span class="en">🟣 Digital Twin</span></a>
+  <a href="#feasibility" onclick="closeMobileNav()"><span class="zh">💰 可行性报告</span><span class="en">💰 Feasibility</span></a>
+  <a href="#roadmap" onclick="closeMobileNav()"><span class="zh">🗺️ 路线图</span><span class="en">🗺️ Roadmap</span></a>
+</div>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-content fade-up">
+    <div class="hero-badge"><span class="dot"></span><span class="zh">内部策略文档</span><span class="en">Internal Strategy Document</span></div>
+    <h1><span class="zh">AI 转型<span>策略</span></span><span class="en">AI Transformation <span>Strategy</span></span></h1>
+    <p class="hero-sub">
+      <span class="zh">从提供信息到自我优化 — 半导体先进制程研发的AI能力演进路线图<br>短期可落地、中期可扩展、长期可变革</span>
+      <span class="en">From Information Delivery to Self-Optimization — AI Capability Roadmap for Advanced Semiconductor R&amp;D<br>Actionable short-term, scalable mid-term, transformative long-term</span>
+    </p>
+    <a href="#short-term" class="hero-cta">
+      <span class="zh">查看完整策略 ↓</span><span class="en">View Full Strategy ↓</span>
+    </a>
+  </div>
+</section>
+
+<!-- ========== EXECUTIVE SUMMARY ========== -->
+<div class="main">
+<section id="overview" class="fade-up">
+  <div class="section-head">
+    <span class="section-tag tag-short"><span class="zh">总览</span><span class="en">Overview</span></span>
+    <h2><span class="zh">执行摘要</span><span class="en">Executive Summary</span></h2>
+  </div>
+  <div class="exec-summary">
+    <h3><span class="zh">为什么半导体行业需要AI转型</span><span class="en">Why the Semiconductor Industry Needs AI Transformation</span></h3>
+    <p>
+      <span class="zh">在先进制程研发中，工程师每天面对海量的良率数据、缺陷图谱和工艺参数。传统的数据访问方式——查询数据库、导出报表、人工对比——已经无法跟上指数级增长的数据复杂度。行业需要的不是更快的查询工具，而是能主动思考、预判问题、自动分析的AI系统。</span>
+      <span class="en">In advanced process node R&amp;D, engineers face massive yield data, defect maps, and process parameters daily. Traditional data access methods—querying databases, exporting reports, manual comparison—can no longer keep pace with exponentially growing data complexity. The industry needs not faster query tools, but AI systems that can think proactively, anticipate problems, and analyze automatically.</span>
+    </p>
+    <p>
+      <span class="zh">这份策略提出了一条清晰的演进路径：短期让AI学会回答正确的问题（基于领导和优秀员工的思维模式），中期让AI开始主动采取行动，长期实现全数据打通和AI自我优化。核心洞察是：AI的价值不在于提供更多信息，而在于模仿最好的思考方式，并让这种能力普惠化。</span>
+      <span class="en">This strategy proposes a clear evolutionary path: in the short term, teach AI to answer the right questions (based on leadership and top performer thinking patterns); in the mid-term, enable AI to take proactive actions; in the long term, achieve full data integration and AI self-optimization. The core insight: AI's value lies not in providing more information, but in replicating the best thinking patterns and democratizing that capability.</span>
+    </p>
+    <p>
+      <span class="zh">每个项目都附有最小可行性分析，包括资源需求、成本估算、技术依赖和风险点，便于团队评估和选择落地方向。现有M365 Copilot基础设施可部分复用，降低起步门槛。</span>
+      <span class="en">Each project includes a minimum viability analysis with resource requirements, cost estimates, technical dependencies, and risk factors, enabling the team to evaluate and select implementation directions. Existing M365 Copilot infrastructure can be partially leveraged to lower the barrier to entry.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ========== EVOLUTION DIAGRAM ========== -->
+<section id="evolution" class="evolution fade-up">
+  <div class="evolution-title">
+    <h2><span class="zh">AI能力演进路线</span><span class="en">AI Capability Evolution</span></h2>
+    <p><span class="zh">从工具到伙伴的五阶段演进</span><span class="en">Five-stage evolution from tool to partner</span></p>
+  </div>
+  <div class="evolution-track">
+    <div class="evo-step">
+      <div class="evo-icon">📖</div>
+      <div class="evo-label"><span class="zh">提供信息</span><span class="en">Inform</span></div>
+      <div class="evo-sublabel"><span class="zh">数据库、互联网</span><span class="en">Databases, Web</span></div>
+      <div class="evo-bracket"><span class="zh">过去</span><span class="en">Past</span></div>
+    </div>
+    <div class="evo-step">
+      <div class="evo-icon">❓</div>
+      <div class="evo-label"><span class="zh">回答问题</span><span class="en">Answer</span></div>
+      <div class="evo-sublabel"><span class="zh">LLM + RAG</span><span class="en">LLM + RAG</span></div>
+      <div class="evo-bracket"><span class="zh">短期 0-6月</span><span class="en">Short 0-6M</span></div>
+    </div>
+    <div class="evo-step">
+      <div class="evo-icon">⚡</div>
+      <div class="evo-label"><span class="zh">采取行动</span><span class="en">Act</span></div>
+      <div class="evo-sublabel"><span class="zh">Agent + 自动化</span><span class="en">Agent + Automation</span></div>
+      <div class="evo-bracket"><span class="zh">中期 6-18月</span><span class="en">Mid 6-18M</span></div>
+    </div>
+    <div class="evo-step">
+      <div class="evo-icon">🔧</div>
+      <div class="evo-label"><span class="zh">解决问题</span><span class="en">Solve</span></div>
+      <div class="evo-sublabel"><span class="zh">推理 + 验证</span><span class="en">Reason + Verify</span></div>
+      <div class="evo-bracket"><span class="zh">长期 18月+</span><span class="en">Long 18M+</span></div>
+    </div>
+    <div class="evo-step">
+      <div class="evo-icon">🚀</div>
+      <div class="evo-label"><span class="zh">自我优化</span><span class="en">Self-Optimize</span></div>
+      <div class="evo-sublabel"><span class="zh">持续学习闭环</span><span class="en">Continuous Loop</span></div>
+      <div class="evo-bracket"><span class="zh">愿景</span><span class="en">Vision</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SHORT TERM ========== -->
+<section id="short-term" class="fade-up">
+  <div class="section-head">
+    <span class="section-tag tag-short"><span class="zh">短期</span><span class="en">Short-term</span></span>
+    <h2><span class="zh">AI 回答问题</span><span class="en">AI Answers Questions</span></h2>
+    <span class="timeline-label">0-6 <span class="zh">个月</span><span class="en">Months</span></span>
+  </div>
+
+  <div class="card-grid">
+    <!-- Project 1 -->
+    <div class="project-card phase-short" onclick="toggleCard(this)">
+      <div class="card-top">
+        <div class="card-num"><span class="zh">项目 01</span><span class="en">Project 01</span></div>
+        <div class="card-title"><span class="zh">领导问题画像</span><span class="en">Leader Question Profile</span></div>
+        <div class="card-summary">
+          <span class="zh">通过AI分析邮件和会议发言，提取每位领导者的高频问题，建立"问题指纹"。让工程师在汇报前就预判领导会问什么。</span>
+          <span class="en">Analyze emails and meeting transcripts with AI to extract each leader's high-frequency questions and build a "question fingerprint." Engineers can anticipate what leaders will ask before briefings.</span>
+        </div>
+      </div>
+      <div class="card-toggle">
+        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">输入数据</span><span class="en">Input Data</span></div>
+            <div class="detail-content">
+              <ul>
+                <li><span class="zh">领导者邮件（发件/回复/转发）</span><span class="en">Leader emails (sent/replied/forwarded)</span></li>
+                <li><span class="zh">会议录音转写文本</span><span class="en">Meeting transcript recordings</span></li>
+                <li><span class="zh">会议纪要与行动项</span><span class="en">Meeting minutes and action items</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">方法</span><span class="en">Methodology</span></div>
+            <div class="detail-content">
+              <span class="zh">使用LLM分析每位VP/PM/部门领导在会议中的发言和邮件往来，通过NLP提取问题句式、关注领域、追问逻辑，生成Top 10-20高频问题清单。</span>
+              <span class="en">Use LLM to analyze each VP/PM/department leader's meeting speech and email correspondence, extract question patterns, focus areas, and follow-up logic via NLP, and generate a Top 10-20 high-frequency question list.</span>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">示例输出</span><span class="en">Example Output</span></div>
+            <div class="detail-example">
+              <span class="zh"><strong>VP Zhang 的典型问题模式：</strong><br>① 良率偏低是否集中在特定wafer位置？<br>② 之前有没有类似的pattern？<br>③ 当时的根因是什么？怎么解决的？<br>④ 现在的情况和当时有什么异同？</span>
+              <span class="en"><strong>VP Zhang's typical question pattern:</strong><br>① Is the low yield concentrated at specific wafer locations?<br>② Have we seen similar patterns before?<br>③ What was the root cause then? How was it resolved?<br>④ What's different between then and now?</span>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">核心价值</span><span class="en">Core Value</span></div>
+            <div class="detail-content">
+              <span class="zh">工程师准备汇报时，AI自动提示"这位领导大概率会问以下问题"并给出建议答案框架。从被动应对变为主动准备。</span>
+              <span class="en">When engineers prepare briefings, AI automatically suggests "this leader will likely ask the following questions" and provides recommended answer frameworks. Shift from reactive to proactive preparation.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card phase-short" onclick="toggleCard(this)">
+      <div class="card-top">
+        <div class="card-num"><span class="zh">项目 02</span><span class="en">Project 02</span></div>
+        <div class="card-title"><span class="zh">优秀员工问题提取</span><span class="en">Best Performer Question Mining</span></div>
+        <div class="card-summary">
+          <span class="zh">找出团队Top 10%工程师，分析他们的自问自答模式，系统化整理为全员可用的"思考框架"。</span>
+          <span class="en">Identify the top 10% engineers, analyze their self-questioning patterns, and systematically compile them into a "thinking framework" available to all.</span>
+        </div>
+      </div>
+      <div class="card-toggle">
+        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">核心理念</span><span class="en">Core Concept</span></div>
+            <div class="detail-content">
+              <span class="zh">优秀员工之所以优秀，往往不是因为他们知道更多答案，而是他们会问更好的问题。这些问题本身就代表了方法论。通过AI提取这些"隐藏的思考模式"，可以让全团队受益。</span>
+              <span class="en">Top performers excel not because they know more answers, but because they ask better questions. These questions themselves represent methodology. By extracting these "hidden thinking patterns" with AI, the entire team can benefit.</span>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">方法</span><span class="en">Methodology</span></div>
+            <div class="detail-content">
+              <ul>
+                <li><span class="zh">收集优秀工程师的工作记录、debug笔记、分析报告</span><span class="en">Collect top engineers' work logs, debug notes, and analysis reports</span></li>
+                <li><span class="zh">用AI分析其中隐含的假设检验逻辑和因果推理链</span><span class="en">Use AI to analyze implicit hypothesis-testing logic and causal reasoning chains</span></li>
+                <li><span class="zh">系统化整理成结构化的"问题清单+思考路径"</span><span class="en">Systematically compile into structured "question lists + thinking paths"</span></li>
+                <li><span class="zh">构建可复用的分析模板和checklist</span><span class="en">Build reusable analysis templates and checklists</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">价值</span><span class="en">Value</span></div>
+            <div class="detail-content">
+              <span class="zh">比任何wiki或培训文档都有用，因为这是"活的方法论"——从实际工作中提炼，而非理论教学。新员工可以快速获得资深工程师的思维框架。</span>
+              <span class="en">More useful than any wiki or training document, because it's "living methodology"—distilled from real work, not theoretical teaching. New engineers can quickly acquire senior-level thinking frameworks.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card phase-short" onclick="toggleCard(this)">
+      <div class="card-top">
+        <div class="card-num"><span class="zh">项目 03</span><span class="en">Project 03</span></div>
+        <div class="card-title"><span class="zh">AI 预答系统</span><span class="en">Pre-Answer Engine</span></div>
+        <div class="card-summary">
+          <span class="zh">将领导问题和优秀员工问题喂给AI，让它主动搜索内部数据并预生成答案。工程师登录系统看到的不是空白搜索框，而是"答案已备好"。</span>
+          <span class="en">Feed leadership and top performer questions to AI, enabling it to proactively search internal data and pre-generate answers. Engineers see not a blank search box, but "answers ready."</span>
+        </div>
+      </div>
+      <div class="card-toggle">
+        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">工作流程</span><span class="en">Workflow</span></div>
+            <div class="detail-content">
+              <ul>
+                <li><span class="zh">整合项目1和项目2的问题库</span><span class="en">Integrate question databases from Projects 1 &amp; 2</span></li>
+                <li><span class="zh">AI自动匹配当前项目/产品上下文</span><span class="en">AI auto-matches current project/product context</span></li>
+                <li><span class="zh">后台持续搜索可访问的数据源</span><span class="en">Continuously searches accessible data sources in the background</span></li>
+                <li><span class="zh">预生成结构化答案（含数据图表引用）</span><span class="en">Pre-generates structured answers (with data/chart citations)</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">用户体验</span><span class="en">User Experience</span></div>
+            <div class="detail-example">
+              <span class="zh"><strong>工程师登录时看到：</strong><br>"Director Li 明天的review可能关注良率异常，已为您准备：<br>• Batch #47 良率趋势图<br>• 异常defect位置热力图<br>• 与上一批次的对比分析<br>• 建议的根因分析方向"</span>
+              <span class="en"><strong>Engineer sees on login:</strong><br>"Director Li may focus on yield anomalies in tomorrow's review. Prepared for you:<br>• Batch #47 yield trend chart<br>• Anomaly defect location heatmap<br>• Comparison with previous batch<br>• Suggested root cause analysis directions"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MID TERM ========== -->
+<section id="mid-term" class="fade-up">
+  <div class="section-head">
+    <span class="section-tag tag-mid"><span class="zh">中期</span><span class="en">Mid-term</span></span>
+    <h2><span class="zh">AI 采取行动 + 解决问题</span><span class="en">AI Takes Action + Solves Problems</span></h2>
+    <span class="timeline-label">6-18 <span class="zh">个月</span><span class="en">Months</span></span>
+  </div>
+
+  <div class="card-grid">
+    <!-- Project 4 -->
+    <div class="project-card phase-mid" onclick="toggleCard(this)">
+      <div class="card-top">
+        <div class="card-num"><span class="zh">项目 04</span><span class="en">Project 04</span></div>
+        <div class="card-title"><span class="zh">领导者数字分身</span><span class="en">Leader Digital Avatar</span></div>
+        <div class="card-summary">
+          <span class="zh">基于短期积累的问题画像，AI化身"虚拟领导"，在工程师日常工作过程中主动提问，像那位领导一样审视项目进展。</span>
+          <span class="en">Based on accumulated question profiles, AI becomes a "virtual leader," proactively asking questions during engineers' daily work, reviewing project progress like that leader would.</span>
+        </div>
+      </div>
+      <div class="card-toggle">
+        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">工作方式</span><span class="en">How It Works</span></div>
+            <div class="detail-content">
+              <span class="zh">不是等开会才被问，而是工作过程中实时被"审视"。AI根据项目上下文，主动发出提醒和追问——"你检查过这个位置的pattern了吗？""跟上一批比异常点在哪里？""这个参数变化是否在spec范围内？"</span>
+              <span class="en">Not waiting for meetings to be questioned, but proactively "reviewed" during work. AI sends reminders and follow-ups based on project context—"Have you checked the pattern at this location?" "Where are the anomalies compared to the last batch?" "Is this parameter change within spec range?"</span>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">进阶价值</span><span class="en">Advanced Value</span></div>
+            <div class="detail-content">
+              <span class="zh">相当于给每位工程师配备了一个"影子导师"，融合了多位领导者的思维方式和关注点。特别适合新员工和跨部门协作场景。</span>
+              <span class="en">Equivalent to equipping each engineer with a "shadow mentor" that blends the thinking patterns and focus areas of multiple leaders. Especially valuable for new hires and cross-functional collaboration scenarios.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 5 -->
+    <div class="project-card phase-mid" onclick="toggleCard(this)">
+      <div class="card-top">
+        <div class="card-num"><span class="zh">项目 05</span><span class="en">Project 05</span></div>
+        <div class="card-title"><span class="zh">会议实时助手</span><span class="en">Meeting Copilot</span></div>
+        <div class="card-summary">
+          <span class="zh">开会时AI实时监听，领导刚问完问题，AI已在后台拉取数据、生成初步答案，投屏展示或推送到与会者设备。</span>
+          <span class="en">AI listens in real-time during meetings. As soon as a leader asks a question, AI pulls data in the background and generates preliminary answers, displayed on-screen or pushed to participants' devices.</span>
+        </div>
+      </div>
+      <div class="card-toggle">
+        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">技术路径</span><span class="en">Technical Path</span></div>
+            <div class="detail-content">
+              <ul>
+                <li><span class="zh">实时语音转写（利用现有Teams/会议系统）</span><span class="en">Real-time speech transcription (leveraging existing Teams/meeting systems)</span></li>
+                <li><span class="zh">问题识别与分类（基于项目1的模型）</span><span class="en">Question identification and classification (based on Project 1 models)</span></li>
+                <li><span class="zh">后台数据查询与答案生成（RAG架构）</span><span class="en">Background data query and answer generation (RAG architecture)</span></li>
+                <li><span class="zh">结果推送到会议聊天窗口或侧边栏</span><span class="en">Results pushed to meeting chat window or sidebar</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 6 -->
+    <div class="project-card phase-mid" onclick="toggleCard(this)">
+      <div class="card-top">
+        <div class="card-num"><span class="zh">项目 06</span><span class="en">Project 06</span></div>
+        <div class="card-title"><span class="zh">部分数据库打通 + 局部自动化</span><span class="en">Partial Data Integration + Local Automation</span></div>
+        <div class="card-summary">
+          <span class="zh">不需要等全部数据库就绪。先打通最关键的2-3个数据库（良率数据+defect map+process spec），让AI在这个子集上开始自动分析、生成报告。</span>
+          <span class="en">No need to wait for all databases. First integrate the 2-3 most critical databases (yield data + defect map + process spec), enabling AI to automatically run analyses and generate reports on this subset.</span>
+        </div>
+      </div>
+      <div class="card-toggle">
+        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">优先打通的数据</span><span class="en">Priority Data Sources</span></div>
+            <div class="detail-content">
+              <ul>
+                <li><span class="zh">良率数据系统（wafer-level / lot-level）</span><span class="en">Yield data system (wafer-level / lot-level)</span></li>
+                <li><span class="zh">缺陷图谱数据库（defect map + 分类）</span><span class="en">Defect map database (defect map + classification)</span></li>
+                <li><span class="zh">工艺规格系统（process spec + SPC控制限）</span><span class="en">Process spec system (process spec + SPC control limits)</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">自动化场景</span><span class="en">Automation Scenarios</span></div>
+            <div class="detail-content">
+              <span class="zh">良率低于阈值时自动生成分析报告；新批次数据入库时自动与历史对比；参数偏移时自动触发根因分析流程。</span>
+              <span class="en">Auto-generate analysis reports when yield drops below threshold; auto-compare with history when new batch data arrives; auto-trigger root cause analysis when parameters drift.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== LONG TERM ========== -->
+<section id="long-term" class="fade-up">
+  <div class="section-head">
+    <span class="section-tag tag-long"><span class="zh">长期</span><span class="en">Long-term</span></span>
+    <h2><span class="zh">全数据打通 + AI 自我优化</span><span class="en">Full Data Integration + AI Self-Optimization</span></h2>
+    <span class="timeline-label">18+ <span class="zh">个月</span><span class="en">Months</span></span>
+  </div>
+
+  <div class="card-grid">
+    <!-- Project 7 -->
+    <div class="project-card phase-long" onclick="toggleCard(this)">
+      <div class="card-top">
+        <div class="card-num"><span class="zh">项目 07</span><span class="en">Project 07</span></div>
+        <div class="card-title"><span class="zh">全数据库打通 + Single Source of Truth</span><span class="en">Full Database Integration + Single Source of Truth</span></div>
+        <div class="card-summary">
+          <span class="zh">所有数据库AI可读、可访问。建立确定性的数据源，Spec零模糊、零矛盾。这是地基——短期开始建，长期才能完成。</span>
+          <span class="en">All databases AI-readable and accessible. Establish deterministic data sources with zero ambiguity, zero contradictions in specs. This is the foundation—start building short-term, complete long-term.</span>
+        </div>
+      </div>
+      <div class="card-toggle">
+        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">为什么是底线</span><span class="en">Why It's Foundational</span></div>
+            <div class="detail-content">
+              <span class="zh">半导体行业中，工艺规格（Spec）是不可有错误、不可有模糊地带的。如果一个参数在A系统里写的是5nm±0.2，在B系统里写的是5nm±0.15，AI就无法做出正确判断。全数据打通的核心不只是"连起来"，而是"统一且准确"。</span>
+              <span class="en">In the semiconductor industry, process specs cannot have errors or ambiguity. If a parameter reads 5nm±0.2 in system A and 5nm±0.15 in system B, AI cannot make correct judgments. The core of full data integration is not just "connecting" but "unified and accurate."</span>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">关键里程碑</span><span class="en">Key Milestones</span></div>
+            <div class="detail-content">
+              <ul>
+                <li><span class="zh">数据源清单梳理与优先级排序</span><span class="en">Data source inventory and prioritization</span></li>
+                <li><span class="zh">统一数据模型与API标准定义</span><span class="en">Unified data model and API standard definition</span></li>
+                <li><span class="zh">冲突检测与自动修复机制</span><span class="en">Conflict detection and auto-resolution mechanisms</span></li>
+                <li><span class="zh">数据质量监控Dashboard</span><span class="en">Data quality monitoring dashboard</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 8 -->
+    <div class="project-card phase-long" onclick="toggleCard(this)">
+      <div class="card-top">
+        <div class="card-num"><span class="zh">项目 08</span><span class="en">Project 08</span></div>
+        <div class="card-title"><span class="zh">AI 自动解决问题 + 自我优化</span><span class="en">AI Auto-Solves Problems + Self-Optimizes</span></div>
+        <div class="card-summary">
+          <span class="zh">AI不仅回答"良率为什么低"，而是提出解决方案、验证可行性，并从历史数据中持续学习、自动优化分析模型。最终形态：数据流和决策链的全自动优化。</span>
+          <span class="en">AI doesn't just answer "why is yield low"—it proposes solutions, verifies feasibility, and continuously learns from historical data to auto-optimize analysis models. End state: fully automated data flow and decision chain optimization.</span>
+        </div>
+      </div>
+      <div class="card-toggle">
+        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">能力层级</span><span class="en">Capability Levels</span></div>
+            <div class="detail-content">
+              <ul>
+                <li><span class="zh"><strong>诊断层：</strong>自动定位问题根因（基于历史pattern匹配+因果推理）</span><span class="en"><strong>Diagnosis:</strong> Auto-identify root causes (based on historical pattern matching + causal reasoning)</span></li>
+                <li><span class="zh"><strong>方案层：</strong>生成多个候选解决方案，评估可行性和风险</span><span class="en"><strong>Solution:</strong> Generate multiple candidate solutions, assess feasibility and risk</span></li>
+                <li><span class="zh"><strong>验证层：</strong>通过模拟或小规模实验验证方案有效性</span><span class="en"><strong>Verification:</strong> Validate solution effectiveness through simulation or small-scale experiments</span></li>
+                <li><span class="zh"><strong>学习层：</strong>将成功/失败案例纳入知识库，持续优化</span><span class="en"><strong>Learning:</strong> Incorporate success/failure cases into knowledge base for continuous optimization</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DIGITAL TWIN ========== -->
+<section id="digital-twin" class="fade-up">
+  <div class="section-head">
+    <span class="section-tag tag-twin"><span class="zh">个人维度</span><span class="en">Personal</span></span>
+    <h2><span class="zh">数字分身（Digital Twin）</span><span class="en">Digital Twin</span></h2>
+  </div>
+
+  <div class="card-grid">
+    <div class="project-card phase-twin" onclick="toggleCard(this)">
+      <div class="card-top">
+        <div class="card-num"><span class="zh">特别项目</span><span class="en">Special Project</span></div>
+        <div class="card-title"><span class="zh">个人数字分身</span><span class="en">Personal Digital Twin</span></div>
+        <div class="card-summary">
+          <span class="zh">录制员工的鼠标、键盘和屏幕操作，AI分析工作方式，学习使用者的思考模式和工作方法。目标：AI至少可以达到使用者本人的能力水平。</span>
+          <span class="en">Record employees' mouse, keyboard, and screen operations. AI analyzes work patterns, learning the user's thinking mode and work methods. Goal: AI reaches at least the user's own capability level.</span>
+        </div>
+      </div>
+      <div class="card-toggle">
+        <span class="zh">点击展开详情</span><span class="en">Click to expand</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="card-detail">
+        <div class="detail-inner">
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">两种模式</span><span class="en">Two Modes</span></div>
+            <div class="detail-content">
+              <ul>
+                <li><span class="zh"><strong>个人版：</strong>自己录制自己的操作，AI学习复制自己，不分享给他人。隐私完全可控。最可行的起步点。</span><span class="en"><strong>Personal:</strong> Self-record your own operations, AI learns to replicate you, not shared with others. Privacy fully controlled. Most viable starting point.</span></li>
+                <li><span class="zh"><strong>公司版：</strong>组织层面的工作方式分析和最佳实践提取。需要完善的合规框架和员工同意机制。</span><span class="en"><strong>Enterprise:</strong> Organization-level work pattern analysis and best practice extraction. Requires comprehensive compliance framework and employee consent mechanisms.</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">核心理念</span><span class="en">Core Philosophy</span></div>
+            <div class="detail-content">
+              <span class="zh">AI的能力不必追求超越所有人，而是首先达到使用者本人的能力水平。这听起来门槛不高，但想象一下：如果你的数字分身可以24/7以你的方式处理工作，你的效率就倍增了。这是最务实、最可落地的AI应用方向。</span>
+              <span class="en">AI capability need not pursue surpassing everyone—first reach the user's own level. This may seem like a low bar, but imagine: if your digital twin can handle work your way 24/7, your efficiency doubles. This is the most pragmatic, actionable AI application direction.</span>
+            </div>
+          </div>
+          <div class="detail-section">
+            <div class="detail-label"><span class="zh">隐私考量</span><span class="en">Privacy Considerations</span></div>
+            <div class="detail-content">
+              <span class="zh">公司层面分析员工工作方式涉及隐私问题。但个人为自己的数字分身录制数据，不分享给任何人，则不存在隐私侵犯。建议从个人版开始推广，先证明价值，再逐步探索公司级应用。</span>
+              <span class="en">Company-level analysis of employee work patterns involves privacy concerns. But personal recording for one's own digital twin, not shared with anyone, involves no privacy infringement. Recommend starting with personal edition, proving value first, then gradually exploring enterprise applications.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FEASIBILITY REPORTS ========== -->
+<section id="feasibility" class="feasibility-section fade-up">
+  <div class="section-head">
+    <span class="section-tag tag-short"><span class="zh">可行性</span><span class="en">Feasibility</span></span>
+    <h2><span class="zh">最小可行性报告</span><span class="en">Minimum Viability Reports</span></h2>
+  </div>
+
+  <!-- Cost Summary Table -->
+  <div class="cost-table-wrap">
+    <table class="cost-table">
+      <thead>
+        <tr>
+          <th><span class="zh">项目</span><span class="en">Project</span></th>
+          <th><span class="zh">阶段</span><span class="en">Phase</span></th>
+          <th><span class="zh">预估成本</span><span class="en">Est. Cost</span></th>
+          <th><span class="zh">周期</span><span class="en">Timeline</span></th>
+          <th><span class="zh">风险</span><span class="en">Risk</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="zh">01 领导问题画像</span><span class="en">01 Leader Question Profile</span></td>
+          <td><span class="zh">短期</span><span class="en">Short</span></td>
+          <td class="feas-cost">$50K-100K</td>
+          <td>2-4 <span class="zh">个月</span><span class="en">months</span></td>
+          <td><span class="feas-risk risk-low"><span class="zh">低</span><span class="en">Low</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">02 优秀员工问题提取</span><span class="en">02 Best Performer Mining</span></td>
+          <td><span class="zh">短期</span><span class="en">Short</span></td>
+          <td class="feas-cost">$80K-150K</td>
+          <td>3-6 <span class="zh">个月</span><span class="en">months</span></td>
+          <td><span class="feas-risk risk-low"><span class="zh">低</span><span class="en">Low</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">03 AI预答系统</span><span class="en">03 Pre-Answer Engine</span></td>
+          <td><span class="zh">短期</span><span class="en">Short</span></td>
+          <td class="feas-cost">$100K-200K</td>
+          <td>4-6 <span class="zh">个月</span><span class="en">months</span></td>
+          <td><span class="feas-risk risk-mid"><span class="zh">中</span><span class="en">Med</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">04 领导者数字分身</span><span class="en">04 Leader Digital Avatar</span></td>
+          <td><span class="zh">中期</span><span class="en">Mid</span></td>
+          <td class="feas-cost">$200K-500K</td>
+          <td>8-12 <span class="zh">个月</span><span class="en">months</span></td>
+          <td><span class="feas-risk risk-mid"><span class="zh">中</span><span class="en">Med</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">05 会议实时助手</span><span class="en">05 Meeting Copilot</span></td>
+          <td><span class="zh">中期</span><span class="en">Mid</span></td>
+          <td class="feas-cost">$300K-600K</td>
+          <td>10-14 <span class="zh">个月</span><span class="en">months</span></td>
+          <td><span class="feas-risk risk-mid"><span class="zh">中</span><span class="en">Med</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">06 局部数据库打通</span><span class="en">06 Partial Data Integration</span></td>
+          <td><span class="zh">中期</span><span class="en">Mid</span></td>
+          <td class="feas-cost">$500K-1M</td>
+          <td>12-18 <span class="zh">个月</span><span class="en">months</span></td>
+          <td><span class="feas-risk risk-mid"><span class="zh">中</span><span class="en">Med</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">07 全数据打通 + SSOT</span><span class="en">07 Full Data + SSOT</span></td>
+          <td><span class="zh">长期</span><span class="en">Long</span></td>
+          <td class="feas-cost">$2M-8M</td>
+          <td>18-36 <span class="zh">个月</span><span class="en">months</span></td>
+          <td><span class="feas-risk risk-high"><span class="zh">高</span><span class="en">High</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">08 AI自我优化</span><span class="en">08 AI Self-Optimization</span></td>
+          <td><span class="zh">长期</span><span class="en">Long</span></td>
+          <td class="feas-cost">$3M-10M+</td>
+          <td>24-48 <span class="zh">个月</span><span class="en">months</span></td>
+          <td><span class="feas-risk risk-high"><span class="zh">高</span><span class="en">High</span></span></td>
+        </tr>
+        <tr>
+          <td><span class="zh">数字分身（个人版）</span><span class="en">Digital Twin (Personal)</span></td>
+          <td><span class="zh">独立</span><span class="en">Standalone</span></td>
+          <td class="feas-cost">$5K-20K/<span class="zh">人</span><span class="en">person</span></td>
+          <td>1-3 <span class="zh">个月</span><span class="en">months</span></td>
+          <td><span class="feas-risk risk-low"><span class="zh">低</span><span class="en">Low</span></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Detailed Feasibility Cards -->
+  <div class="feas-grid">
+    <!-- Feas 1 -->
+    <div class="feas-card">
+      <div class="feas-head">
+        <div class="feas-num num-short">01</div>
+        <div class="feas-name"><span class="zh">领导问题画像</span><span class="en">Leader Question Profile</span></div>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
+        <span class="feas-value"><span class="zh">1-2名AI工程师 + 邮件/会议数据访问权限</span><span class="en">1-2 AI engineers + email/meeting data access</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
+        <span class="feas-value feas-cost">$50K-100K</span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
+        <span class="feas-value"><span class="zh">M365 Copilot API + LLM（GPT-4级别）</span><span class="en">M365 Copilot API + LLM (GPT-4 level)</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
+        <span class="feas-value"><span class="feas-risk risk-low"><span class="zh">低</span><span class="en">Low</span></span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
+        <span class="feas-value"><span class="zh">选1-2位领导试点，收集3个月会议数据</span><span class="en">Pilot with 1-2 leaders, collect 3 months of meeting data</span></span>
+      </div>
+    </div>
+
+    <!-- Feas 2 -->
+    <div class="feas-card">
+      <div class="feas-head">
+        <div class="feas-num num-short">02</div>
+        <div class="feas-name"><span class="zh">优秀员工问题提取</span><span class="en">Best Performer Mining</span></div>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
+        <span class="feas-value"><span class="zh">1名AI工程师 + 5-10名优秀员工参与</span><span class="en">1 AI engineer + 5-10 top performers</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
+        <span class="feas-value feas-cost">$80K-150K</span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
+        <span class="feas-value"><span class="zh">LLM + 结构化访谈/工作日志采集工具</span><span class="en">LLM + structured interview/work log collection tools</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
+        <span class="feas-value"><span class="feas-risk risk-low"><span class="zh">低</span><span class="en">Low</span></span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
+        <span class="feas-value"><span class="zh">选定3-5名志愿者，记录2周工作思考过程</span><span class="en">Select 3-5 volunteers, document 2 weeks of thinking process</span></span>
+      </div>
+    </div>
+
+    <!-- Feas 3 -->
+    <div class="feas-card">
+      <div class="feas-head">
+        <div class="feas-num num-short">03</div>
+        <div class="feas-name"><span class="zh">AI 预答系统</span><span class="en">Pre-Answer Engine</span></div>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
+        <span class="feas-value"><span class="zh">2-3名工程师 + 数据基础设施</span><span class="en">2-3 engineers + data infrastructure</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
+        <span class="feas-value feas-cost">$100K-200K</span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
+        <span class="feas-value"><span class="zh">项目1+2产出 + RAG + 内部搜索API</span><span class="en">Project 1+2 output + RAG + internal search API</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
+        <span class="feas-value"><span class="feas-risk risk-mid"><span class="zh">中 — 依赖数据可访问性</span><span class="en">Med — depends on data accessibility</span></span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
+        <span class="feas-value"><span class="zh">基于项目1结果，搭建RAG原型系统</span><span class="en">Build RAG prototype based on Project 1 results</span></span>
+      </div>
+    </div>
+
+    <!-- Feas 4 -->
+    <div class="feas-card">
+      <div class="feas-head">
+        <div class="feas-num num-mid">04</div>
+        <div class="feas-name"><span class="zh">领导者数字分身</span><span class="en">Leader Digital Avatar</span></div>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
+        <span class="feas-value"><span class="zh">2-3名AI工程师 + UX设计师</span><span class="en">2-3 AI engineers + UX designer</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
+        <span class="feas-value feas-cost">$200K-500K</span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
+        <span class="feas-value"><span class="zh">项目1深度产出 + Agent框架</span><span class="en">Deep Project 1 output + Agent framework</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
+        <span class="feas-value"><span class="feas-risk risk-mid"><span class="zh">中 — 需验证AI提问质量</span><span class="en">Med — need to validate AI question quality</span></span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
+        <span class="feas-value"><span class="zh">选1位领导的画像，开发MVP对话式agent</span><span class="en">Select 1 leader's profile, develop conversational agent MVP</span></span>
+      </div>
+    </div>
+
+    <!-- Feas 5 -->
+    <div class="feas-card">
+      <div class="feas-head">
+        <div class="feas-num num-mid">05</div>
+        <div class="feas-name"><span class="zh">会议实时助手</span><span class="en">Meeting Copilot</span></div>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
+        <span class="feas-value"><span class="zh">3-4名工程师 + 实时基础设施</span><span class="en">3-4 engineers + real-time infrastructure</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
+        <span class="feas-value feas-cost">$300K-600K</span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
+        <span class="feas-value"><span class="zh">语音转写 + RAG + 实时推送架构</span><span class="en">Speech transcription + RAG + real-time push</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
+        <span class="feas-value"><span class="feas-risk risk-mid"><span class="zh">中 — 延迟和数据安全要求</span><span class="en">Med — latency and data security</span></span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
+        <span class="feas-value"><span class="zh">利用Teams转录API，做离线版本先验证</span><span class="en">Use Teams transcription API, validate with offline version first</span></span>
+      </div>
+    </div>
+
+    <!-- Feas 6 -->
+    <div class="feas-card">
+      <div class="feas-head">
+        <div class="feas-num num-mid">06</div>
+        <div class="feas-name"><span class="zh">部分数据库打通</span><span class="en">Partial Data Integration</span></div>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
+        <span class="feas-value"><span class="zh">3-5名数据工程师 + DBA</span><span class="en">3-5 data engineers + DBA</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
+        <span class="feas-value feas-cost">$500K-1M</span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
+        <span class="feas-value"><span class="zh">数据管道 + ETL + AI可读API</span><span class="en">Data pipeline + ETL + AI-readable API</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
+        <span class="feas-value"><span class="feas-risk risk-mid"><span class="zh">中 — 数据格式不一致</span><span class="en">Med — inconsistent data formats</span></span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
+        <span class="feas-value"><span class="zh">选良率数据系统做第一个API化试点</span><span class="en">Pilot API-enablement with yield data system</span></span>
+      </div>
+    </div>
+
+    <!-- Feas 7 -->
+    <div class="feas-card">
+      <div class="feas-head">
+        <div class="feas-num num-long">07</div>
+        <div class="feas-name"><span class="zh">全数据打通 + SSOT</span><span class="en">Full Data + SSOT</span></div>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
+        <span class="feas-value"><span class="zh">专职团队10+人（数据+平台+治理）</span><span class="en">Dedicated team 10+ (data + platform + governance)</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
+        <span class="feas-value feas-cost">$2M-8M</span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
+        <span class="feas-value"><span class="zh">企业数据平台 + 治理框架 + API标准</span><span class="en">Enterprise data platform + governance + API standards</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
+        <span class="feas-value"><span class="feas-risk risk-high"><span class="zh">高 — 组织阻力+预算+优先级</span><span class="en">High — org resistance + budget + priority</span></span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
+        <span class="feas-value"><span class="zh">从项目6扩展，逐步接入更多数据源</span><span class="en">Expand from Project 6, gradually connect more sources</span></span>
+      </div>
+    </div>
+
+    <!-- Feas 8 -->
+    <div class="feas-card">
+      <div class="feas-head">
+        <div class="feas-num num-long">08</div>
+        <div class="feas-name"><span class="zh">AI 自我优化</span><span class="en">AI Self-Optimization</span></div>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
+        <span class="feas-value"><span class="zh">ML团队5+人 + 领域专家持续输入</span><span class="en">ML team 5+ + continuous domain expert input</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
+        <span class="feas-value feas-cost">$3M-10M+</span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
+        <span class="feas-value"><span class="zh">项目7产出 + 模型微调基础设施 + 反馈闭环</span><span class="en">Project 7 output + model fine-tuning infra + feedback loop</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
+        <span class="feas-value"><span class="feas-risk risk-high"><span class="zh">高 — 技术成熟度+可靠性验证</span><span class="en">High — tech maturity + reliability verification</span></span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
+        <span class="feas-value"><span class="zh">建立"AI决策→人工审核→反馈"的闭环</span><span class="en">Build "AI decision → human review → feedback" loop</span></span>
+      </div>
+    </div>
+
+    <!-- Feas Digital Twin -->
+    <div class="feas-card">
+      <div class="feas-head">
+        <div class="feas-num num-twin">DT</div>
+        <div class="feas-name"><span class="zh">个人数字分身</span><span class="en">Personal Digital Twin</span></div>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">所需资源</span><span class="en">Resources</span></span>
+        <span class="feas-value"><span class="zh">屏幕录制工具 + 本地模型训练环境</span><span class="en">Screen recording tool + local model training env</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">预估成本</span><span class="en">Est. Cost</span></span>
+        <span class="feas-value feas-cost">$5K-20K/<span class="zh">人</span><span class="en">person</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">技术依赖</span><span class="en">Tech Dependency</span></span>
+        <span class="feas-value"><span class="zh">屏幕/操作录制SDK + 本地LLM</span><span class="en">Screen/action recording SDK + local LLM</span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">风险点</span><span class="en">Risk</span></span>
+        <span class="feas-value"><span class="feas-risk risk-low"><span class="zh">低 — 个人版无隐私问题</span><span class="en">Low — no privacy issue for personal edition</span></span></span>
+      </div>
+      <div class="feas-row">
+        <span class="feas-label"><span class="zh">起步步骤</span><span class="en">First Step</span></span>
+        <span class="feas-value"><span class="zh">1人自录1周，用开源工具训练原型</span><span class="en">1 person self-records 1 week, train prototype with open-source tools</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cost Notes -->
+  <div class="exec-summary" style="margin-top: 2rem; border-left: 4px solid var(--blue);">
+    <h3><span class="zh">成本估算说明</span><span class="en">Cost Estimation Notes</span></h3>
+    <p>
+      <span class="zh"><strong>背景假设：</strong>以中等规模半导体公司（1000-5000名研发工程师）为基准。短期项目成本以人力和API调用为主；中期项目需要数据工程和模型微调投入；长期项目涉及全量数据基础设施改造。</span>
+      <span class="en"><strong>Background Assumptions:</strong> Based on a mid-size semiconductor company (1,000-5,000 R&amp;D engineers). Short-term costs are primarily personnel and API calls; mid-term requires data engineering and model fine-tuning; long-term involves full data infrastructure overhaul.</span>
+    </p>
+    <p>
+      <span class="zh"><strong>现有基础设施：</strong>M365 Copilot已有许可证，Teams会议转录、邮件API等可部分复用，降低起步门槛。内部模型（如基于开源微调的领域模型）可作为长期降低API成本的路径。</span>
+      <span class="en"><strong>Existing Infrastructure:</strong> M365 Copilot licenses already in place; Teams transcription, email API, etc. can be partially leveraged to lower barriers. Internal models (e.g., open-source fine-tuned domain models) can reduce long-term API costs.</span>
+    </p>
+    <p>
+      <span class="zh"><strong>模型Token成本：</strong>按GPT-4级别估算，月度$10K-50K取决于用量。建议短期用商业API快速验证，中期开始构建内部模型降低长期成本。</span>
+      <span class="en"><strong>Model Token Costs:</strong> Estimated at GPT-4 level, $10K-50K/month depending on usage. Recommend commercial API for quick short-term validation, building internal models mid-term to reduce long-term costs.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ========== ROADMAP ========== -->
+<section id="roadmap" class="fade-up">
+  <div class="section-head">
+    <span class="section-tag tag-short"><span class="zh">路线图</span><span class="en">Roadmap</span></span>
+    <h2><span class="zh">实施路线图</span><span class="en">Implementation Roadmap</span></h2>
+  </div>
+
+  <div class="roadmap">
+    <div class="road-item r-short">
+      <div class="road-phase"><span class="zh">第 1-3 个月 · 启动</span><span class="en">Month 1-3 · Launch</span></div>
+      <div class="road-text">
+        <span class="zh">启动<strong>项目01（领导问题画像）</strong>试点：选定2-3位领导，收集邮件和3个月会议数据，建立第一批"问题指纹"。同时启动<strong>项目02（优秀员工问题提取）</strong>：招募5名优秀工程师志愿者，记录工作思考过程。数字分身个人版可同步启动概念验证。</span>
+        <span class="en">Launch <strong>Project 01 (Leader Question Profile)</strong> pilot: select 2-3 leaders, collect email and 3 months of meeting data, build the first batch of "question fingerprints." Simultaneously start <strong>Project 02 (Best Performer Mining)</strong>: recruit 5 top performer volunteers to document their thinking processes. Digital Twin personal edition proof-of-concept can start in parallel.</span>
+      </div>
+    </div>
+    <div class="road-item r-short">
+      <div class="road-phase"><span class="zh">第 3-6 个月 · 验证</span><span class="en">Month 3-6 · Validate</span></div>
+      <div class="road-text">
+        <span class="zh">基于项目01和02的产出，构建<strong>项目03（AI预答系统）</strong>的MVP。向团队展示早期成果：领导看到自己的"问题指纹"，工程师看到预生成的答案。收集反馈，迭代优化。开始规划<strong>项目06</strong>的第一个数据源打通（良率数据API化）。</span>
+        <span class="en">Based on Project 01 and 02 outputs, build <strong>Project 03 (Pre-Answer Engine)</strong> MVP. Show early results to the team: leaders see their "question fingerprints," engineers see pre-generated answers. Collect feedback, iterate. Start planning <strong>Project 06</strong>'s first data source integration (yield data API-enablement).</span>
+      </div>
+    </div>
+    <div class="road-item r-mid">
+      <div class="road-phase"><span class="zh">第 6-12 个月 · 扩展</span><span class="en">Month 6-12 · Scale</span></div>
+      <div class="road-text">
+        <span class="zh">将短期项目推广到更多领导者和团队。启动<strong>项目04（领导者数字分身）</strong>MVP开发。推进<strong>项目06</strong>，打通2-3个关键数据库。开始<strong>项目05（会议实时助手）</strong>的原型开发，利用Teams转录API做离线验证。</span>
+        <span class="en">Scale short-term projects to more leaders and teams. Start <strong>Project 04 (Leader Digital Avatar)</strong> MVP development. Advance <strong>Project 06</strong>, integrating 2-3 key databases. Begin <strong>Project 05 (Meeting Copilot)</strong> prototype development, using Teams transcription API for offline validation.</span>
+      </div>
+    </div>
+    <div class="road-item r-mid">
+      <div class="road-phase"><span class="zh">第 12-18 个月 · 深化</span><span class="en">Month 12-18 · Deepen</span></div>
+      <div class="road-text">
+        <span class="zh">项目05上线试运行，项目06进入第二阶段（接入更多数据源）。项目04全面推广。开始规划<strong>项目07（全数据打通）</strong>的企业级数据治理方案。建立AI决策审核机制，为项目08做准备。</span>
+        <span class="en">Project 05 goes live in trial, Project 06 enters phase 2 (more data sources). Project 04 scales organization-wide. Begin planning <strong>Project 07 (Full Data Integration)</strong> enterprise data governance. Establish AI decision review mechanisms, preparing for Project 08.</span>
+      </div>
+    </div>
+    <div class="road-item r-long">
+      <div class="road-phase"><span class="zh">第 18-36 个月 · 变革</span><span class="en">Month 18-36 · Transform</span></div>
+      <div class="road-text">
+        <span class="zh">全面推进<strong>项目07（全数据打通+SSOT）</strong>。在数据基础完善的前提下，启动<strong>项目08（AI自我优化）</strong>的闭环系统建设。个人数字分身从实验转向规模化部署。最终形态：AI成为研发基础设施的核心组件，实现数据流和决策链的全自动优化。</span>
+        <span class="en">Fully advance <strong>Project 07 (Full Data + SSOT)</strong>. With solid data foundations, launch <strong>Project 08 (AI Self-Optimization)</strong> closed-loop system. Personal Digital Twins move from experiment to scaled deployment. End state: AI becomes a core component of R&amp;D infrastructure, achieving fully automated data flow and decision chain optimization.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <p>
+    <span class="zh">AI 转型策略 · 内部文档 · </span><span class="en">AI Transformation Strategy · Internal Document · </span>
+    <a href="./index.html">Sky Portal</a>
+  </p>
+</footer>
+
+<!-- ========== JAVASCRIPT ========== -->
+<script>
+/* Language Toggle */
+function setLang(lang) {
+  document.body.className = 'lang-' + lang;
+  document.getElementById('btn-zh').className = lang === 'zh' ? 'active' : '';
+  document.getElementById('btn-en').className = lang === 'en' ? 'active' : '';
+  localStorage.setItem('ai-strategy-lang', lang);
+}
+
+/* Restore language preference */
+(function() {
+  var saved = localStorage.getItem('ai-strategy-lang');
+  if (saved) { setLang(saved); }
+})();
+
+/* Card Expand/Collapse */
+function toggleCard(card) {
+  card.classList.toggle('expanded');
+}
+
+/* Sticky Nav */
+(function() {
+  var nav = document.getElementById('stickyNav');
+  var hero = document.querySelector('.hero');
+  if (!nav || !hero) return;
+
+  function checkNav() {
+    var heroBottom = hero.offsetTop + hero.offsetHeight;
+    if (window.scrollY > heroBottom - 60) {
+      nav.classList.add('visible');
+    } else {
+      nav.classList.remove('visible');
+    }
+  }
+
+  window.addEventListener('scroll', checkNav, { passive: true });
+  checkNav();
+})();
+
+/* Active Nav Link */
+(function() {
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav a');
+
+  function updateActive() {
+    var scrollPos = window.scrollY + 120;
+    sections.forEach(function(section) {
+      var top = section.offsetTop;
+      var bottom = top + section.offsetHeight;
+      var id = section.getAttribute('id');
+      navLinks.forEach(function(link) {
+        if (link.getAttribute('href') === '#' + id) {
+          if (scrollPos >= top && scrollPos < bottom) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        }
+      });
+    });
+  }
+
+  window.addEventListener('scroll', updateActive, { passive: true });
+})();
+
+/* Mobile Nav */
+function toggleMobileNav() {
+  var panel = document.getElementById('mobileNavPanel');
+  panel.classList.toggle('open');
+}
+
+function closeMobileNav() {
+  var panel = document.getElementById('mobileNavPanel');
+  panel.classList.remove('open');
+}
+
+/* Close mobile nav on outside click */
+document.addEventListener('click', function(e) {
+  var panel = document.getElementById('mobileNavPanel');
+  var btn = document.getElementById('mobileNavBtn');
+  if (panel && btn && !panel.contains(e.target) && !btn.contains(e.target)) {
+    panel.classList.remove('open');
+  }
+});
+
+/* Fade-in on scroll */
+(function() {
+  var items = document.querySelectorAll('.fade-up');
+  if (!items.length) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  items.forEach(function(item) {
+    item.style.animationPlayState = 'paused';
+    observer.observe(item);
+  });
+})();
+</script>
+</body>
+</html>
