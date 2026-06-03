@@ -33,18 +33,7 @@
 html{scroll-behavior:smooth;font-size:16px}
 body{font-family:var(--font);background:var(--light-bg);color:var(--text-dark);line-height:1.7;overflow-x:hidden}
 
-/* ===== Login ===== */
-.login-overlay{position:fixed;inset:0;background:var(--dark-bg);z-index:10000;display:flex;align-items:center;justify-content:center;transition:opacity .5s,visibility .5s;flex-direction:column}
-.login-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
-.login-box{background:var(--dark-card);border:1px solid var(--border-dark);border-radius:var(--radius-lg);padding:48px 40px;width:90%;max-width:400px;text-align:center;position:relative}
-.login-box .lock{width:56px;height:56px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.4rem}
-.login-box h2{color:var(--text-light);font-size:1.3rem;margin-bottom:6px}
-.login-box p{color:var(--text-muted);font-size:.82rem;margin-bottom:24px}
-.login-input{width:100%;padding:13px 16px;background:var(--dark-surface);border:1px solid var(--border-dark);border-radius:var(--radius);color:var(--text-light);font-size:1rem;outline:none;margin-bottom:16px;transition:border-color var(--ease)}
-.login-input:focus{border-color:var(--primary-light)}
-.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;border:none;border-radius:var(--radius);font-size:1rem;font-weight:600;cursor:pointer;transition:transform var(--ease),box-shadow var(--ease)}
-.login-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,104,181,.4)}
-.login-error{color:var(--accent-red);font-size:.82rem;margin-top:12px;min-height:20px}
+/* ===== Login (removed) ===== */
 
 /* ===== Sidebar ===== */
 .sidebar{position:fixed;left:0;top:0;width:var(--sidebar-w);height:100vh;background:var(--dark-bg);border-right:1px solid var(--border-dark);z-index:1000;display:flex;flex-direction:column;transition:transform var(--ease)}
@@ -246,9 +235,7 @@ body{font-family:var(--font);background:var(--light-bg);color:var(--text-dark);l
 .evo-l5 .evo-num-circle{background:linear-gradient(135deg,#9C27B0,#AB47BC)}.evo-l5 .evo-badge{background:rgba(156,39,176,.15);color:#CE93D8}
 .evo-focus{display:inline-flex;align-items:center;gap:6px;padding:5px 16px;background:rgba(0,163,224,.1);border:1px solid rgba(0,163,224,.25);color:var(--primary-light);border-radius:20px;font-size:.78rem;font-weight:600;margin-top:24px}
 
-/* ===== Login lang toggle ===== */
-.login-lang{position:absolute;top:16px;right:16px;display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 12px;border:1px solid var(--border-dark);border-radius:var(--radius);color:var(--text-muted);font-size:.78rem;font-weight:600;user-select:none;transition:color var(--ease),border-color var(--ease)}
-.login-lang:hover{color:var(--text-light);border-color:var(--primary-light)}
+/* ===== Login lang toggle (removed) ===== */
 
 /* ===== Responsive ===== */
 @media(max-width:900px){
@@ -299,19 +286,6 @@ body{font-family:var(--font);background:var(--light-bg);color:var(--text-dark);l
 </style>
 </head>
 <body>
-
-<!-- ===== LOGIN ===== -->
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-lang" id="loginLangToggle" title="Switch language">EN / 中文</div>
-  <div class="login-box">
-    <div class="lock">🔒</div>
-    <h2 data-zh="内部文件 · 需要授权" data-en="Internal Document · Authorization Required">内部文件 · 需要授权</h2>
-    <p data-zh="本方案仅供内部评审使用" data-en="This proposal is for internal review only">本方案仅供内部评审使用</p>
-    <input type="password" class="login-input" id="loginPw" data-zh-placeholder="请输入密码" data-en-placeholder="Enter password" placeholder="请输入密码" autocomplete="off">
-    <button class="login-btn" id="loginBtn" data-zh="验证进入" data-en="Access">验证进入</button>
-    <div class="login-error" id="loginErr" data-zh="密码错误，请重试" data-en="Incorrect password, please try again"></div>
-  </div>
-</div>
 
 <!-- ===== MOBILE HEADER ===== -->
 <div class="mobile-hdr">
@@ -825,42 +799,7 @@ body{font-family:var(--font);background:var(--light-bg);color:var(--text-dark);l
 </div><!-- /main -->
 
 <script>
-// ===== Access Control =====
-async function sha256(msg) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-const CORRECT_HASH = '7b9f7e4f8e1a3c6d9e2b5a8f1c4d7e0a3b6c9e2f5a8d1e4b7c0a3f6d9e2b5a'; // placeholder, computed below
-
-// Pre-compute: xiaobo sha256
-// We'll compute on load and compare
-const EXPECTED = '6e8f4c2d7a3b9e1f5d4c8b2a6e9f1d3c7a5b8e2f6d4c9a1e7f3b5d8c2a6e4f'; // will be replaced
-
-(async () => {
-  const correctHash = await sha256('xiaobo');
-  
-  const overlay = document.getElementById('loginOverlay');
-  const pwInput = document.getElementById('loginPw');
-  const loginBtn = document.getElementById('loginBtn');
-  const errDiv = document.getElementById('loginErr');
-
-  function tryLogin() {
-    sha256(pwInput.value).then(hash => {
-      if (hash === correctHash) {
-        overlay.classList.add('hidden');
-      } else {
-        errDiv.textContent = errDiv.getAttribute('data-' + lang) || (lang === 'zh' ? '密码错误，请重试' : 'Incorrect password');
-        pwInput.value = '';
-        pwInput.focus();
-      }
-    });
-  }
-
-  loginBtn.addEventListener('click', tryLogin);
-  pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
-})();
-
+// ===== Access Control (removed) =====
 // ===== Language Toggle =====
 let lang = 'zh';
 const langToggle = document.getElementById('langToggle');
@@ -879,13 +818,6 @@ function applyLang() {
 }
 
 langToggle.addEventListener('click', () => {
-  lang = lang === 'zh' ? 'en' : 'zh';
-  applyLang();
-});
-
-// Login page language toggle
-const loginLangToggle = document.getElementById('loginLangToggle');
-loginLangToggle.addEventListener('click', () => {
   lang = lang === 'zh' ? 'en' : 'zh';
   applyLang();
 });
