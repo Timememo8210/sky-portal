@@ -624,6 +624,109 @@ h1 {
   font-size: 0.84rem;
 }
 
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 24px 0;
+}
+.evidence-card {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.7);
+  padding: 18px;
+}
+.evidence-card small {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--green);
+  font: 700 0.72rem var(--font-latin);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.evidence-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.08rem;
+}
+.evidence-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.evidence-card a { color: var(--blue); }
+.priority-stack {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+.agent-card {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) 230px;
+  gap: 18px;
+  align-items: stretch;
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  padding: 18px;
+}
+.agent-rank {
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: var(--paper);
+  font: 900 2rem var(--font-latin);
+}
+.agent-main h3 {
+  margin: 0 0 8px;
+  font-size: 1.28rem;
+}
+.agent-main p {
+  margin: 0;
+  color: var(--muted);
+}
+.agent-guard {
+  border-left: 4px solid var(--green);
+  background: var(--green-soft);
+  padding: 12px 14px;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.ownership-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.owner-card {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.68);
+  padding: 14px;
+}
+.owner-card b {
+  display: block;
+  margin-bottom: 6px;
+}
+.owner-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.rules-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+.rule-chip {
+  border: 1px solid var(--line);
+  background: rgba(255,254,250,0.72);
+  padding: 13px;
+  font-size: 0.9rem;
+}
+.rule-chip b {
+  display: block;
+  margin-bottom: 5px;
+}
+
 .next-block {
   margin-top: 26px;
   border: 1px solid var(--line-strong);
@@ -659,6 +762,9 @@ footer {
   .status-board { grid-template-columns: 1fr; }
   .roadmap-row { grid-template-columns: 1fr; }
   .foundation-grid,
+  .evidence-grid,
+  .ownership-grid,
+  .agent-card,
   .history-flow { grid-template-columns: 1fr; }
   .history-node::after { display: none; }
   .grid-3 { grid-template-columns: 1fr; }
@@ -675,6 +781,7 @@ footer {
   .grid-2,
   .thesis-pair,
   .truth-strip,
+  .rules-row,
   .metric-strip { grid-template-columns: 1fr; }
   .status-item { grid-template-columns: 1fr; gap: 4px; }
   .slide { padding: 22px; scroll-margin-top: 16px; }
@@ -737,6 +844,7 @@ footer {
     <a href="#data-foundation">04 数据基础</a>
     <a href="#roadmap">05 路线图</a>
     <a href="#actions">06 组织行动</a>
+    <a href="#governance">07 落地治理</a>
   </nav>
 
   <section class="slide" id="why">
@@ -1033,6 +1141,93 @@ footer {
       </div>
       <p class="source-note">
         参考基础：<a href="./ai-strategy.html">原 AI Strategy 页面</a> 的五阶段能力演进和短中长期项目框架。本 R2 页面保留原页面不动，仅整理新增汇报思路。
+      </p>
+    </div>
+  </section>
+
+  <section class="slide" id="governance">
+    <div class="slide-number">07</div>
+    <div class="slide-content">
+      <div class="eyebrow">Governance & pilots</div>
+      <h2>真正的难点不是做出 agent，而是让它在组织里可信、可控、有人负责。</h2>
+      <p class="lead">
+        外部调研和企业案例给出的信号很一致：AI 项目失败通常不是因为模型不会回答，而是因为数据散、流程没改、权责不清、人有恐惧。对大公司尤其如此。我们的打法应该避开政治硬墙，在已经授权的数据边界内做小步试点，用带来源、可追溯、可拒答的 agent 建立信任。
+      </p>
+
+      <div class="evidence-grid">
+        <article class="evidence-card">
+          <small>Enterprise AI reality</small>
+          <h3>失败多卡在集成和规模化</h3>
+          <p>MIT NANDA 2025 报告被广泛引用的结论是，多数企业 GenAI pilot 没有产生可衡量 P&L 影响；核心问题更多是 workflow integration 和落地学习差距，而非模型本身。<a href="https://nanda.media.mit.edu/ai_report_2025.pdf">source</a></p>
+        </article>
+        <article class="evidence-card">
+          <small>People / process / politics</small>
+          <h3>AI 战略也是组织设计</h3>
+          <p>HBS AI Institute 对 HBR 文章的摘要强调，AI ROI 取决于 people、processes、politics，需要处理员工恐惧、重建流程和管理权力变化。<a href="https://aiinstitute.hbs.edu/the-people-processes-and-politics-of-ai-roi/">source</a></p>
+        </article>
+        <article class="evidence-card">
+          <small>Approved boundary</small>
+          <h3>M365 是最现实的合规入口</h3>
+          <p>Microsoft 文档说明 Copilot 可通过 Microsoft Graph 基于用户权限访问邮件、文件、聊天、会议等组织数据，并提供 citations 供核验。<a href="https://support.microsoft.com/en-us/Microsoft-365-Copilot/what-information-does-copilot-use-to-answer-my-prompt">source</a></p>
+        </article>
+      </div>
+
+      <div class="callout">
+        政治护城河：先守住公司已经批准的 M365 / Copilot 边界，不申请新权限，不碰生产控制，不替代人的判断，只把本来能找到的信息更快、更可靠地交给工程师。
+      </div>
+
+      <div class="priority-stack">
+        <article class="agent-card">
+          <div class="agent-rank">1</div>
+          <div class="agent-main">
+            <h3>Knowledge Check Agent</h3>
+            <p>最该先做的 flagship use case。它访问的是已经授权的文档、邮件、training material、meeting recap 和 share drive 信息，本质是帮大家更快找到本来就能找到的东西，政治阻力低，价值直接。</p>
+          </div>
+          <div class="agent-guard">硬规则：每个回答必须带来源；答不出来就说“不知道”；宁可拒答，也不能编。</div>
+        </article>
+        <article class="agent-card">
+          <div class="agent-rank">2</div>
+          <div class="agent-main">
+            <h3>Meeting Prep Coach</h3>
+            <p>把“Program Manager 数字分身”重新叙事为开会准备助手。它服务的是汇报人，帮助工程师预演会被问到的硬问题、提前补齐证据，而不是替代 PM 的判断和权力。</p>
+          </div>
+          <div class="agent-guard">政治动作：先做通用版；如果涉及某位 PM 的风格，让 PM 成为共建者，而不是被建模对象。</div>
+        </article>
+        <article class="agent-card">
+          <div class="agent-rank">3</div>
+          <div class="agent-main">
+            <h3>Domain Knowledge Ownership</h3>
+            <p>不建议每个工程师配 5 个 agent。更稳的结构是部门维护、按领域收敛：知识库有 owner，信息准确性有人负责，agent 只是检索和搬运接口。</p>
+          </div>
+          <div class="agent-guard">治理原则：事实层收敛，应用层发散；spec、数据、SOP 必须唯一准确，怎么问和怎么用可以多样。</div>
+        </article>
+      </div>
+
+      <div class="ownership-grid">
+        <div class="owner-card"><b>Yield / MTS inline spec</b><span>Owner: Integration。对 spec 定义、版本、例外情况和引用路径负责。</span></div>
+        <div class="owner-card"><b>Reliability 数据</b><span>Owner: Reliability team。对可靠性数据口径、测试条件和历史案例负责。</span></div>
+        <div class="owner-card"><b>Logistics / planning</b><span>Owner: Planning / Manufacturing。对排程、产能、物流状态和变更记录负责。</span></div>
+      </div>
+
+      <div class="rules-row">
+        <div class="rule-chip"><b>Trust</b>带来源、可追溯、允许说不知道。</div>
+        <div class="rule-chip"><b>Boundary</b>只用已授权数据，不越权访问。</div>
+        <div class="rule-chip"><b>Ownership</b>每个知识库有人负责准确性。</div>
+        <div class="rule-chip"><b>KPI</b>用任务覆盖率和 30 秒带来源答案，而不是 prompt 数。</div>
+      </div>
+
+      <div class="next-block">
+        <h3>中肯排序</h3>
+        <ol>
+          <li>先做 Knowledge Check Agent，选 1-2 个高痛点技术域试点，强制带来源和拒答机制。</li>
+          <li>把数字分身改成 Meeting Prep Coach，先做通用版，再考虑让关键 PM 共建。</li>
+          <li>建立 knowledge ownership，比 agent 本身更重要：谁负责哪个库，谁对准确性负责。</li>
+          <li>汇报 KPI 讲任务覆盖和时间缩短，例如“80% 常见技术问题 30 秒内拿到带来源答案”。</li>
+        </ol>
+      </div>
+
+      <p class="source-note">
+        这一页是工作草稿：外部研究只作为方向性依据，最终内部报告需要替换成公司可引用的正式来源和合规表述。
       </p>
     </div>
   </section>
