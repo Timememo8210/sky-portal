@@ -845,6 +845,7 @@ footer {
     <a href="#roadmap">05 路线图</a>
     <a href="#actions">06 组织行动</a>
     <a href="#governance">07 落地治理</a>
+    <a href="#workstyle">08 工作方式</a>
   </nav>
 
   <section class="slide" id="why">
@@ -1228,6 +1229,91 @@ footer {
 
       <p class="source-note">
         这一页是工作草稿：外部研究只作为方向性依据，最终内部报告需要替换成公司可引用的正式来源和合规表述。
+      </p>
+    </div>
+  </section>
+
+  <section class="slide" id="workstyle">
+    <div class="slide-number">08</div>
+    <div class="slide-content">
+      <div class="eyebrow">Workstyle evolution</div>
+      <h2>不要先讲“组织变革”，先把它做成没人反对的工作方式改善。</h2>
+      <p class="lead">
+        更长远看，AI 会改变部门之间对齐、会议、系统设计和知识流动的方式。但在真正做出可见成果前，最好不要把它包装成“组织架构调整”。更安全的说法是：减少同步会议成本、提升会前异步对齐质量、让人把时间用在判断和决策上。
+      </p>
+
+      <div class="evidence-grid">
+        <article class="evidence-card">
+          <small>Agent orchestration</small>
+          <h3>人定方向，agent 做例行协调</h3>
+          <p>微软已把 agents、agent builder、workflows 和 Teams/M365 集成作为企业 Copilot 方向之一。现实落点不是无人组织，而是人做判断，agent 处理数据、状态汇总和例行流程。<a href="https://learn.microsoft.com/en-us/copilot/agents">source</a></p>
+        </article>
+        <article class="evidence-card">
+          <small>MCP + A2A</small>
+          <h3>纵向接数据，横向接 agent</h3>
+          <p>MCP 更像 agent 到工具、API、数据库的连接层；A2A 则提供 agent-to-agent 的通信和协作协议。你的“部门 agent 接自己数据库，再和别部门 agent 对齐”正好对应这两层。<a href="https://modelcontextprotocol.io/specification/2025-06-18/server/tools">MCP</a> · <a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">A2A</a></p>
+        </article>
+        <article class="evidence-card">
+          <small>Human oversight</small>
+          <h3>信息可以自动对齐，责任不能自动消失</h3>
+          <p>企业 agent 治理正在从每步人工审批，走向人设定边界、阈值和升级路径。agent 可以交换信息，但决策问责必须落在人头上。<a href="https://cmr.berkeley.edu/assets/documents/pdf/2026-03-governing-the-agentic-enterprise-a-new-operating-model-for-autonomous-ai-at-scale.pdf">source</a></p>
+        </article>
+      </div>
+
+      <div class="callout">
+        战略主轴：变革要做成“被发现的既成事实”，不要做成“被宣布的计划”。先让一个会变短、一个状态对齐变快、一个常见问题能 30 秒带来源回答。
+      </div>
+
+      <div class="foundation-grid">
+        <article class="foundation-card">
+          <h3>会议从同步状态汇报，变成异步对齐后的判断会</h3>
+          <p>
+            今天很多会议昂贵但低效：大量时间花在每个人重复听并不相关的状态。更现实的第一步，是会前让 knowledge agent 汇总各方状态、风险、open questions 和需要决策的点。会议本身只保留判断、冲突解决和关键决策。
+          </p>
+          <ul>
+            <li>会前：agent 汇总状态和证据，发出 pre-read。</li>
+            <li>会中：人只讨论无法自动解决的判断问题。</li>
+            <li>会后：agent 生成 action items、owner、deadline 和 follow-up。</li>
+          </ul>
+        </article>
+        <article class="foundation-card">
+          <h3>系统未来要同时服务人和 AI，但现在不要这么讲</h3>
+          <p>
+            长期趋势是系统不只提供给人看的 UI，也要提供给 AI 可读取、可调用、可审计的接口。这个方向是真实的，但对上汇报时不宜讲成“系统要为 AI 重新设计”，而应讲成“让数据能被授权 agent 安全访问、引用和追溯”。
+          </p>
+          <ul>
+            <li>对人：界面清楚、流程可执行。</li>
+            <li>对 AI：API、权限、版本、provenance、事件和日志清楚。</li>
+            <li>对组织：不越权、不黑箱、可追责。</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="ownership-grid">
+        <div class="owner-card"><b>现在能做且能讲</b><span>Knowledge Check Agent；会前状态 summary；30 秒带来源答案；数据可访问和可追溯。</span></div>
+        <div class="owner-card"><b>可以做，但不要命名太大</b><span>异步对齐、跨部门 agent 辅助协调、meeting prep coach、减少 status meeting 时间。</span></div>
+        <div class="owner-card"><b>未来方向先存档</b><span>数字分身代理沟通、agent-to-agent 跨部门谈判、系统为 AI 重新设计、组织架构调整。</span></div>
+      </div>
+
+      <div class="rules-row">
+        <div class="rule-chip"><b>对上讲</b>会议成本、知识检索、数据安全访问。</div>
+        <div class="rule-chip"><b>不要讲</b>替代、重组、数字分身代理谈判。</div>
+        <div class="rule-chip"><b>先证明</b>一两个可用场景，让甜头自己说话。</div>
+        <div class="rule-chip"><b>永远保留</b>人做判断，人负责任，agent 做加速。</div>
+      </div>
+
+      <div class="next-block">
+        <h3>对上汇报的安全话术</h3>
+        <ol>
+          <li>“我们先把例行状态会的会前准备自动化，让会议时间更多用于判断和决策。”</li>
+          <li>“我们先在一个技术域试点，把常见问题变成 30 秒内可拿到、带来源的答案。”</li>
+          <li>“我们不是改变组织架构，而是在现有权限和流程内减少重复沟通成本。”</li>
+          <li>“agent 可以对齐信息，但最终判断、批准和责任仍在人。”</li>
+        </ol>
+      </div>
+
+      <p class="source-note">
+        这一页保留为个人 roadmap 草稿：对外汇报时应压缩成“会议成本 + knowledge agent + 数据安全访问”三件事，其他内容先作为长期方向。
       </p>
     </div>
   </section>
