@@ -280,6 +280,64 @@ h1 {
   font-size: 1.05rem;
   font-weight: 600;
 }
+.thesis-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 26px 0 18px;
+}
+.thesis-card {
+  position: relative;
+  min-height: 180px;
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  padding: 20px 20px 22px;
+  overflow: hidden;
+}
+.thesis-card::after {
+  content: attr(data-mark);
+  position: absolute;
+  right: 14px;
+  bottom: -20px;
+  color: rgba(21,25,24,0.06);
+  font: 900 6rem var(--font-latin);
+  line-height: 1;
+}
+.thesis-card small {
+  display: inline-flex;
+  margin-bottom: 22px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 10px;
+  color: var(--green);
+  background: var(--green-soft);
+  font: 700 0.72rem var(--font-latin);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.thesis-card h3 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 8px;
+  font-size: clamp(1.35rem, 3vw, 2.1rem);
+  line-height: 1.12;
+}
+.thesis-card p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.wing-line {
+  max-width: 900px;
+  margin: 16px 0 26px;
+  padding: 14px 18px;
+  border: 1px dashed rgba(32,39,36,0.32);
+  color: var(--ink);
+  background: rgba(255,254,250,0.58);
+  font-weight: 600;
+}
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -517,6 +575,7 @@ footer {
   .top-actions { justify-content: flex-start; }
   .hero { padding-top: 34px; }
   .grid-2,
+  .thesis-pair,
   .metric-strip { grid-template-columns: 1fr; }
   .status-item { grid-template-columns: 1fr; gap: 4px; }
   .slide { padding: 22px; }
@@ -563,9 +622,9 @@ footer {
   <aside class="hero-card">
     <h2>主线判断</h2>
     <ul class="position-list">
-      <li><span class="num">1</span><span>AI 的价值不是“更多信息”，而是缩短从问题到判断、从判断到行动的周期。</span></li>
-      <li><span class="num">2</span><span>当前 AI 已经强于回答问题，正在进入数字世界的“采取行动”阶段。</span></li>
-      <li><span class="num">3</span><span>企业内部真正的机会，是把回答问题做好，再逐步接入工作流和关键数据。</span></li>
+      <li><span class="num">1</span><span>AI 的本质是能力拓展：把原来能做的事做得更快，也让人开始做原来做不到的事。</span></li>
+      <li><span class="num">2</span><span>AI 不是替代人，而是人的左膀右臂，像给人装上翅膀，让个人和团队能力被放大。</span></li>
+      <li><span class="num">3</span><span>当前 AI 已经强于回答问题，正在进入数字世界的“采取行动”阶段。</span></li>
       <li><span class="num">4</span><span>制造和研发中的物理世界 AI 仍需更长时间，必须用安全、验证和人工审核约束。</span></li>
     </ul>
   </aside>
@@ -584,12 +643,27 @@ footer {
     <div class="slide-number">01</div>
     <div class="slide-content">
       <div class="eyebrow">Why AI</div>
-      <h2>我们做 AI，不是为了追热点，而是因为复杂度已经超过传统工具。</h2>
+      <h2>AI 的最高层价值，是扩展人的能力边界。</h2>
       <p class="lead">
-        在互联网时代，工具帮助我们找到信息；在 AI 时代，工具开始帮助我们形成答案、采取数字行动，并逐渐进入问题解决。对半导体研发和制造组织来说，真正的瓶颈已经不是“有没有数据”，而是“能不能把正确数据、正确问题和正确行动快速连接起来”。
+        如果从更高层面看，AI 主要干两件事：第一，把我们原来就能做的事情做得更快；第二，让我们开始做一些原来做不了的事情。这两件事共同指向一个结论：AI 不是人的替代品，而是人的能力放大器。
       </p>
+      <div class="thesis-pair">
+        <article class="thesis-card" data-mark="01">
+          <small>Acceleration</small>
+          <h3>把已有工作做快</h3>
+          <p>搜索、总结、写代码、准备报告、整理会议、分析资料，把原来需要几小时或几天的数字工作压缩到分钟级。</p>
+        </article>
+        <article class="thesis-card" data-mark="02">
+          <small>Expansion</small>
+          <h3>打开原来做不到的事</h3>
+          <p>一个人可以同时拥有研究员、程序员、编辑、数据分析师和项目助理的部分能力，开始跨越原来的专业边界。</p>
+        </article>
+      </div>
+      <div class="wing-line">
+        更准确的比喻不是“AI 替代人”，而是“AI 成为人的左膀右臂”：像给一个人装上翅膀，让他可以飞。
+      </div>
       <div class="callout">
-        最核心的转变：从“人去找信息”变成“AI 帮人准备答案、推动动作、缩短学习闭环”。
+        在互联网时代，工具帮助我们找到信息；在 AI 时代，工具开始帮助我们形成答案、采取数字行动，并逐渐进入问题解决。
       </div>
       <div class="grid-3">
         <article class="panel green">
