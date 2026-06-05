@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Strategy R2 | AI 转型内部报告 | Sky Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f3f5f1;
+  --paper: #fffefa;
+  --ink: #151918;
+  --muted: #66716d;
+  --line: #d9ded6;
+  --line-strong: #202724;
+  --green: #0d6b57;
+  --green-soft: #dceee8;
+  --blue: #1e5aa8;
+  --blue-soft: #dde8f8;
+  --amber: #b5651d;
+  --amber-soft: #f4e3cf;
+  --red: #b83b2e;
+  --red-soft: #f5ded9;
+  --violet: #5d4c93;
+  --violet-soft: #e6e1f2;
+  --shadow: 0 24px 80px rgba(20, 28, 26, 0.12);
+  --font: "Noto Sans SC", "IBM Plex Sans", sans-serif;
+  --font-latin: "IBM Plex Sans", "Noto Sans SC", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(21,25,24,0.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(21,25,24,0.035) 1px, transparent 1px),
+    radial-gradient(circle at 16% 10%, rgba(13,107,87,0.13), transparent 28%),
+    radial-gradient(circle at 90% 30%, rgba(30,90,168,0.12), transparent 32%),
+    linear-gradient(180deg, #f7f8f4 0%, var(--bg) 100%);
+  background-size: 38px 38px, 38px 38px, auto, auto, auto;
+  line-height: 1.65;
+}
+
+a { color: inherit; }
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px clamp(16px, 4vw, 56px);
+  background: rgba(255,254,250,0.88);
+  border-bottom: 1px solid rgba(32,39,36,0.12);
+  backdrop-filter: blur(16px);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-latin);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.brand-mark {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  font-size: 0.8rem;
+}
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.chip-link,
+.print-btn {
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: rgba(255,254,250,0.72);
+  color: var(--ink);
+  text-decoration: none;
+  font: 700 0.74rem var(--font-latin);
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+.print-btn:hover,
+.chip-link:hover { background: var(--ink); color: var(--paper); }
+
+.hero {
+  min-height: calc(100vh - 56px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+  padding: clamp(42px, 8vw, 92px) clamp(18px, 5vw, 72px);
+}
+.hero-main {
+  max-width: 900px;
+}
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  color: var(--green);
+  font: 700 0.78rem var(--font-latin);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.kicker::before {
+  content: "";
+  width: 38px;
+  height: 2px;
+  background: var(--green);
+}
+h1 {
+  margin: 0;
+  max-width: 880px;
+  font-size: clamp(2.6rem, 8vw, 6.9rem);
+  line-height: 0.96;
+  letter-spacing: 0;
+  font-weight: 900;
+}
+.subtitle {
+  max-width: 720px;
+  margin: 26px 0 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.8vw, 1.22rem);
+}
+.hero-card {
+  border: 1px solid var(--line-strong);
+  background: rgba(255,254,250,0.9);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+.hero-card h2 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+}
+.position-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.position-list li {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 10px;
+  align-items: start;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+.num {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--green);
+  font: 700 0.75rem var(--font-latin);
+  background: var(--green-soft);
+}
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 30px;
+}
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 13px;
+  background: rgba(255,254,250,0.76);
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.report {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 48px) 80px;
+}
+.toc {
+  position: sticky;
+  top: 62px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 0 18px;
+  margin-bottom: 8px;
+  scrollbar-width: none;
+}
+.toc::-webkit-scrollbar { display: none; }
+.toc a {
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 13px;
+  background: rgba(255,254,250,0.9);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+}
+.toc a:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.slide {
+  min-height: 82vh;
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: clamp(18px, 4vw, 48px);
+  align-items: start;
+  margin: 0 0 30px;
+  padding: clamp(24px, 5vw, 56px);
+  border: 1px solid rgba(32,39,36,0.18);
+  background: rgba(255,254,250,0.9);
+  box-shadow: 0 18px 60px rgba(20,28,26,0.08);
+}
+.slide-number {
+  position: sticky;
+  top: 140px;
+  font: 900 clamp(2.2rem, 6vw, 5rem) var(--font-latin);
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 1.4px var(--line-strong);
+}
+.slide-content {
+  min-width: 0;
+}
+.eyebrow {
+  margin-bottom: 14px;
+  color: var(--green);
+  font: 700 0.78rem var(--font-latin);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.slide h2 {
+  margin: 0;
+  max-width: 850px;
+  font-size: clamp(1.8rem, 4vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+.lead {
+  max-width: 850px;
+  margin: 22px 0 28px;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+}
+.callout {
+  max-width: 900px;
+  border-left: 5px solid var(--green);
+  background: var(--green-soft);
+  padding: 18px 20px;
+  margin: 22px 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.panel {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.55);
+  padding: 18px;
+  min-width: 0;
+}
+.panel h3 {
+  margin: 0 0 9px;
+  font-size: 1.02rem;
+}
+.panel p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+.panel strong { color: var(--ink); }
+.blue { border-top: 5px solid var(--blue); }
+.amber { border-top: 5px solid var(--amber); }
+.red { border-top: 5px solid var(--red); }
+.violet { border-top: 5px solid var(--violet); }
+.green { border-top: 5px solid var(--green); }
+
+.ladder {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 28px;
+}
+.step {
+  position: relative;
+  min-height: 210px;
+  padding: 16px;
+  border: 1px solid var(--line-strong);
+  background: #fff;
+}
+.step::after {
+  content: "";
+  position: absolute;
+  right: -7px;
+  top: 42px;
+  width: 12px;
+  height: 12px;
+  border-top: 1px solid var(--line-strong);
+  border-right: 1px solid var(--line-strong);
+  background: #fff;
+  transform: rotate(45deg);
+  z-index: 2;
+}
+.step:last-child::after { display: none; }
+.step small {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--muted);
+  font: 700 0.7rem var(--font-latin);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.step h3 {
+  margin: 0 0 8px;
+  font-size: 1.18rem;
+}
+.step p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.step.current {
+  background: var(--blue-soft);
+  border-color: var(--blue);
+}
+.step.next {
+  background: var(--amber-soft);
+  border-color: var(--amber);
+}
+.step.future {
+  background: var(--violet-soft);
+  border-color: var(--violet);
+}
+
+.status-board {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 20px;
+}
+.scorebox {
+  border: 1px solid var(--line-strong);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 22px;
+}
+.scorebox .big {
+  display: block;
+  font: 900 clamp(2.5rem, 7vw, 5.6rem) var(--font-latin);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+.scorebox p {
+  margin: 16px 0 0;
+  color: rgba(255,254,250,0.72);
+}
+.status-list {
+  display: grid;
+  gap: 12px;
+}
+.status-item {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.status-item b {
+  font-size: 0.92rem;
+}
+.status-item span {
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.roadmap {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+.roadmap-row {
+  display: grid;
+  grid-template-columns: 150px 1fr 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+.phase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 12px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 800;
+  text-align: center;
+}
+.target,
+.proof {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.58);
+  padding: 18px;
+}
+.target h3,
+.proof h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+.target p,
+.proof p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.metric-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 24px;
+}
+.metric {
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.metric b {
+  display: block;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.metric span {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.next-block {
+  margin-top: 26px;
+  border: 1px solid var(--line-strong);
+  background: linear-gradient(135deg, rgba(13,107,87,0.12), rgba(181,101,29,0.12));
+  padding: 24px;
+}
+.next-block h3 { margin: 0 0 12px; }
+.next-block ol {
+  margin: 0;
+  padding-left: 22px;
+}
+.next-block li { margin: 8px 0; }
+.source-note {
+  margin-top: 34px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.source-note a { color: var(--blue); }
+
+footer {
+  padding: 36px 18px 60px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+@media (max-width: 980px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .slide { grid-template-columns: 1fr; min-height: auto; }
+  .slide-number { position: static; }
+  .ladder { grid-template-columns: 1fr; }
+  .step::after { display: none; }
+  .status-board { grid-template-columns: 1fr; }
+  .roadmap-row { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    position: static;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .top-actions { justify-content: flex-start; }
+  .hero { padding-top: 34px; }
+  .grid-2,
+  .metric-strip { grid-template-columns: 1fr; }
+  .status-item { grid-template-columns: 1fr; gap: 4px; }
+  .slide { padding: 22px; }
+  .toc { position: static; }
+}
+
+@media print {
+  body { background: #fff; }
+  .topbar,
+  .toc,
+  footer { display: none; }
+  .hero,
+  .slide {
+    min-height: auto;
+    page-break-after: always;
+    box-shadow: none;
+  }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="./index.html"><span class="brand-mark">S</span> Sky Portal</a>
+  <div class="top-actions">
+    <a class="chip-link" href="./ai-strategy.html">原 AI Strategy</a>
+    <button class="print-btn" onclick="window.print()">打印 / PDF</button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-main">
+    <div class="kicker">R2 draft · internal briefing</div>
+    <h1>AI 转型<br>策略报告</h1>
+    <p class="subtitle">
+      这版用于团队内部沟通：先讲为什么必须做 AI，再讲 AI 能力从“提供信息”到“回答问题、采取行动、解决问题、自我优化”的阶段判断，最后落到我们未来 6 个月、3 年和 5 年的行动路线。
+    </p>
+    <div class="hero-meta">
+      <span class="meta-pill">版本：R2 草稿</span>
+      <span class="meta-pill">范围：数字世界 AI 优先</span>
+      <span class="meta-pill">形式：4-5 页报告结构</span>
+      <span class="meta-pill">日期：2026-06-05</span>
+    </div>
+  </div>
+  <aside class="hero-card">
+    <h2>主线判断</h2>
+    <ul class="position-list">
+      <li><span class="num">1</span><span>AI 的价值不是“更多信息”，而是缩短从问题到判断、从判断到行动的周期。</span></li>
+      <li><span class="num">2</span><span>当前 AI 已经强于回答问题，正在进入数字世界的“采取行动”阶段。</span></li>
+      <li><span class="num">3</span><span>企业内部真正的机会，是把回答问题做好，再逐步接入工作流和关键数据。</span></li>
+      <li><span class="num">4</span><span>制造和研发中的物理世界 AI 仍需更长时间，必须用安全、验证和人工审核约束。</span></li>
+    </ul>
+  </aside>
+</section>
+
+<main class="report">
+  <nav class="toc" aria-label="Report sections">
+    <a href="#why">01 为什么</a>
+    <a href="#evolution">02 能力阶段</a>
+    <a href="#current">03 我们的位置</a>
+    <a href="#roadmap">04 路线图</a>
+    <a href="#actions">05 组织行动</a>
+  </nav>
+
+  <section class="slide" id="why">
+    <div class="slide-number">01</div>
+    <div class="slide-content">
+      <div class="eyebrow">Why AI</div>
+      <h2>我们做 AI，不是为了追热点，而是因为复杂度已经超过传统工具。</h2>
+      <p class="lead">
+        在互联网时代，工具帮助我们找到信息；在 AI 时代，工具开始帮助我们形成答案、采取数字行动，并逐渐进入问题解决。对半导体研发和制造组织来说，真正的瓶颈已经不是“有没有数据”，而是“能不能把正确数据、正确问题和正确行动快速连接起来”。
+      </p>
+      <div class="callout">
+        最核心的转变：从“人去找信息”变成“AI 帮人准备答案、推动动作、缩短学习闭环”。
+      </div>
+      <div class="grid-3">
+        <article class="panel green">
+          <h3>信息太多</h3>
+          <p>邮件、会议、文档、报表、工艺记录和历史案例已经分散在多个系统里，单靠人工搜索和记忆会越来越慢。</p>
+        </article>
+        <article class="panel blue">
+          <h3>问题更复杂</h3>
+          <p>先进制程和制造流程的变量高度耦合，单点经验不足以支撑稳定判断，需要系统化提问和跨数据源分析。</p>
+        </article>
+        <article class="panel amber">
+          <h3>窗口正在打开</h3>
+          <p>外部 AI 工具已经证明“回答问题”和“数字行动”可行，大型企业内部仍处于早期，先建立使用能力就是机会。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="evolution">
+    <div class="slide-number">02</div>
+    <div class="slide-content">
+      <div class="eyebrow">Capability evolution</div>
+      <h2>AI 能力可以看成五个阶段：信息、答案、行动、解决问题、自我优化。</h2>
+      <p class="lead">
+        今天的现实判断要谨慎：数字世界里，AI 已经可以稳定回答问题，并开始在代码、文档、邮件、网页、数据整理等场景采取行动；但它还没有普遍达到完整解决问题，更没有在物理世界可靠自主闭环。
+      </p>
+      <div class="ladder">
+        <article class="step">
+          <small>Internet era</small>
+          <h3>提供信息</h3>
+          <p>搜索引擎、数据库、Wiki 和报表把信息交给人，判断和行动主要由人完成。</p>
+        </article>
+        <article class="step current">
+          <small>Now</small>
+          <h3>回答问题</h3>
+          <p>LLM、RAG 和企业 Copilot 能把分散信息整合成答案，是当前企业最应该先做扎实的阶段。</p>
+        </article>
+        <article class="step next">
+          <small>Emerging</small>
+          <h3>采取行动</h3>
+          <p>Agent 能在数字系统中写代码、整理文档、生成报告、触发流程，但仍需要权限、审计和人工确认。</p>
+        </article>
+        <article class="step future">
+          <small>Next</small>
+          <h3>解决问题</h3>
+          <p>AI 能拆解目标、选择工具、验证结果并迭代方案。这个阶段在少数数字场景出现，企业内仍需建设。</p>
+        </article>
+        <article class="step future">
+          <small>AGI direction</small>
+          <h3>自我优化</h3>
+          <p>AI 能从成功和失败中持续提高自己的方法论，并参与研发优化。这更接近长期愿景。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="current">
+    <div class="slide-number">03</div>
+    <div class="slide-content">
+      <div class="eyebrow">Current position</div>
+      <h2>我们的起点不是零，但仍处在“回答问题”的早期。</h2>
+      <p class="lead">
+        内部可以使用部分企业级 AI 能力，尤其是 M365 生态中的邮件、会议、文档和协同数据。这已经足以支撑很多 AI Agent 的早期功能。但受数据安全、模型能力和工厂底层数据接入限制影响，我们距离“AI 采取行动”和“AI 解决问题”还有明显距离。
+      </p>
+      <div class="status-board">
+        <div class="scorebox">
+          <span class="big">6-12M</span>
+          <p>保守估计：大型企业内部应用能力通常落后外部 AI 工具前沿约 6 到 12 个月。差距不是坏消息，因为行业都在早期，这正是追赶窗口。</p>
+        </div>
+        <div class="status-list">
+          <div class="status-item">
+            <b>使用率</b>
+            <span>目前更多人只是偶尔用 AI 回答问题，提问数量和问题质量都还没有形成团队级习惯。</span>
+          </div>
+          <div class="status-item">
+            <b>工具限制</b>
+            <span>外部顶级编程模型和 agent 工具能力很强，但在内部环境中不能直接充分使用，必须接受企业安全边界。</span>
+          </div>
+          <div class="status-item">
+            <b>内部能力</b>
+            <span>内部模型和平台可以作为起点，但能力、工具链和上下文接入还需要持续增强。</span>
+          </div>
+          <div class="status-item">
+            <b>数据边界</b>
+            <span>AI 目前主要接触工程外围信息，尚未直接、系统、安全地接入工厂底层关键数据。</span>
+          </div>
+          <div class="status-item">
+            <b>机会点</b>
+            <span>M365 可访问的信息已经很多，可以先用来做会议、文档、邮件、知识提取、报告生成和协作 agent。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="roadmap">
+    <div class="slide-number">04</div>
+    <div class="slide-content">
+      <div class="eyebrow">Roadmap</div>
+      <h2>路线图应该分三段：6-12 个月做好回答问题，3 年进入解决问题，5 年参与部分研发提高。</h2>
+      <p class="lead">
+        不要一开始就追求“全自动 AI 工厂”。更务实的顺序是：先让团队真的会问、会用、会验证；再让 AI 在数字工作流里行动；最后接入关键数据和验证机制，让它在受控范围内解决工程问题。
+      </p>
+      <div class="roadmap">
+        <div class="roadmap-row">
+          <div class="phase">0-6 个月</div>
+          <div class="target">
+            <h3>目标：把回答问题做好</h3>
+            <p>建立团队级 prompt 模板、问题库、案例库和 M365 Copilot 使用流程，让每个人都能把 AI 用在日常分析、会议准备、文档总结和代码辅助上。</p>
+          </div>
+          <div class="proof">
+            <h3>验收：使用率和答案质量</h3>
+            <p>看周活跃用户、有效问题数量、节省时间、报告质量、答案引用可信度，而不是只看部署了几个工具。</p>
+          </div>
+        </div>
+        <div class="roadmap-row">
+          <div class="phase">6-12 个月</div>
+          <div class="target">
+            <h3>目标：从答案走向数字行动</h3>
+            <p>让 AI 开始自动整理会议行动项、生成 follow-up、准备 review 包、更新知识库、跑固定分析脚本和建立轻量 agent workflow。</p>
+          </div>
+          <div class="proof">
+            <h3>验收：可审计的行动闭环</h3>
+            <p>每个 action 都有触发条件、数据来源、人工确认和日志记录。先做低风险数字任务，不碰高风险物理控制。</p>
+          </div>
+        </div>
+        <div class="roadmap-row">
+          <div class="phase">1-3 年</div>
+          <div class="target">
+            <h3>目标：解决一类重复工程问题</h3>
+            <p>围绕良率异常、defect pattern、process drift、review preparation 等场景，把数据、历史案例、推理和验证流程串起来。</p>
+          </div>
+          <div class="proof">
+            <h3>验收：从建议到验证</h3>
+            <p>AI 不只是给解释，而是提出候选根因、推荐检查顺序、调用分析工具，并通过历史对比或小规模验证降低不确定性。</p>
+          </div>
+        </div>
+        <div class="roadmap-row">
+          <div class="phase">3-5 年</div>
+          <div class="target">
+            <h3>目标：参与部分研发和优化</h3>
+            <p>在受控范围内让 AI 参与 DOE 设计、工艺窗口分析、参数敏感性研究、知识沉淀和 R&D 到 HVM 转移。</p>
+          </div>
+          <div class="proof">
+            <h3>验收：人机共同提高</h3>
+            <p>成功案例被系统记录，失败案例进入反例库，AI 和团队都能从反馈中改进方法。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="actions">
+    <div class="slide-number">05</div>
+    <div class="slide-content">
+      <div class="eyebrow">Operating plan</div>
+      <h2>部门层面的第一步，是把 AI 从个人兴趣变成团队能力。</h2>
+      <p class="lead">
+        如果只靠少数人自发尝试，组织不会真正转型。需要明确场景、工具边界、数据规则、使用习惯和度量指标，让 AI 使用成为工程流程的一部分。
+      </p>
+      <div class="grid-2">
+        <article class="panel green">
+          <h3>建立“AI 问题库”</h3>
+          <p>收集团队高频问题、领导常问问题、优秀工程师的分析路径。重点不是保存答案，而是保存好的提问方式和判断框架。</p>
+        </article>
+        <article class="panel blue">
+          <h3>建立“可用场景清单”</h3>
+          <p>先覆盖低风险高频任务：会议总结、邮件归纳、代码解释、debug 思路、报告草稿、数据图表说明、review checklist。</p>
+        </article>
+        <article class="panel amber">
+          <h3>建立“安全边界”</h3>
+          <p>明确哪些数据可以进入企业 AI，哪些只能本地处理，哪些场景必须人工确认。安全规则越清晰，使用越容易推广。</p>
+        </article>
+        <article class="panel violet">
+          <h3>建立“行动型 Agent 试点”</h3>
+          <p>选 2-3 个数字工作流，让 AI 从回答走向行动，例如自动准备会议包、自动整理 follow-up、自动更新知识库。</p>
+        </article>
+      </div>
+      <div class="metric-strip">
+        <div class="metric"><b>70%</b><span>6 个月内目标：核心团队每周至少一次有效使用 AI。</span></div>
+        <div class="metric"><b>50+</b><span>沉淀高质量问题模板和场景 prompt。</span></div>
+        <div class="metric"><b>3</b><span>启动三个低风险数字 agent 试点。</span></div>
+        <div class="metric"><b>1</b><span>选择一个工程问题场景，验证从答案到行动的闭环。</span></div>
+      </div>
+      <div class="next-block">
+        <h3>下一步可以补充的内容</h3>
+        <ol>
+          <li>加入台积电、三星、NVIDIA、EDA/设备厂商在 AI 制造和 AI 研发上的公开案例。</li>
+          <li>把“我们有什么工具、市场有什么工具、哪些不能用、哪些能安全用”整理成一页工具矩阵。</li>
+          <li>把报告压成真正的 4-5 页 PPT：每页一个核心句、三条支撑、一个行动建议。</li>
+        </ol>
+      </div>
+      <p class="source-note">
+        参考基础：<a href="./ai-strategy.html">原 AI Strategy 页面</a> 的五阶段能力演进和短中长期项目框架。本 R2 页面保留原页面不动，仅整理新增汇报思路。
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  AI Strategy R2 · Sky Portal · Draft for internal discussion
+</footer>
+</body>
+</html>
