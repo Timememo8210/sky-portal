@@ -239,6 +239,7 @@ h1 {
   border: 1px solid rgba(32,39,36,0.18);
   background: rgba(255,254,250,0.9);
   box-shadow: 0 18px 60px rgba(20,28,26,0.08);
+  scroll-margin-top: 132px;
 }
 .slide-number {
   position: sticky;
@@ -467,6 +468,100 @@ h1 {
   font-size: 0.94rem;
 }
 
+.history-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  gap: 10px;
+  margin: 26px 0 24px;
+}
+.history-node {
+  position: relative;
+  min-height: 190px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.66);
+}
+.history-node::after {
+  content: "";
+  position: absolute;
+  top: 32px;
+  right: -6px;
+  width: 10px;
+  height: 10px;
+  border-top: 1px solid var(--line-strong);
+  border-right: 1px solid var(--line-strong);
+  background: var(--paper);
+  transform: rotate(45deg);
+  z-index: 2;
+}
+.history-node:last-child::after { display: none; }
+.history-node small {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font: 700 0.68rem var(--font-latin);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.history-node h3 {
+  margin: 0 0 8px;
+  font-size: 1.02rem;
+}
+.history-node p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+.history-node.ai {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+.foundation-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 18px;
+  margin-top: 20px;
+}
+.foundation-card {
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  padding: 20px;
+}
+.foundation-card h3 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+}
+.foundation-card p {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+.foundation-card ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+}
+.foundation-card li { margin: 7px 0; }
+.truth-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+.truth-pill {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.7);
+  padding: 12px;
+}
+.truth-pill b {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--ink);
+}
+.truth-pill span {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
 .roadmap {
   display: grid;
   gap: 14px;
@@ -563,6 +658,9 @@ footer {
   .step::after { display: none; }
   .status-board { grid-template-columns: 1fr; }
   .roadmap-row { grid-template-columns: 1fr; }
+  .foundation-grid,
+  .history-flow { grid-template-columns: 1fr; }
+  .history-node::after { display: none; }
   .grid-3 { grid-template-columns: 1fr; }
 }
 
@@ -576,9 +674,10 @@ footer {
   .hero { padding-top: 34px; }
   .grid-2,
   .thesis-pair,
+  .truth-strip,
   .metric-strip { grid-template-columns: 1fr; }
   .status-item { grid-template-columns: 1fr; gap: 4px; }
-  .slide { padding: 22px; }
+  .slide { padding: 22px; scroll-margin-top: 16px; }
   .toc { position: static; }
 }
 
@@ -615,7 +714,7 @@ footer {
     <div class="hero-meta">
       <span class="meta-pill">版本：R2 草稿</span>
       <span class="meta-pill">范围：数字世界 AI 优先</span>
-      <span class="meta-pill">形式：4-5 页报告结构</span>
+      <span class="meta-pill">形式：报告素材池 → 4-5 页提炼</span>
       <span class="meta-pill">日期：2026-06-05</span>
     </div>
   </div>
@@ -635,8 +734,9 @@ footer {
     <a href="#why">01 为什么</a>
     <a href="#evolution">02 能力阶段</a>
     <a href="#current">03 我们的位置</a>
-    <a href="#roadmap">04 路线图</a>
-    <a href="#actions">05 组织行动</a>
+    <a href="#data-foundation">04 数据基础</a>
+    <a href="#roadmap">05 路线图</a>
+    <a href="#actions">06 组织行动</a>
   </nav>
 
   <section class="slide" id="why">
@@ -759,8 +859,83 @@ footer {
     </div>
   </section>
 
-  <section class="slide" id="roadmap">
+  <section class="slide" id="data-foundation">
     <div class="slide-number">04</div>
+    <div class="slide-content">
+      <div class="eyebrow">Data foundation</div>
+      <h2>AI 要真正有用，先要让它访问数据、连接数据，并知道唯一正确的数字。</h2>
+      <p class="lead">
+        从信息史看，AI 不是突然出现的孤立工具，而是信息入口的一次升级：从少数人能读一本书，到百科全书、图书馆、互联网搜索，再到 AI 把信息连接起来并直接生成答案。放到公司内部，很多数据仍像分散在不同图书馆里的书。AI 可以成为统一入口，但前提是数据可访问、可连接、可信、可追溯。
+      </p>
+
+      <div class="history-flow">
+        <article class="history-node">
+          <small>Literacy</small>
+          <h3>少数人读书</h3>
+          <p>信息入口掌握在少数能读写的人手里，能读一本书就是能力差异。</p>
+        </article>
+        <article class="history-node">
+          <small>Books</small>
+          <h3>百科全书</h3>
+          <p>信息被系统记录，但入口仍有限，知识集中在少数书和少数人手里。</p>
+        </article>
+        <article class="history-node">
+          <small>Library</small>
+          <h3>图书馆</h3>
+          <p>大量信息集中起来，但检索成本很高，需要跑很多地方、翻很多资料。</p>
+        </article>
+        <article class="history-node">
+          <small>Internet</small>
+          <h3>互联网搜索</h3>
+          <p>全球数字信息被打通，搜索引擎能给相关材料，但不直接给最终判断。</p>
+        </article>
+        <article class="history-node ai">
+          <small>AI</small>
+          <h3>连接并回答</h3>
+          <p>AI 不只是找信息，而是把信息之间的关系处理后，面向问题给出答案。</p>
+        </article>
+      </div>
+
+      <div class="foundation-grid">
+        <article class="foundation-card">
+          <h3>公司里的数据像多个未打通的图书馆</h3>
+          <p>
+            很多工程数据、spec、process flow、实验记录和历史问题都存在，但分散在不同系统里。这个问题在互联网时代就应该被解决；到了 AI 时代，它变成 AI 能否发挥作用的基础条件。
+          </p>
+          <ul>
+            <li>第一步不是让 AI “自由发挥”，而是先让关键数据数字化、可读取、可搜索。</li>
+            <li>第二步是把不同数据源之间的关系打通，让 AI 能跨系统理解上下文。</li>
+            <li>第三步才是让 AI 成为接口，帮助工程师搜索、汇总、关联、解释和发现异常。</li>
+          </ul>
+        </article>
+        <article class="foundation-card">
+          <h3>半导体行业必须同时“开放”和“收敛”</h3>
+          <p>
+            AI 需要能访问海量信息，但在 process flow、工艺 spec、ET spec 等场景，它不能给模糊答案。工程数字差 0.1 nm 都可能改变判断，因此必须有 single source of truth。
+          </p>
+          <ul>
+            <li>同一时刻，一个关键 spec 应该只有一个权威参考源。</li>
+            <li>AI 的答案必须引用这个权威源，而不是从多个冲突系统中平均或猜测。</li>
+            <li>SSOT 不只是 IT 项目，而是让 AI 进入严肃工程判断的前提。</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="truth-strip">
+        <div class="truth-pill"><b>可访问</b><span>AI 能读取数据，而不是只能读外围文档。</span></div>
+        <div class="truth-pill"><b>可连接</b><span>数据源之间有关系、上下文和统一 ID。</span></div>
+        <div class="truth-pill"><b>唯一正确</b><span>关键 spec 和 flow 有唯一权威来源。</span></div>
+        <div class="truth-pill"><b>可追溯</b><span>每个答案能回到数据源、版本和时间点。</span></div>
+      </div>
+
+      <div class="callout">
+        对工程师最直接的起点，仍然是每天最简单的痛点：搜索、汇总、对比、找相关性。数据打通和 SSOT 做好以后，AI 才能发现人平时看不到的关联。
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="roadmap">
+    <div class="slide-number">05</div>
     <div class="slide-content">
       <div class="eyebrow">Roadmap</div>
       <h2>路线图应该分三段：6-12 个月做好回答问题，3 年进入解决问题，5 年参与部分研发提高。</h2>
@@ -817,7 +992,7 @@ footer {
   </section>
 
   <section class="slide" id="actions">
-    <div class="slide-number">05</div>
+    <div class="slide-number">06</div>
     <div class="slide-content">
       <div class="eyebrow">Operating plan</div>
       <h2>部门层面的第一步，是把 AI 从个人兴趣变成团队能力。</h2>
