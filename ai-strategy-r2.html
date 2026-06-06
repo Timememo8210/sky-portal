@@ -87,6 +87,37 @@ a { color: inherit; }
   flex-wrap: wrap;
   justify-content: flex-end;
 }
+.lang-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(255,254,250,0.82);
+}
+.lang-switch button {
+  min-width: 58px;
+  min-height: 32px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 800 0.72rem var(--font-latin);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.lang-switch button + button { border-left: 1px solid var(--line-strong); }
+body.lang-zh .lang-switch button[data-lang="zh"],
+body.lang-en .lang-switch button[data-lang="en"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+body.lang-zh .en-content,
+body.lang-zh .en-inline,
+body.lang-en .zh-content,
+body.lang-en .zh-inline {
+  display: none !important;
+}
 .chip-link,
 .print-btn {
   border: 1px solid var(--line-strong);
@@ -136,6 +167,10 @@ h1 {
   line-height: 0.96;
   letter-spacing: 0;
   font-weight: 900;
+}
+.hero.en-content h1 {
+  max-width: 760px;
+  font-size: clamp(2.6rem, 5.8vw, 5.35rem);
 }
 .subtitle {
   max-width: 720px;
@@ -1033,17 +1068,23 @@ footer {
 }
 </style>
 </head>
-<body>
+<body class="lang-zh">
 <header class="topbar">
   <a class="brand" href="./index.html"><span class="brand-mark">S</span> Sky Portal</a>
   <div class="top-actions">
-    <a class="chip-link" href="./ai-strategy-executive.html">Executive Draft</a>
-    <a class="chip-link" href="./ai-strategy.html">原 AI Strategy</a>
-    <button class="print-btn" onclick="window.print()">打印 / PDF</button>
+    <div class="lang-switch" aria-label="Language">
+      <button type="button" data-lang="zh" onclick="setLang('zh')">中文</button>
+      <button type="button" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="chip-link zh-inline" href="./ai-strategy-executive.html">汇报稿</a>
+    <a class="chip-link en-inline" href="./ai-strategy-executive-en.html">Executive Draft</a>
+    <a class="chip-link zh-inline" href="./ai-strategy.html">原 AI Strategy</a>
+    <a class="chip-link en-inline" href="./ai-strategy.html">Original Strategy</a>
+    <button class="print-btn" onclick="window.print()"><span class="zh-inline">打印 / PDF</span><span class="en-inline">Print / PDF</span></button>
   </div>
 </header>
 
-<section class="hero" id="top">
+<section class="hero zh-content" id="top">
   <div class="hero-main">
     <div class="kicker">R2 draft · internal briefing</div>
     <h1>AI 转型<br>策略报告</h1>
@@ -1068,7 +1109,32 @@ footer {
   </aside>
 </section>
 
-<main class="report">
+<section class="hero en-content" id="top-en">
+  <div class="hero-main">
+    <div class="kicker">R2 draft · bilingual source page</div>
+    <h1>AI Transformation<br>Strategy</h1>
+    <p class="subtitle">
+      This is the single source page for today's AI strategy material. It consolidates the full working logic: why AI matters, where AI capability is today, what data foundation is required, how to govern adoption, how to measure value, and how to turn the material into an executive deck.
+    </p>
+    <div class="hero-meta">
+      <span class="meta-pill">Version: R2 bilingual source</span>
+      <span class="meta-pill">Scope: digital AI first</span>
+      <span class="meta-pill">Role: source page → executive deck</span>
+      <span class="meta-pill">Updated: 2026-06-06</span>
+    </div>
+  </div>
+  <aside class="hero-card">
+    <h2>Main Position</h2>
+    <ul class="position-list">
+      <li><span class="num">1</span><span>AI expands human capability: it makes existing work faster and enables work that was previously difficult or impossible.</span></li>
+      <li><span class="num">2</span><span>AI should be framed as a partner, not a replacement. It gives people additional reach, speed, and leverage.</span></li>
+      <li><span class="num">3</span><span>Today AI is strongest at answering questions and is beginning to take action in digital workflows.</span></li>
+      <li><span class="num">4</span><span>Physical-world manufacturing and R&D AI still require stronger data, validation, governance, and human approval.</span></li>
+    </ul>
+  </aside>
+</section>
+
+<main class="report zh-content">
   <nav class="toc" aria-label="Report sections">
     <a href="#why">01 为什么</a>
     <a href="#evolution">02 能力阶段</a>
@@ -1758,8 +1824,297 @@ footer {
   </section>
 </main>
 
+<main class="report en-content">
+  <nav class="toc" aria-label="Report sections">
+    <a href="#why-en">01 Why</a>
+    <a href="#evolution-en">02 Capability</a>
+    <a href="#current-en">03 Position</a>
+    <a href="#data-foundation-en">04 Data</a>
+    <a href="#roadmap-en">05 Roadmap</a>
+    <a href="#actions-en">06 Adoption</a>
+    <a href="#governance-en">07 Governance</a>
+    <a href="#workstyle-en">08 Workstyle</a>
+    <a href="#narrative-en">09 Narrative</a>
+    <a href="#roi-memo-en">10 ROI</a>
+  </nav>
+
+  <section class="slide" id="why-en">
+    <div class="slide-number">01</div>
+    <div class="slide-content">
+      <div class="eyebrow">Why AI</div>
+      <h2>The highest-level value of AI is expanding human capability.</h2>
+      <p class="lead">
+        AI does two things for us: it makes work we already do faster, and it lets us do work we could not realistically do before. This is the core framing: AI is not the replacement of people; it is a capability multiplier for people and teams.
+      </p>
+      <div class="thesis-pair">
+        <article class="thesis-card" data-mark="01">
+          <small>Acceleration</small>
+          <h3>Make existing work faster</h3>
+          <p>Search, summarize, write, prepare reviews, organize meetings, explain data, and compress hours of digital work into minutes.</p>
+        </article>
+        <article class="thesis-card" data-mark="02">
+          <small>Expansion</small>
+          <h3>Enable work we could not do before</h3>
+          <p>One engineer can borrow partial capability from a researcher, programmer, editor, data analyst, and project assistant at the same time.</p>
+        </article>
+      </div>
+      <div class="wing-line">
+        The better metaphor is not "AI replaces people." It is "AI gives people wings": a side-by-side assistant that expands reach, speed, and leverage.
+      </div>
+      <div class="grid-3">
+        <article class="panel green"><h3>Information overload</h3><p>Email, meetings, reports, specs, process records, and historical cases are scattered across systems. Manual memory and search cannot scale.</p></article>
+        <article class="panel blue"><h3>Higher complexity</h3><p>Advanced manufacturing and process integration involve coupled variables. We need better questioning, synthesis, and cross-source analysis.</p></article>
+        <article class="panel amber"><h3>Open window</h3><p>External tools prove that answering questions and taking digital action are now practical. Large enterprises are still early, so adoption speed matters.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="evolution-en">
+    <div class="slide-number">02</div>
+    <div class="slide-content">
+      <div class="eyebrow">Capability evolution</div>
+      <h2>AI capability moves through five stages: information, answers, action, problem solving, and self-improvement.</h2>
+      <p class="lead">
+        The realistic view today is conservative. In the digital world, AI can already answer questions and is beginning to act in code, documents, email, web pages, and data workflows. It has not yet broadly reached reliable end-to-end problem solving, especially in the physical world.
+      </p>
+      <div class="ladder">
+        <article class="step"><small>Internet era</small><h3>Provide information</h3><p>Search engines, databases, wikis, and dashboards gave people information. Humans still did most judgment and action.</p></article>
+        <article class="step current"><small>Now</small><h3>Answer questions</h3><p>LLMs, RAG, and enterprise copilots can synthesize scattered information into useful answers. This is the stage we should first make solid.</p></article>
+        <article class="step next"><small>Emerging</small><h3>Take action</h3><p>Agents can write code, organize documents, generate reports, and trigger workflow steps, but they need permission, audit trails, and human confirmation.</p></article>
+        <article class="step future"><small>Next</small><h3>Solve problems</h3><p>AI decomposes goals, chooses tools, verifies outputs, and iterates. This is emerging in selected digital domains, but not yet a mature enterprise norm.</p></article>
+        <article class="step future"><small>AGI direction</small><h3>Self-improve</h3><p>AI learns from success and failure, improves its methods, and contributes to R&D optimization. This remains a longer-term direction.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="current-en">
+    <div class="slide-number">03</div>
+    <div class="slide-content">
+      <div class="eyebrow">Current position</div>
+      <h2>Our starting point is not zero, but we are still early in the "answering questions" phase.</h2>
+      <p class="lead">
+        We already have some enterprise AI capability, especially through the M365 ecosystem: email, meetings, documents, recaps, and collaboration data. That is enough to support many early AI workflows. But security boundaries, model capability, and limited access to factory-level data still constrain action and problem solving.
+      </p>
+      <div class="status-board">
+        <div class="scorebox">
+          <span class="big">6-12M</span>
+          <p>Large enterprises often trail the external AI frontier by roughly six to twelve months. This gap is not only a weakness; it also means there is still a clear adoption window.</p>
+        </div>
+        <div class="status-list">
+          <div class="status-item"><b>Usage</b><span>Many people still use AI only occasionally. The team has not yet built a habit of asking better questions and validating sourced answers.</span></div>
+          <div class="status-item"><b>Tool limits</b><span>External coding and agent tools are powerful, but cannot be freely used inside the enterprise boundary.</span></div>
+          <div class="status-item"><b>Internal tools</b><span>Internal platforms are a starting point, but model strength, toolchains, and context access still need improvement.</span></div>
+          <div class="status-item"><b>Data boundary</b><span>AI mostly touches surrounding engineering information today, not the full factory data foundation.</span></div>
+          <div class="status-item"><b>Opportunity</b><span>M365-accessible data is already enough for meetings, documents, email, knowledge extraction, and report preparation.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="data-foundation-en">
+    <div class="slide-number">04</div>
+    <div class="slide-content">
+      <div class="eyebrow">Data foundation</div>
+      <h2>For AI to be useful, it needs access to data, connections across data, and one trusted source of truth.</h2>
+      <p class="lead">
+        Information access has evolved from books to libraries, from libraries to internet search, and now from search to AI-generated answers. Inside a company, many datasets still behave like separate libraries. AI can become the unified interface only when data is readable, connected, trusted, and traceable.
+      </p>
+      <div class="foundation-grid">
+        <article class="foundation-card">
+          <h3>Internal data is still fragmented</h3>
+          <p>Engineering data, specs, process flows, experiment records, and historical issues exist, but they are scattered across systems. This was already a digital transformation issue before AI; now it becomes a prerequisite for useful AI.</p>
+          <ul>
+            <li>First: make key data digital, readable, searchable, and permissioned.</li>
+            <li>Second: connect data sources through context, IDs, ownership, and provenance.</li>
+            <li>Third: let AI become the interface for search, synthesis, comparison, explanation, and anomaly discovery.</li>
+          </ul>
+        </article>
+        <article class="foundation-card">
+          <h3>Semiconductor work needs both breadth and precision</h3>
+          <p>AI should access broad information, but process flows, process specs, ET specs, and engineering numbers must converge to one correct reference. A 0.1 nm difference can change judgment.</p>
+          <ul>
+            <li>At any point in time, a key spec should have one authoritative reference.</li>
+            <li>AI answers must cite that source, not average across conflicting systems.</li>
+            <li>SSOT is not only an IT project; it is the foundation for serious engineering judgment with AI.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="truth-strip">
+        <div class="truth-pill"><b>Accessible</b><span>AI can read the right data, not only surrounding documents.</span></div>
+        <div class="truth-pill"><b>Connected</b><span>Sources share context, relationships, ownership, and IDs.</span></div>
+        <div class="truth-pill"><b>Authoritative</b><span>Critical specs and flows have one trusted source.</span></div>
+        <div class="truth-pill"><b>Traceable</b><span>Every answer can point back to source, version, and timestamp.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="roadmap-en">
+    <div class="slide-number">05</div>
+    <div class="slide-content">
+      <div class="eyebrow">Roadmap</div>
+      <h2>The roadmap should move in stages: answer questions first, then act digitally, then solve selected problems.</h2>
+      <p class="lead">
+        We should not start by promising a fully autonomous AI factory. The practical sequence is to build team usage habits, improve answer quality, introduce auditable digital actions, and only then connect deeper engineering data and validation loops.
+      </p>
+      <div class="roadmap">
+        <div class="roadmap-row"><div class="phase">0-6 months</div><div class="target"><h3>Make question answering useful</h3><p>Build prompts, question libraries, example cases, and M365 Copilot workflows for daily analysis, meeting prep, document summaries, and code support.</p></div><div class="proof"><h3>Validate usage and answer quality</h3><p>Look at useful scenarios, sourced answers, reduced preparation time, and adoption stories rather than tool deployment alone.</p></div></div>
+        <div class="roadmap-row"><div class="phase">6-12 months</div><div class="target"><h3>Move from answers to digital action</h3><p>Let AI prepare meeting packages, summarize action items, draft follow-ups, update knowledge bases, and run fixed analysis workflows.</p></div><div class="proof"><h3>Build auditable action loops</h3><p>Every action needs triggers, data sources, human confirmation, and logs. Start with low-risk digital tasks.</p></div></div>
+        <div class="roadmap-row"><div class="phase">1-3 years</div><div class="target"><h3>Solve repeated engineering problems</h3><p>Target yield excursions, defect patterns, process drift, review preparation, and repeated technical questions.</p></div><div class="proof"><h3>From suggestion to validation</h3><p>AI should propose likely causes, recommend checks, call analysis tools, and reduce uncertainty through historical comparison or small-scale validation.</p></div></div>
+        <div class="roadmap-row"><div class="phase">3-5 years</div><div class="target"><h3>Contribute to R&D and optimization</h3><p>Use AI in DOE planning, process window analysis, parameter sensitivity, knowledge capture, and R&D-to-HVM transfer.</p></div><div class="proof"><h3>Human and AI improve together</h3><p>Successes and failures become institutional learning assets. AI and the team both improve through feedback.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="actions-en">
+    <div class="slide-number">06</div>
+    <div class="slide-content">
+      <div class="eyebrow">Operating plan</div>
+      <h2>The first department-level step is turning AI from personal interest into team capability.</h2>
+      <p class="lead">
+        If AI stays as a hobby for a few early adopters, the organization will not transform. We need usable scenarios, tool boundaries, data rules, adoption habits, and lightweight measurement.
+      </p>
+      <div class="grid-2">
+        <article class="panel green"><h3>Build an AI question library</h3><p>Capture frequent team questions, leadership questions, and analysis paths used by strong engineers. The goal is to save good questioning patterns, not just answers.</p></article>
+        <article class="panel blue"><h3>Build a usable scenario list</h3><p>Start with low-risk, high-frequency work: meeting summaries, email synthesis, code explanation, debug thinking, report drafts, chart explanations, and review checklists.</p></article>
+        <article class="panel amber"><h3>Define safety boundaries</h3><p>Clarify which data can enter enterprise AI, which data stays local, and which actions require human confirmation.</p></article>
+        <article class="panel violet"><h3>Start action-agent pilots</h3><p>Pick two or three digital workflows where AI can move from answers to actions, such as meeting prep, follow-up generation, and knowledge updates.</p></article>
+      </div>
+      <div class="metric-strip">
+        <div class="metric"><b>1-2</b><span>Share one or two practical AI tips in the weekly update so people can copy and try them.</span></div>
+        <div class="metric"><b>3-5</b><span>Track three to five common workflows and see whether AI actually enters the workflow.</span></div>
+        <div class="metric"><b>Case</b><span>Record real examples: before time, after time, and whether the answer had sources.</span></div>
+        <div class="metric"><b>Quality</b><span>Measure whether work is adopted, whether rework is reduced, and whether preparation quality improves.</span></div>
+      </div>
+      <div class="callout">
+        Measurement should be light. Do not make "50% of work must use AI," token count, prompt count, or fixed daily AI time into personal KPIs. That creates resistance and metric gaming. Measure whether specific work improves.
+      </div>
+      <div class="rules-row">
+        <div class="rule-chip"><b>Do not measure</b>tokens, prompts, mandatory daily time, or percent of work forced into AI.</div>
+        <div class="rule-chip"><b>Do measure</b>task coverage, sourced answers, meeting prep time, and quality improvement.</div>
+        <div class="rule-chip"><b>Push gently</b>weekly one-line tips that are easy to copy.</div>
+        <div class="rule-chip"><b>Pull naturally</b>show real time-saving cases so people build the habit of asking AI first.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="governance-en">
+    <div class="slide-number">07</div>
+    <div class="slide-content">
+      <div class="eyebrow">Governance & pilots</div>
+      <h2>The hard part is not building an agent; it is making the agent trusted, governed, and owned.</h2>
+      <p class="lead">
+        Enterprise AI failures are often not model failures. They come from fragmented data, unclear process ownership, politics, and fear of replacement. The safe path is to start inside approved M365/Copilot boundaries and build trust through sourced, traceable, refusal-capable answers.
+      </p>
+      <div class="priority-stack">
+        <article class="agent-card"><div class="agent-rank">1</div><div class="agent-main"><h3>Knowledge Check Agent</h3><p>The flagship low-risk use case. It searches authorized documents, email, training material, meeting recaps, and shared files to help people find what they could already access.</p></div><div class="agent-guard">Rule: every answer needs sources. If it does not know, it should say so.</div></article>
+        <article class="agent-card"><div class="agent-rank">2</div><div class="agent-main"><h3>Meeting Prep Coach</h3><p>Reframe the "digital double" idea as a meeting preparation coach. It helps engineers anticipate hard questions and prepare evidence; it does not replace the PM's judgment.</p></div><div class="agent-guard">Political move: start with a generic version, then let key stakeholders co-build it.</div></article>
+        <article class="agent-card"><div class="agent-rank">3</div><div class="agent-main"><h3>Domain Knowledge Ownership</h3><p>Avoid giving every engineer many personal agents. Instead, departments own domain knowledge bases, and agents become retrieval and workflow interfaces.</p></div><div class="agent-guard">Principle: facts converge; applications can diverge. Specs, SOPs, and data definitions need owners.</div></article>
+      </div>
+      <div class="rules-row">
+        <div class="rule-chip"><b>Trust</b>sourced, traceable, allowed to say "I do not know."</div>
+        <div class="rule-chip"><b>Boundary</b>only use authorized data.</div>
+        <div class="rule-chip"><b>Ownership</b>each knowledge base has a responsible owner.</div>
+        <div class="rule-chip"><b>KPI</b>use task coverage and sourced-answer speed, not prompt count.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="workstyle-en">
+    <div class="slide-number">08</div>
+    <div class="slide-content">
+      <div class="eyebrow">Workstyle evolution</div>
+      <h2>Do not lead with "organization change." Make it a gradual improvement in how work gets done.</h2>
+      <p class="lead">
+        AI will eventually change meetings, alignment, system design, and knowledge flow. But before visible wins exist, it is safer to talk about reducing meeting cost, improving pre-read quality, and letting people spend more time on judgment and decisions.
+      </p>
+      <div class="foundation-grid">
+        <article class="foundation-card">
+          <h3>Meetings become decision forums</h3>
+          <p>Many meetings spend too much time on status. A knowledge agent can summarize status, risks, open questions, and decisions before the meeting. The meeting itself should focus on judgment, conflict resolution, and decisions.</p>
+          <ul><li>Before: agent prepares status and evidence.</li><li>During: people discuss judgment problems.</li><li>After: agent drafts action items, owners, due dates, and follow-ups.</li></ul>
+        </article>
+        <article class="foundation-card">
+          <h3>Systems should eventually serve people and AI</h3>
+          <p>Long term, systems need not only human UI but also AI-readable, callable, auditable interfaces. For leadership, frame this as safe data access, citation, and traceability, not as redesigning the organization for AI.</p>
+          <ul><li>For people: clear UI and workflow.</li><li>For AI: APIs, permissions, versions, provenance, events, and logs.</li><li>For the organization: no privilege bypass and clear accountability.</li></ul>
+        </article>
+      </div>
+      <div class="rules-row">
+        <div class="rule-chip"><b>Say</b>meeting cost, knowledge search, safe data access.</div>
+        <div class="rule-chip"><b>Avoid</b>replacement, restructuring, digital doubles negotiating for people.</div>
+        <div class="rule-chip"><b>Prove first</b>one or two useful workflows.</div>
+        <div class="rule-chip"><b>Keep human role</b>people judge and own decisions; agents accelerate.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="narrative-en">
+    <div class="slide-number">09</div>
+    <div class="slide-content">
+      <div class="eyebrow">Narrative compression</div>
+      <h2>The clearest story is: how we did it yesterday, how we do it today, and how it works tomorrow.</h2>
+      <p class="lead">
+        Start with daily pain points everyone understands: scheduling meetings, being asked for data in reviews, and preparing weekly updates. This makes the AI story concrete instead of abstract.
+      </p>
+      <div class="trust-statement">
+        <h3>Human value: AI can move information, but it cannot build trust.</h3>
+        <p>Customers do not trust us only because this run looks good. They trust us because they believe that when the data is bad, we will still work hard to make it right. AI handles information; people carry judgment, relationships, accountability, and trust.</p>
+      </div>
+      <div class="scenario-stack">
+        <article class="scenario-card"><div class="scenario-head"><h3>Scenario 1: scheduling meetings</h3><span>Low-risk opener</span></div><div class="timegrid"><div class="timebox"><b>Yesterday</b><p>Manually search Outlook, find free time, find a room, and try options one by one.</p></div><div class="timebox"><b>Today</b><p>Ask Copilot to propose times and rooms; a person confirms.</p></div><div class="timebox"><b>Tomorrow</b><p>Agents coordinate time and resources; the person is informed.</p></div></div><div class="scenario-summary">From "I arrange it" to "I confirm it" to "I am informed."</div></article>
+        <article class="scenario-card"><div class="scenario-head"><h3>Scenario 2: data questions in meetings</h3><span>Engineering pain point</span></div><div class="timegrid"><div class="timebox"><b>Yesterday</b><p>If we did not prepare the answer, we had to go back, check, and answer next time.</p></div><div class="timebox"><b>Today</b><p>A meeting prep coach predicts top questions and points to answers, systems, or owners.</p></div><div class="timebox"><b>Tomorrow</b><p>Live retrieval provides sourced answers and later prepares split plans and candidate solutions.</p></div></div><div class="scenario-summary">Compress "ask, check, answer next time, plan experiment" into "answer, judge, decide now."</div></article>
+        <article class="scenario-card"><div class="scenario-head"><h3>Scenario 3: weekly updates</h3><span>Already happening</span></div><div class="timegrid"><div class="timebox"><b>Yesterday</b><p>Many meetings, manual minutes, manual status table updates.</p></div><div class="timebox"><b>Today</b><p>Copilot reads meeting recaps and adds a weekly update column without changing the base table.</p></div><div class="timebox"><b>Tomorrow</b><p>Agents update customer, project, and other views automatically after each meeting.</p></div></div><div class="scenario-summary">Information flows to the person instead of the person chasing information.</div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="roi-memo-en">
+    <div class="slide-number">10</div>
+    <div class="slide-content">
+      <div class="eyebrow">Cost vs. productivity memo</div>
+      <h2>The cost case should be simple: seven minutes a day breaks even; the target is roughly 1.5 hours saved.</h2>
+      <p class="lead">
+        This is an internal working memo, not deck copy. The leadership version should be three lines: daily work becomes 2-3x faster; each engineer can save about 1.5 months per year; at $30 per user per month, seven minutes per day breaks even.
+      </p>
+      <div class="roi-hero">
+        <div class="roi-big"><b>13x</b><span>Simple value frame: pay for seven minutes, get roughly ninety minutes back. Replace assumptions with internal loaded labor rate and real usage data when available.</span></div>
+        <div class="roi-kpis">
+          <div class="roi-kpi"><b>2-3x</b><span>Average acceleration for daily knowledge work; search and recap tasks can be 5-10x.</span></div>
+          <div class="roi-kpi"><b>~45 days</b><span>~1.5 hours saved per day is about 45-47 workdays per year.</span></div>
+          <div class="roi-kpi"><b>$30 / month</b><span>Use $30/user/month as the working baseline; replace with actual company pricing.</span></div>
+        </div>
+      </div>
+      <div class="math-grid">
+        <article class="math-card"><small>Break-even</small><b>7 minutes per day</b><p>$30 ÷ 21 days ÷ $50/hour is about seven minutes. The $50/hour value is only a modeling assumption.</p></article>
+        <article class="math-card"><small>10-person pilot</small><b>ROI &gt; 30x</b><p>About $5.6K annual cost versus about $189K annual productivity value if each person saves 1.5 hours per day.</p></article>
+        <article class="math-card"><small>Safety margin</small><b>Still ~11x at one-third</b><p>If savings are cut to 30 minutes per day, the 10-person annual value is still about $63K versus $5.6K cost.</p></article>
+      </div>
+      <div class="cost-stage-grid">
+        <article class="cost-stage"><h3>Short term: 0-6 months</h3><p><b>Main cost:</b> Copilot licenses plus enablement. The key is getting engineers to actually use it.</p></article>
+        <article class="cost-stage"><h3>Mid term: 6-18 months</h3><p><b>Main cost:</b> knowledge-base maintenance and Copilot Studio. The larger cost is ownership time, not software alone.</p></article>
+        <article class="cost-stage"><h3>Long term: 18 months+</h3><p><b>Main cost:</b> data integration, SSOT, governance, and higher model capacity. This is a quality and governance investment that would be needed anyway.</p></article>
+      </div>
+      <p class="source-note">
+        Working assumptions: workflow times, 1.5h/day savings, and $50/hour labor cost are internal assumptions. External sanity checks include Forrester TEI studies, NHS Copilot trial results, and Microsoft Copilot Studio licensing guidance. Use today's price as the baseline; treat model improvement and lower token costs as qualitative upside, not a quantified forecast.
+      </p>
+    </div>
+  </section>
+</main>
+
 <footer>
-  AI Strategy R2 · Sky Portal · Draft for internal discussion
+  <span class="zh-inline">AI Strategy R2 · Sky Portal · 双语素材总页</span>
+  <span class="en-inline">AI Strategy R2 · Sky Portal · Bilingual source page</span>
 </footer>
+<script>
+function setLang(lang) {
+  document.body.classList.toggle('lang-zh', lang === 'zh');
+  document.body.classList.toggle('lang-en', lang === 'en');
+  try { localStorage.setItem('ai-strategy-r2-lang', lang); } catch (e) {}
+}
+try {
+  var savedLang = localStorage.getItem('ai-strategy-r2-lang');
+  if (savedLang === 'en') setLang('en');
+} catch (e) {}
+</script>
 </body>
 </html>
