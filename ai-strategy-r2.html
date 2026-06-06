@@ -829,6 +829,128 @@ h1 {
   color: var(--ink);
 }
 
+.roi-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 18px;
+  margin: 24px 0;
+}
+.roi-big {
+  border: 1px solid var(--line-strong);
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(20px, 4vw, 34px);
+}
+.roi-big b {
+  display: block;
+  font: 900 clamp(2.4rem, 7vw, 5.2rem) var(--font-latin);
+  line-height: 0.9;
+}
+.roi-big span {
+  display: block;
+  margin-top: 14px;
+  color: rgba(255,254,250,0.78);
+  font-size: clamp(1rem, 1.6vw, 1.16rem);
+}
+.roi-kpis {
+  display: grid;
+  gap: 10px;
+}
+.roi-kpi {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.72);
+  padding: 16px;
+}
+.roi-kpi b {
+  display: block;
+  margin-bottom: 6px;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1;
+}
+.roi-kpi span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.workflow-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+}
+.workflow-row {
+  display: grid;
+  grid-template-columns: 1.1fr 0.8fr 0.8fr 0.75fr 0.75fr;
+  gap: 8px;
+  align-items: stretch;
+}
+.workflow-row.header > div {
+  background: var(--ink);
+  color: var(--paper);
+  font: 800 0.78rem var(--font-latin);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.workflow-row > div {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.68);
+  padding: 12px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+.workflow-row > div:first-child {
+  color: var(--ink);
+  font-weight: 800;
+}
+.math-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0;
+}
+.math-card {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.68);
+  padding: 16px;
+}
+.math-card small {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--green);
+  font: 800 0.72rem var(--font-latin);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.math-card b {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.22rem;
+}
+.math-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.cost-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+.cost-stage {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.68);
+  padding: 16px;
+}
+.cost-stage h3 {
+  margin: 0 0 8px;
+  font-size: 1.08rem;
+}
+.cost-stage p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.cost-stage b { color: var(--ink); }
+
 .next-block {
   margin-top: 26px;
   border: 1px solid var(--line-strong);
@@ -869,7 +991,11 @@ footer {
   .agent-card,
   .timegrid,
   .horizon-row,
-  .history-flow { grid-template-columns: 1fr; }
+  .history-flow,
+  .roi-hero,
+  .workflow-row,
+  .math-grid,
+  .cost-stage-grid { grid-template-columns: 1fr; }
   .scenario-head { flex-direction: column; gap: 4px; }
   .history-node::after { display: none; }
   .grid-3 { grid-template-columns: 1fr; }
@@ -953,6 +1079,7 @@ footer {
     <a href="#governance">07 落地治理</a>
     <a href="#workstyle">08 工作方式</a>
     <a href="#narrative">09 讲法提炼</a>
+    <a href="#roi-memo">10 成本测算</a>
   </nav>
 
   <section class="slide" id="why">
@@ -1514,6 +1641,109 @@ footer {
 
       <p class="source-note">
         这一页用于后续压缩成真正 4-5 页团队报告：建议只保留 2-3 个场景和两条措辞红线，避免把长期愿景讲得过早。
+      </p>
+    </div>
+  </section>
+
+  <section class="slide" id="roi-memo">
+    <div class="slide-number">10</div>
+    <div class="slide-content">
+      <div class="eyebrow">Cost vs. productivity memo</div>
+      <h2>成本账不要讲复杂：每天省 7 分钟就回本，实际目标是省 1.5 小时。</h2>
+      <p class="lead">
+        这一页是内部测算备忘，不建议原样放进 executive deck。对领导只讲三句话：日常工作平均快 2-3 倍；每位工程师每年省回约 1.5 个月；每人每月 $30 的成本，只要每天省 7 分钟就打平。
+      </p>
+
+      <div class="roi-hero">
+        <div class="roi-big">
+          <b>13x</b>
+          <span>性价比口径：花 7 分钟的钱，买回约 90 分钟。具体数字可按内部 loaded labor rate 和真实使用数据替换。</span>
+        </div>
+        <div class="roi-kpis">
+          <div class="roi-kpi"><b>2-3x</b><span>日常知识工作平均提速；查找、纪要类场景可到 5-10x。</span></div>
+          <div class="roi-kpi"><b>~45 days</b><span>每人每天省 ~1.5 小时，折合每年约 45-47 个工作日。</span></div>
+          <div class="roi-kpi"><b>$30 / month</b><span>以 $30/人/月做保守基线；实际价格按公司采购口径更新。</span></div>
+        </div>
+      </div>
+
+      <div class="workflow-list" aria-label="Workflow assumptions">
+        <div class="workflow-row header">
+          <div>工作流</div><div>原来</div><div>现在</div><div>提速</div><div>节省</div>
+        </div>
+        <div class="workflow-row">
+          <div>信息查找</div><div>翻 share drive / 邮件 / 问人，约 20 分钟</div><div>Copilot 检索和总结，约 5 分钟</div><div>3-4x</div><div>~1h / day</div>
+        </div>
+        <div class="workflow-row">
+          <div>邮件</div><div>读、分类、起草，一封约 10 分钟</div><div>AI 摘要和起草，约 3 分钟</div><div>2-3x</div><div>~0.5h / day</div>
+        </div>
+        <div class="workflow-row">
+          <div>会议纪要 / 总结</div><div>看回放、手动整理，一场约 30 分钟</div><div>recap + AI 摘要，约 3-5 分钟</div><div>5-10x</div><div>计入会议</div>
+        </div>
+        <div class="workflow-row">
+          <div>周报 / 状态同步</div><div>手记、人工汇总、更新表格</div><div>Copilot 读 recap，增量更新</div><div>3-4x</div><div>1-2h / week</div>
+        </div>
+        <div class="workflow-row">
+          <div>文档 / PPT / 杂务</div><div>从零写、手动找时段和房间</div><div>AI 起草、语音指令、人工确认</div><div>~2x+</div><div>零散节省</div>
+        </div>
+      </div>
+
+      <div class="math-grid">
+        <article class="math-card">
+          <small>Break-even</small>
+          <b>每天 7 分钟打平</b>
+          <p>$30 ÷ 21 天 ÷ $50/小时 ≈ 0.029 小时，即约 7 分钟。这里的 $50/小时是测算假设。</p>
+        </article>
+        <article class="math-card">
+          <small>Conservative pilot</small>
+          <b>10 人试点 ROI &gt; 30x</b>
+          <p>成本约 $5.6K/年；若每人每天省 1.5h，收益约 $189K/年，回本小于半个月。</p>
+        </article>
+        <article class="math-card">
+          <small>Safety margin</small>
+          <b>砍到 1/3 仍约 11x</b>
+          <p>即使每天只省 30 分钟，10 人年收益仍约 $63K，对 $5.6K 投入仍有安全垫。</p>
+        </article>
+      </div>
+
+      <div class="evidence-grid">
+        <article class="evidence-card">
+          <small>Enterprise TEI</small>
+          <h3>外部基线较保守</h3>
+          <p>Forrester 的 Microsoft 365 Copilot TEI 模型给出三年 ROI 116%、10 个月回本，并假设用户平均每月节省 9 小时；报告也列出 $30/人/月 license 口径。<a href="https://tei.forrester.com/go/microsoft/M365Copilot/?lang=en-us">source</a></p>
+        </article>
+        <article class="evidence-card">
+          <small>Teams + Copilot</small>
+          <h3>协作场景有更高区间</h3>
+          <p>Forrester 对 Teams 与 Microsoft 365 Copilot 的 projected TEI 给出 122%-408% ROI 区间，说明会议、协作、总结类场景是可量化收益重点。<a href="https://tei.forrester.com/go/Microsoft/TeamsandCopilot/docs/Forrester_TEI_The_Projected_Total_Economic_Impact%E2%84%A2_Of_Microsoft_Teams_With_Microsoft_365_Copilot_vA.pdf">source</a></p>
+        </article>
+        <article class="evidence-card">
+          <small>SMB / public pilot</small>
+          <h3>采用率决定真实回报</h3>
+          <p>Forrester SMB 研究给出 132%-353% ROI；英国 NHS Copilot 试点报告平均每天节省 43 分钟。外部数据提醒我们：买 license 不等于收益，推广和案例沉淀才是 ROI 核心。<a href="https://tei.forrester.com/go/microsoft/SMB365Copilot/?lang=en-us">SMB</a> · <a href="https://www.gov.uk/government/news/major-nhs-ai-trial-delivers-unprecedented-time-and-cost-savings">NHS</a></p>
+        </article>
+      </div>
+
+      <div class="cost-stage-grid">
+        <article class="cost-stage">
+          <h3>短期 0-6 月</h3>
+          <p><b>主要成本：</b>Copilot license + 推广培训。性质是纯增量，回本最容易，关键是让每位工程师真的开始用。</p>
+        </article>
+        <article class="cost-stage">
+          <h3>中期 6-18 月</h3>
+          <p><b>主要成本：</b>知识库维护人力 + Copilot Studio。Microsoft licensing guide 显示 Copilot Studio capacity pack 为 $200/pack/month，不是按人头线性涨。<a href="https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/bade/documents/products-and-services/en-us/microsoft-365/microsoft-copilot-studio-licensing-guide-december-2025-pub.pdf">source</a></p>
+        </article>
+        <article class="cost-stage">
+          <h3>长期 18 月+</h3>
+          <p><b>主要成本：</b>数据打通、SSOT、集成和治理工程。这笔钱无论做不做 AI 都迟早要花，本质是质量和治理投资。</p>
+        </article>
+      </div>
+
+      <div class="callout">
+        Deck 可用一页纸口径：快几倍、省多少、花多少。其他细节留在备忘里。趋势上，模型更强、单位 token 成本更低，所以今天的测算应当作为下限；但正式汇报一律用今天价格做基线，不写未来降价预测。
+      </div>
+
+      <p class="source-note">
+        自查口径：工作流用时、每天省 1.5h、工程师 $50/小时是内部假设；M365 Copilot $30/人/月来自 Forrester TEI 和 Microsoft Copilot Studio licensing guide 中的企业模型，Microsoft 当前公开价格页会因 business/enterprise、年度/月度、促销和采购协议不同而变化，最终需替换为公司真实采购价。
       </p>
     </div>
   </section>
