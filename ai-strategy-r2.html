@@ -181,12 +181,17 @@ body.lang-en .zh-inline {
   line-height: 1.25;
 }
 .side-nav a:hover {
-  border-color: var(--line-strong);
-  background: var(--ink);
-  color: var(--paper);
+  border-color: var(--green);
+  background: var(--green-soft);
+  color: var(--ink);
+}
+.side-nav a.active {
+  border-color: var(--green);
+  background: var(--green-soft);
+  color: var(--green);
+  font-weight: 700;
 }
 .side-nav a.primary {
-  border-color: var(--line-strong);
   color: var(--ink);
   font-weight: 900;
 }
@@ -1463,7 +1468,7 @@ footer {
         AI 不是替代品，是左膀右臂——让人飞得更快、更远。
       </div>
       <div class="callout">
-        互联网时代，工具帮我们找信息；AI 时代，工具帮我们形成答案、采取行动，并逐步走向问题解决。
+        互联网时代，工具帮我们找信息；AI 时代，工具帮我们形成答案、采取行动，直到解决问题。
       </div>
       <div class="grid-3">
         <article class="panel green">
@@ -1565,19 +1570,19 @@ footer {
       <div class="eyebrow">数据基础</div>
       <h2>无可信数据，无可信 AI。</h2>
       <p class="lead">
-        信息入口经历了书、图书馆、搜索引擎，到 AI 直接生成答案。公司内部很多数据仍像分散的图书馆。AI 要成为统一入口，前提是数据可访问、可连接、可信、可追溯。
+        信息入口从书到图书馆、搜索引擎，再到 AI 直接给答案。公司内部很多数据仍像分散的图书馆。AI 要成为统一入口，前提是数据可访问、可连接、可信、可追溯。
       </p>
 
       <div class="history-flow">
         <article class="history-node">
           <small>Literacy</small>
           <h3>少数人读书</h3>
-          <p>信息入口在少数识字者手中，能读一本书即是能力差异。</p>
+          <p>信息入口在少数识字者手中，识字本身即是竞争力。</p>
         </article>
         <article class="history-node">
           <small>Books</small>
           <h3>百科全书</h3>
-          <p>信息被系统记录，但入口有限，知识集中在少数书与少数人手里。</p>
+          <p>信息系统化记录，入口仍有限，知识集中在少数藏书与少数人手中。</p>
         </article>
         <article class="history-node">
           <small>Library</small>
@@ -1592,7 +1597,7 @@ footer {
         <article class="history-node ai">
           <small>AI</small>
           <h3>连接并回答</h3>
-          <p>AI 不只找信息，而是处理信息间关系，面向问题给出答案。</p>
+          <p>AI 不只找信息，而是理解信息间关系，直接面向问题给答案。</p>
         </article>
       </div>
 
@@ -1759,7 +1764,7 @@ footer {
         <article class="evidence-card">
           <small>企业 AI 现实</small>
           <h3>失败多卡在集成与规模化</h3>
-          <p>MIT NANDA 2025 报告指出：多数企业 GenAI pilot 未产生可衡量 P&L 影响，核心问题在 workflow integration 和落地学习差距，而非模型本身。<a href="https://nanda.media.mit.edu/ai_report_2025.pdf">source</a></p>
+          <p>MIT NANDA 2025 报告指出：多数企业 GenAI pilot 未产生可衡量 P&L 影响，核心问题在 workflow integration 和落地执行差距，而非模型本身。<a href="https://nanda.media.mit.edu/ai_report_2025.pdf">source</a></p>
         </article>
         <article class="evidence-card">
           <small>人 / 流程 / 政治</small>
@@ -1876,7 +1881,7 @@ footer {
         <article class="foundation-card">
           <h3>会议从状态汇报变成判断会</h3>
           <p>
-            多数会议贵在时间，低效在重复听状态。第一步：会前 agent 汇总状态、风险和决策点，会上只留判断与拍板。
+            多数会议成本在时间，低效在重复听状态。第一步：会前 agent 汇总状态、风险和决策点，会上只留判断与拍板。
           </p>
           <ul>
             <li>会前：agent 汇总状态与证据，发 pre-read。</li>
@@ -1938,7 +1943,7 @@ footer {
       <div class="trust-statement">
         <h3>人的价值：AI 传递信息，建立不了信任。</h3>
         <p>
-          客户愿意合作，不只因为这次数据好，而是相信下次数据不好时你也会拼命做好。信任来自长期关系和责任承担。AI 处理信息，人承担判断、关系和信任。
+          客户愿意合作，不只因为这次数据好，而是相信下次数据不好时你也会全力以赴。信任来自长期关系和责任承担。AI 处理信息，人承担判断、关系和信任。
         </p>
       </div>
 
@@ -2025,7 +2030,7 @@ footer {
       <div class="eyebrow">成本与提效备忘</div>
       <h2>花 7 分钟的钱，买回 90 分钟。</h2>
       <p class="lead">
-        内部测算备忘，不建议原样入 deck。对上只讲三句话：日常快 2-3 倍；每人每年省回约 1.5 个月；$30/月成本，每天省 7 分钟即打平。
+        内部测算备忘，不建议原样入 deck。对上只讲三句话：日常快 2-3 倍；每人每年省出约 1.5 个月；$30/月成本，每天省 7 分钟即打平。
       </p>
 
       <div class="roi-hero">
@@ -2274,7 +2279,7 @@ footer {
       <div class="foundation-grid">
         <article class="foundation-card">
           <h3>Internal data remains fragmented</h3>
-          <p>Engineering data, specs, process flows, experiment records, and historical issues exist but scatter across systems. This predates AI as a digital transformation challenge; now it becomes a prerequisite for useful AI.</p>
+          <p>Engineering data, specs, process flows, experiment records, and historical issues exist but scatter across systems. This was a digital-transformation challenge before AI; now it is a prerequisite for useful AI.</p>
           <ul>
             <li>First: make key data digital, readable, searchable, permissioned.</li>
             <li>Second: link data sources through context, IDs, ownership, provenance.</li>
