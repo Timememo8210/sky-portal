@@ -81,8 +81,7 @@ a { color: inherit; }
   scrollbar-width: none;
 }
 .nav::-webkit-scrollbar { display: none; }
-.nav a,
-.toplink {
+.nav a {
   flex: 0 0 auto;
   border: 1px solid var(--ink);
   border-radius: 999px;
@@ -93,7 +92,47 @@ a { color: inherit; }
   letter-spacing: 0.02em;
 }
 .nav a:hover,
-.toplink:hover { background: var(--ink); color: var(--paper); }
+.resource-link:hover { background: var(--ink); color: var(--paper); }
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+.lang-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  min-width: 126px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: rgba(251,250,245,0.86);
+}
+.lang-switch a {
+  display: grid;
+  place-items: center;
+  min-height: 32px;
+  padding: 0 14px;
+  text-decoration: none;
+  font: 900 0.74rem var(--latin);
+  letter-spacing: 0.03em;
+}
+.lang-switch a + a { border-left: 1px solid var(--ink); }
+.lang-switch a[aria-current="page"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+.resource-link {
+  flex: 0 0 auto;
+  border: 1px solid rgba(17,22,20,0.55);
+  border-radius: 999px;
+  padding: 7px 11px;
+  background: rgba(251,250,245,0.54);
+  text-decoration: none;
+  font: 800 0.72rem var(--latin);
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
 
 .deck {
   max-width: 1280px;
@@ -353,6 +392,7 @@ footer {
 @media (max-width: 720px) {
   .topbar { position: static; align-items: flex-start; flex-direction: column; }
   .nav { width: 100%; }
+  .top-actions { width: 100%; justify-content: space-between; }
   .slide { min-height: auto; padding: 22px; scroll-margin-top: 16px; }
   h1 { font-size: 3rem; }
   h2 { font-size: 2rem; }
@@ -380,8 +420,13 @@ footer {
     <a href="#weekly">04 Weekly</a>
     <a href="#tips">05 Tips</a>
   </nav>
-  <a class="toplink" href="./ai-strategy-executive.html">中文</a>
-  <a class="toplink" href="./ai-strategy-r2.html">R2 Notes</a>
+  <div class="top-actions">
+    <div class="lang-switch" aria-label="Language">
+      <a href="./ai-strategy-executive.html">中文</a>
+      <a href="./ai-strategy-executive-en.html" aria-current="page">EN</a>
+    </div>
+    <a class="resource-link" href="./ai-strategy-r2.html">R2 Notes</a>
+  </div>
 </header>
 
 <main class="deck">

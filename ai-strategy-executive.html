@@ -81,8 +81,7 @@ a { color: inherit; }
   scrollbar-width: none;
 }
 .nav::-webkit-scrollbar { display: none; }
-.nav a,
-.toplink {
+.nav a {
   flex: 0 0 auto;
   border: 1px solid var(--ink);
   border-radius: 999px;
@@ -93,7 +92,47 @@ a { color: inherit; }
   letter-spacing: 0.02em;
 }
 .nav a:hover,
-.toplink:hover { background: var(--ink); color: var(--paper); }
+.resource-link:hover { background: var(--ink); color: var(--paper); }
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+.lang-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  min-width: 126px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: rgba(251,250,245,0.86);
+}
+.lang-switch a {
+  display: grid;
+  place-items: center;
+  min-height: 32px;
+  padding: 0 14px;
+  text-decoration: none;
+  font: 900 0.74rem var(--latin);
+  letter-spacing: 0.03em;
+}
+.lang-switch a + a { border-left: 1px solid var(--ink); }
+.lang-switch a[aria-current="page"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+.resource-link {
+  flex: 0 0 auto;
+  border: 1px solid rgba(17,22,20,0.55);
+  border-radius: 999px;
+  padding: 7px 11px;
+  background: rgba(251,250,245,0.54);
+  text-decoration: none;
+  font: 800 0.72rem var(--latin);
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
 
 .deck {
   max-width: 1280px;
@@ -353,6 +392,7 @@ footer {
 @media (max-width: 720px) {
   .topbar { position: static; align-items: flex-start; flex-direction: column; }
   .nav { width: 100%; }
+  .top-actions { width: 100%; justify-content: space-between; }
   .slide { min-height: auto; padding: 22px; scroll-margin-top: 16px; }
   h1 { font-size: 3rem; }
   h2 { font-size: 2rem; }
@@ -374,14 +414,19 @@ footer {
 <header class="topbar">
   <a class="brand" href="./index.html"><span class="brand-mark">S</span> Sky Portal</a>
   <nav class="nav" aria-label="Slides">
-    <a href="#why">01 Why</a>
-    <a href="#meeting">02 Meeting</a>
-    <a href="#data">03 Data</a>
-    <a href="#weekly">04 Weekly</a>
-    <a href="#tips">05 Tips</a>
+    <a href="#why">01 为什么</a>
+    <a href="#meeting">02 约会议</a>
+    <a href="#data">03 问数据</a>
+    <a href="#weekly">04 周更新</a>
+    <a href="#tips">05 小技巧</a>
   </nav>
-  <a class="toplink" href="./ai-strategy-executive-en.html">English</a>
-  <a class="toplink" href="./ai-strategy-r2.html">素材池 R2</a>
+  <div class="top-actions">
+    <div class="lang-switch" aria-label="Language">
+      <a href="./ai-strategy-executive.html" aria-current="page">中文</a>
+      <a href="./ai-strategy-executive-en.html">EN</a>
+    </div>
+    <a class="resource-link" href="./ai-strategy-r2.html">素材池 R2</a>
+  </div>
 </header>
 
 <main class="deck">
@@ -389,7 +434,7 @@ footer {
     <div class="slide-head">
       <div class="num">01</div>
       <div>
-        <div class="eyebrow">Executive draft</div>
+        <div class="eyebrow">汇报草稿</div>
         <h1>AI 是人的能力扩展，不是人的替代。</h1>
         <p class="lead">讲清楚 AI，先讲人。AI 让我们更快完成已有工作，也让我们开始做以前做不到的事。</p>
       </div>
@@ -411,7 +456,7 @@ footer {
     <div class="slide-head">
       <div class="num">02</div>
       <div>
-        <div class="eyebrow">Scenario 1</div>
+        <div class="eyebrow">场景 1</div>
         <h2>定会议：从我去安排，到我只确认。</h2>
         <p class="lead">低风险、高共鸣，用来开场。每个人都知道这件事浪费时间。</p>
       </div>
@@ -436,7 +481,7 @@ footer {
       </div>
       <aside class="visual-slot">
         <div><h3>截图位</h3><p>可放 Outlook / Copilot 约会截图，展示“以前怎么约”和“今天怎么约”。</p></div>
-        <div class="placeholder">Drop screenshot here</div>
+        <div class="placeholder">截图放这里</div>
       </aside>
     </div>
   </section>
@@ -445,7 +490,7 @@ footer {
     <div class="slide-head">
       <div class="num">03</div>
       <div>
-        <div class="eyebrow">Scenario 2</div>
+        <div class="eyebrow">场景 2</div>
         <h2>开会追问数据：从下次再答，到当场判断。</h2>
         <p class="lead">这是最贴近工程师的痛点，也是最值得重点讲的场景。</p>
       </div>
@@ -459,7 +504,7 @@ footer {
           </article>
           <article class="phase mid">
             <div class="phase-label">短期</div>
-            <div class="phase-body"><h3>Meeting Prep Agent</h3><p>会前给 Top 5 问题。能答就答，不能答就指出查哪里、找谁。</p></div>
+            <div class="phase-body"><h3>会议准备助手</h3><p>会前给 Top 5 问题。能答就答，不能答就指出查哪里、找谁。</p></div>
           </article>
           <article class="phase long">
             <div class="phase-label">中长期</div>
@@ -470,7 +515,7 @@ footer {
       </div>
       <aside class="visual-slot">
         <div><h3>截图位</h3><p>可放 meeting recap、Copilot 问答、带 source 的答案截图。</p></div>
-        <div class="placeholder">Drop screenshot here</div>
+        <div class="placeholder">截图放这里</div>
       </aside>
     </div>
   </section>
@@ -479,7 +524,7 @@ footer {
     <div class="slide-head">
       <div class="num">04</div>
       <div>
-        <div class="eyebrow">Scenario 3</div>
+        <div class="eyebrow">场景 3</div>
         <h2>周报同步：从人追信息，到信息自己流过来。</h2>
         <p class="lead">用已经在做的例子收尾，证明这不是愿景，而是已经发生。</p>
       </div>
@@ -504,7 +549,7 @@ footer {
       </div>
       <aside class="visual-slot">
         <div><h3>截图位</h3><p>可放 Excel 周报、蓝色变更列、Copilot 读取 recap 的例子。</p></div>
-        <div class="placeholder">Drop screenshot here</div>
+        <div class="placeholder">截图放这里</div>
       </aside>
     </div>
   </section>
@@ -513,7 +558,7 @@ footer {
     <div class="slide-head">
       <div class="num">05</div>
       <div>
-        <div class="eyebrow">Adoption</div>
+        <div class="eyebrow">落地动作</div>
         <h2>要马上开始用，也要把资源配上。</h2>
         <p class="lead">AI 不会自动产生价值。要先问问题、问得快、问得准，再给团队基本访问能力和持续示例。</p>
       </div>
@@ -545,7 +590,7 @@ footer {
 </main>
 
 <footer>
-  AI Transformation Executive Draft · Screenshot-ready · Sky Portal
+  AI 转型管理层汇报草稿 · 截图预留版 · Sky Portal
 </footer>
 </body>
 </html>
