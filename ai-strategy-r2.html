@@ -726,6 +726,108 @@ h1 {
   display: block;
   margin-bottom: 5px;
 }
+.trust-statement {
+  margin: 24px 0;
+  border: 1px solid var(--line-strong);
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(20px, 4vw, 34px);
+}
+.trust-statement h3 {
+  margin: 0 0 12px;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+.trust-statement p {
+  margin: 0;
+  color: rgba(255,254,250,0.82);
+  font-size: clamp(1rem, 1.8vw, 1.18rem);
+}
+.scenario-stack {
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+}
+.scenario-card {
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  padding: 20px;
+}
+.scenario-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+.scenario-head h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+.scenario-head span {
+  color: var(--green);
+  font-weight: 800;
+  font-size: 0.92rem;
+}
+.timegrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.timebox {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.68);
+  padding: 14px;
+}
+.timebox b {
+  display: block;
+  margin-bottom: 7px;
+}
+.timebox p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.scenario-summary {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--green-soft);
+  border-left: 4px solid var(--green);
+  font-weight: 700;
+}
+.horizon-table {
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+}
+.horizon-row {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) 180px;
+  gap: 12px;
+  align-items: stretch;
+}
+.horizon-label {
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 900;
+  text-align: center;
+}
+.horizon-content,
+.horizon-talk {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.68);
+  padding: 14px;
+  color: var(--muted);
+}
+.horizon-content b,
+.horizon-talk b {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
 
 .next-block {
   margin-top: 26px;
@@ -765,7 +867,10 @@ footer {
   .evidence-grid,
   .ownership-grid,
   .agent-card,
+  .timegrid,
+  .horizon-row,
   .history-flow { grid-template-columns: 1fr; }
+  .scenario-head { flex-direction: column; gap: 4px; }
   .history-node::after { display: none; }
   .grid-3 { grid-template-columns: 1fr; }
 }
@@ -846,6 +951,7 @@ footer {
     <a href="#actions">06 组织行动</a>
     <a href="#governance">07 落地治理</a>
     <a href="#workstyle">08 工作方式</a>
+    <a href="#narrative">09 讲法提炼</a>
   </nav>
 
   <section class="slide" id="why">
@@ -1314,6 +1420,99 @@ footer {
 
       <p class="source-note">
         这一页保留为个人 roadmap 草稿：对外汇报时应压缩成“会议成本 + knowledge agent + 数据安全访问”三件事，其他内容先作为长期方向。
+      </p>
+    </div>
+  </section>
+
+  <section class="slide" id="narrative">
+    <div class="slide-number">09</div>
+    <div class="slide-content">
+      <div class="eyebrow">Narrative compression</div>
+      <h2>最容易讲清楚的方法：同一件事，昨天怎么做、今天怎么做、明天怎么做。</h2>
+      <p class="lead">
+        这页是把前面的思考压成能对团队讲的版本。不要从抽象概念开始，而是从每天都经历的事情开始：定会议、开会被追问数据、周报同步。听众先看到自己的痛点，再看到 AI 如何把工作从“我去做”变成“我确认”，最后变成“信息自己流到我面前”。
+      </p>
+
+      <div class="trust-statement">
+        <h3>人的价值：AI 能传递信息，但建立不了信任。</h3>
+        <p>
+          客户愿意合作，不只是因为这次数据好，而是因为他相信下次数据不好时你也会拼命做好。这种“即使数据不好也愿意在一起”的关系，是人和人之间建立的，AI 给不了。AI 处理信息，人承担判断、关系和信任。
+        </p>
+      </div>
+
+      <div class="scenario-stack">
+        <article class="scenario-card">
+          <div class="scenario-head">
+            <h3>场景一：定会议</h3>
+            <span>开场暖身，低风险高共鸣</span>
+          </div>
+          <div class="timegrid">
+            <div class="timebox"><b>昨天</b><p>打开 Outlook，手动找大家都空的时间，找会议室，一个个试。</p></div>
+            <div class="timebox"><b>今天</b><p>对手机说一句“帮我约下周三 30 分钟会议并订房间”，系统给几个选项，人点确认。</p></div>
+            <div class="timebox"><b>明天</b><p>双方 agent 直接协商时间和资源，人最后只收到一条“已约好”。</p></div>
+          </div>
+          <div class="scenario-summary">一句话：从“我去安排”变成“我去确认”，再变成“我被告知”。</div>
+        </article>
+
+        <article class="scenario-card">
+          <div class="scenario-head">
+            <h3>场景二：开会被追问数据</h3>
+            <span>最贴近工程师痛点，适合重点讲</span>
+          </div>
+          <div class="timegrid">
+            <div class="timebox"><b>昨天</b><p>reviewer 连续问厚了多少片、还能厚多久、是否影响交货、是单 part 还是全部、前道有没有影响。准备到的能答，没准备到的只能回去查，下次再说。</p></div>
+            <div class="timebox"><b>今天/短期</b><p>Meeting Prep Agent 会前给出最可能被问的 Top 5 问题；能答的给答案，不能答的指出去找谁、查哪个系统。</p></div>
+            <div class="timebox"><b>中长期</b><p>会上临时问题由 agent 实时检索并给带来源答案；再往后，agent 不只找原因，还准备 split plan 和候选解决方案，人当场拍板。</p></div>
+          </div>
+          <div class="scenario-summary">一句话：从“发生 → 追查 → 下次会议再答 → 再排实验”，压缩成“当场答、当场判、当场定”。</div>
+        </article>
+
+        <article class="scenario-card">
+          <div class="scenario-head">
+            <h3>场景三：周报 / 信息同步</h3>
+            <span>用已经在做的事收尾，最有说服力</span>
+          </div>
+          <div class="timegrid">
+            <div class="timebox"><b>昨天</b><p>开很多会，手记 minutes，PM 把信息记在脑子里或手动整理成表格，再去沟通。</p></div>
+            <div class="timebox"><b>今天</b><p>固定格式 Excel，每周让 Copilot 读会议 recap，不改原表，只加一列本周更新，变动处标蓝。</p></div>
+            <div class="timebox"><b>明天</b><p>每天会议结束后，agent 自动按客户、项目、其他分类更新到表格或网页，人只维护几个想看的视图。</p></div>
+          </div>
+          <div class="scenario-summary">一句话：从“人去追信息、整理信息”，变成“信息自己流到你面前”。</div>
+        </article>
+      </div>
+
+      <div class="horizon-table">
+        <div class="horizon-row">
+          <div class="horizon-label">短期</div>
+          <div class="horizon-content"><b>能做的内容</b>Meeting Prep Agent；Copilot 周报自动整理；会前问题预判；带来源答案。</div>
+          <div class="horizon-talk"><b>对上能讲</b>重点讲，带已有成果。</div>
+        </div>
+        <div class="horizon-row">
+          <div class="horizon-label">中期</div>
+          <div class="horizon-content"><b>能做的内容</b>每个部门维护自己的知识库和 agent 接口，部门 owner 对准确性负责。</div>
+          <div class="horizon-talk"><b>对上能讲</b>讲成“升级现有 SharePoint / spec owner 机制”，不要讲新增负担。</div>
+        </div>
+        <div class="horizon-row">
+          <div class="horizon-label">长期</div>
+          <div class="horizon-content"><b>能做的内容</b>数据库互联、single source of truth、关键数字可追溯、AI 答案有确定性。</div>
+          <div class="horizon-talk"><b>对上能讲</b>点到为止，讲数据治理和质量，不讲“把所有数据对 AI 开放”。</div>
+        </div>
+        <div class="horizon-row">
+          <div class="horizon-label">更远</div>
+          <div class="horizon-content"><b>能做的内容</b>数字分身互相代理沟通、自我迭代、agent-to-agent 自动谈判。</div>
+          <div class="horizon-talk"><b>对上能讲</b>自己存档，不讲。</div>
+        </div>
+      </div>
+
+      <div class="rules-row">
+        <div class="rule-chip"><b>提醒一</b>中期 ownership 要包装成“升级已有 SharePoint / spec owner”，不是新增一个没人愿意维护的新系统。</div>
+        <div class="rule-chip"><b>提醒二</b>长期不要说“对 AI 开放所有数据”，要说“SSOT 提供确定性，防止错误信息传播”。</div>
+        <div class="rule-chip"><b>呈现主轴</b>昨天/今天/明天。先讲已经能做，再带出未来。</div>
+        <div class="rule-chip"><b>人的护城河</b>AI 做信息，人做信任、判断、关系和责任。</div>
+      </div>
+
+      <p class="source-note">
+        这一页用于后续压缩成真正 4-5 页团队报告：建议只保留 2-3 个场景和两条措辞红线，避免把长期愿景讲得过早。
       </p>
     </div>
   </section>
