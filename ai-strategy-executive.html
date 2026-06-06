@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Transformation Executive Draft | Sky Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111614;
+  --paper: #fbfaf5;
+  --wash: #eef2ed;
+  --line: #d7ddd4;
+  --muted: #6c756f;
+  --green: #006f5f;
+  --green-soft: #dceee8;
+  --blue: #164c8a;
+  --blue-soft: #dfeaf5;
+  --amber: #9a5a16;
+  --amber-soft: #f1dfc7;
+  --red: #a33c32;
+  --red-soft: #f2ddda;
+  --shadow: 0 24px 70px rgba(17,22,20,0.12);
+  --font: "Noto Sans SC", "IBM Plex Sans", sans-serif;
+  --latin: "IBM Plex Sans", "Noto Sans SC", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(17,22,20,0.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(17,22,20,0.035) 1px, transparent 1px),
+    radial-gradient(circle at 15% 5%, rgba(0,111,95,0.13), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(22,76,138,0.12), transparent 30%),
+    var(--wash);
+  background-size: 42px 42px, 42px 42px, auto, auto, auto;
+  line-height: 1.55;
+}
+
+a { color: inherit; }
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px clamp(16px, 4vw, 54px);
+  background: rgba(251,250,245,0.88);
+  border-bottom: 1px solid rgba(17,22,20,0.12);
+  backdrop-filter: blur(16px);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font: 800 0.84rem var(--latin);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+.nav {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav a,
+.toplink {
+  flex: 0 0 auto;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 7px 11px;
+  background: rgba(251,250,245,0.74);
+  text-decoration: none;
+  font: 800 0.72rem var(--latin);
+  letter-spacing: 0.02em;
+}
+.nav a:hover,
+.toplink:hover { background: var(--ink); color: var(--paper); }
+
+.deck {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px clamp(14px, 3vw, 36px) 70px;
+}
+.slide {
+  min-height: calc(100vh - 92px);
+  margin: 0 0 28px;
+  padding: clamp(24px, 5vw, 58px);
+  border: 1px solid rgba(17,22,20,0.18);
+  background: rgba(251,250,245,0.92);
+  box-shadow: var(--shadow);
+  scroll-margin-top: 84px;
+}
+.slide-head {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: clamp(18px, 3vw, 34px);
+  align-items: start;
+  margin-bottom: 30px;
+}
+.num {
+  font: 900 clamp(2.6rem, 6vw, 5.3rem) var(--latin);
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 1.4px var(--ink);
+}
+.eyebrow {
+  color: var(--green);
+  font: 800 0.78rem var(--latin);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+h1,
+h2 {
+  margin: 0;
+  letter-spacing: 0;
+  line-height: 1.02;
+  font-weight: 900;
+}
+h1 { font-size: clamp(2.9rem, 8vw, 7rem); max-width: 940px; }
+h2 { font-size: clamp(2rem, 5vw, 4.5rem); max-width: 980px; }
+.lead {
+  max-width: 860px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 22px;
+  align-items: stretch;
+}
+.hero-thesis {
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(22px, 4vw, 38px);
+}
+.hero-thesis h3 {
+  margin: 0 0 16px;
+  font-size: clamp(1.4rem, 3vw, 2.3rem);
+}
+.hero-thesis p {
+  margin: 0;
+  color: rgba(251,250,245,0.82);
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+}
+.thesis-list {
+  display: grid;
+  gap: 12px;
+}
+.thesis-item {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.6);
+  padding: 17px;
+}
+.thesis-item b {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+.thesis-item span {
+  display: block;
+  color: var(--muted);
+}
+
+.scenario-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+  gap: 22px;
+}
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.phase {
+  min-height: 265px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.62);
+}
+.phase-label {
+  padding: 12px 14px;
+  background: var(--ink);
+  color: var(--paper);
+  font: 900 0.85rem var(--latin);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.phase.short .phase-label { background: var(--green); }
+.phase.mid .phase-label { background: var(--blue); }
+.phase.long .phase-label { background: var(--amber); }
+.phase-body {
+  flex: 1;
+  padding: 16px;
+}
+.phase-body h3 {
+  margin: 0 0 10px;
+  font-size: clamp(1.12rem, 2vw, 1.5rem);
+  line-height: 1.18;
+}
+.phase-body p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.one-line {
+  margin-top: 14px;
+  border-left: 5px solid var(--green);
+  background: var(--green-soft);
+  padding: 13px 15px;
+  font-weight: 800;
+}
+.visual-slot {
+  min-height: 100%;
+  border: 1px dashed rgba(17,22,20,0.45);
+  background:
+    linear-gradient(90deg, rgba(17,22,20,0.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(17,22,20,0.035) 1px, transparent 1px),
+    rgba(255,255,255,0.42);
+  background-size: 24px 24px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.visual-slot h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.visual-slot p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 230px;
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  background: rgba(251,250,245,0.82);
+  color: var(--muted);
+  font-weight: 800;
+  text-align: center;
+}
+
+.final-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 22px;
+}
+.tips,
+.support {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.62);
+  padding: 20px;
+}
+.tips h3,
+.support h3 {
+  margin: 0 0 18px;
+  font-size: 1.35rem;
+}
+.tip-list,
+.support-list {
+  display: grid;
+  gap: 12px;
+}
+.tip,
+.support-item {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.tip:last-child,
+.support-item:last-child { border-bottom: none; padding-bottom: 0; }
+.badge {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green);
+  font: 900 0.86rem var(--latin);
+}
+.tip b,
+.support-item b {
+  display: block;
+  margin-bottom: 4px;
+}
+.tip span,
+.support-item span {
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+.say-box {
+  margin-top: 20px;
+  border: 1px solid var(--ink);
+  background: linear-gradient(135deg, rgba(0,111,95,0.12), rgba(154,90,22,0.12));
+  padding: 18px;
+}
+.say-box h3 { margin: 0 0 12px; }
+.say-box p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+footer {
+  padding: 38px 18px 58px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+@media (max-width: 980px) {
+  .hero-grid,
+  .scenario-layout,
+  .final-grid,
+  .timeline-grid { grid-template-columns: 1fr; }
+  .slide-head { grid-template-columns: 1fr; }
+  .num { font-size: 3rem; }
+  .phase { min-height: auto; }
+  .visual-slot { min-height: 360px; }
+}
+
+@media (max-width: 720px) {
+  .topbar { position: static; align-items: flex-start; flex-direction: column; }
+  .nav { width: 100%; }
+  .slide { min-height: auto; padding: 22px; scroll-margin-top: 16px; }
+  h1 { font-size: 3rem; }
+  h2 { font-size: 2rem; }
+}
+
+@media print {
+  body { background: #fff; }
+  .topbar,
+  footer { display: none; }
+  .slide {
+    min-height: auto;
+    box-shadow: none;
+    page-break-after: always;
+  }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="./index.html"><span class="brand-mark">S</span> Sky Portal</a>
+  <nav class="nav" aria-label="Slides">
+    <a href="#why">01 Why</a>
+    <a href="#meeting">02 Meeting</a>
+    <a href="#data">03 Data</a>
+    <a href="#weekly">04 Weekly</a>
+    <a href="#tips">05 Tips</a>
+  </nav>
+  <a class="toplink" href="./ai-strategy-r2.html">素材池 R2</a>
+</header>
+
+<main class="deck">
+  <section class="slide" id="why">
+    <div class="slide-head">
+      <div class="num">01</div>
+      <div>
+        <div class="eyebrow">Executive draft</div>
+        <h1>AI 是人的能力扩展，不是人的替代。</h1>
+        <p class="lead">讲清楚 AI，先讲人。AI 让我们更快完成已有工作，也让我们开始做以前做不到的事。</p>
+      </div>
+    </div>
+    <div class="hero-grid">
+      <div class="hero-thesis">
+        <h3>AI 能传递信息，但建立不了信任。</h3>
+        <p>客户信任你，不只是因为这次数据好，而是因为他相信下次数据不好时你也会拼命做好。AI 处理信息，人承担判断、关系和责任。</p>
+      </div>
+      <div class="thesis-list">
+        <div class="thesis-item"><b>把已有工作做快</b><span>搜索、汇总、写报告、准备会议、整理状态。</span></div>
+        <div class="thesis-item"><b>打开原来做不到的事</b><span>一个人同时拥有研究、编程、编辑和数据助理能力。</span></div>
+        <div class="thesis-item"><b>从信息到答案，再到行动</b><span>短期先把“问问题、拿答案、带来源”用起来。</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" id="meeting">
+    <div class="slide-head">
+      <div class="num">02</div>
+      <div>
+        <div class="eyebrow">Scenario 1</div>
+        <h2>定会议：从我去安排，到我只确认。</h2>
+        <p class="lead">低风险、高共鸣，用来开场。每个人都知道这件事浪费时间。</p>
+      </div>
+    </div>
+    <div class="scenario-layout">
+      <div>
+        <div class="timeline-grid">
+          <article class="phase short">
+            <div class="phase-label">现在</div>
+            <div class="phase-body"><h3>手动协调</h3><p>打开 Outlook，找大家空档，找房间，一个个试。</p></div>
+          </article>
+          <article class="phase mid">
+            <div class="phase-label">短期</div>
+            <div class="phase-body"><h3>AI 给选项</h3><p>说一句需求，Copilot 给几个候选时间和房间，人点确认。</p></div>
+          </article>
+          <article class="phase long">
+            <div class="phase-label">中长期</div>
+            <div class="phase-body"><h3>Agent 自动敲定</h3><p>双方 agent 协调时间和资源，人收到“已约好”。</p></div>
+          </article>
+        </div>
+        <div class="one-line">一句话：从“我去安排”变成“我去确认”，再变成“我被告知”。</div>
+      </div>
+      <aside class="visual-slot">
+        <div><h3>截图位</h3><p>可放 Outlook / Copilot 约会截图，展示“以前怎么约”和“今天怎么约”。</p></div>
+        <div class="placeholder">Drop screenshot here</div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="slide" id="data">
+    <div class="slide-head">
+      <div class="num">03</div>
+      <div>
+        <div class="eyebrow">Scenario 2</div>
+        <h2>开会追问数据：从下次再答，到当场判断。</h2>
+        <p class="lead">这是最贴近工程师的痛点，也是最值得重点讲的场景。</p>
+      </div>
+    </div>
+    <div class="scenario-layout">
+      <div>
+        <div class="timeline-grid">
+          <article class="phase short">
+            <div class="phase-label">现在</div>
+            <div class="phase-body"><h3>追问后回去查</h3><p>准备到的能答，没准备到的只能回去查，下次会议再说。</p></div>
+          </article>
+          <article class="phase mid">
+            <div class="phase-label">短期</div>
+            <div class="phase-body"><h3>Meeting Prep Agent</h3><p>会前给 Top 5 问题。能答就答，不能答就指出查哪里、找谁。</p></div>
+          </article>
+          <article class="phase long">
+            <div class="phase-label">中长期</div>
+            <div class="phase-body"><h3>实时检索 + Split Plan</h3><p>会上给带来源答案，再进一步准备候选原因和实验方案。</p></div>
+          </article>
+        </div>
+        <div class="one-line">一句话：把“发生、追查、下次再答、再排实验”压缩成“当场答、当场判、当场定”。</div>
+      </div>
+      <aside class="visual-slot">
+        <div><h3>截图位</h3><p>可放 meeting recap、Copilot 问答、带 source 的答案截图。</p></div>
+        <div class="placeholder">Drop screenshot here</div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="slide" id="weekly">
+    <div class="slide-head">
+      <div class="num">04</div>
+      <div>
+        <div class="eyebrow">Scenario 3</div>
+        <h2>周报同步：从人追信息，到信息自己流过来。</h2>
+        <p class="lead">用已经在做的例子收尾，证明这不是愿景，而是已经发生。</p>
+      </div>
+    </div>
+    <div class="scenario-layout">
+      <div>
+        <div class="timeline-grid">
+          <article class="phase short">
+            <div class="phase-label">现在</div>
+            <div class="phase-body"><h3>手动整理</h3><p>开会、记 minutes、更新表格、再去同步最新状态。</p></div>
+          </article>
+          <article class="phase mid">
+            <div class="phase-label">短期</div>
+            <div class="phase-body"><h3>Copilot 辅助周报</h3><p>读会议 recap，不改原表，只加本周更新，变动处标蓝。</p></div>
+          </article>
+          <article class="phase long">
+            <div class="phase-label">中长期</div>
+            <div class="phase-body"><h3>自动刷新视图</h3><p>每天按客户、项目、其他分类更新，人只维护想看的视图。</p></div>
+          </article>
+        </div>
+        <div class="one-line">一句话：从“人去追信息、整理信息”，变成“信息自己流到你面前”。</div>
+      </div>
+      <aside class="visual-slot">
+        <div><h3>截图位</h3><p>可放 Excel 周报、蓝色变更列、Copilot 读取 recap 的例子。</p></div>
+        <div class="placeholder">Drop screenshot here</div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="slide" id="tips">
+    <div class="slide-head">
+      <div class="num">05</div>
+      <div>
+        <div class="eyebrow">Adoption</div>
+        <h2>要马上开始用，也要把资源配上。</h2>
+        <p class="lead">AI 不会自动产生价值。要先问问题、问得快、问得准，再给团队基本访问能力和持续示例。</p>
+      </div>
+    </div>
+    <div class="final-grid">
+      <section class="tips">
+        <h3>三个马上能用的 tips</h3>
+        <div class="tip-list">
+          <div class="tip"><span class="badge">1</span><div><b>先开口问</b><span>以前不问的问题，现在先问 AI。没有问题，就不会有答案。</span></div></div>
+          <div class="tip"><span class="badge">2</span><div><b>要求它别猜</b><span>让它标出处。没有来源就空着；有冲突就列 source，让人判断。</span></div></div>
+          <div class="tip"><span class="badge">3</span><div><b>善用语音输入</b><span>不要被打字速度限制。AI 能容忍 typo，关键是把问题快速说出来。</span></div></div>
+        </div>
+      </section>
+      <section class="support">
+        <h3>需要的支持</h3>
+        <div class="support-list">
+          <div class="support-item"><span class="badge">A</span><div><b>每位工程师可访问 M365 Copilot</b><span>先不谈高级 agent，至少让大家能问、能搜、能总结。</span></div></div>
+          <div class="support-item"><span class="badge">B</span><div><b>每周推 1-2 个简单例子</b><span>跟着周报发，让团队看到真实效率提升。</span></div></div>
+          <div class="support-item"><span class="badge">C</span><div><b>给核心成员更高阶工具和学习机会</b><span>Copilot Studio、更高 token/模型能力、AI 会议和培训。</span></div></div>
+          <div class="support-item"><span class="badge">D</span><div><b>形成跨部门小组</b><span>先落地已有共识的 automation / QA / engineering 场景。</span></div></div>
+        </div>
+      </section>
+    </div>
+    <div class="say-box">
+      <h3>最后话术</h3>
+      <p>短期讲能用、能省时间、带来源；中期讲升级现有知识库和 owner 机制；长期讲 SSOT 提供确定性，不讲“开放所有数据给 AI”。</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  AI Transformation Executive Draft · Screenshot-ready · Sky Portal
+</footer>
+</body>
+</html>
