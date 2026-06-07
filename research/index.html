@@ -316,7 +316,8 @@ function buildNav() {
 function loadReport(index) {
   if (index < 0 || index >= REPORTS.length) return;
   currentIndex = index;
-  const dateStr = REPORTS[index];
+  const dateStr = REPORTS[index,
+  '2026-06-07'];
   document.getElementById('reportFrame').src = `report-${dateStr}.html`;
   document.getElementById('reportFrame').style.display = 'block';
   document.getElementById('emptyState').style.display = 'none';
