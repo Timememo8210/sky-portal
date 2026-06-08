@@ -419,6 +419,94 @@ img { max-width: 100%; display: block; }
   font-family: var(--display);
 }
 
+.reliability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.reliability-card,
+.bend-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 18px;
+}
+
+.reliability-card h3,
+.bend-card h3 {
+  margin: 0 0 8px;
+  font-family: var(--display);
+  font-size: 1rem;
+}
+
+.reliability-card strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--lava);
+  margin-bottom: 8px;
+}
+
+.reliability-card p,
+.bend-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.bend-board {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.bend-card.feature {
+  background: var(--night);
+  color: var(--white);
+}
+
+.bend-card.feature p { color: rgba(255,253,247,0.78); }
+
+.bend-card .mini-kicker {
+  display: inline-flex;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: var(--sun);
+  color: var(--night);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.74rem;
+}
+
+.bend-options {
+  display: grid;
+  gap: 12px;
+}
+
+.bend-option {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255,253,247,0.72);
+}
+
+.bend-option h4 {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-size: 0.98rem;
+}
+
+.bend-option p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .tagline {
   display: flex;
   gap: 7px;
@@ -701,7 +789,7 @@ img { max-width: 100%; display: block; }
 
 .source-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 
@@ -732,6 +820,8 @@ img { max-width: 100%; display: block; }
   .metric-strip,
   .decision-grid,
   .charge-board,
+  .reliability-grid,
+  .bend-board,
   .map-shell,
   .hike-grid,
   .hotel-grid,
@@ -745,8 +835,23 @@ img { max-width: 100%; display: block; }
 }
 
 @media (max-width: 720px) {
-  .topbar { position: static; align-items: start; flex-direction: column; }
-  .navlinks { margin-top: 8px; }
+  .topbar {
+    position: static;
+    align-items: start;
+    flex-direction: column;
+    padding: 12px 16px;
+  }
+  .navlinks {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 360px;
+    max-width: 100%;
+    margin-top: 8px;
+  }
+  .navlinks a {
+    text-align: center;
+    padding: 6px 4px;
+  }
   .hero { min-height: 70vh; }
   .hero-content {
     width: 360px;
@@ -776,13 +881,25 @@ img { max-width: 100%; display: block; }
     text-align: center;
     white-space: normal;
   }
+  .wrap {
+    width: 360px;
+    max-width: calc(100% - 32px);
+    margin: 0 16px;
+  }
   .section { padding: 42px 16px; }
   .section-title { display: block; }
-  .section-title p { margin-top: 8px; }
+  .section-title p {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 8px;
+    overflow-wrap: anywhere;
+  }
   .metric-strip,
   .decision-grid,
   .charge-board,
   .charger-grid,
+  .reliability-grid,
+  .bend-board,
   .map-shell,
   .hike-grid,
   .hotel-grid,
@@ -814,6 +931,7 @@ img { max-width: 100%; display: block; }
     <a href="#charging">充电</a>
     <a href="#map-section">地图</a>
     <a href="#hikes">徒步</a>
+    <a href="#bend">Bend</a>
     <a href="#stay">住宿</a>
   </div>
 </nav>
@@ -822,7 +940,7 @@ img { max-width: 100%; display: block; }
   <div class="hero-content">
     <div class="kicker">2026 Summer Solo Drive</div>
     <h1><span>Smith Rock</span> <span>周末独行攻略</span></h1>
-    <p>从 Portland 出发，Tesla Model Y / Model X，按“充电必须有余量、徒步不把自己搞废、周一能正常上班”的标准做的一日往返 + 住一晚双方案。</p>
+    <p>从 Portland 出发，Tesla Model X / Model Y，按“充电必须有余量、Misery Ridge 不硬扛、Bend 只在值得时加”的标准做的一日往返 + 住一晚双方案。</p>
     <div class="hero-actions">
       <a class="btn primary" href="#map-section">看标注地图</a>
       <a class="btn" href="https://www.google.com/maps/dir/Portland,+OR/Sandy+Tesla+Supercharger/Madras+Tesla+Supercharger/Smith+Rock+State+Park" target="_blank" rel="noopener">Google Maps 路线</a>
@@ -838,7 +956,7 @@ img { max-width: 100%; display: block; }
         <div class="metric"><strong>Sat</strong><span>最推荐周六一日往返，周日完整恢复</span></div>
         <div class="metric"><strong>145</strong><span>Portland 到 Smith Rock 单程约 140-150 miles</span></div>
         <div class="metric"><strong>250</strong><span>Madras / Redmond Supercharger 最高 250 kW</span></div>
-        <div class="metric"><strong>2h</strong><span>核心徒步控制在 2 小时左右最舒服</span></div>
+        <div class="metric"><strong>3.6</strong><span>Misery Ridge + River Loop 是核心路线</span></div>
       </div>
 
       <div class="section-title" style="margin-top:42px;">
@@ -853,26 +971,26 @@ img { max-width: 100%; display: block; }
             <span class="pill">推荐</span>
           </div>
           <div class="decision-body">
-            <p>适合你说的“早上 6 点多出发、当天玩、晚上 9 点左右回到家、周日休整”。把难度锁在 Rim Rock + Crooked River，Misery Ridge 只当状态好时的加餐。</p>
+            <p>适合你说的“早上 5-6 点出发、上午完成硬 trail、下午回、周日完整恢复”。核心做 Misery Ridge + River Loop；太热就降级成 Crooked River。</p>
             <ul class="ticks">
-              <li>充电核心只依赖 Madras Supercharger，Sandy 当备用。</li>
-              <li>徒步 2-4 miles 之间可伸缩，不会把腿炸掉。</li>
-              <li>下午 4 点半左右离园，留出晚饭和充电缓冲。</li>
+              <li>Madras 是主充电点，Redmond 是最近备份，Bend 是南侧兜底。</li>
+              <li>Misery Ridge 要在上午做，不要下午晒到最热时才开爬。</li>
+              <li>不喝酒、不恋战，下午离园，晚上 8:30-9:30 回 Portland。</li>
             </ul>
           </div>
         </article>
 
         <article class="decision">
           <div class="decision-header">
-            <h3>方案 B - 住 Redmond 一晚</h3>
-            <span class="pill">更松</span>
+            <h3>方案 B - 住 Bend 一晚</h3>
+            <span class="pill">想喝酒才值</span>
           </div>
           <div class="decision-body">
-            <p>如果想拍日出、避开暑期中午 100°F 级别的热，住 Redmond 最合理。离公园约 15-20 分钟，又有 250 kW Supercharger。</p>
+            <p>Bend 离 Smith Rock 约 30-45 分钟，不远。但一个人旅行时，它不是必加项。只有你想在 Bend 坐一坐、喝一杯、不想疲劳夜驾，才值得住一晚。</p>
             <ul class="ticks">
-              <li>周五下班后开到 Redmond，周六清晨进 Smith Rock。</li>
-              <li>住宿不建议住 Bend，除非你想顺便玩 Bend。</li>
-              <li>不要睡车。Smith Rock 明确禁止 vehicle sleeping。</li>
+              <li>走完 Misery Ridge 后去 Bend，晚上 Old Mill / Downtown 轻松吃饭。</li>
+              <li>喝酒就不要当天开回 Portland，直接住 Bend。</li>
+              <li>第二天只做 Deschutes River Trail / Pilot Butte 这种轻项目。</li>
             </ul>
           </div>
         </article>
@@ -954,6 +1072,24 @@ img { max-width: 100%; display: block; }
           </article>
         </div>
       </div>
+
+      <div class="reliability-grid" aria-label="Model X charging reliability notes">
+        <article class="reliability-card">
+          <strong>不用赌</strong>
+          <h3>Model X 单段没压力，往返别硬撑</h3>
+          <p>Portland 到 Smith Rock 单程约 140-150 miles。Model X 跑过去没问题，但山区、高速、空调和温度会吃掉余量，所以不要设计成“不充电往返”。</p>
+        </article>
+        <article class="reliability-card">
+          <strong>无园内超充</strong>
+          <h3>公园附近有两个靠谱节点</h3>
+          <p>Smith Rock 内没有 Supercharger。北侧 Madras 是主节点，南侧 Redmond 离公园最近；两个都是 8 stalls、最高 250 kW、24/7。</p>
+        </article>
+        <article class="reliability-card">
+          <strong>低风险</strong>
+          <h3>真正风险是排队和低电量进山</h3>
+          <p>出发前 90-100%，到 Madras 低于 40% 就补到 75-85%。回程低于 55-60% 就在 Madras 或 Redmond 再补，不靠 FSD 硬赶夜路。</p>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -977,10 +1113,12 @@ img { max-width: 100%; display: block; }
             <li><button data-focus="river">Crooked River Footbridge - 徒步起点</button></li>
             <li><button data-focus="monkey">Monkey Face - 经典地标</button></li>
             <li><button data-focus="redmond">Redmond Supercharger - 住一晚节点</button></li>
+            <li><button data-focus="bendcharger">Bend Supercharger - Bend 兜底补电</button></li>
+            <li><button data-focus="oldmill">Old Mill District - Bend 晚上放松</button></li>
           </ul>
           <div class="map-note">
             <h3>距离换算</h3>
-            <p>Portland 到 Smith Rock 约 140-150 miles；Smith Rock 到 Redmond 约 11 miles；Smith Rock 到 Madras 约 21 miles。</p>
+            <p>Portland 到 Smith Rock 约 140-150 miles；Smith Rock 到 Redmond 约 11 miles；Smith Rock 到 Madras 约 21 miles；Smith Rock 到 Bend 约 30-45 分钟。</p>
           </div>
         </aside>
       </div>
@@ -991,7 +1129,7 @@ img { max-width: 100%; display: block; }
     <div class="wrap">
       <div class="section-title">
         <h2>必玩徒步项目</h2>
-        <p>一个人去，不建议把所有路线都硬塞。下面按“轻松到硬”排序，核心推荐是 Rim Rock + Crooked River。</p>
+        <p>一个人去，不建议把所有路线都硬塞。Misery Ridge 是最有代表性的硬路线，但暑期要早走、带水、别在最热时段硬上。</p>
       </div>
 
       <div class="hike-grid">
@@ -1019,8 +1157,8 @@ img { max-width: 100%; display: block; }
           <div class="hike-img"><img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Monkey_Face_-_Smith_Rock%2C_Oregon.jpg" alt="Monkey Face at Smith Rock"></div>
           <div class="hike-body">
             <h4>Misery Ridge + River Loop</h4>
-            <p>Smith Rock 的英雄路线，但夏天暴晒、爬升集中。只在早到、低温、状态好时做。</p>
-            <div class="hike-stats"><span>3.6 mi</span><span>915 ft</span><span>2-2.5h</span></div>
+            <p>Smith Rock 的英雄路线。短但陡、碎石多、暴晒强；沿线可看 Monkey Face。夏天只建议早上做，蛇类可能出现，别离开步道。</p>
+            <div class="hike-stats"><span>3.6 mi</span><span>908 ft</span><span>2-2.5h</span></div>
             <a href="https://www.alltrails.com/trail/us/oregon/misery-ridge-and-river-trail--2" target="_blank" rel="noopener">AllTrails 路线</a>
           </div>
         </article>
@@ -1038,18 +1176,50 @@ img { max-width: 100%; display: block; }
     </div>
   </section>
 
+  <section class="section" id="bend">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Bend 要不要加？</h2>
+        <p>Smith Rock 到 Bend 约 30-45 分钟。对一个人来说，Bend 是“想放松才加”，不是必玩清单。</p>
+      </div>
+
+      <div class="bend-board">
+        <article class="bend-card feature">
+          <span class="mini-kicker">My verdict</span>
+          <h3>默认当天回；想喝酒才住 Bend</h3>
+          <p>你的旅行习惯更像 Quiet Lake 那种高效率打法：早出发、完成核心 trail、下午撤、周日恢复。Smith Rock 也适合这样。Bend 值得加的唯一强理由，是你走完 Misery Ridge 后想在 Old Mill / Downtown 坐一坐、喝一杯、不要再夜驾。</p>
+        </article>
+
+        <div class="bend-options">
+          <article class="bend-option">
+            <h4>最适合你：周六当天来回</h4>
+            <p>05:45-06:15 出发，09:00 前后 Madras 补电，10:00 前开始 Misery Ridge + River Loop，下午 3-4 点离园，Madras 再补电，晚上回 Portland。紧凑但不拖泥带水。</p>
+          </article>
+          <article class="bend-option">
+            <h4>想小度假：Smith Rock 后住 Bend</h4>
+            <p>下午从 Smith Rock 开 30-45 分钟到 Bend，先去 Bend Supercharger 或酒店，晚上 Old Mill / Downtown 吃饭喝一杯。第二天只走 Deschutes River Trail Old Mill Reach 或 Pilot Butte，午后回 Portland。</p>
+          </article>
+          <article class="bend-option">
+            <h4>不推荐：硬 trail + Bend 喝酒 + 当晚回</h4>
+            <p>Misery Ridge 晒完以后身体会疲劳。Bend 如果只是“顺便看一下”会让当天变长；如果喝酒，再开 3 小时回 Portland 不值得。</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="schedule">
     <div class="wrap">
       <div class="section-title">
         <h2>周六一日往返时间表</h2>
-        <p>这个版本保留周日完整休息。所有时间按 Portland 市区出发估算，住在西边或南边就相应前后调整。</p>
+        <p>这个版本保留周日完整休息，并把 Misery Ridge 放在上午。所有时间按 Portland 市区出发估算，住在西边或南边就相应前后调整。</p>
       </div>
 
       <div class="timeline">
         <div class="time-row">
-          <div class="time">06:15</div>
+          <div class="time">05:45</div>
           <div>
-            <h3>出发前检查</h3>
+            <h3>出发前检查 / 早走避晒</h3>
             <p>车充到 90-100%，水 2-3 L，帽子、防晒、轻外套、实体停车卡/信用卡。打开 Tesla 导航到 Madras Supercharger。</p>
           </div>
           <div class="time-chip">Home -> US-26</div>
@@ -1058,39 +1228,47 @@ img { max-width: 100%; display: block; }
           <div class="time">09:00</div>
           <div>
             <h3>Madras 主充电</h3>
-            <p>20-30 分钟。补到 75-85% 再去公园。这里是全程最关键的可靠性节点。</p>
+            <p>20-30 分钟。补到 75-85% 再去公园。这里是全程最关键的可靠性节点，也是上厕所、买冷饮、看天气的点。</p>
           </div>
           <div class="time-chip">250 kW</div>
         </div>
         <div class="time-row">
-          <div class="time">10:00</div>
+          <div class="time">09:50</div>
           <div>
             <h3>到 Smith Rock 停车</h3>
-            <p>买 day-use parking permit。先走 Rim Rock Trail，看全景、拍照、判断温度和人流。</p>
+            <p>买 day-use parking permit。先看温度：如果已经很热，Misery Ridge 降级；如果还凉快，直接下 Chute 到 Footbridge 开始爬。</p>
           </div>
-          <div class="time-chip">1 mi easy</div>
+          <div class="time-chip">Permit</div>
         </div>
         <div class="time-row">
-          <div class="time">11:00</div>
+          <div class="time">10:15</div>
           <div>
-            <h3>Crooked River 主线</h3>
-            <p>从 Chute 下到 Footbridge，沿河走。轻松版走 60-90 分钟折返；完整版走到 Monkey Face 方向再回。</p>
+            <h3>Misery Ridge + River Loop</h3>
+            <p>核心路线。短、陡、晒，但最有代表性。目标 2-2.5 小时完成；别在碎石坡赶速度，沿河段留意蛇和脚下。</p>
           </div>
-          <div class="time-chip">1.5-2 h</div>
+          <div class="time-chip">3.6 mi hard</div>
         </div>
         <div class="time-row">
-          <div class="time">13:30</div>
+          <div class="time">12:45</div>
           <div>
-            <h3>午后选项</h3>
-            <p>热或累：找阴影休息，然后 Wolf Tree 小段。凉快且状态很好：Misery Ridge Loop，但不要超过下午 2 点才开始。</p>
+            <h3>降温 / 午饭 / Rim Rock</h3>
+            <p>回到停车区后先休息。还有体力就走 Rim Rock 轻松全景；已经热或累，就不要再加 Wolf Tree。</p>
           </div>
-          <div class="time-chip">按体力选</div>
+          <div class="time-chip">Easy reset</div>
+        </div>
+        <div class="time-row">
+          <div class="time">15:00</div>
+          <div>
+            <h3>做决定：回家还是 Bend</h3>
+            <p>不喝酒、只想完成核心 trail：直接回 Madras 充电回 Portland。想在 Bend 喝一杯、坐一坐：去 Bend 住一晚，不要再开夜车回家。</p>
+          </div>
+          <div class="time-chip">Fork point</div>
         </div>
         <div class="time-row">
           <div class="time">16:30</div>
           <div>
             <h3>离园回 Madras</h3>
-            <p>不要拖到天黑。回 Madras 充电 + 吃东西，顺便让身体降温。</p>
+            <p>当天回 Portland 的话，不要拖到天黑。回 Madras 充电 + 吃东西，顺便让身体降温。</p>
           </div>
           <div class="time-chip">21 mi</div>
         </div>
@@ -1110,33 +1288,33 @@ img { max-width: 100%; display: block; }
     <div class="wrap">
       <div class="section-title">
         <h2>如果住一晚</h2>
-        <p>住宿优先级：Redmond > Terrebonne / Bivy > Bend。Redmond 最平衡，离公园近、餐饮够、充电稳。</p>
+        <p>住宿不再按“离公园最近”排序，而按你的场景排：想喝酒放松就 Bend；只想第二天再进 Smith Rock 才 Redmond；Bivy 不适合你这次的轻松目标。</p>
       </div>
 
       <div class="hotel-grid">
         <article class="hotel">
           <div class="hotel-score">1</div>
-          <h4>SCP Redmond Hotel</h4>
-          <p>最适合一个人住一晚的“有点审美但不折腾”选择。 downtown Redmond，晚饭和咖啡都方便。</p>
-          <a href="https://scphotel.com/redmond/" target="_blank" rel="noopener">酒店官网</a>
+          <h4>Bend / Old Mill</h4>
+          <p>如果走完 Misery Ridge 后想喝个小酒、坐一坐，住 Bend 最合理。晚上不要再开回 Portland；第二天只做轻松河边散步。</p>
+          <a href="https://traveloregon.com/things-to-do/oregon-attractions/shopping/the-old-mill-district/" target="_blank" rel="noopener">Old Mill District</a>
         </article>
         <article class="hotel">
           <div class="hotel-score">2</div>
+          <h4>SCP Redmond Hotel</h4>
+          <p>如果想周五住近一点、周六清晨进 Smith Rock，Redmond 最平衡。离公园近，离 Redmond Supercharger 也近。</p>
+          <a href="https://scphotel.com/redmond/" target="_blank" rel="noopener">酒店官网</a>
+        </article>
+        <article class="hotel">
+          <div class="hotel-score">3</div>
           <h4>Redmond 普通连锁酒店</h4>
           <p>如果只是睡觉恢复，选靠 US-97 / Redmond Supercharger 的连锁酒店。重点是停车方便、退房后补电方便。</p>
           <a href="https://www.google.com/maps/search/hotels+near+1565+SW+Odem+Medo+Rd+Redmond+OR" target="_blank" rel="noopener">地图搜索</a>
         </article>
         <article class="hotel">
-          <div class="hotel-score">3</div>
-          <h4>Smith Rock Bivy</h4>
-          <p>只适合你想帐篷露营。First-come first-served，无预订；禁止睡车、RV、明火。</p>
-          <a href="https://www.smithrock.com/campground-bivy" target="_blank" rel="noopener">Bivy 规则</a>
-        </article>
-        <article class="hotel">
           <div class="hotel-score">4</div>
-          <h4>Bend / Pilot Butte</h4>
-          <p>如果想把周末变成小度假，可以住 Bend，第二天开车上 Pilot Butte 或喝咖啡。但这会多开路。</p>
-          <a href="https://stateparks.oregon.gov/park_42.php" target="_blank" rel="noopener">Pilot Butte</a>
+          <h4>Smith Rock Bivy</h4>
+          <p>只适合你想帐篷露营。First-come first-served，无预订；禁止睡车、RV、明火。这次一个人不建议优先选。</p>
+          <a href="https://www.smithrock.com/campground-bivy" target="_blank" rel="noopener">Bivy 规则</a>
         </article>
       </div>
     </div>
@@ -1164,7 +1342,7 @@ img { max-width: 100%; display: block; }
           <p>Smith Rock 暑期高温可接近 100°F；day-use 时间为日出前 30 分钟到日落后 30 分钟。2026 年 7 月 31 日前仍有猛禽繁殖季限制，Canyon Trail 要控制噪音和人数，drone 禁止。</p>
           <ul class="checklist">
             <li>水至少 2 L，做 Misery Ridge 带 3 L 更稳。</li>
-            <li>不要离开标记步道，碎石坡下坡很容易滑。</li>
+            <li>不要离开标记步道，碎石坡下坡很容易滑，高沙漠也可能遇到蛇。</li>
             <li>停车费当天买，Oregon State Parks day-use permit 不是国家公园年票。</li>
           </ul>
         </article>
@@ -1176,7 +1354,7 @@ img { max-width: 100%; display: block; }
     <div class="wrap">
       <div class="section-title">
         <h2>资料来源</h2>
-        <p>页面数据更新于 2026-05-25。出发前一天再查 Tesla 车机、TripCheck 和天气。</p>
+        <p>页面数据更新于 2026-06-08。出发前一天再查 Tesla 车机、TripCheck 和天气。</p>
       </div>
       <div class="source-grid">
         <article class="source-card">
@@ -1193,6 +1371,11 @@ img { max-width: 100%; display: block; }
           <h3>Tesla 充电点</h3>
           <p>Sandy、Madras、Redmond、Bend Supercharger 的功率、地址和 24/7 状态。</p>
           <a href="https://www.tesla.com/findus?filters=supercharger" target="_blank" rel="noopener">Tesla Find Us</a>
+        </article>
+        <article class="source-card">
+          <h3>Bend 加餐判断</h3>
+          <p>Smith Rock 到 Bend 车程、Old Mill District、Deschutes River Trail Old Mill Reach。</p>
+          <a href="https://www.bendparksandrec.org/trail/deschutes-river-trail-old-mill-reach/" target="_blank" rel="noopener">Bend Parks</a>
         </article>
       </div>
     </div>
@@ -1217,7 +1400,9 @@ const places = {
   misery: { name: "Misery Ridge", type: "hike", lat: 44.3651, lng: -121.1355, icon: "△", text: "硬爬升路线。夏天只建议早上做。" },
   monkey: { name: "Monkey Face", type: "hike", lat: 44.3634, lng: -121.1512, icon: "M", text: "Smith Rock 经典岩柱，Misery Ridge / River Trail 可看到。" },
   redmond: { name: "Redmond Supercharger", type: "charge", lat: 44.253578, lng: -121.1860501, icon: "⚡", text: "8 stalls, up to 250 kW, 24/7. 住一晚最佳补电点。" },
+  bendcharger: { name: "Bend Supercharger", type: "charge", lat: 44.0499391, lng: -121.3153121, icon: "⚡", text: "8 stalls, up to 250 kW, 24/7. 只有顺路去 Bend 或住 Bend 时需要。" },
   scp: { name: "SCP Redmond Hotel", type: "stay", lat: 44.2741, lng: -121.1736, icon: "H", text: "Redmond downtown 住宿推荐，适合一人周末。" },
+  oldmill: { name: "Old Mill District", type: "food", lat: 44.0476, lng: -121.3155, icon: "B", text: "住 Bend 时晚饭、河边散步、喝一杯的轻松区域。" },
   pilot: { name: "Pilot Butte", type: "food", lat: 44.0582, lng: -121.2835, icon: "B", text: "如果住 Bend，可做轻松观景加餐。" }
 };
 
@@ -1252,7 +1437,8 @@ const driveRoute = [
   [44.868, -121.438],
   [places.madras.lat, places.madras.lng],
   [places.park.lat, places.park.lng],
-  [places.redmond.lat, places.redmond.lng]
+  [places.redmond.lat, places.redmond.lng],
+  [places.bendcharger.lat, places.bendcharger.lng]
 ];
 
 const hikeRoute = [
