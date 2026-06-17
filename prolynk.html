@@ -296,7 +296,161 @@
     <span>📝</span>
     <span class="zh">最新对话记录（Get笔记）</span>
     <span class="en">Latest Meeting Notes (Get笔记)</span>
-    <span style="color:var(--text-dim);font-size:0.8em;font-weight:400;">2026-05-07 ~ 05-08</span>
+    <span style="color:var(--text-dim);font-size:0.8em;font-weight:400;">2026-05-07 ~ 06-15</span>
+  </div>
+
+  <!-- Note: 6/15 AI开发经验分享 -->
+  <div class="report-card" style="margin-bottom:16px;border-left:3px solid var(--cyan);">
+    <h3 style="color:var(--cyan);">🤖 <span class="zh">AI辅助开发经验分享 — blink agent + MCP API</span><span class="en">AI Dev Workflow — blink agent + MCP API</span></h3>
+    <div style="color:var(--text-dim);font-size:0.82em;margin-bottom:12px;">2026-06-15 · <span class="zh">约39分钟</span><span class="en">~39 min</span></div>
+    <ul style="list-style:none;padding:0;color:var(--text-dim);font-size:0.88em;line-height:1.8;">
+      <li>🔧 <span class="zh"><strong style="color:var(--text)">blink agent API + MCP API 开发基本完成</strong> — MCP是对接OpenAI/各AI Agent的通用协议，降低对接出错率</span><span class="en"><strong style="color:var(--text)">blink agent API + MCP API basically complete</strong> — MCP is universal protocol for OpenAI/AI Agent integration</span></li>
+      <li>🧪 <span class="zh"><strong style="color:var(--text)">纯JSON文字测试方案</strong> — 替换Playwright浏览器测试，速度更快，API同时供开发者测试和未来AI调用</span><span class="en"><strong style="color:var(--text)">Pure JSON test plan</strong> — replacing Playwright browser tests, faster, API serves both dev testing and future AI calls</span></li>
+      <li>🪟 <span class="zh"><strong style="color:var(--text)">4窗口并行 + worktree版本管理</strong> — 每个ChatGPT窗口独立任务，worktree避免代码冲突</span><span class="en"><strong style="color:var(--text)">4-window parallel + worktree</strong> — each ChatGPT window for independent task, worktree avoids code conflicts</span></li>
+      <li>🔑 <span class="zh"><strong style="color:var(--text)">密钥安全</strong> — 公钥写代码配置，私钥存Cloudflare密钥库，AI不接触敏感信息</span><span class="en"><strong style="color:var(--text)">Key security</strong> — public keys in code config, private keys in Cloudflare vault, AI never touches secrets</span></li>
+      <li>🌐 <span class="zh"><strong style="color:var(--text)">双环境部署</strong> — engineering(lynkthink.ie)验证后再合并到production</span><span class="en"><strong style="color:var(--text)">Dual-env deployment</strong> — verify on engineering (lynkthink.ie) before merging to production</span></li>
+      <li>🗺️ <span class="zh"><strong style="color:var(--text)">Google Maps Pro抓取</strong> — 输入工种/城市/数量自动抓取，生成个人页面，Pro可一键认领</span><span class="en"><strong style="color:var(--text)">Google Maps Pro scraping</strong> — auto-scrape by trade/city/count, generate profile pages, one-click claim</span></li>
+      <li>📸 <span class="zh"><strong style="color:var(--text)">存储分层</strong> — Cloudflare R2存照片（便宜大容量），Supabase存敏感文档（高加密）</span><span class="en"><strong style="color:var(--text)">Storage tiers</strong> — Cloudflare R2 for photos (cheap/large), Supabase for sensitive docs (encrypted)</span></li>
+      <li>💡 <span class="zh"><strong style="color:var(--text)">模型选型</strong> — Gemini Flash 2.5做图片识别（比OCR便宜），Whisper做语音识别</span><span class="en"><strong style="color:var(--text)">Model selection</strong> — Gemini Flash 2.5 for image recognition (cheaper than OCR), Whisper for speech</span></li>
+    </ul>
+  </div>
+
+  <!-- Note: 6/11 半导体+创业 -->
+  <div class="report-card" style="margin-bottom:16px;border-left:3px solid var(--purple);">
+    <h3 style="color:var(--purple);">💼 <span class="zh">半导体行业动态 + 创业项目进展 + AI模型升级</span><span class="en">Semiconductor Update + Startup Progress + AI Model Upgrade</span></h3>
+    <div style="color:var(--text-dim);font-size:0.82em;margin-bottom:12px;">2026-06-11 · <span class="zh">约36分钟</span><span class="en">~36 min</span></div>
+    <ul style="list-style:none;padding:0;color:var(--text-dim);font-size:0.88em;line-height:1.8;">
+      <li>🏢 <span class="zh"><strong style="color:var(--text)">英特尔18A大单</strong> — 刚签大单更可能是封装业务，TD整合团队仅150人，竞争力落后台积电（人才/成本/产出三重劣势）</span><span class="en"><strong style="color:var(--text)">Intel 18A deal</strong> — likely packaging, TD integration team only 150, lagging TSMC (talent/cost/output)</span></li>
+      <li>🤖 <span class="zh"><strong style="color:var(--text)">AI模型升级建议</strong> — 6/22前升级到200额度opus性价比极高（成本仅为API付费的1/5-1/10）</span><span class="en"><strong style="color:var(--text)">AI model upgrade</strong> — upgrade to 200 opus quota before 6/22, cost 1/5-1/10 of API pricing</span></li>
+      <li>🚀 <span class="zh"><strong style="color:var(--text)">项目约定</strong> — 周末线上启动共同项目</span><span class="en"><strong style="color:var(--text)">Project agreement</strong> — start joint project online this weekend</span></li>
+    </ul>
+  </div>
+
+  <!-- Note: 6/3 域名+登录+市场 -->
+  <div class="report-card" style="margin-bottom:16px;border-left:3px solid var(--accent);">
+    <h3 style="color:var(--accent);">🔗 <span class="zh">域名部署 + 统一账号登录 + 市场拓展节奏</span><span class="en">Domain Setup + Unified Login + Market Expansion</span></h3>
+    <div style="color:var(--text-dim);font-size:0.82em;margin-bottom:12px;">2026-06-03 · <span class="zh">约37分钟</span><span class="en">~37 min</span></div>
+    <ul style="list-style:none;padding:0;color:var(--text-dim);font-size:0.88em;line-height:1.8;">
+      <li>🌐 <span class="zh"><strong style="color:var(--text)">域名分配</strong> — domain.ie + domain.com双域名，.com预留后续使用，CloudFlare免费版共享权限</span><span class="en"><strong style="color:var(--text)">Domain allocation</strong> — domain.ie + domain.com, .com reserved, CloudFlare free tier for shared access</span></li>
+      <li>🔐 <span class="zh"><strong style="color:var(--text)">统一账号体系</strong> — Domic配置独立ProLink账号，支持ProLink快捷登录+Google快捷登录，一套账号多端使用</span><span class="en"><strong style="color:var(--text)">Unified accounts</strong> — Domic with independent ProLink account, ProLink + Google login, one account multi-device</span></li>
+      <li>📍 <span class="zh"><strong style="color:var(--text)">市场节奏</strong> — 2026年内爱尔兰站稳脚跟 → 明年英国 → 后续美国。成功标准：稳定现金流覆盖成本</span><span class="en"><strong style="color:var(--text)">Market pace</strong> — 2026 Ireland → 2027 UK → later US. Success = stable cashflow covering costs</span></li>
+    </ul>
+  </div>
+
+  <!-- Note: 6/2 WhatsApp审核 -->
+  <div class="report-card" style="margin-bottom:16px;border-left:3px solid var(--orange);">
+    <h3 style="color:var(--orange);">📱 <span class="zh">WhatsApp审核修正 + 产品功能优化</span><span class="en">WhatsApp Audit Fix + Product Optimization</span></h3>
+    <div style="color:var(--text-dim);font-size:0.82em;margin-bottom:12px;">2026-06-02 · <span class="zh">约13分钟</span><span class="en">~13 min</span></div>
+    <ul style="list-style:none;padding:0;color:var(--text-dim);font-size:0.88em;line-height:1.8;">
+      <li>❌ <span class="zh"><strong style="color:var(--text)">WhatsApp被拒原因</strong> — 网站未清晰标注公司地址，API权限申请范围过大</span><span class="en"><strong style="color:var(--text)">WhatsApp rejection</strong> — no company address on site, API scope too broad</span></li>
+      <li>✅ <span class="zh"><strong style="color:var(--text)">二次申请</strong> — 更新ToS/Privacy Policy，缩小权限范围到仅WhatsApp商业账号权限，已重新提交</span><span class="en"><strong style="color:var(--text)">Resubmitted</strong> — updated ToS/Privacy, narrowed API scope to WhatsApp Business only</span></li>
+      <li>💰 <span class="zh"><strong style="color:var(--text)">催审方案</strong> — 通过日投2元广告获得官方沟通渠道，下周第三次催促审核</span><span class="en"><strong style="color:var(--text)">Expedite plan</strong> — €2/day ads for official support channel, follow up next week</span></li>
+      <li>🎨 <span class="zh"><strong style="color:var(--text)">自动生成功能</strong> — 项目完成后自动生成项目页+对比照片，Whisper语音输入，Gemini Flash生成内容</span><span class="en"><strong style="color:var(--text)">Auto-generation</strong> — auto project page + comparison photos, Whisper voice input, Gemini Flash</span></li>
+      <li>🏆 <span class="zh"><strong style="color:var(--text)">差异化定位</strong> — 专注案例前后效果对比和作品展示，不放客户联系方式，自动对齐前后对比图</span><span class="en"><strong style="color:var(--text)">Differentiation</strong> — focus on before/after showcase, no client contact info, auto-aligned comparison</span></li>
+    </ul>
+  </div>
+
+  <!-- Note: 5/22 VS Code工作流 -->
+  <div class="report-card" style="margin-bottom:16px;border-left:3px solid var(--pink);">
+    <h3 style="color:var(--pink);">💻 <span class="zh">VS Code + Codex + Cloud Code AI编码工作流</span><span class="en">VS Code + Codex + Cloud Code AI Coding Workflow</span></h3>
+    <div style="color:var(--text-dim);font-size:0.82em;margin-bottom:12px;">2026-05-22 · <span class="zh">约23分钟</span><span class="en">~23 min</span></div>
+    <ul style="list-style:none;padding:0;color:var(--text-dim);font-size:0.88em;line-height:1.8;">
+      <li>🖥️ <span class="zh"><strong style="color:var(--text)">统一IDE</strong> — VS Code统一管理所有AI编码工具（Cloud Code写代码+review，Codex在Terminal执行修改），避免多窗口混乱</span><span class="en"><strong style="color:var(--text)">Unified IDE</strong> — VS Code manages all AI tools (Cloud Code for code/review, Codex in Terminal for execution)</span></li>
+      <li>🔀 <span class="zh"><strong style="color:var(--text)">多Terminal分栏</strong> — 可拆分2-3个Terminal同时运行多个Codex实例</span><span class="en"><strong style="color:var(--text)">Multi-terminal</strong> — split into 2-3 terminals running multiple Codex instances</span></li>
+      <li>📡 <span class="zh"><strong style="color:var(--text)">远程开发</strong> — 代码存Mac mini（24h不关机），通过Tailscale+SSH远程访问</span><span class="en"><strong style="color:var(--text)">Remote dev</strong> — code on Mac mini (24/7), Tailscale + SSH remote access</span></li>
+      <li>📱 <span class="zh"><strong style="color:var(--text)">移动端触发</strong> — 手机ChatGPT集成Codex，可直接下发任务到Mac mini</span><span class="en"><strong style="color:var(--text)">Mobile trigger</strong> — ChatGPT mobile with Codex, dispatch tasks to Mac mini remotely</span></li>
+    </ul>
+  </div>
+
+  <!-- Note: 5/20 核心产品机制 -->
+  <div class="report-card" style="margin-bottom:16px;border-left:3px solid var(--green);">
+    <h3 style="color:var(--green);">⚙️ <span class="zh">ProLynk核心机制设计 — 30天保修 + 订阅 + 跳单抑制</span><span class="en">ProLynk Core Mechanics — 30-Day Warranty + Subscription + Anti-Skip</span></h3>
+    <div style="color:var(--text-dim);font-size:0.82em;margin-bottom:12px;">2026-05-20 · <span class="zh">约64分钟</span><span class="en">~64 min</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;">
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:14px;">
+        <div style="font-weight:600;font-size:0.9em;margin-bottom:6px;">📱 <span class="zh">WhatsApp审核推进</span><span class="en">WhatsApp Audit</span></div>
+        <div style="color:var(--text-dim);font-size:0.82em;line-height:1.6;">
+          <span class="zh">公司名link sync与网站名prolink不匹配导致延迟。订阅Facebook蓝标服务获取人工客服催审，已在网站底部标注所有权归属</span>
+          <span class="en">Company name mismatch (link sync vs prolink) causing delay. Subscribed Facebook Blue for human support, added ownership notice on site</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:14px;">
+        <div style="font-weight:600;font-size:0.9em;margin-bottom:6px;">🛡️ <span class="zh">30天保修流程</span><span class="en">30-Day Warranty</span></div>
+        <div style="color:var(--text-dim);font-size:0.82em;line-height:1.6;">
+          <span class="zh">用户上传问题照片→AI判断→先安排原PRO返修（2周）→超时走平台保修（仅人工费）。保修Pro获排单优先权+Warranty Super Pro标识，平台仅收6成佣金</span>
+          <span class="en">User uploads photo → AI verifies → original PRO fixes first (2 weeks) → platform warranty (labor only). Warranty PRO gets priority + Super Pro badge, platform takes 60% commission</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:14px;">
+        <div style="font-weight:600;font-size:0.9em;margin-bottom:6px;">💰 <span class="zh">订阅+保修资金池</span><span class="en">Subscription + Warranty Pool</span></div>
+        <div style="color:var(--text-dim);font-size:0.82em;line-height:1.6;">
+          <span class="zh">10欧/20欧月订阅，佣金的80%返还到Pro钱包存入资金池，满200欧获Warranty Assurance标签。筛选高质量Pro，增加平台粘性</span>
+          <span class="en">€10/€20 monthly, 80% commission rebate to Pro wallet → warranty pool. €200 threshold for Assurance badge. Filters quality Pros, increases retention</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:14px;">
+        <div style="font-weight:600;font-size:0.9em;margin-bottom:6px;">🚫 <span class="zh">跳单抑制方案</span><span class="en">Anti-Skip-Order</span></div>
+        <div style="color:var(--text-dim);font-size:0.82em;line-height:1.6;">
+          <span class="zh">保修绑定用户习惯 + 首单返5-10欧平台钱包（不可提现，仅限平台内使用），培养用户平台下单习惯</span>
+          <span class="en">Warranty binds users + €5-10 first-order rebate (platform-only wallet), builds platform ordering habit</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:14px;">
+        <div style="font-weight:600;font-size:0.9em;margin-bottom:6px;">⭐ <span class="zh">评价体系</span><span class="en">Review System</span></div>
+        <div style="color:var(--text-dim);font-size:0.82em;line-height:1.6;">
+          <span class="zh">完成50欧以上真实订单才允许评价，防止刷单。平台review + Google Map评分双展示</span>
+          <span class="en">Only ≥€50 real orders can leave reviews. Platform reviews + Google Maps ratings both displayed</span>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:14px;">
+        <div style="font-weight:600;font-size:0.9em;margin-bottom:6px;">📱 <span class="zh">移动端开发</span><span class="en">Mobile Dev</span></div>
+        <div style="color:var(--text-dim);font-size:0.82em;line-height:1.6;">
+          <span class="zh">Capacitor封装，安卓模拟器已可用，iOS同步开发。房东版/PRO版分两个APP，共用一套代码，环境变量切换。上线前找专人小范围测试</span>
+          <span class="en">Capacitor wrapper, Android emulator working, iOS in parallel. Homeowner/Pro as separate apps, shared codebase with env switching. Dedicated testing before launch</span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px 16px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.2);border-radius:10px;font-size:0.88em;line-height:1.6;">
+      <strong style="color:var(--green);">🎯 <span class="zh">Domic核心上线计划</span><span class="en">Domic Launch Plan</span>：</strong>
+      <span class="zh">最迟7月初出可用版本，核心三功能：接收ProLynk文件自动传输→按时间纵向滚动维护时间线；接收邮件转发/手动上传收据PDF；AI自动识别内容归档。Cloudflare R2存储，先做内部测试再迭代</span>
+      <span class="en">Latest July for MVP. 3 core features: auto-import ProLynk files → vertical maintenance timeline; email forwarding/PDF upload; AI auto-classify. Cloudflare R2 storage, internal testing first</span>
+    </div>
+  </div>
+
+  <!-- Note: 5/18 AI战略提案 -->
+  <div class="report-card" style="margin-bottom:16px;border-left:3px solid var(--yellow);">
+    <h3 style="color:var(--yellow);">📊 <span class="zh">面向MDCE领导层的AI战略提案准备</span><span class="en">AI Strategy Proposal for MDCE Leadership</span></h3>
+    <div style="color:var(--text-dim);font-size:0.82em;margin-bottom:12px;">2026-05-18 · <span class="zh">约20分钟</span><span class="en">~20 min</span></div>
+    <ul style="list-style:none;padding:0;color:var(--text-dim);font-size:0.88em;line-height:1.8;">
+      <li>🎯 <span class="zh"><strong style="color:var(--text)">核心理念</strong> — 「不是为AI做产品，而是用AI来做产品」，两件事：做得更快 + 扩大边界</span><span class="en"><strong style="color:var(--text)">Core idea</strong> — "Not making products FOR AI, but USING AI to make products" — faster + expand boundaries</span></li>
+      <li>🏢 <span class="zh"><strong style="color:var(--text)">切入点</strong> — 从已有的Microsoft 365 Copilot开始（合规、安全），M365 App智能安排会议/预定会议室</span><span class="en"><strong style="color:var(--text)">Entry point</strong> — start with existing M365 Copilot (compliant, secure), smart meeting scheduling</span></li>
+      <li>📋 <span class="zh"><strong style="color:var(--text)">最终交付</strong> — 高管层级的演示报告给MDCE部门领导</span><span class="en"><strong style="color:var(--text)">Deliverable</strong> — executive-level presentation for MDCE leadership</span></li>
+    </ul>
+  </div>
+
+  <!-- Note: 5/13 移民+创业 -->
+  <div class="report-card" style="margin-bottom:16px;border-left:3px solid var(--cyan);">
+    <h3 style="color:var(--cyan);">🌍 <span class="zh">移民规划 + 海外创业布局 + AI趋势判断</span><span class="en">Immigration Planning + Global Startup + AI Trends</span></h3>
+    <div style="color:var(--text-dim);font-size:0.82em;margin-bottom:12px;">2026-05-13 · <span class="zh">约12分钟</span><span class="en">~12 min</span></div>
+    <ul style="list-style:none;padding:0;color:var(--text-dim);font-size:0.88em;line-height:1.8;">
+      <li>🇺🇸 <span class="zh"><strong style="color:var(--text)">父母移民</strong> — 十年签证足够（6个月/次），绿卡移民监是负担，不申请</span><span class="en"><strong style="color:var(--text)">Parents</strong> — 10-year visa sufficient (6mo/visit), green card residency requirement is burden, not applying</span></li>
+      <li>🇮🇪 <span class="zh"><strong style="color:var(--text)">爱尔兰税务优势</strong> — 非居民境外收入不征税，比美国全球征税友好</span><span class="en"><strong style="color:var(--text)">Ireland tax advantage</strong> — non-resident foreign income not taxed, friendlier than US worldwide taxation</span></li>
+      <li>🤖 <span class="zh"><strong style="color:var(--text)">AI趋势预判</strong> — 1-2年内AI token价格降至当前1/10，AI Agent Worker可替代大量基础工作</span><span class="en"><strong style="color:var(--text)">AI prediction</strong> — AI token prices drop to 1/10 in 1-2 years, AI Agent Workers replace basic work</span></li>
+      <li>📍 <span class="zh"><strong style="color:var(--text)">未来选址</strong> — 新加坡（直飞南京5h，生活环境好），约定11月复盘AI趋势判断</span><span class="en"><strong style="color:var(--text)">Future location</strong> — Singapore (5h to Nanjing, great livability), review AI predictions in Nov</span></li>
+    </ul>
+  </div>
+
+  <!-- Note: 5/12 ProLynk自动化+APP -->
+  <div class="report-card" style="margin-bottom:16px;border-left:3px solid var(--accent);">
+    <h3 style="color:var(--accent);">🚀 <span class="zh">ProLynk自动化对接 + APP开发 + 设备采购</span><span class="en">ProLynk Automation + APP Dev + Hardware</span></h3>
+    <div style="color:var(--text-dim);font-size:0.82em;margin-bottom:12px;">2026-05-12 · <span class="zh">约68分钟</span><span class="en">~68 min</span></div>
+    <ul style="list-style:none;padding:0;color:var(--text-dim);font-size:0.88em;line-height:1.8;">
+      <li>🔗 <span class="zh"><strong style="color:var(--text)">Google Map→ProLynk自动化</strong> — 一键推送PRO信息，自动生成表格+profile页，支持批量上传（最多7-8个）</span><span class="en"><strong style="color:var(--text)">Google Map → ProLynk automation</strong> — one-click PRO push, auto table + profile, batch upload (up to 7-8)</span></li>
+      <li>📄 <span class="zh"><strong style="color:var(--text)">自动文档打包</strong> — 30天质保单+收据+PRO认证卡片+项目展示页，上传到Domic维护历史+Hash防伪</span><span class="en"><strong style="color:var(--text)">Auto document pack</strong> — 30-day warranty + receipt + PRO cert + project page, upload to Domic + Hash verification</span></li>
+      <li>📱 <span class="zh"><strong style="color:var(--text)">APP开发</strong> — Capacitor封装，房东版/PRO版分两个APP（PRO端低评分不影响整体），苹果开发者账号99美元/年</span><span class="en"><strong style="color:var(--text)">APP dev</strong> — Capacitor wrapper, separate Homeowner/Pro apps (Pro low ratings isolated), Apple dev $99/yr</span></li>
+      <li>🖥️ <span class="zh"><strong style="color:var(--text)">设备采购</strong> — 计划订购48G Mac mini Pro（6月底前下单，8周交货），8T外接SSD做家庭共享存储</span><span class="en"><strong style="color:var(--text)">Hardware</strong> — ordering 48GB Mac mini Pro (order by June, 8-week delivery), 8TB shared SSD</span></li>
+      <li>📋 <span class="zh"><strong style="color:var(--text)">HTML替代Markdown</strong> — 探讨用HTML作为信息载体替代Markdown的产品构思</span><span class="en"><strong style="color:var(--text)">HTML vs Markdown</strong> — exploring HTML as information carrier replacing Markdown</span></li>
+    </ul>
   </div>
 
   <!-- Note 1: ProLynk + Domic 生态规划 -->
