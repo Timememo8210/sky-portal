@@ -8,15 +8,89 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #007BFF;
+  --primary-hover: #0069d9;
+  --primary-light: #EFF6FF;
+  --slate-50: #F8FAFC;
+  --slate-100: #F1F5F9;
+  --slate-200: #E2E8F0;
+  --slate-300: #CBD5E1;
+  --slate-400: #94A3B8;
+  --slate-500: #64748B;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-900: #1E293B;
+  --success: #10B981;
+  --success-light: #ECFDF5;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --error-light: #FEF2F2;
+  --violet: #8B5CF6;
+  --violet-light: #F5F3FF;
+}
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: #F8FAFC;
-  color: #1e293b;
+  background: var(--slate-50);
+  color: var(--slate-600);
+  font-size: 14px;
+  line-height: 1.5;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Step indicator */
+/* ===== HEADER ===== */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.app-header svg {
+  color: var(--slate-400);
+  flex-shrink: 0;
+}
+.app-header .title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--slate-900);
+  letter-spacing: -0.01em;
+}
+.app-header .subtitle {
+  font-size: 12px;
+  color: var(--slate-400);
+  margin-top: 1px;
+}
+
+/* ===== TAB BAR ===== */
+.tab-bar {
+  display: flex;
+  background: var(--slate-100);
+  border-radius: 10px;
+  padding: 3px;
+  margin-bottom: 28px;
+  gap: 2px;
+}
+.tab-btn {
+  flex: 1;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--slate-500);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.tab-btn.active {
+  background: white;
+  color: var(--slate-900);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+/* ===== STEP INDICATOR ===== */
 .step-indicator {
   display: flex;
   align-items: center;
@@ -25,97 +99,100 @@ body {
   margin-bottom: 32px;
 }
 .step-dot {
-  width: 32px; height: 32px;
+  width: 28px; height: 28px;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 14px; font-weight: 600;
-  border: 2px solid #E2E8F0;
-  color: #94A3B8;
+  font-size: 12px; font-weight: 600;
+  border: 1.5px solid var(--slate-200);
+  color: var(--slate-400);
   background: white;
   transition: all 0.2s;
 }
 .step-dot.active {
-  border-color: #007BFF;
-  background: #007BFF;
+  border-color: var(--slate-900);
+  background: var(--slate-900);
   color: white;
 }
 .step-dot.done {
-  border-color: #007BFF;
-  background: #007BFF;
+  border-color: var(--slate-900);
+  background: var(--slate-900);
   color: white;
 }
 .step-line {
-  width: 48px; height: 2px;
-  background: #E2E8F0;
+  width: 40px; height: 1.5px;
+  background: var(--slate-200);
   transition: background 0.2s;
 }
-.step-line.done { background: #007BFF; }
+.step-line.done { background: var(--slate-900); }
 
-/* Card */
+/* ===== CARD ===== */
 .card {
   background: white;
-  border: 1px solid #E2E8F0;
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  padding: 24px;
-  margin-bottom: 16px;
+  border: 1px solid var(--slate-100);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  padding: 20px;
+  margin-bottom: 12px;
 }
 
-/* Section label */
+/* ===== SECTION LABEL ===== */
 .section-label {
   font-size: 12px;
   font-weight: 600;
-  color: #94A3B8;
+  color: var(--slate-400);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   margin-bottom: 16px;
 }
 
-/* Field */
-.field { margin-bottom: 14px; }
+/* ===== FIELD ===== */
+.field { margin-bottom: 16px; }
+.field:last-child { margin-bottom: 0; }
 .field-label {
   font-size: 12px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--slate-500);
   margin-bottom: 4px;
 }
 .field-value {
   font-size: 15px;
-  color: #1e293b;
-  padding: 8px 12px;
+  color: var(--slate-900);
+  padding: 6px 10px;
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   background: transparent;
-  min-height: 38px;
+  min-height: 36px;
   cursor: text;
   transition: all 0.15s;
+  display: flex;
+  align-items: center;
 }
-.field-value:hover { background: #F8FAFC; }
+.field-value:hover { background: var(--slate-50); }
 .field-value.editing {
   background: white;
-  border-color: #007BFF;
+  border-color: var(--primary);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.08);
 }
 
-/* Item row */
+/* ===== ITEM ROW ===== */
 .item-row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 8px 0;
-  border-bottom: 1px solid #f1f5f9;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--slate-100);
 }
 .item-row:last-child { border-bottom: none; }
-.item-desc { color: #475569; font-size: 14px; flex: 1; }
-.item-amount { color: #1e293b; font-size: 14px; font-weight: 500; margin-left: 12px; }
+.item-desc { color: var(--slate-600); font-size: 14px; flex: 1; }
+.item-amount { color: var(--slate-900); font-size: 14px; font-weight: 500; margin-left: 12px; }
 
-/* Buttons */
+/* ===== BUTTONS ===== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.75rem;
+  border-radius: 12px;
   padding: 12px 24px;
   font-size: 14px;
   font-weight: 600;
@@ -123,215 +200,229 @@ body {
   transition: all 0.15s;
   border: none;
   font-family: inherit;
+  min-height: 44px;
 }
 .btn-primary {
-  background: #007BFF;
+  background: var(--primary);
   color: white;
 }
-.btn-primary:hover { background: #0069d9; }
+.btn-primary:hover { background: var(--primary-hover); }
 .btn-secondary {
   background: white;
-  color: #007BFF;
-  border: 1px solid #007BFF;
+  color: var(--primary);
+  border: 1px solid var(--primary);
 }
-.btn-secondary:hover { background: #f0f7ff; }
+.btn-secondary:hover { background: var(--primary-light); }
 .btn-ghost {
   background: transparent;
-  color: #64748b;
-  padding: 12px 16px;
+  color: var(--slate-500);
+  padding: 10px 16px;
 }
-.btn-ghost:hover { color: #1e293b; }
+.btn-ghost:hover { color: var(--slate-900); }
 
-/* Upload zone */
+/* ===== UPLOAD ZONE ===== */
 .upload-zone {
-  border: 2px dashed #cbd5e1;
-  border-radius: 0.75rem;
+  border: 1.5px dashed var(--slate-300);
+  border-radius: 12px;
   background: white;
-  padding: 48px 24px;
+  padding: 56px 24px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
 }
 .upload-zone:hover, .upload-zone.dragover {
-  border-color: #007BFF;
-  background: #f0f7ff;
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.upload-zone svg {
+  color: var(--slate-400);
 }
 
-/* Spinner */
+/* ===== SPINNER ===== */
 .spinner {
-  width: 36px; height: 36px;
-  border: 3px solid #E2E8F0;
-  border-top-color: #007BFF;
+  width: 32px; height: 32px;
+  border: 2.5px solid var(--slate-100);
+  border-top-color: var(--slate-400);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
-  margin: 0 auto 12px;
+  margin: 0 auto 16px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Notes textarea */
+/* ===== NOTES ===== */
 .notes-area {
   width: 100%;
-  min-height: 80px;
+  min-height: 76px;
   padding: 10px 12px;
-  border: 1px solid #E2E8F0;
-  border-radius: 0.5rem;
+  border: 1px solid var(--slate-200);
+  border-radius: 10px;
   font-size: 14px;
   font-family: inherit;
-  color: #1e293b;
+  color: var(--slate-900);
   resize: vertical;
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 .notes-area:focus {
-  border-color: #007BFF;
-  box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.08);
 }
-.notes-area::placeholder { color: #94A3B8; }
+.notes-area::placeholder { color: var(--slate-400); }
 
-/* Note chip */
 .note-chip {
-  background: #F8FAFC;
-  border: 1px solid #E2E8F0;
-  border-radius: 0.5rem;
+  background: var(--slate-50);
+  border: 1px solid var(--slate-100);
+  border-radius: 8px;
   padding: 8px 12px;
-  font-size: 14px;
-  color: #475569;
+  font-size: 13px;
+  color: var(--slate-600);
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .note-chip .remove-note {
   background: none;
   border: none;
-  color: #94A3B8;
+  color: var(--slate-400);
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1;
   padding: 0;
   flex-shrink: 0;
 }
-.note-chip .remove-note:hover { color: #ef4444; }
+.note-chip .remove-note:hover { color: var(--error); }
 
-/* Preview section bg */
-.preview-receipt { background: white; }
-.preview-notes { background: #F8FAFC; }
-
-/* Success */
-.success-icon {
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  background: #dcfce7;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px;
+.add-note-btn {
+  background: none;
+  border: none;
+  color: var(--slate-500);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 0;
+  font-family: inherit;
 }
-.success-icon svg { width: 32px; height: 32px; color: #16a34a; }
+.add-note-btn:hover { color: var(--slate-900); }
 
-/* History card */
+/* ===== PREVIEW ===== */
+.preview-receipt { background: white; }
+.preview-notes { background: var(--slate-50); }
+
+/* ===== SUCCESS ===== */
+.success-icon {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--success-light);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+}
+.success-icon svg { width: 28px; height: 28px; color: var(--success); }
+
+/* ===== HISTORY ===== */
 .history-card {
   background: white;
-  border: 1px solid #E2E8F0;
-  border-radius: 0.75rem;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  padding: 16px 20px;
+  border: 1px solid var(--slate-100);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  padding: 14px 16px;
   margin-bottom: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: box-shadow 0.15s;
+  transition: box-shadow 0.15s, border-color 0.15s;
 }
-.history-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.history-card:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border-color: var(--slate-200);
+}
 
-/* Category tag */
+.history-summary {
+  background: white;
+  border: 1px solid var(--slate-100);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .cat-tag {
   display: inline-block;
-  padding: 2px 10px;
+  padding: 2px 8px;
   border-radius: 9999px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  background: #f0f7ff;
-  color: #007BFF;
+  background: var(--slate-100);
+  color: var(--slate-600);
 }
 
-/* Tab */
-.tab-bar {
-  display: flex;
-  background: white;
-  border-radius: 0.75rem;
-  border: 1px solid #E2E8F0;
-  padding: 4px;
-  margin-bottom: 24px;
-}
-.tab-btn {
-  flex: 1;
-  padding: 10px 16px;
-  border: none;
-  background: transparent;
-  border-radius: 0.5rem;
-  font-size: 14px;
-  font-weight: 500;
-  color: #64748b;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.15s;
-}
-.tab-btn.active {
-  background: #007BFF;
-  color: white;
-}
-
-/* Modal overlay */
+/* ===== MODAL (Bottom Sheet) ===== */
 .modal-overlay {
   position: fixed; inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(15,23,42,0.4);
   z-index: 50;
   display: flex;
   align-items: flex-end;
   justify-content: center;
 }
 .modal-sheet {
-  background: #F8FAFC;
+  background: white;
   width: 100%;
   max-width: 512px;
-  border-radius: 1rem 1rem 0 0;
+  border-radius: 20px 20px 0 0;
   max-height: 90vh;
   overflow-y: auto;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.12);
+}
+.modal-handle {
+  width: 36px; height: 4px;
+  background: var(--slate-200);
+  border-radius: 2px;
+  margin: 8px auto 0;
 }
 .modal-header {
   position: sticky; top: 0;
-  background: #F8FAFC;
-  padding: 16px 20px;
+  background: white;
+  padding: 12px 20px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #E2E8F0;
+  border-bottom: 1px solid var(--slate-100);
   z-index: 1;
 }
+.modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--slate-900);
+}
 .modal-close {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: #E2E8F0;
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  background: var(--slate-100);
   border: none;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-  color: #475569;
+  font-size: 14px;
+  color: var(--slate-500);
+  transition: all 0.15s;
 }
-.modal-close:hover { background: #cbd5e1; }
+.modal-close:hover { background: var(--slate-200); color: var(--slate-700); }
 
-/* Fade in */
+/* ===== ANIMATIONS ===== */
 .fade-in {
   animation: fadeIn 0.25s ease-out;
 }
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .hidden { display: none !important; }
 
-/* Utility */
+/* ===== UTILITY ===== */
 .text-center { text-align: center; }
 .mt-4 { margin-top: 16px; }
 .mt-6 { margin-top: 24px; }
@@ -347,12 +438,12 @@ body {
 .font-medium { font-weight: 500; }
 .font-semibold { font-weight: 600; }
 .font-bold { font-weight: 700; }
-.text-slate-400 { color: #94A3B8; }
-.text-slate-500 { color: #64748b; }
-.text-slate-600 { color: #475569; }
-.text-slate-700 { color: #334155; }
-.text-slate-900 { color: #0f172a; }
-.text-red-500 { color: #ef4444; }
+.text-slate-400 { color: var(--slate-400); }
+.text-slate-500 { color: var(--slate-500); }
+.text-slate-600 { color: var(--slate-600); }
+.text-slate-700 { color: var(--slate-700); }
+.text-slate-900 { color: var(--slate-900); }
+.text-red-500 { color: var(--error); }
 .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>
 </head>
@@ -360,11 +451,13 @@ body {
 
 <div style="max-width:512px;margin:0 auto;padding:20px 16px 100px;">
   <!-- Header -->
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
-    <div style="width:40px;height:40px;background:#007BFF;border-radius:0.75rem;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;">🏠</div>
+  <div class="app-header">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12 12 2.25 21.75 12M4.5 9.75v10.5a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 .75-.75V15a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v5.25a.75.75 0 0 0 .75.75h4.5a.75.75 0 0 0 .75-.75V9.75"/>
+    </svg>
     <div>
-      <div style="font-size:18px;font-weight:700;color:#0f172a;">Receipt Scanner</div>
-      <div style="font-size:12px;color:#94A3B8;">Home Passport</div>
+      <div class="title">Receipt Scanner</div>
+      <div class="subtitle">Home Passport</div>
     </div>
   </div>
 
@@ -388,11 +481,11 @@ body {
     <!-- Step 1: Upload -->
     <div id="step1" class="fade-in">
       <div id="uploadZone" class="upload-zone">
-        <svg style="width:40px;height:40px;color:#94A3B8;margin:0 auto 12px;display:block;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <svg style="width:32px;height:32px;margin:0 auto 16px;display:block;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"/>
         </svg>
-        <div style="font-size:15px;font-weight:600;color:#475569;margin-bottom:4px;">上传收据或发票</div>
-        <div style="font-size:13px;color:#94A3B8;">拍照、选择图片或 PDF</div>
+        <div style="font-size:14px;font-weight:600;color:var(--slate-700);margin-bottom:4px;">上传收据或发票</div>
+        <div style="font-size:13px;color:var(--slate-400);">拍照、选择图片或 PDF</div>
         <input id="fileInput" type="file" accept="image/*,.pdf" capture="environment" style="display:none;">
       </div>
 
@@ -400,16 +493,16 @@ body {
       <div id="loadingState" class="hidden">
         <div class="card text-center" style="padding:40px 24px;">
           <div class="spinner"></div>
-          <div style="font-size:15px;font-weight:500;color:#475569;">识别中...</div>
-          <div style="font-size:13px;color:#94A3B8;margin-top:4px;">正在分析收据内容</div>
+          <div style="font-size:14px;font-weight:500;color:var(--slate-700);">识别中...</div>
+          <div style="font-size:13px;color:var(--slate-400);margin-top:4px;">正在分析收据内容</div>
         </div>
       </div>
     </div>
 
     <!-- Step 2: Confirm -->
     <div id="step2" class="hidden fade-in">
-      <div style="font-size:20px;font-weight:700;color:#0f172a;margin-bottom:4px;">确认收据信息</div>
-      <div style="font-size:14px;color:#94A3B8;margin-bottom:24px;">检查并编辑 AI 识别结果</div>
+      <div style="font-size:20px;font-weight:700;color:var(--slate-900);margin-bottom:4px;">确认收据信息</div>
+      <div style="font-size:14px;color:var(--slate-400);margin-bottom:24px;">检查并编辑 AI 识别结果</div>
 
       <!-- Receipt info card -->
       <div class="card">
@@ -446,7 +539,7 @@ body {
         <div class="section-label">添加备注</div>
         <textarea id="noteInput" class="notes-area" placeholder="添加任何不在收据上的额外信息..."></textarea>
         <div id="notesList" style="margin-top:8px;"></div>
-        <button onclick="addNote()" style="background:none;border:none;color:#007BFF;font-size:14px;font-weight:500;cursor:pointer;padding:8px 0;font-family:inherit;">+ 添加更多</button>
+        <button onclick="addNote()" class="add-note-btn">+ 添加更多</button>
       </div>
 
       <!-- Buttons -->
@@ -458,8 +551,8 @@ body {
 
     <!-- Step 3: Submit -->
     <div id="step3" class="hidden fade-in">
-      <div style="font-size:20px;font-weight:700;color:#0f172a;margin-bottom:4px;">确认提交</div>
-      <div style="font-size:14px;color:#94A3B8;margin-bottom:24px;">确认以下信息无误后提交</div>
+      <div style="font-size:20px;font-weight:700;color:var(--slate-900);margin-bottom:4px;">确认提交</div>
+      <div style="font-size:14px;color:var(--slate-400);margin-bottom:24px;">确认以下信息无误后提交</div>
 
       <div id="previewContent"></div>
 
@@ -477,8 +570,8 @@ body {
           <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
         </svg>
       </div>
-      <div style="font-size:20px;font-weight:700;color:#0f172a;margin-bottom:8px;">提交成功</div>
-      <div style="font-size:14px;color:#94A3B8;margin-bottom:32px;">收据已保存到 Home Passport</div>
+      <div style="font-size:20px;font-weight:700;color:var(--slate-900);margin-bottom:8px;">提交成功</div>
+      <div style="font-size:14px;color:var(--slate-400);margin-bottom:32px;">收据已保存到 Home Passport</div>
       <div style="display:flex;gap:12px;justify-content:center;">
         <button class="btn btn-secondary" onclick="switchTab('history')">查看历史记录</button>
         <button class="btn btn-primary" onclick="resetAll()">上传另一张</button>
@@ -488,17 +581,17 @@ body {
 
   <!-- ===== HISTORY VIEW ===== -->
   <div id="viewHistory" class="hidden">
-    <div id="historySummary" class="hidden" style="background:#f0f7ff;border:1px solid #dbeafe;border-radius:0.75rem;padding:16px 20px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;">
+    <div id="historySummary" class="hidden history-summary">
       <div>
-        <div id="summaryCount" style="font-size:14px;font-weight:600;color:#007BFF;"></div>
-        <div style="font-size:12px;color:#64748b;">总支出</div>
+        <div id="summaryCount" style="font-size:13px;font-weight:600;color:var(--slate-700);"></div>
+        <div style="font-size:12px;color:var(--slate-400);margin-top:2px;">总支出</div>
       </div>
-      <div id="summaryTotal" style="font-size:22px;font-weight:700;color:#007BFF;"></div>
+      <div id="summaryTotal" style="font-size:22px;font-weight:700;color:var(--slate-900);"></div>
     </div>
     <div id="historyList"></div>
     <div id="historyEmpty" style="text-align:center;padding:60px 0;">
-      <div style="font-size:14px;color:#94A3B8;">暂无收据记录</div>
-      <div style="font-size:13px;color:#cbd5e1;margin-top:4px;">上传第一张收据开始使用</div>
+      <div style="font-size:14px;color:var(--slate-400);">暂无收据记录</div>
+      <div style="font-size:13px;color:var(--slate-300);margin-top:4px;">上传第一张收据开始使用</div>
     </div>
   </div>
 </div>
@@ -506,11 +599,12 @@ body {
 <!-- Detail Modal -->
 <div id="detailModal" class="hidden modal-overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal-sheet">
+    <div class="modal-handle"></div>
     <div class="modal-header">
-      <div style="font-size:16px;font-weight:600;color:#0f172a;">收据详情</div>
+      <div class="modal-title">收据详情</div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
-    <div id="detailContent" style="padding:20px;"></div>
+    <div id="detailContent" style="padding:16px 20px 24px;"></div>
   </div>
 </div>
 
@@ -807,7 +901,7 @@ function renderPreview() {
   const receiptSection = `
     <div class="card preview-receipt">
       <div class="section-label">收据信息</div>
-      <div style="display:grid;gap:12px;">
+      <div style="display:grid;gap:14px;">
         ${fieldRow('日期', d.date || '—')}
         ${fieldRow('服务商', d.vendor.name || '—')}
         ${fieldRow('电话', d.vendor.phone || '—')}
@@ -816,8 +910,8 @@ function renderPreview() {
         ${fieldRow('总金额', fmtMoney(d.total, d.currency))}
       </div>
       ${d.items.length ? `
-        <div style="margin-top:16px;border-top:1px solid #f1f5f9;padding-top:12px;">
-          <div style="font-size:12px;font-weight:500;color:#94A3B8;margin-bottom:8px;">明细</div>
+        <div style="margin-top:16px;border-top:1px solid var(--slate-100);padding-top:12px;">
+          <div style="font-size:12px;font-weight:500;color:var(--slate-400);margin-bottom:8px;">明细</div>
           ${d.items.map(it => `
             <div class="item-row">
               <span class="item-desc">${esc(it.description || '—')}</span>
@@ -832,7 +926,7 @@ function renderPreview() {
   const notesSection = customerNotes.length ? `
     <div class="card preview-notes">
       <div class="section-label">客户备注</div>
-      ${customerNotes.map(n => `<div style="font-size:14px;color:#475569;margin-bottom:6px;">${esc(n)}</div>`).join('')}
+      ${customerNotes.map(n => `<div style="font-size:14px;color:var(--slate-600);margin-bottom:6px;">${esc(n)}</div>`).join('')}
     </div>
   ` : '';
 
@@ -841,8 +935,8 @@ function renderPreview() {
 
 function fieldRow(label, value) {
   return `<div>
-    <div style="font-size:12px;color:#94A3B8;margin-bottom:2px;">${label}</div>
-    <div style="font-size:15px;color:#1e293b;">${value}</div>
+    <div style="font-size:12px;color:var(--slate-400);margin-bottom:2px;">${label}</div>
+    <div style="font-size:15px;color:var(--slate-900);">${value}</div>
   </div>`;
 }
 
@@ -885,7 +979,7 @@ function renderHistory() {
   if (!history.length) {
     list.innerHTML = '';
     empty.classList.remove('hidden');
-    summary.style.display = 'none';
+    summary.classList.add('hidden');
     return;
   }
   empty.classList.add('hidden');
@@ -893,18 +987,18 @@ function renderHistory() {
   const total = history.reduce((s, r) => s + (r.total || 0), 0);
   document.getElementById('summaryCount').textContent = `${history.length} 张收据`;
   document.getElementById('summaryTotal').textContent = fmtMoney(total);
-  summary.style.display = 'flex';
+  summary.classList.remove('hidden');
 
   list.innerHTML = history.map((r, i) => {
     const date = r.date ? formatDate(r.date) : '';
     return `
       <div class="history-card fade-in" style="animation-delay:${i * 30}ms" onclick="showDetail(${i})">
         <div style="flex:1;min-width:0;">
-          <div style="font-size:15px;font-weight:600;color:#0f172a;" class="truncate">${esc(r.vendor?.name || r.category || '收据')}</div>
-          <div style="font-size:13px;color:#94A3B8;margin-top:2px;">${date}</div>
+          <div style="font-size:15px;font-weight:600;color:var(--slate-900);" class="truncate">${esc(r.vendor?.name || r.category || '收据')}</div>
+          <div style="font-size:13px;color:var(--slate-400);margin-top:2px;">${date}</div>
         </div>
-        <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-          <div style="font-size:15px;font-weight:600;color:#0f172a;">${fmtMoney(r.total, r.currency)}</div>
+        <div style="text-align:right;flex-shrink:0;margin-left:12px;display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+          <div style="font-size:15px;font-weight:600;color:var(--slate-900);">${fmtMoney(r.total, r.currency)}</div>
           <span class="cat-tag">${esc(r.category || 'Other')}</span>
         </div>
       </div>
@@ -920,15 +1014,15 @@ function showDetail(index) {
   const date = r.date ? formatDate(r.date) : '';
 
   let html = `
-    <div class="card" style="margin-bottom:12px;">
+    <div class="card" style="margin-bottom:8px;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
         <div>
-          <div style="font-size:18px;font-weight:700;color:#0f172a;">${esc(r.vendor?.name || '未知')}</div>
-          <div style="font-size:13px;color:#94A3B8;margin-top:2px;">${date}</div>
+          <div style="font-size:18px;font-weight:700;color:var(--slate-900);">${esc(r.vendor?.name || '未知')}</div>
+          <div style="font-size:13px;color:var(--slate-400);margin-top:2px;">${date}</div>
         </div>
-        <div style="font-size:22px;font-weight:700;color:#0f172a;">${fmtMoney(r.total, r.currency)}</div>
+        <div style="font-size:22px;font-weight:700;color:var(--slate-900);">${fmtMoney(r.total, r.currency)}</div>
       </div>
-      <div style="display:grid;gap:10px;">
+      <div style="display:grid;gap:12px;">
         ${r.vendor?.phone ? fieldRow('电话', r.vendor.phone) : ''}
         ${r.vendor?.address ? fieldRow('地址', esc(r.vendor.address)) : ''}
         ${fieldRow('类别', r.category || 'Other')}
@@ -940,7 +1034,7 @@ function showDetail(index) {
 
   if (r.items?.length) {
     html += `
-      <div class="card" style="margin-bottom:12px;">
+      <div class="card" style="margin-bottom:8px;">
         <div class="section-label">明细</div>
         ${r.items.map(it => `
           <div class="item-row">
@@ -948,23 +1042,23 @@ function showDetail(index) {
             <span class="item-amount">${fmtMoney(it.amount)}</span>
           </div>
         `).join('')}
-        ${r.subtotal != null ? `<div style="display:flex;justify-content:space-between;font-size:13px;color:#64748b;margin-top:8px;padding-top:8px;border-top:1px solid #f1f5f9;"><span>小计</span><span>${fmtMoney(r.subtotal, r.currency)}</span></div>` : ''}
-        ${r.tax != null ? `<div style="display:flex;justify-content:space-between;font-size:13px;color:#64748b;"><span>税费</span><span>${fmtMoney(r.tax, r.currency)}</span></div>` : ''}
+        ${r.subtotal != null ? `<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--slate-500);margin-top:8px;padding-top:8px;border-top:1px solid var(--slate-100);"><span>小计</span><span>${fmtMoney(r.subtotal, r.currency)}</span></div>` : ''}
+        ${r.tax != null ? `<div style="display:flex;justify-content:space-between;font-size:13px;color:var(--slate-500);"><span>税费</span><span>${fmtMoney(r.tax, r.currency)}</span></div>` : ''}
       </div>
     `;
   }
 
   if (r.customerNotes?.length) {
     html += `
-      <div class="card preview-notes" style="margin-bottom:12px;">
+      <div class="card preview-notes" style="margin-bottom:8px;">
         <div class="section-label">客户备注</div>
-        ${r.customerNotes.map(n => `<div style="font-size:14px;color:#475569;margin-bottom:4px;">${esc(n)}</div>`).join('')}
+        ${r.customerNotes.map(n => `<div style="font-size:14px;color:var(--slate-600);margin-bottom:4px;">${esc(n)}</div>`).join('')}
       </div>
     `;
   }
 
   html += `
-    <button onclick="deleteReceipt(${index})" style="width:100%;padding:12px;background:none;border:none;color:#ef4444;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;border-radius:0.75rem;margin-top:8px;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='none'">删除收据</button>
+    <button onclick="deleteReceipt(${index})" style="width:100%;padding:12px;background:none;border:none;color:var(--error);font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;border-radius:12px;margin-top:4px;transition:background 0.15s;" onmouseover="this.style.background='var(--error-light)'" onmouseout="this.style.background='transparent'">删除收据</button>
   `;
 
   document.getElementById('detailContent').innerHTML = html;
