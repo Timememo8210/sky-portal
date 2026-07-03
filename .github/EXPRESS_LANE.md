@@ -6,3 +6,5 @@ Ordinary branches still go through normal pull-request review.
 
 Installed and end-to-end tested: 2026-07-03.
 lane verified by Code session
+
+Publisher skill armed and integration-tested: 2026-07-03.
