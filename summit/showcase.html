@@ -48,12 +48,13 @@
   }
   .wordmark{font-family:var(--mono);font-size:13px;letter-spacing:.22em;color:var(--ice);text-decoration:none}
   .wordmark b{color:var(--teal)}
-  .bar a.guide{
+  .bar .guide{
     font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--dim);
     text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:7px 14px;
+    background:none;cursor:pointer;
     transition:color .2s,border-color .2s;
   }
-  .bar a.guide:hover{color:var(--ice);border-color:rgba(43,212,190,.5)}
+  .bar .guide:hover{color:var(--ice);border-color:rgba(43,212,190,.5)}
   a:focus-visible,button:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:6px}
 
   /* ── HERO ── */
@@ -214,6 +215,88 @@
   .btn.ghost:hover{color:var(--ice);border-color:rgba(43,212,190,.5)}
   .prov{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px;max-width:640px}
 
+  /* menu overlay + rail */
+  .bar-r{display:flex;gap:10px;align-items:center}
+  .ovl{
+    position:fixed;inset:0;z-index:90;background:rgba(4,10,17,.97);
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;pointer-events:none;transition:opacity .3s ease;
+  }
+  body.menu-open .ovl{opacity:1;pointer-events:auto}
+  body.menu-open{overflow:hidden}
+  .ovl-nav{display:flex;flex-direction:column;gap:6px;text-align:center}
+  .ovl-nav a{
+    font-family:var(--mono);font-size:clamp(18px,3.4vw,28px);letter-spacing:.06em;
+    color:var(--dim);text-decoration:none;padding:10px 26px;border-radius:12px;
+    transition:color .2s,background .2s;
+  }
+  .ovl-nav a:hover{color:var(--ice);background:rgba(43,212,190,.08)}
+  .ovl-nav .ovl-guide{margin-top:22px;color:var(--teal);border:1px solid rgba(43,212,190,.4);border-radius:99px;font-size:14px}
+  .rail{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:60;display:none;flex-direction:column;gap:16px}
+  @media(min-width:1100px){.rail{display:flex}}
+  .rail a{position:relative;display:block}
+  .rail i{display:block;width:8px;height:8px;border-radius:99px;background:rgba(234,246,243,.22);transition:background .25s,transform .25s}
+  .rail a.on i{background:var(--teal);transform:scale(1.35);box-shadow:0 0 12px rgba(43,212,190,.6)}
+  .rail span{
+    position:absolute;right:20px;top:50%;transform:translateY(-50%);
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);
+    opacity:0;transition:opacity .2s;white-space:nowrap;pointer-events:none;
+  }
+  .rail a:hover span{opacity:1}
+
+  /* first steps — term cards */
+  .terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:52px}
+  .term{
+    align-self:start;display:flex;flex-direction:column;
+    text-align:left;font:inherit;color:var(--ice);cursor:pointer;
+    border:1px solid var(--line);border-radius:14px;background:var(--glass);backdrop-filter:blur(5px);
+    padding:16px 18px;transition:border-color .25s,box-shadow .25s;
+  }
+  .term:hover{border-color:rgba(43,212,190,.4)}
+  .term .tw{display:flex;align-items:baseline;gap:10px}
+  .term .tname{font-family:var(--mono);font-size:14.5px;font-weight:700;letter-spacing:.06em;color:var(--teal)}
+  .term .plus{margin-left:auto;color:var(--faint);font-family:var(--mono);transition:transform .25s}
+  .term.open .plus{transform:rotate(45deg)}
+  .term .tdef{
+    display:block;max-height:0;overflow:hidden;transition:max-height .35s ease,margin .35s ease;
+    font-size:13.4px;color:var(--dim);margin-top:0;
+  }
+  .term.open .tdef{max-height:130px;margin-top:10px}
+  .who{margin-top:56px;border:1px solid var(--line);border-radius:16px;background:var(--glass);backdrop-filter:blur(5px);overflow:hidden}
+  .who .wh{padding:16px 22px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--teal);text-transform:uppercase}
+  .who .wrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:14px 22px;border-bottom:1px solid rgba(234,246,243,.05);font-size:14px}
+  .who .wrow:last-child{border-bottom:none}
+  .wtag{font-family:var(--mono);font-size:9px;letter-spacing:.1em;padding:2px 7px;border-radius:99px;border:1px solid var(--line);color:var(--faint)}
+  .wtag.c{color:var(--teal);border-color:rgba(43,212,190,.4)}
+  .wtag.m{color:var(--cyan);border-color:rgba(127,212,255,.4)}
+  .wtag.p{color:var(--alpen);border-color:rgba(240,168,96,.4)}
+  .who b{font-weight:700}
+  .who .warr{color:var(--faint)}
+  .confuse{margin-top:26px;font-family:var(--mono);font-size:12.5px;color:var(--dim);border-left:2px solid var(--teal);padding:6px 0 6px 16px}
+  .confuse b{color:var(--ice)}
+
+  /* AI pulse */
+  .pulse-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:52px}
+  .news{
+    border:1px solid var(--line);border-radius:16px;background:var(--glass);backdrop-filter:blur(5px);
+    padding:22px;display:flex;flex-direction:column;gap:10px;
+    transition:transform .3s,border-color .3s,box-shadow .3s;
+  }
+  .news:hover{transform:translateY(-4px);border-color:rgba(43,212,190,.35);box-shadow:0 12px 40px rgba(43,212,190,.08)}
+  .news .meta{display:flex;gap:10px;align-items:baseline;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em}
+  .news .nd{color:var(--faint)}
+  .news .ns{color:var(--teal)}
+  .news h4{font-size:16.5px;font-weight:750;line-height:1.35}
+  .news p{font-size:13.4px;color:var(--dim);flex:1}
+  .news a{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--teal);text-decoration:none}
+  .news a:hover{text-decoration:underline}
+  .internal-slot{
+    margin-top:26px;border:1px dashed rgba(234,246,243,.22);border-radius:16px;padding:20px 24px;
+    display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;background:rgba(234,246,243,.02);
+  }
+  .internal-slot .tagm{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);flex-shrink:0}
+  .internal-slot p{font-size:13.4px;color:var(--faint)}
+
   /* responsive */
   @media(max-width:860px){
     section{padding:96px 20px}
@@ -238,8 +321,32 @@
 
 <div class="bar">
   <a class="wordmark" href="#top">PROJECT <b>SUMMIT</b></a>
-  <a class="guide" href="index.html">FIELD GUIDE →</a>
+  <div class="bar-r">
+    <button class="guide" id="menuBtn" aria-expanded="false" aria-controls="menuOvl">MENU ☰</button>
+    <a class="guide" href="index.html">FIELD GUIDE →</a>
+  </div>
 </div>
+
+<div class="ovl" id="menuOvl" aria-hidden="true">
+  <nav class="ovl-nav" aria-label="Page index">
+    <a href="#road">01 · The Road</a>
+    <a href="#pillars">02 · Three Gates</a>
+    <a href="#ladder">03 · The Prompt Ladder</a>
+    <a href="#basecamp">04 · Basecamp</a>
+    <a href="#steps">05 · First Steps</a>
+    <a href="#pulse">06 · AI Pulse</a>
+    <a class="ovl-guide" href="index.html">FULL FIELD GUIDE →</a>
+  </nav>
+</div>
+
+<nav class="rail" aria-label="Section dots">
+  <a href="#road" data-s="road"><i></i><span>The Road</span></a>
+  <a href="#pillars" data-s="pillars"><i></i><span>Gates</span></a>
+  <a href="#ladder" data-s="ladder"><i></i><span>Ladder</span></a>
+  <a href="#basecamp" data-s="basecamp"><i></i><span>Basecamp</span></a>
+  <a href="#steps" data-s="steps"><i></i><span>First Steps</span></a>
+  <a href="#pulse" data-s="pulse"><i></i><span>Pulse</span></a>
+</nav>
 
 <!-- ── HERO ── -->
 <header class="hero" id="top">
@@ -374,7 +481,87 @@
     </div>
     <div class="oneminute reveal">
       <span class="tagm">COMING · ONE-MINUTE AI</span>
-      <p>Sixty-second video answers, one question at a time — for the colleague who has one minute, not one afternoon.</p>
+      <p>Short video walkthroughs — one to two minutes each, a new episode every two weeks — showing real Copilot moves you can copy the same day.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FIRST STEPS ── -->
+<section id="steps">
+  <div class="wrap">
+    <div class="kicker reveal">Training center · Rung 1 starts here</div>
+    <h2 class="reveal">Speak AI in ten terms.</h2>
+    <p class="lede reveal">Tap a card — two sentences each, enough to follow any AI conversation in the building.</p>
+
+    <div class="terms stagger">
+      <button class="term"><span class="tw"><span class="tname">AI</span><span class="plus">+</span></span><span class="tdef">Software that learns patterns from examples instead of following hand-written rules. That's why it can handle tasks that used to need human judgment.</span></button>
+      <button class="term"><span class="tw"><span class="tname">MODEL</span><span class="plus">+</span></span><span class="tdef">The trained "brain" itself — a huge set of learned numbers. GPT-5.6, Claude, and Gemini are all models.</span></button>
+      <button class="term"><span class="tw"><span class="tname">LLM</span><span class="plus">+</span></span><span class="tdef">A large language model: a model trained on text. It predicts the next word so well that it can write, answer, and reason.</span></button>
+      <button class="term"><span class="tw"><span class="tname">PROMPT</span><span class="plus">+</span></span><span class="tdef">Whatever you say to the model. Better asked, better answered — prompting is a skill, and it's learnable.</span></button>
+      <button class="term"><span class="tw"><span class="tname">TOKEN</span><span class="plus">+</span></span><span class="tdef">The word-pieces a model reads and is billed by. Roughly 750 English words ≈ 1,000 tokens.</span></button>
+      <button class="term"><span class="tw"><span class="tname">CONTEXT WINDOW</span><span class="plus">+</span></span><span class="tdef">The model's working memory — how much text it can hold in mind at once. Outside the window, it simply cannot see.</span></button>
+      <button class="term"><span class="tw"><span class="tname">AGENT</span><span class="plus">+</span></span><span class="tdef">A model that acts. Give it a goal, tools, and boundaries, and it works in a loop until the job is done. A model answers; an agent acts.</span></button>
+      <button class="term"><span class="tw"><span class="tname">API</span><span class="plus">+</span></span><span class="tdef">The plug that lets software talk to software — how an app calls a model directly, without a chat window.</span></button>
+      <button class="term"><span class="tw"><span class="tname">MCP</span><span class="plus">+</span></span><span class="tdef">Model Context Protocol — a standard plug that connects an AI to tools and data sources. Think USB-C, but for AI.</span></button>
+      <button class="term"><span class="tw"><span class="tname">HALLUCINATION</span><span class="plus">+</span></span><span class="tdef">When a model states something false with full confidence. The cure is habit, not fear: verify before you trust.</span></button>
+    </div>
+
+    <div class="who reveal">
+      <div class="wh">Who makes what</div>
+      <div class="wrow"><span class="wtag c">COMPANY</span><b>OpenAI</b><span class="warr">→</span><span class="wtag m">MODELS</span>GPT-5.x family<span class="warr">→</span><span class="wtag p">PRODUCT</span>ChatGPT</div>
+      <div class="wrow"><span class="wtag c">COMPANY</span><b>Anthropic</b><span class="warr">→</span><span class="wtag m">MODELS</span>Claude family<span class="warr">→</span><span class="wtag p">PRODUCTS</span>Claude app · Claude Code</div>
+      <div class="wrow"><span class="wtag c">COMPANY</span><b>Google</b><span class="warr">→</span><span class="wtag m">MODELS</span>Gemini · Gemma (open)<span class="warr">→</span><span class="wtag p">PRODUCT</span>Gemini app</div>
+      <div class="wrow"><span class="wtag c">COMPANY</span><b>Microsoft</b><span class="warr">→</span><span class="wtag p">PRODUCT</span>Copilot<span class="warr">·</span><span style="color:var(--faint);font-size:12.5px">built largely on OpenAI models</span></div>
+      <div class="wrow"><span class="wtag c">COMPANY</span><b>Meta</b><span class="warr">→</span><span class="wtag m">MODELS</span>Llama (open family)</div>
+      <div class="wrow"><span class="wtag c">COMPANY</span><b>NVIDIA</b><span class="warr">→</span><span class="wtag">HARDWARE</span>the GPUs most models train on</div>
+    </div>
+    <p class="confuse reveal"><b>The classic mix-up:</b> OpenAI is the company · ChatGPT is its product · GPT-5.6 is a model. Same pattern everywhere.</p>
+  </div>
+</section>
+
+<!-- ── AI PULSE ── -->
+<section id="pulse">
+  <div class="wrap">
+    <div class="kicker reveal">The pulse · refreshed every two weeks</div>
+    <h2 class="reveal">Where the field moved this fortnight.</h2>
+    <p class="lede reveal">Official sources only — company newsrooms, not rumor mills. Window: June 20 – July 3, 2026.</p>
+
+    <div class="pulse-grid stagger">
+      <article class="news">
+        <div class="meta"><span class="nd">JUN 26</span><span class="ns">OPENAI · OFFICIAL</span></div>
+        <h4>GPT-5.6 preview: Sol, Terra and Luna</h4>
+        <p>A three-tier next-generation family — flagship, balanced, and fast. Terra matches GPT-5.5 at half the cost: the price of intelligence keeps falling.</p>
+        <a href="https://openai.com/index/previewing-gpt-5-6-sol/" target="_blank" rel="noopener">READ →</a>
+      </article>
+      <article class="news">
+        <div class="meta"><span class="nd">JUL 1</span><span class="ns">ANTHROPIC · OFFICIAL</span></div>
+        <h4>US lifts export directive; Claude Fable 5 redeployed</h4>
+        <p>A frontier model was suspended under a government directive, then restored after review — AI capability is now a national-security matter.</p>
+        <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" target="_blank" rel="noopener">READ →</a>
+      </article>
+      <article class="news">
+        <div class="meta"><span class="nd">JUN 30</span><span class="ns">ANTHROPIC · OFFICIAL</span></div>
+        <h4>Claude Science launches for research work</h4>
+        <p>An agentic product that runs research workflows the way coding agents run software work — the agent pattern is spreading discipline by discipline.</p>
+        <a href="https://www.anthropic.com/news" target="_blank" rel="noopener">READ →</a>
+      </article>
+      <article class="news">
+        <div class="meta"><span class="nd">JUN 24</span><span class="ns">OPENAI · OFFICIAL</span></div>
+        <h4>OpenAI and Broadcom unveil an LLM-optimized inference chip</h4>
+        <p>Model makers are designing their own silicon. The closest story to home: AI demand is reshaping the semiconductor roadmap itself.</p>
+        <a href="https://openai.com/news/" target="_blank" rel="noopener">READ →</a>
+      </article>
+      <article class="news">
+        <div class="meta"><span class="nd">JUN 2026</span><span class="ns">GOOGLE · OFFICIAL</span></div>
+        <h4>Gemma 4 12B: agent-capable open model on a 16 GB laptop</h4>
+        <p>Serious local AI on ordinary hardware — exactly the local-versus-cloud economics question our TITAN cost model weighs.</p>
+        <a href="https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-june-2026/" target="_blank" rel="noopener">READ →</a>
+      </article>
+    </div>
+
+    <div class="internal-slot reveal">
+      <span class="tagm">INTERNAL CHANNEL</span>
+      <p>Company-internal updates — tool access, pilots, rollout news — publish only on the intranet edition of this page, by design. This public page carries the industry channel only.</p>
     </div>
   </div>
 </section>
@@ -386,7 +573,6 @@
     <h2 class="reveal">This was the view from the ridge.<br>The full map is one click away.</h2>
     <div class="fin-links reveal">
       <a class="btn primary" href="index.html">OPEN THE FIELD GUIDE →</a>
-      <a class="btn ghost" href="../index.html">← SKY PORTAL</a>
     </div>
     <p class="prov reveal">All contents are original frameworks, public information, or fictional practice data. No proprietary or internal information is stored on this site. Last updated July 3, 2026.</p>
   </div>
@@ -417,6 +603,7 @@
     h+=g(.26,.42,.10,.16,.46);               /* TITAN  */
     h+=g(.52,.55,.11,.18,.68);               /* ATLAS  */
     h+=g(.78,.68,.12,.20,1.00);              /* SKYLINE — the summit */
+    h+=g(.40,.16,.09,.10,.16);               /* BASECAMP — the foothold */
     h+=.06*Math.sin(u*21+3)+.05*Math.sin(u*9+v*13)+.04*Math.sin(v*17+u*5);
     h+=.10*(1-v);                            /* gentle foothills toward viewer */
     return Math.max(h,0);
@@ -436,7 +623,8 @@
     peaks=[
       {u:.26,v:.42,label:'TITAN',col:'#2BD4BE'},
       {u:.52,v:.55,label:'ATLAS',col:'#7FD4FF'},
-      {u:.78,v:.68,label:'SKYLINE',col:'#F0A860'}
+      {u:.78,v:.68,label:'SKYLINE',col:'#F0A860'},
+      {u:.40,v:.16,label:'BASECAMP',col:'#D7E9E4'}
     ].map(function(p){p.x=(p.u-.5)*WORLD_W;p.z=p.v*WORLD_D;p.h=ridge(p.u,p.v)*AMP;return p;});
   }
   function project(x,z,h,th){
@@ -489,6 +677,40 @@
   function start(){build();if(reduced){draw(0);}else if(!rafOn){rafOn=true;requestAnimationFrame(loop);}}
   window.addEventListener('resize',function(){build();if(reduced)draw(0);});
   start();
+
+  /* menu overlay */
+  var mbtn=document.getElementById('menuBtn'),movl=document.getElementById('menuOvl');
+  function setMenu(open){
+    document.body.classList.toggle('menu-open',open);
+    mbtn.setAttribute('aria-expanded',open?'true':'false');
+    movl.setAttribute('aria-hidden',open?'false':'true');
+  }
+  mbtn.addEventListener('click',function(){setMenu(!document.body.classList.contains('menu-open'));});
+  movl.addEventListener('click',function(e){if(e.target.tagName==='A'||e.target===movl)setMenu(false);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false);});
+
+  /* term cards */
+  document.querySelectorAll('.term').forEach(function(t){
+    t.addEventListener('click',function(){t.classList.toggle('open');});
+  });
+
+  /* dot rail scrollspy */
+  var dots={};
+  document.querySelectorAll('.rail a').forEach(function(a){dots[a.getAttribute('data-s')]=a;});
+  var io2=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var id=e.target.id;
+        if(dots[id]){
+          document.querySelectorAll('.rail a').forEach(function(a){a.classList.remove('on');});
+          dots[id].classList.add('on');
+        }
+      }
+    });
+  },{rootMargin:'-40% 0px -50% 0px'});
+  ['road','pillars','ladder','basecamp','steps','pulse'].forEach(function(id){
+    var el=document.getElementById(id);if(el)io2.observe(el);
+  });
 })();
 </script>
 </body>
