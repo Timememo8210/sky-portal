@@ -21,6 +21,10 @@
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
+  @media(min-width:861px){
+    html{scroll-snap-type:y mandatory}
+    .hero,section{scroll-snap-align:start;scroll-snap-stop:always}
+  }
   body{
     font-family:var(--sans);
     background:var(--void);
@@ -31,8 +35,10 @@
   ::selection{background:rgba(43,212,190,.35)}
 
   /* atmospheric aurora veil */
+  @keyframes breathe{0%,100%{opacity:.78}50%{opacity:1}}
   .veil{
     position:fixed;inset:0;z-index:0;pointer-events:none;
+    animation:breathe 16s ease-in-out infinite;
     background:
       radial-gradient(58% 42% at 78% 6%, rgba(124,92,255,.075), transparent 62%),
       radial-gradient(70% 55% at 16% 0%, rgba(43,212,190,.09), transparent 60%),
@@ -86,8 +92,8 @@
   body.loaded .stage.s3{transition-delay:.5s}
 
   /* ── sections ── */
-  section{position:relative;z-index:1;padding:130px 26px}
-  .wrap{max-width:1080px;margin:0 auto}
+  section{position:relative;z-index:1;padding:110px 26px;min-height:100svh;display:flex;align-items:center}
+  .wrap{width:100%;max-width:1080px;margin:0 auto}
   .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
   h2{font-size:clamp(26px,3.6vw,42px);font-weight:800;letter-spacing:-.022em;line-height:1.12;max-width:720px}
   .lede{color:var(--dim);max-width:600px;margin-top:14px;font-size:16.5px}
@@ -262,6 +268,8 @@
     font-size:13.4px;color:var(--dim);margin-top:0;
   }
   .term.open .tdef{max-height:130px;margin-top:10px}
+  .wlogo{width:22px;height:22px;flex-shrink:0;display:inline-flex;align-items:center}
+  .wlogo svg{width:100%;height:100%}
   .who{margin-top:56px;border:1px solid var(--line);border-radius:16px;background:var(--glass);backdrop-filter:blur(5px);overflow:hidden}
   .who .wh{padding:16px 22px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--teal);text-transform:uppercase}
   .who .wrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:14px 22px;border-bottom:1px solid rgba(234,246,243,.05);font-size:14px}
@@ -329,18 +337,16 @@
 
 <div class="ovl" id="menuOvl" aria-hidden="true">
   <nav class="ovl-nav" aria-label="Page index">
-    <a href="#road">01 · The Road</a>
-    <a href="#ladder">02 · The Prompt Ladder</a>
-    <a href="#basecamp">03 · Basecamp</a>
-    <a href="#steps">04 · First Steps</a>
-    <a href="#pulse">05 · AI Pulse</a>
+    <a href="#road">01 · TITAN · ATLAS · SKYLINE</a>
+    <a href="#basecamp">02 · BASECAMP</a>
+    <a href="#steps">03 · FIRST STEPS</a>
+    <a href="#pulse">04 · AI PULSE</a>
     <a class="ovl-guide" href="index.html">FULL FIELD GUIDE →</a>
   </nav>
 </div>
 
 <nav class="rail" aria-label="Section dots">
-  <a href="#road" data-s="road"><i></i><span>The Road</span></a>
-  <a href="#ladder" data-s="ladder"><i></i><span>Ladder</span></a>
+  <a href="#road" data-s="road"><i></i><span>Programs</span></a>
   <a href="#basecamp" data-s="basecamp"><i></i><span>Basecamp</span></a>
   <a href="#steps" data-s="steps"><i></i><span>First Steps</span></a>
   <a href="#pulse" data-s="pulse"><i></i><span>Pulse</span></a>
@@ -398,24 +404,6 @@
   </div>
 </section>
 
-<!-- ── LADDER ── -->
-<section id="ladder">
-  <div class="wrap">
-    <div class="kicker reveal">The signature climb</div>
-    <h2 class="reveal">The Meeting Prompt Ladder.</h2>
-    <p class="lede reveal">Five camps, one transcript, asked better each time. Watch the same meeting turn from noise into evidence.</p>
-
-    <div class="ladder" id="ladderEl">
-      <div class="step"><span class="camp">CAMP 5</span><span><b>Baseline summary</b><span class="fx">You stop rereading transcripts.</span></span></div>
-      <div class="step"><span class="camp">CAMP 6–7</span><span><b>Restructured by topic</b><span class="fx">Decisions, owners, open questions — the meeting becomes a checklist.</span></span></div>
-      <div class="step"><span class="camp">CAMP 8</span><span><b>Verifiable output</b><span class="fx">Quotes and timestamps — every claim audits in seconds.</span></span></div>
-      <div class="step"><span class="camp">CAMP 9</span><span><b>History-aware</b><span class="fx">Position shifts across meetings — you see the story, not the snapshot.</span></span></div>
-      <div class="step"><span class="camp">CAMP +1</span><span><b>Meeting dynamics</b><span class="fx">Heated exchanges, dropped questions, soft yeses — you sense the room you weren't in.</span></span></div>
-    </div>
-    <div class="verdict reveal">▲ AI IS THE INDEX — YOU ARE THE JUDGE.</div>
-  </div>
-</section>
-
 <!-- ── BASECAMP ── -->
 <section id="basecamp" class="camp-sec">
   <svg class="contours" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -438,7 +426,7 @@
       <div class="rung">
         <div class="n">Rung 2</div>
         <h3>Applying AI</h3>
-        <p>Prompt patterns for real daily work — the Prompt Ladder above is the flagship example.</p>
+        <p>Prompt patterns for real daily work — taught hands-on in Session #01, on safe fictional data.</p>
       </div>
       <div class="rung">
         <div class="n">Rung 3</div>
@@ -475,12 +463,12 @@
 
     <div class="who reveal">
       <div class="wh">Who makes what</div>
-      <div class="wrow"><span class="wtag c">COMPANY</span><b>OpenAI</b><span class="warr">→</span><span class="wtag m">MODELS</span>GPT-5.x family<span class="warr">→</span><span class="wtag p">PRODUCT</span>ChatGPT</div>
-      <div class="wrow"><span class="wtag c">COMPANY</span><b>Anthropic</b><span class="warr">→</span><span class="wtag m">MODELS</span>Claude family<span class="warr">→</span><span class="wtag p">PRODUCTS</span>Claude app · Claude Code</div>
-      <div class="wrow"><span class="wtag c">COMPANY</span><b>Google</b><span class="warr">→</span><span class="wtag m">MODELS</span>Gemini · Gemma (open)<span class="warr">→</span><span class="wtag p">PRODUCT</span>Gemini app</div>
-      <div class="wrow"><span class="wtag c">COMPANY</span><b>Microsoft</b><span class="warr">→</span><span class="wtag p">PRODUCT</span>Copilot<span class="warr">·</span><span style="color:var(--faint);font-size:12.5px">built largely on OpenAI models</span></div>
-      <div class="wrow"><span class="wtag c">COMPANY</span><b>Meta</b><span class="warr">→</span><span class="wtag m">MODELS</span>Llama (open family)</div>
-      <div class="wrow"><span class="wtag c">COMPANY</span><b>NVIDIA</b><span class="warr">→</span><span class="wtag">HARDWARE</span>the GPUs most models train on</div>
+      <div class="wrow"><span class="wlogo"><svg viewBox="0 0 24 24" role="img"><g fill="#EAF6F3" opacity=".92"><rect x="10.3" y="1.6" width="3.4" height="10.6" rx="1.7" transform="rotate(0 12 12)"/><rect x="10.3" y="1.6" width="3.4" height="10.6" rx="1.7" transform="rotate(60 12 12)"/><rect x="10.3" y="1.6" width="3.4" height="10.6" rx="1.7" transform="rotate(120 12 12)"/><rect x="10.3" y="1.6" width="3.4" height="10.6" rx="1.7" transform="rotate(180 12 12)"/><rect x="10.3" y="1.6" width="3.4" height="10.6" rx="1.7" transform="rotate(240 12 12)"/><rect x="10.3" y="1.6" width="3.4" height="10.6" rx="1.7" transform="rotate(300 12 12)"/></g></svg></span><span class="wtag c">COMPANY</span><b>OpenAI</b><span class="warr">→</span><span class="wtag m">MODELS</span>GPT-5.x family<span class="warr">→</span><span class="wtag p">PRODUCT</span>ChatGPT</div>
+      <div class="wrow"><span class="wlogo"><svg fill="#EAF6F3" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Anthropic</title><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg></span><span class="wtag c">COMPANY</span><b>Anthropic</b><span class="warr">→</span><span class="wtag m">MODELS</span>Claude family<span class="warr">→</span><span class="wtag p">PRODUCTS</span>Claude app · Claude Code</div>
+      <div class="wrow"><span class="wlogo"><svg fill="#EAF6F3" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Google</title><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg></span><span class="wtag c">COMPANY</span><b>Google</b><span class="warr">→</span><span class="wtag m">MODELS</span>Gemini · Gemma (open)<span class="warr">→</span><span class="wtag p">PRODUCT</span>Gemini app</div>
+      <div class="wrow"><span class="wlogo"><svg viewBox="0 0 24 24" role="img"><rect x="2" y="2" width="9.4" height="9.4" fill="#F25022"/><rect x="12.6" y="2" width="9.4" height="9.4" fill="#7FBA00"/><rect x="2" y="12.6" width="9.4" height="9.4" fill="#00A4EF"/><rect x="12.6" y="12.6" width="9.4" height="9.4" fill="#FFB900"/></svg></span><span class="wtag c">COMPANY</span><b>Microsoft</b><span class="warr">→</span><span class="wtag p">PRODUCT</span>Copilot<span class="warr">·</span><span style="color:var(--faint);font-size:12.5px">built largely on OpenAI models</span></div>
+      <div class="wrow"><span class="wlogo"><svg fill="#EAF6F3" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Meta</title><path d="M6.915 4.03c-1.968 0-3.683 1.28-4.871 3.113C.704 9.208 0 11.883 0 14.449c0 .706.07 1.369.21 1.973a6.624 6.624 0 0 0 .265.86 5.297 5.297 0 0 0 .371.761c.696 1.159 1.818 1.927 3.593 1.927 1.497 0 2.633-.671 3.965-2.444.76-1.012 1.144-1.626 2.663-4.32l.756-1.339.186-.325c.061.1.121.196.183.3l2.152 3.595c.724 1.21 1.665 2.556 2.47 3.314 1.046.987 1.992 1.22 3.06 1.22 1.075 0 1.876-.355 2.455-.843a3.743 3.743 0 0 0 .81-.973c.542-.939.861-2.127.861-3.745 0-2.72-.681-5.357-2.084-7.45-1.282-1.912-2.957-2.93-4.716-2.93-1.047 0-2.088.467-3.053 1.308-.652.57-1.257 1.29-1.82 2.05-.69-.875-1.335-1.547-1.958-2.056-1.182-.966-2.315-1.303-3.454-1.303zm10.16 2.053c1.147 0 2.188.758 2.992 1.999 1.132 1.748 1.647 4.195 1.647 6.4 0 1.548-.368 2.9-1.839 2.9-.58 0-1.027-.23-1.664-1.004-.496-.601-1.343-1.878-2.832-4.358l-.617-1.028a44.908 44.908 0 0 0-1.255-1.98c.07-.109.141-.224.211-.327 1.12-1.667 2.118-2.602 3.358-2.602zm-10.201.553c1.265 0 2.058.791 2.675 1.446.307.327.737.871 1.234 1.579l-1.02 1.566c-.757 1.163-1.882 3.017-2.837 4.338-1.191 1.649-1.81 1.817-2.486 1.817-.524 0-1.038-.237-1.383-.794-.263-.426-.464-1.13-.464-2.046 0-2.221.63-4.535 1.66-6.088.454-.687.964-1.226 1.533-1.533a2.264 2.264 0 0 1 1.088-.285z"/></svg></span><span class="wtag c">COMPANY</span><b>Meta</b><span class="warr">→</span><span class="wtag m">MODELS</span>Llama (open family)</div>
+      <div class="wrow"><span class="wlogo"><svg fill="#EAF6F3" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>NVIDIA</title><path d="M8.948 8.798v-1.43a6.7 6.7 0 0 1 .424-.018c3.922-.124 6.493 3.374 6.493 3.374s-2.774 3.851-5.75 3.851c-.398 0-.787-.062-1.158-.185v-4.346c1.528.185 1.837.857 2.747 2.385l2.04-1.714s-1.492-1.952-4-1.952a6.016 6.016 0 0 0-.796.035m0-4.735v2.138l.424-.027c5.45-.185 9.01 4.47 9.01 4.47s-4.08 4.964-8.33 4.964c-.37 0-.733-.035-1.095-.097v1.325c.3.035.61.062.91.062 3.957 0 6.82-2.023 9.593-4.408.459.371 2.34 1.263 2.73 1.652-2.633 2.208-8.772 3.984-12.253 3.984-.335 0-.653-.018-.971-.053v1.864H24V4.063zm0 10.326v1.131c-3.657-.654-4.673-4.46-4.673-4.46s1.758-1.944 4.673-2.262v1.237H8.94c-1.528-.186-2.73 1.245-2.73 1.245s.68 2.412 2.739 3.11M2.456 10.9s2.164-3.197 6.5-3.533V6.201C4.153 6.59 0 10.653 0 10.653s2.35 6.802 8.948 7.42v-1.237c-4.84-.6-6.492-5.936-6.492-5.936z"/></svg></span><span class="wtag c">COMPANY</span><b>NVIDIA</b><span class="warr">→</span><span class="wtag">HARDWARE</span>the GPUs most models train on</div>
     </div>
     <p class="confuse reveal"><b>The classic mix-up:</b> OpenAI is the company · ChatGPT is its product · GPT-5.6 is a model. Same pattern everywhere.</p>
   </div>
@@ -491,14 +479,14 @@
   <div class="wrap">
     <div class="kicker reveal">The pulse · refreshed every two weeks</div>
     <h2 class="reveal">Where the field moved this fortnight.</h2>
-    <p class="lede reveal">Official sources only — company newsrooms, not rumor mills. Window: June 20 – July 3, 2026.</p>
+    <p class="lede reveal">Official sources only — company newsrooms, not rumor mills. Window: June 24 – July 9, 2026.</p>
 
     <div class="pulse-grid stagger">
       <article class="news">
-        <div class="meta"><span class="nd">JUN 26</span><span class="ns">OPENAI · OFFICIAL</span></div>
-        <h4>GPT-5.6 preview: Sol, Terra and Luna</h4>
-        <p>A three-tier next-generation family — flagship, balanced, and fast. Terra matches GPT-5.5 at half the cost: the price of intelligence keeps falling.</p>
-        <a href="https://openai.com/index/previewing-gpt-5-6-sol/" target="_blank" rel="noopener">READ →</a>
+        <div class="meta"><span class="nd">JUL 2</span><span class="ns">MICROSOFT · OFFICIAL</span></div>
+        <h4>Microsoft Frontier Company: $2.5B, 6,000 engineers embedded with customers</h4>
+        <p>The maker of our Copilot stack is industrializing the pilot-to-production leap — the exact gap where most enterprise AI efforts stall.</p>
+        <a href="https://blogs.microsoft.com/blog/2026/07/02/microsoft-frontier-company-ai-engineering-that-amplifies-and-protects-your-intelligence/" target="_blank" rel="noopener">READ →</a>
       </article>
       <article class="news">
         <div class="meta"><span class="nd">JUL 1</span><span class="ns">ANTHROPIC · OFFICIAL</span></div>
@@ -507,22 +495,22 @@
         <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" target="_blank" rel="noopener">READ →</a>
       </article>
       <article class="news">
-        <div class="meta"><span class="nd">JUN 30</span><span class="ns">ANTHROPIC · OFFICIAL</span></div>
-        <h4>Claude Science launches for research work</h4>
-        <p>An agentic product that runs research workflows the way coding agents run software work — the agent pattern is spreading discipline by discipline.</p>
+        <div class="meta"><span class="nd">JUL 1</span><span class="ns">ANTHROPIC · OFFICIAL</span></div>
+        <h4>Claude Science opens with research grants — up to $30K in credits</h4>
+        <p>The agent pattern is spreading discipline by discipline; fifty science projects get funded runs. Applications close July 15.</p>
         <a href="https://www.anthropic.com/news" target="_blank" rel="noopener">READ →</a>
+      </article>
+      <article class="news">
+        <div class="meta"><span class="nd">JUN 26</span><span class="ns">OPENAI · OFFICIAL</span></div>
+        <h4>GPT-5.6 preview: Sol, Terra, Luna — broad access expected mid-July</h4>
+        <p>Terra matches the prior flagship at half the cost; the family remains in vetted-partner preview, with broad access expected as the US voluntary framework lands this month.</p>
+        <a href="https://openai.com/index/previewing-gpt-5-6-sol/" target="_blank" rel="noopener">READ →</a>
       </article>
       <article class="news">
         <div class="meta"><span class="nd">JUN 24</span><span class="ns">OPENAI · OFFICIAL</span></div>
         <h4>OpenAI and Broadcom unveil an LLM-optimized inference chip</h4>
         <p>Model makers are designing their own silicon. The closest story to home: AI demand is reshaping the semiconductor roadmap itself.</p>
         <a href="https://openai.com/news/" target="_blank" rel="noopener">READ →</a>
-      </article>
-      <article class="news">
-        <div class="meta"><span class="nd">JUN 2026</span><span class="ns">GOOGLE · OFFICIAL</span></div>
-        <h4>Gemma 4 12B: agent-capable open model on a 16 GB laptop</h4>
-        <p>Serious local AI on ordinary hardware — exactly the local-versus-cloud economics question our TITAN cost model weighs.</p>
-        <a href="https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-june-2026/" target="_blank" rel="noopener">READ →</a>
       </article>
     </div>
 
@@ -541,7 +529,7 @@
     <div class="fin-links reveal">
       <a class="btn primary" href="index.html">OPEN THE FIELD GUIDE →</a>
     </div>
-    <p class="prov reveal">All contents are original frameworks, public information, or fictional practice data. No proprietary or internal information is stored on this site. Last updated July 3, 2026.</p>
+    <p class="prov reveal">All contents are original frameworks, public information, or fictional practice data. No proprietary or internal information is stored on this site. Last updated July 9, 2026.</p>
   </div>
 </section>
 
@@ -561,7 +549,7 @@
 
   /* ── living terrain ── */
   var cv=document.getElementById('terrain'),cx=cv.getContext('2d');
-  var W,H,DPR,COLS,ROWS,grid,stars,peaks;
+  var W,H,DPR,COLS,ROWS,grid,stars,peaks,mets=[];
   var WORLD_W=2.6,WORLD_D=3.2,FOV=1.15,CAMH=0.62,AMP=0.72;
 
   function ridge(u,v){                       /* u:0..1 across, v:0..1 depth */
@@ -608,6 +596,20 @@
       cx.globalAlpha=tw;cx.fillStyle='#BFE9E0';
       cx.fillRect(st.x,st.y,st.r,st.r);}
     cx.globalAlpha=1;
+    /* meteors */
+    if(!reduced){
+      if(Math.random()<0.005&&mets.length<2)
+        mets.push({x:W*(.15+Math.random()*.7),y:H*Math.random()*.22,vx:-(2+Math.random()*2.2),vy:1+Math.random(),life:1});
+      for(var mi=mets.length-1;mi>=0;mi--){var mt=mets[mi];
+        mt.x+=mt.vx*3;mt.y+=mt.vy*3;mt.life-=0.022;
+        if(mt.life<=0){mets.splice(mi,1);continue;}
+        var tg=cx.createLinearGradient(mt.x,mt.y,mt.x-mt.vx*13,mt.y-mt.vy*13);
+        tg.addColorStop(0,'rgba(234,246,243,'+(0.85*mt.life)+')');
+        tg.addColorStop(1,'rgba(234,246,243,0)');
+        cx.strokeStyle=tg;cx.lineWidth=1.4;cx.beginPath();
+        cx.moveTo(mt.x,mt.y);cx.lineTo(mt.x-mt.vx*13,mt.y-mt.vy*13);cx.stroke();
+      }
+    }
     var th=reduced?0:0.05*Math.sin(t*.00012);
     /* rows (across) */
     for(var r=ROWS-1;r>=0;r--){
@@ -628,6 +630,11 @@
     }
     /* peak beacons + labels */
     for(var k=0;k<peaks.length;k++){var pk=peaks[k];var qp=project(pk.x,pk.z,pk.h,th);
+      if(!reduced){
+        var ph=((t*.00042)+k*.27)%1;
+        cx.globalAlpha=(1-ph)*.32;cx.strokeStyle=pk.col;cx.lineWidth=1.2;
+        cx.beginPath();cx.arc(qp.x,qp.yy,4+ph*30,0,6.283);cx.stroke();cx.globalAlpha=1;
+      }
       var pulse=reduced?1:(1+0.18*Math.sin(t*.002+k*2.1));
       var rad=(6+k*1.5)*pulse;
       var gdt=cx.createRadialGradient(qp.x,qp.yy,0,qp.x,qp.yy,rad*3.2);
@@ -675,7 +682,7 @@
       }
     });
   },{rootMargin:'-40% 0px -50% 0px'});
-  ['road','ladder','basecamp','steps','pulse'].forEach(function(id){
+  ['road','basecamp','steps','pulse'].forEach(function(id){
     var el=document.getElementById(id);if(el)io2.observe(el);
   });
 })();
