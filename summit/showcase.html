@@ -312,7 +312,8 @@
     .peak.t2,.peak.t3{margin-bottom:0}
     .trail{display:none}
     .step{max-width:100%}
-    .hero-inner{padding-bottom:14svh}
+    .hero{align-items:flex-start}
+    .hero-inner{padding:104px 20px 0}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -545,7 +546,7 @@
 
   /* ── living terrain ── */
   var cv=document.getElementById('terrain'),cx=cv.getContext('2d');
-  var W,H,DPR,COLS,ROWS,grid,stars,peaks,mets=[];
+  var W,H,DPR,COLS,ROWS,grid,stars,peaks,mets=[],MOB=false;
   var WORLD_W=2.6,WORLD_D=3.2,FOV=1.15,CAMH=0.62,AMP=0.72;
 
   function ridge(u,v){                       /* u:0..1 across, v:0..1 depth */
@@ -563,7 +564,7 @@
     DPR=Math.min(window.devicePixelRatio||1,2);
     W=cv.clientWidth;H=cv.clientHeight;
     cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);
-    COLS=W<700?34:56;ROWS=W<700?22:30;
+    COLS=W<700?34:56;ROWS=W<700?22:30;MOB=W<700;
     grid=[];
     for(var r=0;r<ROWS;r++){var row=[];
       for(var c=0;c<COLS;c++){var u=c/(COLS-1),v=r/(ROWS-1);
@@ -582,7 +583,7 @@
     var ct=Math.cos(th),st=Math.sin(th);
     var xr=x*ct-(z-WORLD_D*.5)*st, zr=x*st+(z-WORLD_D*.5)*ct+WORLD_D*.5;
     var s=FOV/(FOV+zr);
-    return {x:W*.5+xr*s*W*.62, s:s, zr:zr, yy:H*.72+(CAMH-h)*s*H*.60};
+    return {x:W*.5+xr*s*W*.62, s:s, zr:zr, yy:MOB? H*.985-h*s*H*.55 : H*.72+(CAMH-h)*s*H*.60};
   }
   function draw(t){
     cx.clearRect(0,0,W,H);
@@ -637,7 +638,7 @@
       gdt.addColorStop(0,pk.col+'CC');gdt.addColorStop(1,pk.col+'00');
       cx.fillStyle=gdt;cx.beginPath();cx.arc(qp.x,qp.yy,rad*3.2,0,6.283);cx.fill();
       cx.fillStyle=pk.col;cx.beginPath();cx.arc(qp.x,qp.yy,2.4,0,6.283);cx.fill();
-      cx.font='700 11px ui-monospace,monospace';cx.textAlign='center';
+      cx.font=(MOB?'700 10px ':'700 11px ')+'ui-monospace,monospace';cx.textAlign='center';
       cx.fillStyle=pk.col;
       cx.fillText(pk.label,qp.x,qp.yy-rad*1.9-8);
     }
