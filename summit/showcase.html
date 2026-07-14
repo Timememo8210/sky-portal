@@ -549,7 +549,7 @@
 
   /* ── living terrain ── */
   var cv=document.getElementById('terrain'),cx=cv.getContext('2d');
-  var W,H,DPR,COLS,ROWS,grid,stars,peaks,mets=[],MOB=false,TH=0,PTR=0,DZ=0,GENTLE=reduced;
+  var W,H,DPR,COLS,ROWS,grid,stars,peaks,mets=[],MOB=false,TH=0,PTR=0,DZ=0,GENTLE=reduced,XF=0,VF=0,HZ=0;
   var WORLD_W=2.6,WORLD_D=3.2,FOV=1.15,CAMH=0.62,AMP=1.45;
 
   function ridge(u,v){                       /* u:0..1 across, v:0..1 depth */
@@ -568,6 +568,9 @@
     W=cv.clientWidth;H=cv.clientHeight;
     cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);
     COLS=W<700?34:56;ROWS=W<700?22:30;MOB=W<700;
+    XF=MOB?W*1.35:W*0.62;
+    VF=MOB?XF*0.605:H*0.60;
+    HZ=0.70;
     grid=[];
     for(var r=0;r<ROWS;r++){var row=[];
       for(var c=0;c<COLS;c++){var u=c/(COLS-1),v=r/(ROWS-1);
@@ -586,7 +589,7 @@
     var ct=Math.cos(th),st=Math.sin(th);
     var xr=x*ct-(z-WORLD_D*.5)*st, zr=x*st+(z-WORLD_D*.5)*ct+WORLD_D*.5;
     var s=FOV/(FOV+zr+DZ);
-    return {x:W*.5+xr*s*W*.62, s:s, zr:zr, yy:MOB? H*.985-h*s*H*0.87 : H*.70+(CAMH-h)*s*H*.60};
+    return {x:W*.5+xr*s*XF, s:s, zr:zr, yy:H*HZ+(CAMH-h)*s*VF};
   }
   function draw(t){
     cx.clearRect(0,0,W,H);
